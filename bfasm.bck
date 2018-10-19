@@ -3,6 +3,11 @@ BFAsm is application i wrote pretty long time ago. It's simple brainfuck to asse
 
 This version contains (i hope) a bit more meaningful code. Aside of that, nothing has changed.
 
-Please look EXAMPLES directory regarding bfasm usage.
+Please look EXAMPLES directory regarding bfasm usage. Application was initially written in C
+but I'm working tirelessly to translate it to assembly, so it can compile itself.
+
+To run bfasm assembled programs, the BF interpreter or compiler must be able to handle very
+large source files (over 200k), store at least 16-bit numbers in cells, wrap over and under flows
+of cells, and return character 0 on EOF.
 
 ~KPS

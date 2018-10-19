@@ -1,0 +1,99 @@
+1. Register model
+
+There are four general purpose registers: r1, r2, r3, and r4. Size of these registers depends on
+interpreter or compiler being used, but they are at least 16-bits wide. There are no flags and no
+instruction pointer. The assembler is case sensitive, so the registers should always be written with
+a lowercase "r".
+
+2. Memory
+
+bfasm allows for a stack (of definable size) and memory. Memory can be accessed indirectly for pointer use.
+
+3. Comments
+
+Comments begin with the ";" character.  They can be placed either at beginning of a line or after an instruction.
+Comments continue until the end of the line. Additionally, new-line characters and spaces are ignored (in strings not).
+
+4. Operands
+Operands include the registers, immediate values, characters, and strings in the following combinations when separated by commas:
+
+Opcode combination   Example
+
+"string"             "Palaiologos is the best Brainfuck programmer living on Planet Earth"
+reg                  r1
+immed                1453
+.char                .K
+reg,reg              r1,r2
+reg,immed            r3,32
+reg,char             r4,.P
+
+Strings are only used with the "txt" instruction. There are no escape sequences, use "db_" when needed.
+Characters are converted to the appropriate ASCII immediate value. Immediate values can be any size (it depends)
+and are automatically substituted as if a register value. Therefore, immediate values can be used in place of a register.
+There can only be one immediate value per instruction. Operands are evaluated separately from instructions, so it is possible
+to use the wrong number of operands for an instruction with no error reported. However, doing this will most likely lead to
+a crash when the assembled program is run.
+
+5. Strings
+
+Instructions are case sensitive and must be given in lowercase letters. The returned values of a boolean operation are
+0 (false) or 1 (true). This applies to: `and, eq_, ge_, gt_, le_, lt_, ne_, or_`.  Only one instruction is allowed per line.
+Note that lbl (label) is an instruction.
+
+Instruction     Description             Operation
+
+add regA,regB   Add                     regA = regA + regB
+add reg,immed   Add                     reg = reg + immed
+and regA,regB   AND gate                regA = regA AND regB
+clr reg         Clear                   reg = 0
+db_ immed       Put constant            puts immed at the next memory position (see org)
+dec reg         Decrement               reg = reg - 1
+div regA,regB   Divide                  regA = regA / regB
+end             End (Exit) program      jmp 0 (exit)
+eq_ regA,regB   Equal to?               regA = regA == regB
+ge_ regA,regB   Greater than or equal?  regA = regA >= regB
+gt_ regA,regB   Greater than?           regA = regA > regB
+in_ reg         Input                   reg = input from STDIN (EOF = 0)
+inc reg         Increment               reg = reg + 1
+jmp reg         Jump                    jumps to a line label
+jnz regA,regB   Jump if not zero        jmp's to regB if regA != 0
+jz_ regA,regB   Jump if zero            jmp's to regB if regA == 0
+lbl immed       Label                   defines a line label
+le_ regA,regB   Less than or equal to?  regA = regA <= regB
+lt_ regA,regB   Less than?              regA = regA < regB
+mod regA,regB   Modulus (broken)        Do not use yet!
+mov regA,regB   Move (copy)             regA = regB
+mov reg,immed   Move (set)              reg = immed
+mul regA,regB   Multiply                regA = regA * regB
+ne_ regA,regB   Not equal to?           regA = regA != regB
+neg reg         Negate                  reg = 0 - reg
+not reg         Logical NOT             reg = 1 - reg
+or_ regA,regB   Boolean OR              regA = regA OR regB
+org immed       Origin                  sets memory position of the next db_ or txt output (default is 0, but needs to be reset
+                                        after stk is used)
+out reg         Output                  output to STDOUT = reg
+pop reg         Pop                     pops reg from the stack
+psh reg         Push                    pushes reg onto the stack
+raw char        Raw output              writes char directly as code
+rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
+ret             Return                  pops label and jmp's to it
+stk immed       Stack size              Set the maximum number of items on the stack (default is 0)
+sto regA,regB   Store (in memory)       *regA = regB (mov [regA],regB)
+sub regA,regB   Subtract                regA = regA - regB
+sub reg,immed   Subtract                reg = reg - immed
+swp regA,regB   Swap                    regA = regB, regB = regA
+txt string      Text                    converts string to immediate
+                                        values and performs db_'s
+6. Hints
+
+There is no call instruction.  A call can be generated as follows:
+
+psh 23          ; value of return label
+jmp 1000        ; label of subroutine
+lbl 23          ; return position
+                ; some code
+lbl 1000        ; subroutine
+                ; some code
+ret             ; return
+
+Remember that ALL instructions have length of 3 and whenever it's needed, floor (_) is added at the end.

@@ -1,0 +1,8 @@
+
+BFAsm is application i wrote pretty long time ago. It's simple brainfuck to assembly compiler.
+
+This version contains (i hope) a bit more meaningful code. Aside of that, nothing has changed.
+
+Please look EXAMPLES directory regarding bfasm usage.
+
+~KPS

@@ -1,0 +1,13 @@
+BFMod is apache module.
+
+I am quite sure this module will only work with Apache 1.3 and up, but I doubt
+anyone uses an older Apache version anymore.
+For instructions on how to install this module, see the file named INSTALL.
+
+Once you have everything installed and configured as in INSTALL, you should be
+able to start using bfmod. A file test.bf containing ,. will print one character
+of its input. To use it you must call it like this:
+http://www.somehost.bla/some/dir/test.bf?A
+where A can just as well be any other letter.
+
+BFMod supports POST aswell

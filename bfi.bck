@@ -1,0 +1,7 @@
+BFI is simple brainfuck intepreter designed to work along with BFAsm.
+Please note that it fullfills all requirements of assembler mentioned above.
+
+It's non-optimizing version. Oleg Mazonka's brainfuck interpreter (faster than mine)
+should also do the trick.
+
+~KPS

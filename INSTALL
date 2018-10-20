@@ -1,0 +1,2 @@
+All C source files can be linked independently, therefore installing and building shouldn't be a problem.
+All programs don't rely on other libraries than the Standard C Library.

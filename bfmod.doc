@@ -1,0 +1,12 @@
+Instructions:
+
+1. Put project files into <apache>/src/modules, where <apache> is the
+   directory that contains the sources of apache.
+2. Add the following line to the end of the <apache>/src/Configuration file:
+   AddModule modules/bf/bfmod.o
+3. Now cd into <apache>/src and run './Configure'. This should create a Makefile
+   in <apache>/src/modules/bf.
+4. Now you can proceed with the apache installation just as you normally would, just
+   adding the following
+   --activate-module=src/modules/bf/libbf.a
+   when calling './configure'.

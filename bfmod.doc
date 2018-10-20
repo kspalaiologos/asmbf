@@ -11,3 +11,7 @@ Instructions:
    adding the following
    --activate-module=src/modules/bf/libbf.a
    when calling './configure'.
+
+In order to be able to use bfmod, you have to create .htaccess in the newly created directory. Edit this file to contain the same
+line as above 'AddHandler bf-handler .bf'. This will pass all requests on files with the extension .bf that are located in the
+directory to mod_bf. It should be noted that you might just as well add the above line to a .htaccess in any other directory.

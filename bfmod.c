@@ -11,19 +11,19 @@
 #include <stddef.h>
 #include <string.h>
 
-#define ARR_SIZE 30000
+#define MEMORY 30000
 
 module MODULE_VAR_EXPORT bf_module;
 
-static int bf_handler(request_rec * r);
-static void interpret(char * c);
-static int set_post_input(request_rec * r);
+static int bf_handler(bf_requestuest_rec * r);
+static void bf_run(char * c);
+static int bf_post(bf_requestuest_rec * r);
 
-static request_rec * req;
-static char a[ARR_SIZE], *post_input, *cur;
+static bf_requestuest_rec * bf_request;
+static char ram[MEMORY], *post_input, *cur;
 static int p, method;
 
-static int bf_handler(request_rec * r) {
+static int bf_handler(bf_request * r) {
     FILE * f;
     char * c;
     size_t fsize;
@@ -38,34 +38,34 @@ static int bf_handler(request_rec * r) {
     fread (c, 1, fsize, f);
     c[fsize] = '\0';
     ap_pfclose (r->pool, f);
-    req = r;
-    memset (a, 0, ARR_SIZE);
+    bf_request = r;
+    memset (ram, 0, MEMORY);
     p = 0;
     ap_send_http_header (r);
-    ap_hard_timeout ("mod_bf", r);
+    ap_hard_timeout ("bfmod", r);
     if (method == M_POST) {
-        if ((ret = set_post_input(r)) != OK)
+        if ((ret = bf_post(r)) != OK)
             return ret;
         cur = post_input;
     }
     if (!r->header_only)
-        interpret (c);
+        bf_run (c);
     if (method == M_POST)
         free(post_input);
     ap_kill_timeout (r);
     return OK;
 }
 
-static void interpret(char * c) {
+static void bf_run(char * c) {
     int b;
     char * d;
     for (; *c; c++) {
         switch (*c) {
             case '+':
-                a[p]++;
+                ram[p]++;
                 break;
             case '-':
-                a[p]--;
+                ram[p]--;
                 break;
             case '>':
                 p++;
@@ -74,30 +74,30 @@ static void interpret(char * c) {
                 p--;
                 break;
             case '.':
-                if (ap_rputc (a[p], req) == EOF)
+                if (ap_rputc (ram[p], bf_request) == EOF)
                     return;
-                ap_rflush (req);
-                ap_reset_timeout (req);
+                ap_rflush (bf_request);
+                ap_reset_timeout (bf_request);
                 break;
             case ',':
                 if (method == M_GET) {
-                    if ((a[p] = *req->args) == EOF || a[p] == CR)
-                        a[p] = 0;
-                    req->args++;
-                } else if ((a[p] = *cur++) == EOF || a[p] == CR)
-                    a[p] = 0;
-                ap_reset_timeout (req);
+                    if ((ram[p] = *bf_request->args) == EOF || ram[p] == CR)
+                        ram[p] = 0;
+                    bf_request->args++;
+                } else if ((ram[p] = *cur++) == EOF || ram[p] == CR)
+                    ram[p] = 0;
+                ap_reset_timeout (bf_request);
                 break;
             case '[':
                 /* Warning, unreadable code incoming */
-                /* I feel like a mathematican myself */
+                /* I feel like ram mathematican myself */
                 d = ++c;
                 for (b = 1; b && *c; c++)
                     b += (*c == '[' ? 1 : (*c == ']' ? -1 : 0));
                 if (!b) {
                     *--c = 0;
-                    while (a[p])
-                        interpret (d);
+                    while (ram[p])
+                        bf_run (d);
                     *c = ']';
                 }
                 break;
@@ -105,9 +105,9 @@ static void interpret(char * c) {
     }
 }
 
-static int set_post_input(request_rec * req) {
+static int bf_post(bf_request * bfreq) {
     int ret;
-    if ((ret = ap_setup_client_block (req, REQUEST_CHUNKED_ERROR)) != OK)
+    if ((ret = ap_setup_client_block (bfreq, REQUEST_CHUNKED_ERROR)) != OK)
         return ret;
     if (ap_should_client_block(req)) {
         char argbuf[512];
@@ -128,7 +128,7 @@ static int set_post_input(request_rec * req) {
 }
 
 static const handler_rec bf_handlers[] = {
-    {"bf-handler", bf_handler},
+    {"bfmod", bf_handler},
     {NULL}
 };
 
@@ -140,7 +140,7 @@ module MODULE_VAR_EXPORT bf_module = {
     NULL,
     NULL,
     NULL,
-    bf_handlers,
+    bf_handler,
     NULL,
 };
 #else
@@ -152,7 +152,7 @@ module MODULE_VAR_EXPORT bf_module = {
     NULL,
     NULL,
     NULL,
-    bf_handlers,
+    bf_handler,
     NULL,
     NULL,
     NULL,

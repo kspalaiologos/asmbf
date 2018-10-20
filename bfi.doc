@@ -1,0 +1,9 @@
+
+Please note that i am NOT going to describe Brainfuck programming step by step.
+
+Interpreter specification:
+ * Possibly infinite memory cell amount support
+ * Loading code of arbitrary size
+ * Returning 0 on EOF
+ * Written in portable C89
+ * Around 120 SLOC

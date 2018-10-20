@@ -1,0 +1,7 @@
+
+20.10.2018:
+ * Add BFI documentation, background and source code. BFI is brainfuck interpreter capable of running BFAsm compiled applications,
+   but Mazonkas interpreter should also do the trick.
+
+19.10.2018:
+ * Add BFAsm documentation, background and source code.

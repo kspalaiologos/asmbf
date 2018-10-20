@@ -13,7 +13,7 @@
 
 #define MEMORY 30000
 
-module MODULE_VAR_EXPORT bf_module;
+module MODULE_VAR_EXPORT apache_bf;
 
 static int bf_handler(bf_requestuest_rec * r);
 static void bf_run(char * c);
@@ -89,8 +89,6 @@ static void bf_run(char * c) {
                 ap_reset_timeout (bf_request);
                 break;
             case '[':
-                /* Warning, unreadable code incoming */
-                /* I feel like ram mathematican myself */
                 d = ++c;
                 for (b = 1; b && *c; c++)
                     b += (*c == '[' ? 1 : (*c == ']' ? -1 : 0));
@@ -132,8 +130,7 @@ static const handler_rec bf_handlers[] = {
     {NULL}
 };
 
-#if APACHE_RELEASE >= 20000000
-module MODULE_VAR_EXPORT bf_module = {
+module MODULE_VAR_EXPORT apache_bf = {
     STANDARD20_MODULE_STUFF,
     NULL,
     NULL,
@@ -143,24 +140,3 @@ module MODULE_VAR_EXPORT bf_module = {
     bf_handler,
     NULL,
 };
-#else
-module MODULE_VAR_EXPORT bf_module = {
-    STANDARD_MODULE_STUFF,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    bf_handler,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-};
-#endif

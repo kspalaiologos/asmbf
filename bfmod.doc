@@ -4,7 +4,7 @@ Instructions:
    directory that contains the sources of apache.
 2. Add the following line to the end of the <apache>/src/Configuration file:
    AddModule modules/bf/bfmod.o
-3. Rename bfmod-makefile.tmpl to Makefile.tmpl 
+3. Rename bfmod-makefile to Makefile.tmpl 
 4. Now cd into <apache>/src and run './Configure'. This should create a Makefile
    in <apache>/src/modules/bf.
 5. Now you can proceed with the apache installation just as you normally would, just

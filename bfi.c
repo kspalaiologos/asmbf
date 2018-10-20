@@ -1,0 +1,124 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char * src;
+long lof, ip = -1;
+
+void match(int dir) {
+    int level = 1;
+    char ipvalue;
+    do {
+        ip += dir;
+        if (ip < 0 || ip >= lof) {
+            puts("Mismatched brackets");
+            exit(EXIT_FAILURE);
+        }
+        ipvalue = src[ip];
+        if (ipvalue == 91)
+            level += dir;
+        else if (ipvalue == 93)
+            level -= dir;
+    } while (level > 0);
+}
+
+int main(int argc, char * argv[]) {
+    FILE * infile;
+    long mp = 0, maxmp = 1023;
+    int n;
+    unsigned short int * mem;
+    if (argc != 2 || argv[1][0] == '-' || argv[1][0] == '/') {
+        puts("Usage: bfi src.b");
+        return EXIT_FAILURE;
+    }
+    infile = fopen(argv[1], "rb");
+    if (infile == NULL) {
+        puts("Error opening input file");
+        return EXIT_FAILURE;
+    }
+    if (fseek(infile, 0L, SEEK_END) != 0) {
+        puts("Error determining length of input file");
+        return EXIT_FAILURE;
+    }
+    lof = ftell(infile);
+    if (lof == -1) {
+        puts("Error determining length of input file");
+        return EXIT_FAILURE;
+    }
+    if (fseek(infile, 0L, SEEK_SET) != 0) {
+        puts("Error determining length of input file");
+        return EXIT_FAILURE;
+    }
+    if (lof == 0)
+        return EXIT_SUCCESS;
+    src = (char *) calloc(lof + 2, sizeof(char));
+    if (src == NULL) {
+        puts("Program too big to fit in memory");
+        return EXIT_FAILURE;
+    }
+    if (fread(src, sizeof(char), lof, infile) < (unsigned) lof) {
+        puts("Error reading input file");
+        return EXIT_FAILURE;
+    }
+    if (fclose(infile) == -1) {
+        puts("Error closing input file");
+        return EXIT_FAILURE;
+    }
+    mem = calloc(1024, sizeof(unsigned short int));
+    if (mem == NULL) {
+        puts("Out of memory");
+        return EXIT_FAILURE;
+    }
+    while (++ip < lof) {
+        switch (src[ip]) {
+            case '>':
+                if (mp >= maxmp) {
+                    mem = realloc(mem, (maxmp + 1024) * sizeof(unsigned short int));
+                    if (mem == NULL) {
+                        puts("Out of memory");
+                        return EXIT_FAILURE;
+                    }
+                    for (n = 1; n <= 1024; n++)
+                        mem[maxmp + n] = 0;
+                    maxmp += 1024;
+                }
+                mp++;
+                break;
+            case '<':
+                if (mp <= 0) {
+                    puts("Access Violation");
+                    return EXIT_FAILURE;
+                }
+                mp--;
+                break;
+            case '+':
+                mem[mp]++;
+                break;
+            case '-':
+                mem[mp]--;
+                break;
+            case '.':
+                putchar(mem[mp]);
+                break;
+            case ',':
+                n = getchar();
+                if (n < 0)
+                    n = 0;
+                mem[mp] = n;
+                break;
+            case '[':
+                if (src[ip + 1] == '-' && src[ip + 2] == ']') {
+                    mem[mp] = 0;
+                    ip += 2;
+                } else if (mem[mp] == 0)
+                    match(1);
+                break;
+            case ']':
+                match(-1);
+                ip--;
+                break;
+        }
+    }
+    return EXIT_SUCCESS;
+}

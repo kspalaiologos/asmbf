@@ -13,48 +13,20 @@
 
 #define MEMORY 30000
 
-module MODULE_VAR_EXPORT apache_bf;
-
-static int bf_handler(bf_requestuest_rec * r);
-static void bf_run(char * c);
-static int bf_post(bf_requestuest_rec * r);
-
-static bf_requestuest_rec * bf_request;
+static bf_request * bf_request;
 static char ram[MEMORY], *post_input, *cur;
 static int p, method;
 
-static int bf_handler(bf_request * r) {
-    FILE * f;
-    char * c;
-    size_t fsize;
-    int ret;
-    if ((method = r->method_number) != M_GET && method != M_POST)
-        return DECLINED;
-    if (r->finfo.st_mode == 0)
-        return NOT_FOUND;
-    if ((f = ap_pfopen (r->pool, r->filename, "r")) == NULL)
-        return FORBIDDEN;
-    c = ap_palloc (r->pool, (fsize = r->finfo.st_size) + 1);
-    fread (c, 1, fsize, f);
-    c[fsize] = '\0';
-    ap_pfclose (r->pool, f);
-    bf_request = r;
-    memset (ram, 0, MEMORY);
-    p = 0;
-    ap_send_http_header (r);
-    ap_hard_timeout ("bfmod", r);
-    if (method == M_POST) {
-        if ((ret = bf_post(r)) != OK)
-            return ret;
-        cur = post_input;
-    }
-    if (!r->header_only)
-        bf_run (c);
-    if (method == M_POST)
-        free(post_input);
-    ap_kill_timeout (r);
-    return OK;
-}
+module MODULE_VAR_EXPORT apache_bf = {
+    STANDARD20_MODULE_STUFF,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    bf_handler,
+    NULL,
+};
 
 static void bf_run(char * c) {
     int b;
@@ -130,13 +102,35 @@ static const handler_rec bf_handlers[] = {
     {NULL}
 };
 
-module MODULE_VAR_EXPORT apache_bf = {
-    STANDARD20_MODULE_STUFF,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    bf_handler,
-    NULL,
-};
+static int bf_handler(bf_request * r) {
+    FILE * f;
+    char * c;
+    size_t fsize;
+    int ret;
+    if ((method = r->method_number) != M_GET && method != M_POST)
+        return DECLINED;
+    if (r->finfo.st_mode == 0)
+        return NOT_FOUND;
+    if ((f = ap_pfopen (r->pool, r->filename, "r")) == NULL)
+        return FORBIDDEN;
+    c = ap_palloc (r->pool, (fsize = r->finfo.st_size) + 1);
+    fread (c, 1, fsize, f);
+    c[fsize] = '\0';
+    ap_pfclose (r->pool, f);
+    bf_request = r;
+    memset (ram, 0, MEMORY);
+    p = 0;
+    ap_send_http_header (r);
+    ap_hard_timeout ("bfmod", r);
+    if (method == M_POST) {
+        if ((ret = bf_post(r)) != OK)
+            return ret;
+        cur = post_input;
+    }
+    if (!r->header_only)
+        bf_run (c);
+    if (method == M_POST)
+        free(post_input);
+    ap_kill_timeout (r);
+    return OK;
+}

@@ -1,2 +1,6 @@
-# Angelos
+
+Angelos
+
 Project regarding various things about to brainfuck compilers
+Currently it includes documented version of BFAsm and brainfuck interpreter
+capable of running it's output.

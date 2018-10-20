@@ -10,4 +10,6 @@ To run bfasm assembled programs, the BF interpreter or compiler must be able to 
 large source files (over 200k), store at least 16-bit numbers in cells, wrap over and under flows
 of cells, and return character 0 on EOF.
 
+Regarding BFASM.ASM, it's just self compiling version.
+
 ~KPS

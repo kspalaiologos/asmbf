@@ -1,0 +1,2 @@
+
+This application stays simillar to original bfasm.c, but it features splitting instructions by !, therefore making it easier for debbuger to work.

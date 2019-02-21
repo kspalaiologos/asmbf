@@ -1,5 +1,6 @@
 
-BFAsm is application i wrote pretty long time ago. It's simple brainfuck to assembly compiler.
+BFAsm is application i wrote pretty long time ago, in early 2015.
+It's simple assembly to brainfuck compiler.
 
 This version contains (i hope) a bit more meaningful code. Aside of that, nothing has changed.
 

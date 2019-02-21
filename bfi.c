@@ -87,7 +87,7 @@ int main(int argc, char * argv[]) {
                 break;
             case '<':
                 if (mp <= 0) {
-                    puts("Access Violation");
+                    printf("Access Violation, ip=%d", ip);
                     return EXIT_FAILURE;
                 }
                 mp--;

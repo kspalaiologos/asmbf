@@ -13,4 +13,6 @@ of cells, and return character 0 on EOF.
 
 Regarding BFASM.ASM, it's just self compiling version.
 
+There are two functioning names, bfasm and asm2bf while asm2bf is preffered as official one.
+
 ~KPS

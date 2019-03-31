@@ -6,6 +6,7 @@
  * :label
  *   jmp :label
  *
+ * At the moment of writing it's a bit bugged, going to improve soon.
  * Copyright (C) Krzysztof Palaiologos Szewczyk, 2017-2019.
  * License: MIT
  * 

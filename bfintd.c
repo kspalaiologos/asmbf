@@ -1,7 +1,4 @@
 
-/* BFI version intended to be used as debugger for bfasm. */
-/* It may have some weird glitches because I sticked it up in couple of minutes. */
-
 /* asm2bf
  *
  * Copyright (C) Krzysztof Palaiologos Szewczyk, 2019.
@@ -25,69 +22,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-FILE * infile;
-long mp = 0, maxmp = 1023;
-int n, c;
-unsigned short int * mem;
-char * src;
-long lof, ip = -1, gip = 0;
+#define BASE_POINTER 17
 
-int step() {
-    ++ip;
-    switch (src[ip]) {
-        case '>':
-            if (mp >= maxmp) {
-                mem = realloc(mem, (maxmp + 1024) * sizeof(unsigned short int));
-                if (mem == NULL) {
-                    puts("Out of memory");
-                    return EXIT_FAILURE;
-                }
-                for (n = 1; n <= 1024; n++)
-                    mem[maxmp + n] = 0;
-                maxmp += 1024;
-            }
-            mp++;
-            break;
-        case '<':
-            if (mp <= 0) {
-                puts("Access Violation");
-                return EXIT_FAILURE;
-            }
-            mp--;
-            break;
-        case '+':
-            mem[mp]++;
-            break;
-        case '-':
-            mem[mp]--;
-            break;
-        case '.':
-            putchar(mem[mp]);
-            break;
-        case ',':
-            n = getchar();
-            if (n < 0)
-                n = 0;
-            mem[mp] = n;
-            break;
-        case '[':
-            if (src[ip + 1] == '-' && src[ip + 2] == ']') {
-                mem[mp] = 0;
-                ip += 2;
-            } else if (mem[mp] == 0)
-                match(1);
-            break;
-        case ']':
-            match(-1);
-            ip--;
-            break;
-        case '!':
-            return ++gip,0;
-    }
-    if(ip < lof)
-        return step();
-    else return 0;
-}
+char * src;
+long lof, ip = -1;
 
 void match(int dir) {
     int level = 1;
@@ -107,7 +45,10 @@ void match(int dir) {
 }
 
 int main(int argc, char * argv[]) {
-    puts("bfdbg v1.0\n");
+    FILE * infile;
+    long mp = 0, maxmp = 1023;
+    int n;
+    unsigned short int * mem;
     if (argc != 2 || argv[1][0] == '-' || argv[1][0] == '/') {
         puts("Usage: bfi src.b");
         return EXIT_FAILURE;
@@ -150,51 +91,95 @@ int main(int argc, char * argv[]) {
         puts("Out of memory");
         return EXIT_FAILURE;
     }
-    while (ip < lof) {
-        if(c != 10)
-            printf("\n[dbg] ip=%d > ", gip);
-        c = getchar();
-        if (c == 's') {
-            step();
-        } else if(c == 'n') {
-            int n, i;
-            scanf("%d",&n);
-            for(i = 0; i < n; i++)
-                step();
-        } else if(c == 'd') {
-            printf("G = %d\n", mem[0]);
-            printf("IP = %d\n", mem[1]);
-            printf("T0 = %d\n", mem[2]);
-            printf("T1 = %d\n", mem[3]);
-            printf("T2 = %d\n", mem[4]);
-            printf("R1 = %d\n", mem[5]);
-            printf("R2 = %d\n", mem[6]);
-            printf("R3 = %d\n", mem[7]);
-            printf("R4 = %d\n", mem[8]);
-            printf("IM = %d\n", mem[9]);
-            printf("T3 = %d\n", mem[10]);
-            printf("T4 = %d\n", mem[11]);
-            printf("T5 = %d\n", mem[12]);
-            printf("T6 = %d\n", mem[13]);
-            printf("T7 = %d\n", mem[14]);
-            printf("A = %d\n", mem[16]);
-        } else if(c == 'p') {
-            int n, i;
-            scanf("%d",&n);
-            printf("mem[%d]=%d",n,mem[n]);
-        } else if(c == 'c') {
-            for(; ip < lof;)
-                step();
-        } else if(c == 'h') {
-            printf("Commands:\n");
-            printf(" h: display this text\n");
-            printf(" c: continue execution until the end\n");
-            printf(" p[x]: peek memory cell #x\n");
-            printf(" d: show contents of all registers\n");
-            printf(" n[x]: run #x instructions\n");
-            printf(" s: step once\n");
-        } else if(c != 10) {
-            printf("Please use 'h' for help.");
+    while (++ip < lof) {
+        switch (src[ip]) {
+            case '>':
+                if (mp >= maxmp) {
+                    mem = realloc(mem, (maxmp + 1024) * sizeof(unsigned short int));
+                    if (mem == NULL) {
+                        puts("Out of memory");
+                        return EXIT_FAILURE;
+                    }
+                    for (n = 1; n <= 1024; n++)
+                        mem[maxmp + n] = 0;
+                    maxmp += 1024;
+                }
+                mp++;
+                break;
+            case '<':
+                if (mp <= 0) {
+                    printf("Access Violation, ip=%d", ip);
+                    return EXIT_FAILURE;
+                }
+                mp--;
+                break;
+            case '+':
+                mem[mp]++;
+                break;
+            case '-':
+                mem[mp]--;
+                break;
+            case '.':
+                putchar(mem[mp]);
+                break;
+            case ',':
+                n = getchar();
+                if (n < 0)
+                    n = 0;
+                mem[mp] = n;
+                break;
+            case '[':
+                if (src[ip + 1] == '-' && src[ip + 2] == ']') {
+                    mem[mp] = 0;
+                    ip += 2;
+                } else if (mem[mp] == 0)
+                    match(1);
+                break;
+            case ']':
+                match(-1);
+                ip--;
+                break;
+			case '*': {
+				const char nul[16] = {0};
+				char * ptr = mem + BASE_POINTER, a = 0;
+				fprintf(stderr, "--- BEGIN REGISTER DUMP ---\n");
+				fprintf(stderr, "G  = %02X\t", mem[0]);
+                fprintf(stderr, "IP = %02X\n", mem[1]);
+                fprintf(stderr, "T0 = %02X\t", mem[2]);
+                fprintf(stderr, "T1 = %02X\n", mem[3]);
+                fprintf(stderr, "T2 = %02X\t", mem[4]);
+                fprintf(stderr, "R1 = %02X\n", mem[5]);
+                fprintf(stderr, "R2 = %02X\t", mem[6]);
+                fprintf(stderr, "R3 = %02X\n", mem[7]);
+                fprintf(stderr, "R4 = %02X\t", mem[8]);
+                fprintf(stderr, "IM = %02X\n", mem[9]);
+                fprintf(stderr, "T3 = %02X\t", mem[10]);
+                fprintf(stderr, "T4 = %02X\n", mem[11]);
+                fprintf(stderr, "T5 = %02X\t", mem[12]);
+                fprintf(stderr, "T6 = %02X\n", mem[13]);
+                fprintf(stderr, "T7 = %02X\t", mem[14]);
+				fprintf(stderr, "A  = %02X\n", mem[15]);
+				fprintf(stderr, "--- BEGIN STACK DUMP ---\n");
+				fprintf(stderr, "BP: %d\n", BASE_POINTER);
+				while(*ptr == 1 && ptr[1] == 0) {
+					ptr += 2;
+					fprintf(stderr, "[%02X] = *(BP + %02X) = %02X\n", ptr - mem, ptr - mem - BASE_POINTER, *ptr);
+					ptr += 2;
+				}
+				fprintf(stderr, "--- BEGIN MEMORY DUMP ---\n");
+				while(1) {
+					if(!memcmp(nul, ptr, 16))
+						break;
+					for(a = 0; a < 16; a++)
+						fprintf(stderr, "%02X ", *ptr++);
+					ptr -= 16;
+					for(a = 0; a < 16; a++, ptr++)
+						fprintf(stderr, "%c", isprint(*ptr)?*ptr:'.');
+					fprintf(stderr, "\n");
+				}
+				fprintf(stderr, "Found empty block, quitting.\n");
+				fprintf(stderr, "--- END ---");
+			}
         }
     }
     return EXIT_SUCCESS;

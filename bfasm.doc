@@ -81,6 +81,7 @@ rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
 ret             Return                  pops label and jmp's to it
 stk immed       Stack size              Set the maximum number of items on the stack (default is 0)
 sto regA,regB   Store (in memory)       *regA = regB (mov [regA],regB)
+sto regA,immed  Store (in memory)       *regA = immed (mov [regA],immed)
 sub regA,regB   Subtract                regA = regA - regB
 sub reg,immed   Subtract                reg = reg - immed
 swp regA,regB   Swap                    regA = regB, regB = regA

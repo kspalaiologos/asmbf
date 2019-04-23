@@ -78,6 +78,7 @@ pop reg         Pop                     pops reg from the stack
 psh reg         Push                    pushes reg onto the stack
 raw char        Raw output              writes char directly as code
 rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
+rcl regA,immed  Recall (from memory)    regA = *immed (mov regA,[immed])
 ret             Return                  pops label and jmp's to it
 stk immed       Stack size              Set the maximum number of items on the stack (default is 0)
 sto regA,regB   Store (in memory)       *regA = regB (mov [regA],regB)

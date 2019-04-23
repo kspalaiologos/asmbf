@@ -116,7 +116,14 @@ lbl 1000        ; subroutine
 ret             ; return
 
 Labels are numbered from 1.
-
 Remember that ALL instructions have length of 3 and whenever it's needed, floor (_) is added at the end.
-
 There is also BFASM.ASM version that is able to self-compile.
+
+7. Debugging
+
+Use bfintd. To place a breakpoint, use
+
+raw .*
+
+Then it's convinient to place in_ r1 (or any other register) to pause execution while
+a bug is investigated.

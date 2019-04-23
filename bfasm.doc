@@ -51,31 +51,46 @@ clr reg         Clear                   reg = 0
 db_ immed       Put constant            puts immed at the next memory position (see org)
 dec reg         Decrement               reg = reg - 1
 div regA,regB   Divide                  regA = regA / regB
+div regA,immed  Divide                  regA = regA / immed
 end             End (Exit) program      jmp 0 (exit)
 eq_ regA,regB   Equal to?               regA = regA == regB
+eq_ regA,immed  Equal to?               regA = regA == immed
 ge_ regA,regB   Greater than or equal?  regA = regA >= regB
+ge_ regA,immed  Greater than or equal?  regA = regA >= immed
 gt_ regA,regB   Greater than?           regA = regA > regB
+gt_ regA,immed  Greater than?           regA = regA > immed
 in_ reg         Input                   reg = input from STDIN (EOF = 0)
 inc reg         Increment               reg = reg + 1
 jmp reg         Jump                    jumps to a line label
+jmp immed       Jump                    jumps to a line label
 jnz regA,regB   Jump if not zero        jmp's to regB if regA != 0
+jnz regA,immed  Jump if not zero        jmp's to immed if regA != 0
 jz_ regA,regB   Jump if zero            jmp's to regB if regA == 0
+jz_ regA,immed  Jump if zero            jmp's to immed if regA == 0
 lbl immed       Label                   defines a line label
 le_ regA,regB   Less than or equal to?  regA = regA <= regB
+le_ regA,immed  Less than or equal to?  regA = regA <= immed
 lt_ regA,regB   Less than?              regA = regA < regB
+lt_ regA,immed  Less than?              regA = regA < immed
 mod regA,regB   Modulus (broken)        Do not use yet!
+mod regA,immed  Modulus (broken)        Do not use yet!
 mov regA,regB   Move (copy)             regA = regB
 mov reg,immed   Move (set)              reg = immed
 mul regA,regB   Multiply                regA = regA * regB
+mul regA,immed  Multiply                regA = regA * immed
 ne_ regA,regB   Not equal to?           regA = regA != regB
+ne_ regA,immed  Not equal to?           regA = regA != immed
 neg reg         Negate                  reg = 0 - reg
 not reg         Logical NOT             reg = 1 - reg
 or_ regA,regB   Boolean OR              regA = regA OR regB
+or_ regA,immed  Boolean OR              regA = regA OR immed
 org immed       Origin                  sets memory position of the next db_ or txt output (default is 0, but needs to be reset
                                         after stk is used)
 out reg         Output                  output to STDOUT = reg
+out immed       Output                  output to STDOUT = immed
 pop reg         Pop                     pops reg from the stack
 psh reg         Push                    pushes reg onto the stack
+psh immed       Push                    push immediate onto the stack
 raw char        Raw output              writes char directly as code
 rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
 rcl regA,immed  Recall (from memory)    regA = *immed (mov regA,[immed])

@@ -18,6 +18,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 #define BLK_SIZE 32
 
 #include <string.h>
@@ -76,6 +77,19 @@ void ins(char * s) {
             printf("lbl %d\n", (*e).id + 1), (*e).udecl = 1;
 }
 
+void inc(char * s) {
+    FILE * f;
+    
+    s[strlen(s)-1] = 0;
+    
+    f = fopen(s, "r");
+    if(!f) {
+        xerror("Error: Couldn't open %s!", s);
+    }
+    
+    start(f);
+}
+
 void get(char * s, int l) {
     struct element * e;
     
@@ -91,10 +105,10 @@ void get(char * s, int l) {
         printf("%d", (*e).id + 1);
 }
 
-int main(void) {
+void start(FILE * f) {
     char * s = NULL, * c, e, v, n2;
     
-    while((getline(&s, &n2, stdin)) != -1)
+    while((getline(&s, &n2, f)) != -1)
         if(!strncmp(s, "txt \"", 5)) {
             c = s + 4, e = 0;
             
@@ -126,7 +140,14 @@ int main(void) {
                     putchar(*c);
             }
         } else {
-            char * c = s, * g, * ss, * g2;
+            char * c = s, * g, * ss, * g2, wf = 0;
+            
+            if(*c == '#') {
+                c++;
+                inc(c);
+                wf = 1;
+            }
+            
             if(*c != ':') {
                 g = strchr(c, '[');
                 
@@ -137,9 +158,13 @@ int main(void) {
                     
                     if(g2 && g2[-1] != '.')
                         res(), get(g, g2-g), fwrite(g2 + 1, 1, strlen(g2 + 1), stdout);
-                } else
+                } else if(!wf)
                     printf("%s", s);
             } else
                 res(), ins(++c);
         }
+}
+
+int main(void) {
+    start(stdin);
 }

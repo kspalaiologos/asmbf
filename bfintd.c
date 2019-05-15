@@ -179,6 +179,7 @@ int main(int argc, char * argv[]) {
 				}
 				fprintf(stderr, "Found empty block, quitting.\n");
 				fprintf(stderr, "--- END ---");
+				getchar();
 			}
         }
     }

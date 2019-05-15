@@ -105,11 +105,20 @@ void get(char * s, int l) {
         printf("%d", (*e).id + 1);
 }
 
+char * ltrim(char * s) {
+    while(isspace(*s))
+        s++;
+    return s;
+}
+
 void start(FILE * f) {
     char * s = NULL, * c, e, v, n2;
     
     while((getline(&s, &n2, f)) != -1)
-        if(!strncmp(s, "txt \"", 5)) {
+        if(!strncmp(ltrim(s), "brk", 3)) {
+            printf("raw .*\n");
+        } else if(!strncmp(ltrim(s), "txt \"", 5)) {
+            char * s = ltrim(s);
             c = s + 4, e = 0;
             
             printf("txt \"");
@@ -140,7 +149,7 @@ void start(FILE * f) {
                     putchar(*c);
             }
         } else {
-            char * c = s, * g, * ss, * g2, wf = 0;
+            char * c = ltrim(s), * g, * ss, * g2, wf = 0;
             
             if(*c == '#') {
                 c++;

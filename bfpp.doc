@@ -1,0 +1,21 @@
+
+1. txt escape sequences
+
+You can use C escape sequences inside txt, like such:
+
+txt "This is test.\nThis is too.\0"
+
+2. Enhanced labels
+
+You can declare label using :name syntax and reference to it using [name] syntax, like such:
+
+:test
+  jmp [test]
+
+3. Debugger
+
+You can place breakpoint using brk, like such:
+
+mov r2, 3
+brk
+in_ r4

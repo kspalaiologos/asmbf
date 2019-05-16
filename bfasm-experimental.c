@@ -1,6 +1,8 @@
 
 /* asm2bf
  *
+ * This version is adding new register (r5)
+ *
  * Copyright (C) Krzysztof Palaiologos Szewczyk, 2017-2019.
  * License: MIT
  * 

@@ -5,7 +5,7 @@ interpreter or compiler being used, but they are at least 16-bits wide. There ar
 instruction pointer. The assembler is case sensitive, so the registers should always be written with
 a lowercase "r".
 
-Note: bfasm-experimental.c adds new register, r5.
+Note: bfasm-experimental.c adds new registers, r5 and r6.
 
 2. Memory
 
@@ -72,8 +72,8 @@ le_ regA,regB   Less than or equal to?  regA = regA <= regB
 le_ regA,immed  Less than or equal to?  regA = regA <= immed
 lt_ regA,regB   Less than?              regA = regA < regB
 lt_ regA,immed  Less than?              regA = regA < immed
-mod regA,regB   Modulus (broken)        Do not use yet!
-mod regA,immed  Modulus (broken)        Do not use yet!
+mod regA,regB   Modulus                 regA = regA % regB  (works only in experimental version)
+mod regA,immed  Modulus                 regA = regA % immed  (works only in experimental version)
 mov regA,regB   Move (copy)             regA = regB
 mov reg,immed   Move (set)              reg = immed
 mul regA,regB   Multiply                regA = regA * regB

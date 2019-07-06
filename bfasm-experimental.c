@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * This version is adding new register (r5)
+ * This version is adding new register (r5), fixes modulus
  *
  * Copyright (C) Kamila Palaiologos Szewczyk, 2017-2019.
  * License: MIT

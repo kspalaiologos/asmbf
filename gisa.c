@@ -17,6 +17,7 @@ char id_name[128], * str_val;
 
 void syntax_error() {
     fprintf(stderr, "[stdin:%d] syntax error - token #%d\n", line, sym); 
+    abort();
 }
 
 void next_ch() {

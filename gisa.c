@@ -364,7 +364,7 @@ void c(node * x) {
     
     switch(x->type) {
         case PROGRAM:
-            printf("org 0\nstk 16\n");
+            printf("org 4\nstk 16\n");
             c(x->o[0]);
             break;
         

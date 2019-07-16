@@ -2,7 +2,7 @@
 /* Gisa compiler
  * 
  * Warning: This repository contains outdated version of Gisa.
- * For recent versions head over to https://github.com/kspalaiologos/asmbf
+ * For recent versions head over to https://github.com/kspalaiologos/gisa
  *
  * Copyright (C) Kamila Palaiologos Szewczyk, 2017-2019.
  * License: MIT

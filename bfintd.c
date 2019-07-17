@@ -141,29 +141,29 @@ int main(int argc, char * argv[]) {
                 break;
 			case '*': {
 				const char nul[16] = {0};
-				char * ptr = mem + BASE_POINTER, a = 0;
+				unsigned short int * ptr = mem + BASE_POINTER, a = 0;
 				fprintf(stderr, "--- BEGIN REGISTER DUMP ---\n");
-				fprintf(stderr, "G  = %02X\t", mem[0]);
-				fprintf(stderr, "IP = %02X\n", mem[1]);
-				fprintf(stderr, "T0 = %02X\t", mem[2]);
-				fprintf(stderr, "T1 = %02X\n", mem[3]);
-				fprintf(stderr, "T2 = %02X\t", mem[4]);
-				fprintf(stderr, "R1 = %02X\n", mem[5]);
-				fprintf(stderr, "R2 = %02X\t", mem[6]);
-				fprintf(stderr, "R3 = %02X\n", mem[7]);
-				fprintf(stderr, "R4 = %02X\t", mem[8]);
-				fprintf(stderr, "IM = %02X\n", mem[9]);
-				fprintf(stderr, "T3 = %02X\t", mem[10]);
-				fprintf(stderr, "T4 = %02X\n", mem[11]);
-				fprintf(stderr, "T5 = %02X\t", mem[12]);
-				fprintf(stderr, "T6 = %02X\n", mem[13]);
-				fprintf(stderr, "T7 = %02X\t", mem[14]);
-				fprintf(stderr, "A  = %02X\n", mem[15]);
+				fprintf(stderr, "G  = %04X\t", mem[0]);
+				fprintf(stderr, "IP = %04X\n", mem[1]);
+				fprintf(stderr, "T0 = %04X\t", mem[2]);
+				fprintf(stderr, "T1 = %04X\n", mem[3]);
+				fprintf(stderr, "T2 = %04X\t", mem[4]);
+				fprintf(stderr, "R1 = %04X\n", mem[5]);
+				fprintf(stderr, "R2 = %04X\t", mem[6]);
+				fprintf(stderr, "R3 = %04X\n", mem[7]);
+				fprintf(stderr, "R4 = %04X\t", mem[8]);
+				fprintf(stderr, "IM = %04X\n", mem[9]);
+				fprintf(stderr, "T3 = %04X\t", mem[10]);
+				fprintf(stderr, "T4 = %04X\n", mem[11]);
+				fprintf(stderr, "T5 = %04X\t", mem[12]);
+				fprintf(stderr, "T6 = %04X\n", mem[13]);
+				fprintf(stderr, "T7 = %04X\t", mem[14]);
+				fprintf(stderr, "A  = %04X\n", mem[15]);
 				fprintf(stderr, "--- BEGIN STACK DUMP ---\n");
 				fprintf(stderr, "BP: %d\n", BASE_POINTER);
 				while(*ptr == 1 && ptr[1] == 0) {
 					ptr += 2;
-					fprintf(stderr, "[%02X] = *(BP + %02X) = %02X\n", ptr - mem, ptr - mem - BASE_POINTER, *ptr);
+					fprintf(stderr, "[%04X] = *(BP + %04X) = %04X\n", ptr - mem, ptr - mem - BASE_POINTER, *ptr);
 					ptr += 2;
 				}
 				fprintf(stderr, "--- BEGIN MEMORY DUMP ---\n");
@@ -171,7 +171,7 @@ int main(int argc, char * argv[]) {
 					if(!memcmp(nul, ptr, 16))
 						break;
 					for(a = 0; a < 16; a++)
-						fprintf(stderr, "%02X ", *ptr++);
+						fprintf(stderr, "%04X ", *ptr++);
 					ptr -= 16;
 					for(a = 0; a < 16; a++, ptr++)
 						fprintf(stderr, "%c", isprint(*ptr)?*ptr:'.');

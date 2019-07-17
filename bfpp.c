@@ -1,6 +1,10 @@
 
 /* asm2bf
  *
+ **************
+ * DEPRECATED
+ **************
+ *
  * Copyright (C) Kamila Palaiologos Szewczyk, 2017-2019.
  * License: MIT
  * 

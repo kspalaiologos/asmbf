@@ -210,7 +210,7 @@ Lai:;
             outbf();
             m[6] = '+';
             outrep();
-            m[6] = 18; /* TODO: Make it 19 (update: 20) */
+            m[6] = 20; /* TODO: Make it 19 (update: 20), completed, was 18 before. */
             outbf();
             goto Lap;
         case 16: /* mov */

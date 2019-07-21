@@ -7,7 +7,6 @@
 
 ; This Malbolge interpreter in Brainfuck is subject of optimizations made by hand.
 ; I'll submit small patches regarding code size with time flowing.
-
 stk 10
 
 org 20
@@ -131,6 +130,10 @@ mov r2, r1
 mul r1, r2
 sub r2, 3
 sto r2, r1
+; [16] = 289
+inc r2
+inc r2
+sto r2, r1
 ; [15] = 59048
 mov r3, 8
 mov r2, 11
@@ -145,8 +148,73 @@ mul r1, r3
 mov r2, 15
 sto r2, r1
 
+; We can use m[11], m[12] and m[13] to store our things.
+; m[16] = i
 
-end
+lbl 21
+	in_ r1
+	mov r4, r1
+	mov r3, r1
+	mov r2, 11
+	sto r2, r1
+	eq_ r1, 0
+	jnz r1, 22
+	psh r3
+	mov r4, r3
+	mov r2, r3
+	eq_ r4, 32
+	lt_ r2, 13
+	or_ r4, r2
+	pop r1
+	jnz r4, 21
+	rcl r4, 16
+	rcl r3, 15
+	inc r3
+	eq_ r3, r4
+	jnz r3, 23
+	sto r4, r1
+	inc r4
+	mov r3, 16
+	sto r3, r4
+	jmp 21
+lbl 22
+	; Done reading, now fill up rest of memory
+	; and launch the interpreter.
+	rcl r1, 16
+	mov r3, r1
+	rcl r2, 15
+	inc r2
+	lt_ r1, r2
+	jz_ r1, 23
+	
+	rcl r1, 16 ; Get I value
+	dec r1
+	mov r3, r1
+	dec r1
+	mov r2, r1
+	mov r1, r3
+	psh 24
+	jmp 1
+lbl 24
+	; mem[i] = r1
+	rcl r2, 16
+	sto r2, r1
+	; i = i + 1;
+	mov r2, 16
+	rcl r1, r2
+	inc r1
+	sto r2, r1
+	jmp 22
+lbl 23
+
+; End of loader code
+
+mov r1, 11
+sto r1, 0
+inc r1
+sto r1, 0
+inc r1
+sto r1, 0
 
 ; Execution loop.
 ; No input, no output, no register preservation :).

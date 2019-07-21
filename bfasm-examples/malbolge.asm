@@ -7,6 +7,9 @@
 
 ; This Malbolge interpreter in Brainfuck is subject of optimizations made by hand.
 ; I'll submit small patches regarding code size with time flowing.
+
+; Version stamp: 190721:1840
+
 stk 10
 
 org 20

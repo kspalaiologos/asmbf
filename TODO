@@ -1,2 +1,5 @@
  * There exist routines used pretty much constantly. The goal is creating some kind of library containing various types of various commonly used procedures to speed up development.
  * Frameworkize asmbf? Add compression, downloading the interpreter and assembler if needed and all that stuff.
+ * Preprocessor for labels?
+ * More instructions?
+ * bconv performance impact measurement

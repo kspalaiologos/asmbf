@@ -28,7 +28,7 @@ unsigned int m[2000];
 
 int main(void) {
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendstkorgdb_txtraw"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogstkorgdb_txtraw"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -66,7 +66,8 @@ int main(void) {
                "1[e+1-]2[1+2-]e[2+e-]\0" /* swp */
                "2[-]\0" /* clr */
                "a[-]b[-]q[-]>[>>]<<->[<<<[<<]>+>[>>]>-]<<<[<<]>[b+q-]\0" /* ret */
-               "a[-]b[-]\0"; /* end */
+               "a[-]b[-]\0" /* end */
+               "e[-]2[[-]e+2]e[-2+e]2\0"; /* log */
     for (n = 0; n < 1900; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
@@ -93,7 +94,7 @@ Lad:;
             m[1] = 1;
             goto Laa;
         }
-        m[2] = 34;
+        m[2] = 35;
         m[3] = m[0];
         goto Lai;
     }
@@ -126,7 +127,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 111) goto Laz; /* not found, quit */
+    if (m[4] == 114) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -136,7 +137,7 @@ Lah:;
     m[5] = 0;
     goto Laa;
 Lae:; /* find operands */
-    if (m[2] != 35) goto Lax; /* txt command */
+    if (m[2] != 36) goto Lax; /* txt command */
     m[1] = 3;
     goto Laj;
 Lax:;
@@ -239,13 +240,13 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 32: /* stk */
+        case 33: /* stk */
             m[9] = m[3] * 2 + 18;
             goto Lap;
-        case 33: /* org */
+        case 34: /* org */
             m[10] = m[3] * 2 + m[9] + 2;
             goto Lap;
-        case 34: /* db_ */
+        case 35: /* db_ */
             m[6] = 4;
             m[4] = '^';
             outbf();
@@ -254,7 +255,7 @@ Lai:;
             m[10] = m[10] + 2;
             if (m[1] == 4) goto Laa;
             goto Lap;
-        case 36: /* raw */
+        case 37: /* raw */
             putchar(m[3]);
             goto Lap;
     }
@@ -308,7 +309,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 131;
+    m[7] = 134;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;

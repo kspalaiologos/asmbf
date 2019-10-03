@@ -415,15 +415,20 @@ lbl 15
 ; Output: r1 = value
 ; Registers preserved.
 lbl 1
-	org 5
-	db_ 0
-	db_ 0
-	db_ 0
-	db_ 0
-	db_ 0
-	
 	psh r3
 	psh r4
+	clr r3
+	clr r4
+	sto r3, r4
+	inc r3
+	sto r3, r4
+	inc r3
+	sto r3, r4
+	inc r3
+	sto r3, r4
+	inc r3
+	sto r3, r4
+	clr r3
 	
 	; Important:
 	; p9: mem[0-2]

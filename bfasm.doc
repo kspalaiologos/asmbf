@@ -48,6 +48,8 @@ Instruction     Description             Operation
 add regA,regB   Add                     regA = regA + regB
 add reg,immed   Add                     reg = reg + immed
 and regA,regB   AND gate                regA = regA AND regB
+asr regA        Arithmetic shift right  regA = regA >> 1 (/ 2)
+asl regA        Arithmetic shift left   regA = regA << 1 (* 2)
 clr reg         Clear                   reg = 0
 db_ immed       Put constant            puts immed at the next memory position (see org)
 dec reg         Decrement               reg = reg - 1
@@ -71,6 +73,7 @@ jz_ regA,immed  Jump if zero            jmp's to immed if regA == 0
 lbl immed       Label                   defines a line label
 le_ regA,regB   Less than or equal to?  regA = regA <= regB
 le_ regA,immed  Less than or equal to?  regA = regA <= immed
+log regA        Change to logic value   regA = regA >= 1
 lt_ regA,regB   Less than?              regA = regA < regB
 lt_ regA,immed  Less than?              regA = regA < immed
 mod regA,regB   Modulus                 regA = regA % regB  (works only in experimental version)
@@ -96,6 +99,7 @@ raw char        Raw output              writes char directly as code
 rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
 rcl regA,immed  Recall (from memory)    regA = *immed (mov regA,[immed])
 ret             Return                  pops label and jmp's to it
+srv             Swap top stack elems    Swap top stack elements with each other. Requires two elements on stack minimum.
 stk immed       Stack size              Set the maximum number of items on the stack (default is 0)
 sto regA,regB   Store (in memory)       *regA = regB (mov [regA],regB)
 sto regA,immed  Store (in memory)       *regA = immed (mov [regA],immed)

@@ -1,0 +1,10 @@
+
+Please check bconv.bak before looking here.
+
+BCONV is using ready-to-go snippets to generate the code required. You can study them yourself, but the very important thing
+that you might need to note is the fact that the program will require six times up to eight times as much of memory as it used
+before, and it might run three to nine times slower than before.
+
+The I/O might be biased, so my general advice is avoiding to print numbers larger than a single cell (you could theoretically
+assume that you can print 16-bit numbers, as the specification says so, but it's recommended to stick to printing out
+just ASCII in any case as a rule of thumb).

@@ -1,0 +1,7 @@
+
+bconv is a program to convert brainfuck into it's equivalent, 32-bit code.
+
+You can write a program for 16-bit celled interpreter, then pass it thru bconv, and the range of integers available will
+be doubled! This way, the program will run around three times slower, but on non-standard minimalistic 8bit interpreters
+you will be able to create bfasm-compatible programs (as bfasm requires 16bit cells), and on 16-bit or 32-bit programs will allow
+respectively store 32-bit and 64-bit numbers.

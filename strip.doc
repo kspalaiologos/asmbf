@@ -1,0 +1,5 @@
+
+Strip is a simple regex-utilizing program to remove no-ops in brainfuck and reduce the comments when possible. As every
+regexp is applied just once, it's recommended to run this program until no observable improvement can be noted.
+
+The regexes are pretty straightforward to follow.

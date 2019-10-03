@@ -76,8 +76,8 @@ le_ regA,immed  Less than or equal to?  regA = regA <= immed
 log regA        Change to logic value   regA = regA >= 1
 lt_ regA,regB   Less than?              regA = regA < regB
 lt_ regA,immed  Less than?              regA = regA < immed
-mod regA,regB   Modulus                 regA = regA % regB  (works only in experimental version)
-mod regA,immed  Modulus                 regA = regA % immed  (works only in experimental version)
+mod regA,regB   Modulus                 regA = regA % regB
+mod regA,immed  Modulus                 regA = regA % immed
 mov regA,regB   Move (copy)             regA = regB
 mov reg,immed   Move (set)              reg = immed
 mul regA,regB   Multiply                regA = regA * regB
@@ -93,6 +93,8 @@ org immed       Origin                  sets memory position of the next db_ or 
 out reg         Output                  output to STDOUT = reg
 out immed       Output                  output to STDOUT = immed
 pop reg         Pop                     pops reg from the stack
+pow regA, regB  Power                   regA = regA ^ regB
+pow regA, immed Power                   regA = regA ^ immed
 psh reg         Push                    pushes reg onto the stack
 psh immed       Push                    push immediate onto the stack
 raw char        Raw output              writes char directly as code

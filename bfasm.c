@@ -129,7 +129,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 121) goto Laz; /* not found, quit */
+    if (m[4] == 120) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;

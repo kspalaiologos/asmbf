@@ -1,4 +1,7 @@
 
+03.10.2019:
+ * As new instructions are coming soon, you're encouraged to switch to new asm2bf versioning model. Check VERSIONING for details.
+
 06.06.2019:
  * (Experimental) Broken modulus is gone! Finally, after around two years.
 

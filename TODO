@@ -2,4 +2,3 @@
  * Frameworkize asmbf? Add compression, downloading the interpreter and assembler if needed and all that stuff.
  * Preprocessor for labels?
  * More instructions?
- * bconv performance impact measurement

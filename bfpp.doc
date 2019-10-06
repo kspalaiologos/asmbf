@@ -1,0 +1,19 @@
+
+bfpp is a asm2bf preprocessor based on gcc -E.
+
+It behaves just like normally, but the first line is being cut to get rid of shebang that will
+be eventually parsed by gcc and bail out. Also, the includes are tweaked so the lib/ and .
+directories are added to the include path.
+
+All the lines containing hash (#) from output are stripped later by the following sed program:
+
+sed '/^#/ d' < "$1.i" > "$1.p"
+
+The shebang is removed using following snippet:
+
+cat "$1" | sed -e "1!b" -e '/#/d'
+
+Stray files might be left over if the program is used incorrectly. Please refer to examples/
+example-*.asm.
+
+bfpp is usually glued together with bfmake for usage simplicity.

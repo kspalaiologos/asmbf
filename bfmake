@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+name=$(echo "$1" | cut -f 1 -d '.')
+
+/bin/bfpp "$1"
+/bin/bfasm < "$1.p" > "${1%.*}.b"
+rm -f "$1.p"

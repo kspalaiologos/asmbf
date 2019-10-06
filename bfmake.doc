@@ -1,0 +1,9 @@
+
+bfmake will preprocess and assemble given program. It's intended to be used inside files as a
+shebang.
+
+First step in building is passing the program thru bfpp. Then, everything is assembled and 
+temporary files are mostly removed.
+
+There isn't very much going on about bfmake, please refer to examples/example-*.asm to check out
+it's practical use.

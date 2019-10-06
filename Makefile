@@ -7,11 +7,19 @@
 
 CC=gcc
 CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w
-TARGETS=bfasm bfi bfintd bconv 
+TARGETS=bfasm bfi bfintd bconv
 
-.PHONY: all clean
+.PHONY: all clean install uninstall
 
 all: $(TARGETS) bfasm.b bin
+
+install:
+	cp -rf bin/* /bin/
+
+uninstall:
+	cd /bin
+	rm -f $(TARGETS) bfpp bfmake
+	cd -
 
 clean:
 	rm -rf bin/
@@ -21,7 +29,7 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp bin/
+	cp $(TARGETS) bfpp bfmake bin/
 	rm -rf $(TARGETS)
 	
 	

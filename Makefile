@@ -18,7 +18,7 @@ install:
 
 uninstall:
 	cd /bin
-	rm -f $(TARGETS) bfpp bfmake
+	rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl
 	cd -
 
 clean:
@@ -29,7 +29,7 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp bfmake bin/
+	cp $(TARGETS) bfpp bfmake strip.pl labels.pl bin/
 	rm -rf $(TARGETS)
 	
 	

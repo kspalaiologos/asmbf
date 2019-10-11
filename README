@@ -1,6 +1,6 @@
 
 asmbf
 
-Project regarding various things about to brainfuck compilers
-Currently it includes documented version of BFAsm and brainfuck interpreter
-capable of running it's output.
+The only true brainfuck assembler. Produces quite small assembly code if you're
+able to optimize the assembly. With C preprocessor wired up, named labels and all the features
+you'd expect from a normal assembly, it's ready for your use.

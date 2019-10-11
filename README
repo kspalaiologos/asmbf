@@ -4,3 +4,7 @@ asmbf
 The only true brainfuck assembler. Produces quite small assembly code if you're
 able to optimize the assembly. With C preprocessor wired up, named labels and all the features
 you'd expect from a normal assembly, it's ready for your use.
+
+The standard library is currently being constructed and you may contribute to make it even
+better ;). Floating point support is being planned and worked on. Please refer to doc/ for detailed
+documentation.

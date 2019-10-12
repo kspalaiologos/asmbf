@@ -14,6 +14,7 @@ TARGETS=bfasm bfi bfintd bconv
 all: $(TARGETS) bfasm.b bin
 
 install:
+	chmod a+x bin/*
 	sudo cp -rf bin/* /bin/
 
 uninstall:

@@ -20,7 +20,7 @@ uninstall:
 	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
 
 test: test/*.asm
-	chmod a+x test.pl
+	chmod a+x test.pl $^
 	./test.pl $^
 
 clean:

@@ -21,7 +21,7 @@ uninstall:
 
 test:
 	chmod a+x test.pl
-	for each in test/*.asm ; do ./test.pl $each ; done
+	for a in test/*.asm ; do ./test.pl $a ; done
 
 clean:
 	rm -rf bin/

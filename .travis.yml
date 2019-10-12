@@ -1,0 +1,35 @@
+
+matrix:
+  fast_finish: true
+  sudo: true
+  include:
+    - language: c
+      cache:
+        directories:
+          - .
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+      script:
+        - make all install
+    - language: c
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+      script:
+        - make COVERAGE="-g -coverage" all install
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+    - language: c
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+            - lua50
+            - nodejs
+      script:
+        - make clean euboea
+        - cd benchmarks && for i in {1..10}; do /bin/sh benchmark; done
+  cache: apt

@@ -1,3 +1,3 @@
 #!/bin/bfmake
 
-out .1
+out .0

@@ -21,7 +21,7 @@ uninstall:
 
 test: test/*.asm
 	chmod a+x test.pl
-        ./test.pl $^
+	./test.pl $^
 
 clean:
 	rm -rf bin/

@@ -17,9 +17,7 @@ install:
 	cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin
-	rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl
-	cd -
+	cd /bin && rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
 
 clean:
 	rm -rf bin/

@@ -14,12 +14,10 @@ TARGETS=bfasm bfi bfintd bconv
 all: $(TARGETS) bfasm.b bin
 
 install:
-	cp -rf bin/* /bin/
+	sudo cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin
-	rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl
-	cd -
+	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
 
 test:
 	for each in test/*.asm ; do ./test.pl $each ; done

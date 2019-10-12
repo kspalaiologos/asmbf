@@ -9,15 +9,19 @@ CC=gcc
 CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE)
 TARGETS=bfasm bfi bfintd bconv
 
-.PHONY: all clean install uninstall
+.PHONY: all clean install uninstall test
 
 all: $(TARGETS) bfasm.b bin
 
 install:
-	cp -rf bin/* /bin/
+	sudo cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin && rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
+	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
+
+test: test/*.asm
+	chmod a+x test.pl
+	./test.pl $^
 
 clean:
 	rm -rf bin/

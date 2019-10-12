@@ -19,9 +19,9 @@ install:
 uninstall:
 	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
 
-test:
+test: test/*.asm
 	chmod a+x test.pl
-	for a in test/*.asm ; do ./test.pl $a ; done
+        ./test.pl $^
 
 clean:
 	rm -rf bin/

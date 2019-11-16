@@ -135,6 +135,12 @@ raw .*
 Then it's convinient to place in_ r1 (or any other register) to pause execution while
 a bug is investigated.
 
-8. Known caveats
+8. Run-length encoding
 
-In bigger programs modulus is introducing undefined behaviour. I'm currently working on this.
+Run-length encoding is a feature of asm2bf v1.1.2. It allows to compress your program
+by merging sequences of continuing characters. You can enable this by issuing the following
+command before building bfasm:
+
+setenv OPTIONS -DRLE
+
+You can run RLE-encoded programs using bfi-rle

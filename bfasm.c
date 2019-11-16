@@ -311,8 +311,15 @@ void outrep() {
 			m[3]--;
 		}
 	#else
-		printf("%d%c", m[3], m[6]);
-		m[3] = 0;
+		if(m[3] > 2) {
+			printf("%d%c", m[3], m[6]);
+			m[3] = 0;
+		} else {
+			while (m[3]) {
+				putchar(m[6]);
+				m[3]--;
+			}
+		}
 	#endif
 }
 
@@ -355,8 +362,16 @@ o11:;
 #ifdef RLE
 o14:;
     if (m[15] <= r4) goto o13;
-    printf("%d>", m[15]);
-    r4 = m[15];
+	if (m[15] > 2) {
+		printf("%d>", m[15]);
+		r4 = m[15];
+	} else {
+		putchar('>');
+		if(m[15] == 2)
+			putchar('>');
+		
+		r4 = m[15];
+	}
     goto o14;
 #else
 o14:;
@@ -371,8 +386,16 @@ o12:;
 #ifdef RLE
 o16:;
     if (m[15] <= r4) goto o13;
-    printf("%d<", m[15]);
-    r4 = m[15];
+    if (m[15] > 2) {
+		printf("%d<", m[15]);
+		r4 = m[15];
+	} else {
+		putchar('<');
+		if(m[15] == 2)
+			putchar('<');
+		
+		r4 = m[15];
+	}
     goto o16;
 #else
 o16:;

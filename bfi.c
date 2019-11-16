@@ -47,7 +47,7 @@ int main(int argc, char * argv[]) {
     long mp = 0, maxmp = 1023;
     int n;
     unsigned short int * mem;
-    if (argc != 2 || argv[1][0] == '-' || argv[1][0] == '/') {
+    if (argc != 2) {
         puts("Usage: bfi src.b");
         return EXIT_FAILURE;
     }

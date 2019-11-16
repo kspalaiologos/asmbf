@@ -3,3 +3,5 @@ Strip is a simple regex-utilizing program to remove no-ops in brainfuck and redu
 regexp is applied just once, it's recommended to run this program until no observable improvement can be noted.
 
 The regexes are pretty straightforward to follow.
+
+NOTE: strip WILL CORRUPT RLE-encoded brainfuck programs. Please decompress them BEFORE using the tool.

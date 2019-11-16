@@ -7,3 +7,5 @@ Interpreter specification:
  * Returning 0 on EOF
  * Written in portable C89
  * Around 120 SLOC
+
+NOTE: bfi DOES NOT WORK with RLE variant of brainfuck. Please decompress the code beforehand.

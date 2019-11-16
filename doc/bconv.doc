@@ -8,3 +8,5 @@ before, and it might run three to nine times slower than before.
 The I/O might be biased, so my general advice is avoiding to print numbers larger than a single cell (you could theoretically
 assume that you can print 16-bit numbers, as the specification says so, but it's recommended to stick to printing out
 just ASCII in any case as a rule of thumb).
+
+NOTE: bconv DOES NOT WORK with RLE variant of brainfuck. Please decompress the code beforehand.

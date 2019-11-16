@@ -1,4 +1,5 @@
 #!/bin/bash -e
-name="bfprog$RANDOM"
-derle.pl $1 > "/tmp/$name"
-bfi "/tmp/$name"
+name="/tmp/bfprog$RANDOM"
+derle.pl $1 > $name
+bfi $name
+rm -f $name

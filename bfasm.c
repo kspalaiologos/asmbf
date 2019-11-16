@@ -352,19 +352,35 @@ o11:;
     if (r1 < m[8]) goto o12;
     r4 = 0;
     m[15] = r1 - m[8];
+#ifdef RLE
+o14:;
+    if (m[15] <= r4) goto o13;
+    printf("%d>", m[15]);
+    r4 = m[15];
+    goto o14;
+#else
 o14:;
     if (m[15] <= r4) goto o13;
     putchar('>');
     r4++;
     goto o14;
+#endif
 o12:;
     r4 = 0;
     m[15] = m[8] - r1;
+#ifdef RLE
+o16:;
+    if (m[15] <= r4) goto o13;
+    printf("%d<", m[15]);
+    r4 = m[15];
+    goto o16;
+#else
 o16:;
     if (m[15] <= r4) goto o13;
     putchar('<');
     r4++;
     goto o16;
+#endif
 o13:;
     m[8] = r1;
     goto o10;

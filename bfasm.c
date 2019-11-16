@@ -24,11 +24,11 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-unsigned int m[2000];
+unsigned int m[2000], off;
 
 int main(void) {
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvstkorgdb_txtraw"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvstkorgdb_txtrawoff"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -262,6 +262,9 @@ Lai:;
         case 41: /* raw */
             putchar(m[3]);
             goto Lap;
+		case 42: /* off */
+            off=m[3];
+            goto Lap;
     }
 Lao:;
     if (m[4] == 0) {
@@ -345,11 +348,11 @@ o5:;
     r1 = m[4];
 o6:;
     if (r1 != '*') goto o7;
-    r1 = m[9];
+    r1 = m[9] + off;
     goto o11;
 o7:;
     if (r1 != '^') goto o8;
-    r1 = m[10];
+    r1 = m[10] + off;
     goto o11;
 o8:;
     if (r1 < 'a') goto o9;

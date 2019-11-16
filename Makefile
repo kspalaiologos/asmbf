@@ -18,7 +18,7 @@ install:
 	sudo cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl && cd -
+	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake strip.pl labels.pl derle.pl && cd -
 
 test: test/*.asm
 	chmod a+x test.pl $^
@@ -32,7 +32,7 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp bfmake strip.pl labels.pl bin/
+	cp $(TARGETS) bfpp bfmake strip.pl labels.pl derle.pl bin/
 	rm -rf $(TARGETS)
 	
 	

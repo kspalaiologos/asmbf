@@ -305,10 +305,15 @@ Lab:;
 }
 
 void outrep() {
-    while (m[3]) {
-        putchar(m[6]);
-        m[3]--;
-    }
+	#ifndef RLE
+		while (m[3]) {
+			putchar(m[6]);
+			m[3]--;
+		}
+	#else
+		printf("%d%c", m[3], m[6]);
+		m[3] = 0;
+	#endif
 }
 
 void outbf() {

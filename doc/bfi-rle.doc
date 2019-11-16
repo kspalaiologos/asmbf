@@ -1,0 +1,2 @@
+
+bfi-rle is basically derle.pl + bfi. It's creating a file in /tmp with the program name, putting the decompressed code there and running brainfuck interpreter over it.

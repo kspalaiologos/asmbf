@@ -1,20 +1,23 @@
 #!/usr/bin/perl
 
-$file = $ARGV[0];
-`$file`;
+foreach my $file(@ARGV) {
+	$file = $ARGV[0];
+	`$file`;
 
-print "$file\t";
+	print "$file\t";
 
-$file  =~ s{\.[^.]+$}{};
+	$file  =~ s{\.[^.]+$}{};
 
-`bfi $file.b < $file.in > $file.aout`;
-$diff = `diff $file.aout $file.out`;
+	`bfi $file.b < $file.in > $file.aout`;
+	$diff = `diff $file.aout $file.out`;
 
-if(length($diff) > 0) {
-	print " *** TEST FAILED!\tOutput diff:\n";
-	print $diff;
-} else {
-	print " *** TEST PASS.\n";
+	if(length($diff) > 0) {
+		print " *** TEST FAILED!\tOutput diff:\n";
+		print $diff;
+		exit length($diff);
+	} else {
+		print " *** TEST PASS.\n";
+	}
 }
 
-exit length($diff);
+exit 0;

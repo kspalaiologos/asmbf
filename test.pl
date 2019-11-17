@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
 foreach my $file(@ARGV) {
-	$file = $ARGV[0];
 	`$file`;
 
 	print "$file\t";

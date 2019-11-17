@@ -315,7 +315,11 @@ void outrep() {
 		}
 	#else
 		if(m[3] > 2) {
+			#ifndef RLE_POSTFIX
 			printf("%d%c", m[3], m[6]);
+			#else
+			printf("%c%d", m[6], m[3]);
+			#endif
 			m[3] = 0;
 		} else {
 			while (m[3]) {
@@ -366,7 +370,11 @@ o11:;
 o14:;
     if (m[15] <= r4) goto o13;
 	if (m[15] > 2) {
+		#ifndef RLE_POSTFIX
 		printf("%d>", m[15]);
+		#else
+		printf(">%d", m[15]);
+		#endif
 		r4 = m[15];
 	} else {
 		putchar('>');
@@ -390,7 +398,11 @@ o12:;
 o16:;
     if (m[15] <= r4) goto o13;
     if (m[15] > 2) {
+	    #ifndef RLE_POSTFIX
 		printf("%d<", m[15]);
+	    #else
+	    	printf("<%d", m[15]);
+	    #endif
 		r4 = m[15];
 	} else {
 		putchar('<');

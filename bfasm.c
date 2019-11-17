@@ -131,7 +131,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 126) goto Laz; /* not found, quit */
+    if (m[4] == 129) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -328,7 +328,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 147;
+    m[7] = 149;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;

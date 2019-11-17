@@ -8,7 +8,7 @@ matrix:
         - make all install
     - language: c
       script:
-        - make COVERAGE="-g -coverage" all install test
+        - make COVERAGE="-g -coverage -DBFI_NOCHECKS" all install test
       after_success:
         - bash <(curl -s https://codecov.io/bash)
   cache: apt

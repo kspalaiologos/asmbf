@@ -118,29 +118,29 @@ db_     0
 txt     "a[-]b[-]"
 db_     0
 
-        mov     r1,9            ; m[9] = 18
+        mov     r1,9
         mov     r2,18
         sto     r1,r2
-        inc     r1              ; m[10] = m[9] + 2
+        inc     r1
         add     r2,2
         sto     r1,r2
-        psh     1               ; outbf() (first)
+        psh     1
         jmp     100
 lbl 1
-        mov     r1,11           ; m[11] = 1
+        mov     r1,11
         sto     r1,1
-        mov     r1,1            ; m[1] = 1
+        mov     r1,1
         sto     r1,1
-lbl 2                           ; m2:
-        in_     r1              ;   m[0] = inchar()
-lbl 3                           ;   m3:
-        jnz     r1,4            ;   if (m[0] != '\0') goto m4
-        rcl     r2,1            ;     if (m[1] == 2) goto m5
+lbl 2
+        in_     r1
+lbl 3
+        jnz     r1,4
+        rcl     r2,1
         eq_     r2,2
         jnz     r2,5
-        jmp     6               ;     goto m6
-lbl 4                           ;   m4:
-        mov     r2,10           ;   if (m[0] != '\n' && m[0] != '\v' && m[0] != '\f' && m[0] != '\r') goto m8
+        jmp     6
+lbl 4
+        mov     r2,10
         eq_     r2,r1
         jnz     r2,7
         mov     r2,11
@@ -153,30 +153,30 @@ lbl 4                           ;   m4:
         ne_     r2,r1
         jnz     r2,8
 lbl 7
-        rcl     r2,1            ;     if(m[1] == 2) goto m5
-        eq_     r2,2            ;
-        jnz     r2,5            ;
-        mov     r2,1            ;     m[1] = 1
-        sto     r2,1            ;
-        jmp     2               ;     goto m2
-lbl 8                           ;   m8:
-        rcl     r2,1            ;   if (m[1] != 4) goto m9
+        rcl     r2,1
+        eq_     r2,2
+        jnz     r2,5
+        mov     r2,1
+        sto     r2,1
+        jmp     2
+lbl 8
+        rcl     r2,1
         ne_     r2,4
         jnz     r2,9
-        mov     r2,."           ;     if (m[0] != '\"') goto m10
+        mov     r2,."
         ne_     r2,r1
         jnz     r2,10
-        mov     r2,1            ;       m[1] = 1
+        mov     r2,1
         sto     r2,1
-        jmp     2               ;       goto m2
-lbl 10                          ;     m10:
-        mov     r2,2            ;     m[2] = 34
+        jmp     2
+lbl 10
+        mov     r2,2
         sto     r2,34
-        inc     r2              ;     m[3] = m[0]
+        inc     r2
         sto     r2,r1
-        jmp     5               ;     goto m5
-lbl 9                           ;   m9:
-        mov     r2,32           ;   if (m[0] == ' ' || m[0] == '\t' || m[1] == 0) goto m2
+        jmp     5
+lbl 9
+        mov     r2,32
         eq_     r2,r1
         jnz     r2,2
         mov     r2,9
@@ -184,185 +184,185 @@ lbl 9                           ;   m9:
         jnz     r2,2
         rcl     r2,1
         jz_     r2,2
-        rcl     r2,1            ;   if (m[1] != 3) goto m11 (txt)
+        rcl     r2,1
         ne_     r2,3
         jnz     r2,11
-        mov     r2,."           ;     if (m[0] != '\"') goto m12
+        mov     r2,."
         ne_     r2,r1
         jnz     r2,12
-        mov     r2,1            ;     m[1] = 4
+        mov     r2,1
         sto     r2,4
-        jmp     2               ;     goto m2
-lbl 11                          ;   m11:
-        mov     r2,.;           ;   if (m[0] != ';') goto m13 (comment)
+        jmp     2
+lbl 11
+        mov     r2,.;
         ne_     r2,r1
         jnz     r2,13
-        rcl     r2,1            ;     if(m[1] == 2) goto m5
+        rcl     r2,1
         eq_     r2,2
         jnz     r2,5
-        mov     r2,1            ;     m[1] = 0
+        mov     r2,1
         sto     r2,0
-        jmp     2               ;     goto m2
-lbl 13                          ;   m13:
-        rcl     r2,1            ;   if (m[1] != 1) goto m14
+        jmp     2
+lbl 13
+        rcl     r2,1
         ne_     r2,1
         jnz     r2,14
-        in_     r2              ;     m[2] = inchar()
+        in_     r2
         mov     r3,2
         sto     r3,r2
-        in_     r2              ;     m[3] = inchar()
+        in_     r2
         mov     r3,3
         sto     r3,r2
-        mov     r2,4            ;     m[4] = 0
+        mov     r2,4
         sto     r2,0
-lbl 15                          ;     m15:
-        rcl     r4,4            ;       m[5] = m[4] + 60 (!!!)
+lbl 15
+        rcl     r4,4
         add     r4,60
-        rcl     r3,r4           ;       m[6] = m[m[5]]
+        rcl     r3,r4
         mov     r2,6
         sto     r2,r3
-        rcl     r2,6            ;       if (m[0] != m[6]) goto m16
+        rcl     r2,6
         ne_     r2,r1
         jnz     r2,16
-        inc     r4              ;       m[5]++
-        rcl     r2,r4           ;       m[6] = m[m[5]]
+        inc     r4
+        rcl     r2,r4
         mov     r3,6
         sto     r3,r2
-        rcl     r3,2            ;       if (m[2] != m[6]) goto m16
+        rcl     r3,2
         ne_     r2,r3
         jnz     r2,16
-        inc     r4              ;       m[5]++
+        inc     r4
         mov     r3,r2
-        rcl     r3,r4           ;       m[6] = m[m[5]]
+        rcl     r3,r4
         mov     r2,6
         sto     r2,r3
-        rcl     r2,3            ;       if (m[3] == m[6]) goto m17
+        rcl     r2,3
         eq_     r2,r3
         jnz     r2,17
-lbl 16                          ;       m16:
-        mov     r3,4            ;       m[4] = m[4] + 3
+lbl 16
+        mov     r3,4
         rcl     r2,r3
         add     r2,3
         sto     r3,r2
-        eq_     r2,111          ;       if (m[4] == 111) goto m12 (not found, quit) (!!!)
+        eq_     r2,111
         jnz     r2,12
-        jmp     15              ;     goto m15
-lbl 17                          ;     m17: (found)
-        mov     r2,1            ;     m[1] = 2
+        jmp     15
+lbl 17
+        mov     r2,1
         sto     r2,2
         rcl     r2,4
-        div     r2,3            ;     m[2] = m[4] / 3
+        div     r2,3
         mov     r3,2
         sto     r3,r2
-        mov     r2,3            ;     m[3] = 0
+        mov     r2,3
         sto     r2,0
-        mov     r2,4            ;     m[4] = 0
+        mov     r2,4
         sto     r2,0
-        mov     r2,5            ;     m[5] = 0
+        mov     r2,5
         sto     r2,0
-        jmp     2               ;     goto m2;
-lbl 14                          ;   m14: (find operands)
-        rcl     r2,2            ;   if (m[2] != 35) goto m18 (txt command)
+        jmp     2
+lbl 14
+        rcl     r2,2
         ne_     r2,35
         jnz     r2,18
-        mov     r2,1            ;     m[1] = 3
+        mov     r2,1
         sto     r2,3
-        jmp     3               ;     goto m3
-lbl 18                          ;   m18:
-        mov     r2,r1           ;   if (m[0] != 'r') goto m19 (r_ operand)
+        jmp     3
+lbl 18
+        mov     r2,r1
         ne_     r2,.r
         jnz     r2,19
-        in_     r1              ;     m[0] = inchar()
-        sub     r1,.1           ;     m[0] = m[0] - '1'
-        mov     r2,r1           ;     if (m[0] > 3) goto m12 (not a number, quit)
+        in_     r1
+        sub     r1,.1
+        mov     r2,r1
         gt_     r2,3
         jnz     r2,12
-        mov     r2,r1           ;     m[4] = m[0] + 'f'
+        mov     r2,r1
         add     r2,.f
         mov     r3,4
         sto     r3,r2
-        jmp     2               ;     goto m2
-lbl 19                          ;   m19:
-        mov     r2,r1           ;   if (m[0] != ',') goto m20 (,)
+        jmp     2
+lbl 19
+        mov     r2,r1
         ne_     r2,.,
         jnz     r2,20
-        rcl     r2,4            ;     m[5] = m[4]
+        rcl     r2,4
         mov     r3,5
         sto     r3,r2
-        mov     r2,4            ;     m[4] = 0
+        mov     r2,4
         sto     r2,0
-        jmp     2               ;     goto m2
-lbl 20                          ;   m20:
-        mov     r2,r1           ;   if (m[0] != '.') goto m21 (.char)
+        jmp     2
+lbl 20
+        mov     r2,r1
         ne_     r2,..
         jnz     r2,21
-        in_     r2              ;     m[3] = inchar()
+        in_     r2
         mov     r3,3
         sto     r3,r2
-        jmp     2               ;     goto m2
-lbl 21                          ;   m21: (number)
-        sub     r1,.0           ;   m[0] = m[0] - '0'
-        mov     r2,r1           ;   if (m[0] > 9) goto m12 (not a number, quit)
+        jmp     2
+lbl 21
+        sub     r1,.0
+        mov     r2,r1
         gt_     r2,9
         jnz     r2,12
-        mov     r3,3            ;   m[3] = m[3] * 10
+        mov     r3,3
         rcl     r2,r3
         mul     r2,10
-        add     r2,r1           ;   m[3] = m[3] + m[0]
+        add     r2,r1
         sto     r3,r2
-        jmp     2               ; goto m2
-lbl 5                           ; m5:
-        clr     r2              ;   m[0] = r1
+        jmp     2
+lbl 5
+        clr     r2
         sto     r2,r1
-        rcl     r1,4            ;   if (m[4] && m[4] == m[5]) {
+        rcl     r1,4
         jz_     r1,54
         rcl     r2,5
         ne_     r1,r2
         jnz     r1,54
-        mov     r1,6            ;     m[6] = 22
+        mov     r1,6
         sto     r1,22
-        mov     r1,5            ;     m[5] = 'j'
+        mov     r1,5
         sto     r1,.j
-        psh     55              ;     outbf() (mov)
+        psh     55
         jmp     100
 lbl 55
-        rcl     r1,4            ;     m[5] = m[4]
+        rcl     r1,4
         mov     r2,5
         sto     r2,r1
-        dec     r2              ;     m[4] = 'j'
+        dec     r2
         sto     r2,.j
-lbl 54                          ;   }
-        rcl     r1,11           ;   if (m[11] != 1 || m[2] == 12) goto m22
+lbl 54
+        rcl     r1,11
         ne_     r1,1
         jnz     r1,22
         rcl     r1,2
         eq_     r1,12
         jnz     r1,22
-        mov     r1,6            ;     m[6] = 2
+        mov     r1,6
         sto     r1,2
-        psh     23              ;     outbf() (pre)
+        psh     23
         jmp     100
 lbl 23
-        mov     r1,11           ;     m[11] = 0
+        mov     r1,11
         sto     r1,0
-lbl 22                          ;   m22:
-        rcl     r1,2            ;   switch (m[2]) {
-        jnz     r1,32           ;   case 0: (add)
-        rcl     r2,4            ;     if (m[4] != 0) goto m24
+lbl 22
+        rcl     r1,2
+        jnz     r1,32
+        rcl     r2,4
         jnz     r2,24
-        mov     r2,6            ;     m[6] = 4
+        mov     r2,6
         sto     r2,4
-        rcl     r2,5            ;     m[4] = m[5]
+        rcl     r2,5
         mov     r3,4
         sto     r3,r2
-        psh     41              ;     outbf()
+        psh     41
         jmp     100
 lbl 41
-        mov     r2,6            ;     m[6] = '+'
+        mov     r2,6
         sto     r2,.+
-        psh     26              ;     outrep(), goto m26
+        psh     26
         jmp     200
-lbl 32                          ;   case 9, 10, 11, 30, 31: (jmp, jnz, jz_, ret, end)
+lbl 32
         mov     r2,r1
         eq_     r2,9
         jnz     r2,40
@@ -379,293 +379,293 @@ lbl 32                          ;   case 9, 10, 11, 30, 31: (jmp, jnz, jz_, ret,
         ne_     r2,31
         jnz     r2,33
 lbl 40
-        mov     r2,11           ;     m[11] = 1
+        mov     r2,11
         sto     r2,1
-        inc     r2              ;     m[12] = 1
+        inc     r2
         sto     r2,1
-        jmp     24              ;     goto m24
-lbl 33                          ;   case 12: (lbl)
+        jmp     24
+lbl 33
         mov     r2,r1
         ne_     r2,12
         jnz     r2,34
-        rcl     r2,11           ;     if (m[11] == 0) {
+        rcl     r2,11
         jnz     r2,42
-        mov     r2,6            ;       m[6] = 3
+        mov     r2,6
         sto     r2,3
-        psh     42              ;       outbf() (post)
+        psh     42
         jmp     100
-lbl 42                          ;     }
-        mov     r2,11           ;     m[11] = 1
+lbl 42
+        mov     r2,11
         sto     r2,1
-        mov     r2,6            ;     m[6] = 4
+        mov     r2,6
         sto     r2,4
-        mov     r2,4            ;     m[4] = 'e'
+        mov     r2,4
         sto     r2,.e
-        psh     43              ;     outbf()
+        psh     43
         jmp     100
 lbl 43
-        mov     r2,6            ;     m[6] = '+'
+        mov     r2,6
         sto     r2,.+
-        psh     44              ;     outrep()
+        psh     44
         jmp     200
 lbl 44
-        mov     r2,6            ;     m[6] = 18
+        mov     r2,6
         sto     r2,18
-        psh     26              ;     outbf(), goto m26
+        psh     26
         jmp     100
-lbl 34                          ;   case 16: (mov)
+lbl 34
         mov     r2,r1
         ne_     r2,16
         jnz     r2,35
-        rcl     r2,4            ;     if (m[4] != 0) goto m24
+        rcl     r2,4
         jnz     r2,24
-        mov     r2,6            ;     m[6] = 5
+        mov     r2,6
         sto     r2,5
-        rcl     r2,5            ;     m[4] = m[5]
+        rcl     r2,5
         mov     r3,4
         sto     r3,r2
-        psh     45              ;     outbf()
+        psh     45
         jmp     100
 lbl 45
-        mov     r2,6            ;     m[6] = '+'
+        mov     r2,6
         sto     r2,.+
-        psh     26              ;     outrep(), goto m26
+        psh     26
         jmp     200
-lbl 35                          ;   case 27: (sub)
+lbl 35
         mov     r2,r1
         ne_     r2,27
         jnz     r2,36
-        rcl     r2,4            ;     if (m[4] != 0) goto m24
+        rcl     r2,4
         jnz     r2,24
-        mov     r2,6            ;     m[6] = 4
+        mov     r2,6
         sto     r2,4
-        rcl     r2,5            ;     m[4] = m[5]
+        rcl     r2,5
         mov     r3,4
         sto     r3,r2
-        psh     46              ;     outbf()
+        psh     46
         jmp     100
 lbl 46
-        mov     r2,6            ;     m[6] = '-'
+        mov     r2,6
         sto     r2,.-
-        psh     26              ;     outrep(), goto m26
+        psh     26
         jmp     200
-lbl 36                          ;   case 32: (stk)
+lbl 36
         mov     r2,r1
         ne_     r2,32
         jnz     r2,37
-        rcl     r2,3            ;     m[9] = m[3] * 2 + 18
+        rcl     r2,3
         mul     r2,2
         add     r2,18
         mov     r3,9
         sto     r3,r2
-        jmp     26              ;     goto m26
-lbl 37                          ;   case 33: (org)
+        jmp     26
+lbl 37
         mov     r2,r1
         ne_     r2,33
         jnz     r2,38
-        rcl     r2,3            ;     m[10] = m[3] * 2 + m[9] + 2
+        rcl     r2,3
         mul     r2,2
         rcl     r3,9
         add     r2,r3
         add     r2,2
         mov     r3,10
         sto     r3,r2
-        jmp     26              ;     goto m26
-lbl 38                          ;   case 34: (db)
+        jmp     26
+lbl 38
         mov     r2,r1
         ne_     r2,34
         jnz     r2,39
-        mov     r2,6            ;     m[6] = 4;
+        mov     r2,6
         sto     r2,4
-        mov     r2,4            ;     m[4] = '^';
+        mov     r2,4
         sto     r2,.^
-        psh     47              ;     outbf();
+        psh     47
         jmp     100
 lbl 47
-        mov     r2,6            ;     m[6] = '+';
+        mov     r2,6
         sto     r2,.+
-        psh     54              ;     outrep();
+        psh     54
         jmp     200
 lbl  54
-        mov     r3,10           ;     m[10] = m[10] + 2;
+        mov     r3,10
         rcl     r2,r3
         add     r2,2
         sto     r3,r2
-        rcl     r2,1            ;     if (m[1] == 4) goto m2
+        rcl     r2,1
         eq_     r2,4
         jnz     r2,2
-        jmp     26              ;     goto m26
-lbl 39                          ;   case 36: (raw)
+        jmp     26
+lbl 39
         mov     r2,r1
         ne_     r2,36
         jnz     r2,24
-        rcl     r2,3            ;     putchar(m[3])
+        rcl     r2,3
         out     r2
-        jmp     26              ;     goto m26
-lbl 24                          ;   } m24: (Lao)
-        rcl     r2,4            ;   if (m[4] != 0) goto m28
+        jmp     26
+lbl 24
+        rcl     r2,4
         jnz     r2,28
-        mov     r2,6            ;     m[6] = 4 (immed)
+        mov     r2,6
         sto     r2,4
-        mov     r2,4            ;     m[4] = 'j'
+        mov     r2,4
         sto     r2,.j
-        psh     29              ;     outbf()
+        psh     29
         jmp     100
 lbl 29
-        mov     r2,6            ;     m[6] = '+'
+        mov     r2,6
         sto     r2,.+
-        psh     30              ;     outrep()
+        psh     30
         jmp     200
 lbl 30
-        mov     r2,3            ;     m[3] = 1
+        mov     r2,3
         sto     r2,1
-lbl 28                          ;   m28:
-        rcl     r2,2            ;   m[6] = m[2] + 6;
+lbl 28
+        rcl     r2,2
         add     r2,6
         mov     r3,6
         sto     r3,r2
-        psh     25              ;   outbf()
+        psh     25
         jmp     100
 lbl 25
-        rcl     r2,3            ;   if (m[3] == 0) goto m26
+        rcl     r2,3
         jz_     r2,26
-        mov     r2,6            ;     m[6] = 5
+        mov     r2,6
         sto     r2,5
-        psh     26              ;     outbf() (immed clear)
+        psh     26
         jmp     100
-lbl 26                          ;   m26: (Lap)
-        mov     r2,1            ;   m[1] = 1
+lbl 26
+        mov     r2,1
         sto     r2,1
-        rcl     r1,0            ;   r1 = m[0]
-        rcl     r2,12           ;   if (m[12] != 1) goto m3
+        rcl     r1,0
+        rcl     r2,12
         ne_     r2,1
         jnz     r2,3
-        mov     r2,6            ;     m[6] = 3;
+        mov     r2,6
         sto     r2,3
-        psh     27              ;     outbf(); (post)
+        psh     27
         jmp     100
 lbl 27
-        mov     r2,12           ;     m[12] = 0;
+        mov     r2,12
         sto     r2,0
-        rcl     r1,0            ; r1 = m[0]
-        jmp     3               ; goto m3
-lbl 12                          ; m12: (Laz)
+        rcl     r1,0
+        jmp     3
+lbl 12
         out     .#
         end
-lbl 6                           ; m6: (Lab)
-        rcl     r2,12           ; if (m[11] == 0 || m[12] == 1) {
+lbl 6
+        rcl     r2,12
         eq_     r2,1
         jnz     r2,48
         rcl     r2,11
         jnz     r2,49
 lbl 48
-        mov     r2,6            ;   m[6] = 3
+        mov     r2,6
         sto     r2,3
-        psh     49              ;   outbf() (post)
+        psh     49
         jmp     100
-lbl 49                          ; }
-        mov     r2,6            ; m[6] = 2
+lbl 49
+        mov     r2,6
         sto     r2,2
-        psh     50              ; outbf() (pre)
+        psh     50
         jmp     100
 lbl 50
-        mov     r2,6            ; m[6] = 37
+        mov     r2,6
         sto     r2,37
-        psh     51              ; outbf() (end)
+        psh     51
         jmp     100
 lbl 51
-        mov     r2,6            ; m[6] = 3
+        mov     r2,6
         sto     r2,3
-        psh     52              ; outbf() (post)
+        psh     52
         jmp     100
 lbl 52
-        mov     r2,6            ; m[6] = 1
+        mov     r2,6
         sto     r2,1
-        psh     53              ; outbf() (last)
+        psh     53
         jmp     100
 lbl 53
         end
 lbl 100
-        rcl     r2,6            ; m[7] = m[m[6] + 20]
+        rcl     r2,6
         add     r2,20
         rcl     r3,r2
         mov     r2,7
         sto     r2,r3
 lbl 102
-        rcl     r2,7            ; r1 = m[m[7]]
-        rcl     r1,r2           ;  .
-        jz_     r1,104          ; if (r1 == '\0') goto o4
-        mov     r2,.1           ; if (r1 != '1') goto o5
-        ne_     r2,r1           ;  .
-        jnz     r2,105          ;  .
-        rcl     r1,5            ; r1 = m[5]
+        rcl     r2,7
+        rcl     r1,r2
+        jz_     r1,104
+        mov     r2,.1
+        ne_     r2,r1
+        jnz     r2,105
+        rcl     r1,5
 lbl 105
-        mov     r2,.2           ; if (r1 != '2') goto o6
-        ne_     r2,r1           ;  .
-        jnz     r2,106          ;  .
-        rcl     r1,4            ; r1 = m[4]
+        mov     r2,.2
+        ne_     r2,r1
+        jnz     r2,106
+        rcl     r1,4
 lbl 106
-        mov     r2,.*           ; if (r1 != '*') goto o7
-        ne_     r2,r1           ;  .
-        jnz     r2,107          ;  .
-        rcl     r1,9            ; r1 = m[9]
+        mov     r2,.*
+        ne_     r2,r1
+        jnz     r2,107
+        rcl     r1,9
         jmp     111
 lbl 107
-        mov     r2,.^           ; if (r1 != '^') goto o8
-        ne_     r2,r1           ;  .
-        jnz     r2,108          ;  .
-        rcl     r1,10           ; r1 = m[10]
+        mov     r2,.^
+        ne_     r2,r1
+        jnz     r2,108
+        rcl     r1,10
         jmp     111
 lbl 108
-        mov     r2,r1           ; if (r1 < 'a') goto o9
-        lt_     r2,.a           ;  .
-        jnz     r2,109          ;  .
-        mov     r2,r1           ; if (r1 > 'z') goto o9
-        gt_     r2,.z           ;  .
-        jnz     r2,109          ;  .
-        sub     r1,.a           ; r1 = r1 - 'a'
+        mov     r2,r1
+        lt_     r2,.a
+        jnz     r2,109
+        mov     r2,r1
+        gt_     r2,.z
+        jnz     r2,109
+        sub     r1,.a
 lbl 111
-        mov     r2,r1           ; if (r1 < m[8]) goto o12
-        rcl     r3,8            ;  .
-        lt_     r2,r3           ;  .
-        jnz     r2,112          ;  .
-        clr     r4              ; r4 = 0
-        mov     r2,r1           ; m[15] = r1 - m[8]
-        rcl     r3,8            ;  .
-        sub     r2,r3           ;  .
-        mov     r3,15           ;  .
-        sto     r3,r2           ;  .
+        mov     r2,r1
+        rcl     r3,8
+        lt_     r2,r3
+        jnz     r2,112
+        clr     r4
+        mov     r2,r1
+        rcl     r3,8
+        sub     r2,r3
+        mov     r3,15
+        sto     r3,r2
 lbl 114
-        rcl     r2,15           ; if (m[15] <= r4) goto o13
-        le_     r2,r4           ;  .
-        jnz     r2,113          ;  .
-        inc     r4              ; r4++
-        out     .>              ; putchar('>')
+        rcl     r2,15
+        le_     r2,r4
+        jnz     r2,113
+        inc     r4
+        out     .>
         jmp     114
 lbl 112
-        clr     r4              ; r4 = 0
-        rcl     r2,8            ; m[15] = m[8] - r1
-        sub     r2,r1           ;  .
-        mov     r3,15           ;  .
-        sto     r3,r2           ;  .
+        clr     r4
+        rcl     r2,8
+        sub     r2,r1
+        mov     r3,15
+        sto     r3,r2
 lbl 116
-        rcl     r2,15           ; if (m[15] <= r4) goto o13
-        le_     r2,r4           ;  .
-        jnz     r2,113          ;  .
-        inc     r4              ; r4++
-        out     .<              ; putchar('<')
+        rcl     r2,15
+        le_     r2,r4
+        jnz     r2,113
+        inc     r4
+        out     .<
         jmp     116
 lbl 113
-        mov     r2,8            ; m[8] = r1
-        sto     r2,r1           ;  .
+        mov     r2,8
+        sto     r2,r1
         jmp     110
 lbl 109
-        out     r1              ; putchar(r1)
+        out     r1
 lbl 110
-        mov     r2,7            ; m[7]++
-        rcl     r3,r2           ;  .
-        inc     r3              ;  .
-        sto     r2,r3           ;  .
+        mov     r2,7
+        rcl     r3,r2
+        inc     r3
+        sto     r2,r3
         jmp     102
 lbl 104
         ret
@@ -673,10 +673,10 @@ lbl 200
         rcl     r2,3
         rcl     r3,6
 lbl 202
-        jz_     r2,201          ; while (m[3]) {
-        out     r3              ;   putchar(m[6])
-        dec     r2              ;   m[3]--
-        jmp     202             ; }
+        jz_     r2,201
+        out     r3
+        dec     r2
+        jmp     202
 lbl 201
         mov     r2,3
         sto     r2,0

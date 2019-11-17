@@ -24,11 +24,11 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-unsigned int m[2000];
+unsigned int m[2000], off;
 
 int main(void) {
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvstkorgdb_txtraw"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvstkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -61,7 +61,7 @@ int main(void) {
                "2[-]q[-]>[>>]<<->[<<<[<<]>+>[>>]>-]<<<[<<]>[2+q-]\0" /* pop */
                "2[e+q+2-]e[2+e-]q>[>>]+<<[<<]>[>[>>]<+<[<<]>-]\0" /* psh */
                "1[-]2[e+o+*>+<2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<[<[<<]>+1+*>[>>]<-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0"  /* rcl */
-               "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<[-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0" /* sto */
+               "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>=[[>>]+[<<]>>-]+[>>]<[-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0" /* sto */
                "2[1-e+2-]e[2+e-]\0" /* sub */
                "1[e+1-]2[1+2-]e[2+e-]\0" /* swp */
                "2[-]\0" /* clr */
@@ -131,7 +131,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 126) goto Laz; /* not found, quit */
+    if (m[4] == 129) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -262,6 +262,9 @@ Lai:;
         case 41: /* raw */
             putchar(m[3]);
             goto Lap;
+		case 42: /* seg */
+            off=m[3];
+            goto Lap;
     }
 Lao:;
     if (m[4] == 0) {
@@ -325,7 +328,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 147;
+    m[7] = 149;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;
@@ -345,11 +348,11 @@ o5:;
     r1 = m[4];
 o6:;
     if (r1 != '*') goto o7;
-    r1 = m[9];
+    r1 = m[9] + off * 2;
     goto o11;
 o7:;
     if (r1 != '^') goto o8;
-    r1 = m[10];
+    r1 = m[10] + off * 2;
     goto o11;
 o8:;
     if (r1 < 'a') goto o9;

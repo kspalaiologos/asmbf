@@ -9,12 +9,9 @@ CC=gcc
 CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE) $(OPTIONS)
 TARGETS=bfasm bfi bfintd bconv
 
-.PHONY: all clean install uninstall test nocheck-bfi
+.PHONY: all clean install uninstall test
 
 all: $(TARGETS) bfasm.b bin
-
-nocheck-bfi:
-	$(CC) $(CFLAGS) -DBFI_NOCHECKS bfi.c -o bfi
 
 install:
 	chmod a+x bin/*

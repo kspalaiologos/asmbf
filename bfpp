@@ -2,6 +2,6 @@
 
 set -o pipefail
 
-cat "$1" | sed -e "1!b" -e '/#/d' | gcc -E -I. -Ilib - -o "$1.i"
-/bin/labels.pl < "$1.i" | sed '/^#/ d' > "$1.p"
+cat /dev/stdin "$1" <<<"#define NEWLINE ÿ" | sed -e "1!b" -e '/#/d' | gcc -E -I. -Ilib - -o "$1.i"
+/bin/labels.pl < "$1.i" | sed '/^#/ d' | perl -e "$_=do{local$/;<>};tr/\xFF/\x0A/c;print;" | > "$1.p"
 rm -f "$1.i"

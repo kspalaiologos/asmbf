@@ -3,5 +3,5 @@
 set -o pipefail
 
 { cat <<<"#define NEWLINE ÿ" ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | gcc -E -I. -Ilib - -o "$1.i"
-/bin/labels.pl < "$1.i" | sed '/^#/ d' | perl -pe "s/\xFF/\x0A/g;" > "$1.p"
+perl -pe "s/\xFF/\x0A/g;" < "$1.i" | /bin/labels.pl | sed '/^#/ d' > "$1.p"
 rm -f "$1.i"

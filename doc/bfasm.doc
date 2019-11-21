@@ -45,6 +45,8 @@ Instruction     Description             Operation
 add regA,regB   Add                     regA = regA + regB
 add reg,immed   Add                     reg = reg + immed
 and regA,regB   AND gate                regA = regA AND regB
+amp regA,regB   Dereference and add     *regA += regB
+amp regA,immed  Dereference and add     *regA += immed
 asr regA        Arithmetic shift right  regA = regA >> 1 (/ 2)
 asl regA        Arithmetic shift left   regA = regA << 1 (* 2)
 clr reg         Clear                   reg = 0

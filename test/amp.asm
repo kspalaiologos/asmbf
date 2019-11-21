@@ -1,4 +1,4 @@
 #!/bin/bfmake
 
 db_ 48
-ama r1, 9
+amp r1, 9

@@ -45,6 +45,8 @@ Instruction     Description             Operation
 add regA,regB   Add                     regA = regA + regB
 add reg,immed   Add                     reg = reg + immed
 and regA,regB   AND gate                regA = regA AND regB
+amp regA,regB   Dereference and add     *regA += regB
+amp regA,immed  Dereference and add     *regA += immed
 asr regA        Arithmetic shift right  regA = regA >> 1 (/ 2)
 asl regA        Arithmetic shift left   regA = regA << 1 (* 2)
 clr reg         Clear                   reg = 0
@@ -99,6 +101,8 @@ rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
 rcl regA,immed  Recall (from memory)    regA = *immed (mov regA,[immed])
 ret             Return                  pops label and jmp's to it
 seg             Set segment             Set segment used by all peek/poke functions.
+smp regA,regB   Dereference and sub     *regA -= regB
+smp regA,immed  Dereference and sub     *regA -= immed
 srv             Swap top stack elems    Swap top stack elements with each other. Requires two elements on stack minimum.
 stk immed       Stack size              Set the maximum number of items on the stack (default is 0)
 sto regA,regB   Store (in memory)       *regA = regB (mov [regA],regB)

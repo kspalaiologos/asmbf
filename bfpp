@@ -2,6 +2,6 @@
 
 set -o pipefail
 
-{ cat <<<"#define __NEWLINE__ ÿ$'\n'#define __COUNTER__ ş$'\n'" ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | gcc -E -I. -Ilib - -o "$1.i"
+{ cat <<<"#define __NEWLINE__ ÿ"$'\n'"#define __ICOUNTER__ ş"$'\n'"" ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | gcc -E -I. -Ilib - -o "$1.i"
 perl -pe "s/\xFF/\x0A/g;" < "$1.i" | perl -pe '$x=0;s/\xFE/$x++/ge;' | /bin/labels.pl | sed '/^#/ d' > "$1.p"
-rm -f "$1.i"
+#rm -f "$1.i"

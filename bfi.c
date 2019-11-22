@@ -47,7 +47,7 @@ void match(int dir) {
 int main(int argc, char * argv[]) {
     FILE * infile;
     long mp = 0, maxmp = 1023;
-    int n;
+    int n, ic;
     unsigned short int * mem;
 	#ifndef BFI_NOCHECKS
     if (argc != 2) {
@@ -161,6 +161,9 @@ int main(int argc, char * argv[]) {
                 match(-1);
                 ip--;
                 break;
+			case '*':
+				for(ic = 0; ic < 256; ic += 4)
+					fprintf(stderr, "%4X %4X %4X %4X\n", mem[ic], mem[ic + 1], mem[ic + 2], mem[ic + 3]);
         }
     }
     return EXIT_SUCCESS;

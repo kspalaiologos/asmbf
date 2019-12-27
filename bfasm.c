@@ -74,18 +74,18 @@ int main(void) {
 	       "q[-]>[>>]<<-<[>+<-]>>[<<+>>-]<[>+<-]+[<<]>\0" /* srv */
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0" /* amp */
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0"/* smp */
-		   "" /* bpl */
-		   "" /* stm */
-		   "" /* sta */
-		   "" /* std */
-		   "" /* stp */
-		   "" /* sts */
-		   "" /* lev */
-		   "" /* lea */
-		   "" /* stq */
-		   "" /* stp */
-		   "" /* stl */
-		   "" /* str */
+		   "\0" /* bpl */
+		   "\0" /* stm */
+		   "\0" /* sta */
+		   "\0" /* std */
+		   "\0" /* stp */
+		   "\0" /* sts */
+		   "\0" /* lev */
+		   "\0" /* lea */
+		   "\0" /* stq */
+		   "\0" /* stp */
+		   "\0" /* stl */
+		   "\0" /* str */
 		   ;
     for (n = 0; n < 1900; n++)  m[n + 20] = s[n];
     m[6] = 0;
@@ -113,7 +113,7 @@ Lad:;
             m[1] = 1;
             goto Laa;
         }
-        m[2] = 41;
+        m[2] = 53;
         m[3] = m[0];
         goto Lai;
     }
@@ -146,7 +146,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 135) goto Laz; /* not found, quit */
+    if (m[4] == 171) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -156,7 +156,7 @@ Lah:;
     m[5] = 0;
     goto Laa;
 Lae:; /* find operands */
-    if (m[2] != 42) goto Lax; /* txt command */
+    if (m[2] != 53) goto Lax; /* txt command */
     m[1] = 3;
     goto Laj;
 Lax:;
@@ -259,13 +259,13 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 39: /* stk */
+        case 51: /* stk */
             m[9] = m[3] * 2 + 18;
             goto Lap;
-        case 40: /* org */
+        case 52: /* org */
             m[10] = m[3] * 2 + m[9] + 2;
             goto Lap;
-        case 41: /* db_ */
+        case 53: /* db_ */
             m[6] = 4;
             m[4] = '^';
             outbf();
@@ -274,10 +274,10 @@ Lai:;
             m[10] = m[10] + 2;
             if (m[1] == 4) goto Laa;
             goto Lap;
-        case 43: /* raw */
+        case 55: /* raw */
             putchar(m[3]);
             goto Lap;
-		case 44: /* seg */
+		case 56: /* seg */
             off=m[3];
             goto Lap;
     }
@@ -347,7 +347,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 155;
+    m[7] = 191;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;

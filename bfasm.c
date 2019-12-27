@@ -28,7 +28,7 @@ unsigned int m[2000], off;
 
 int main(void) {
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpstkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpbplstmstastdstslevleastqstpstlstrstkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -73,7 +73,20 @@ int main(void) {
 	       "c[-]d[-]e[-]2[c+2-]2+1[d[-]e[-]2[e+2-]e[c[2+d+c-]d[c+d-]e-]1-]\0" /* pow */
 	       "q[-]>[>>]<<-<[>+<-]>>[<<+>>-]<[>+<-]+[<<]>\0" /* srv */
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0" /* amp */
-	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0"; /* smp */
+	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0"/* smp */
+		   "" /* bpl */
+		   "" /* stm */
+		   "" /* sta */
+		   "" /* std */
+		   "" /* stp */
+		   "" /* sts */
+		   "" /* lev */
+		   "" /* lea */
+		   "" /* stq */
+		   "" /* stp */
+		   "" /* stl */
+		   "" /* str */
+		   ;
     for (n = 0; n < 1900; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;

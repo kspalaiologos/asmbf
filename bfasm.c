@@ -113,7 +113,7 @@ Lad:;
             m[1] = 1;
             goto Laa;
         }
-        m[2] = 53;
+        m[2] = 52;
         m[3] = m[0];
         goto Lai;
     }
@@ -146,7 +146,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 171) goto Laz; /* not found, quit */
+    if (m[4] == 168) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -156,7 +156,7 @@ Lah:;
     m[5] = 0;
     goto Laa;
 Lae:; /* find operands */
-    if (m[2] != 53) goto Lax; /* txt command */
+    if (m[2] != 52) goto Lax; /* txt command */
     m[1] = 3;
     goto Laj;
 Lax:;
@@ -259,13 +259,13 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 51: /* stk */
+        case 50: /* stk */
             m[9] = m[3] * 2 + 18;
             goto Lap;
-        case 52: /* org */
+        case 51: /* org */
             m[10] = m[3] * 2 + m[9] + 2;
             goto Lap;
-        case 53: /* db_ */
+        case 52: /* db_ */
             m[6] = 4;
             m[4] = '^';
             outbf();
@@ -274,10 +274,10 @@ Lai:;
             m[10] = m[10] + 2;
             if (m[1] == 4) goto Laa;
             goto Lap;
-        case 55: /* raw */
+        case 54: /* raw */
             putchar(m[3]);
             goto Lap;
-		case 56: /* seg */
+		case 55: /* seg */
             off=m[3];
             goto Lap;
     }
@@ -347,7 +347,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 191;
+    m[7] = 188;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;

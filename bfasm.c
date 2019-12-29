@@ -512,6 +512,9 @@ void translate(int n, int base) {
 		n /= base;
 	}
 	
+	putchar('[');
+	putchar('-');
+	putchar(']');
 	putchar('>');
 	
 	while(sp != 0) {

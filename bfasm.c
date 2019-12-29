@@ -219,7 +219,7 @@ Lai:;
             m[4] = 'e';
             outbf();
             m[6] = '+';
-            outrep();
+            outrep(); // note: potential optimalization, << & < free
             m[6] = 18;
             outbf();
             goto Lap;
@@ -280,6 +280,7 @@ Lao:;
         m[4] = 'j';
         outbf();
         m[6] = '+';
+		freecell = 1;
         outrep();
         m[3]++;
     }

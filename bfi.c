@@ -229,7 +229,7 @@ int main(int argc, char * argv[]) {
                 match(-1);
                 ip--;
                 break;
-			case '*':
+            case '*':
                 if (xflag) {
                     for (ic = 0; ic < 64; ic += 16) {
                         for (n = 0; n < 16; n++) {

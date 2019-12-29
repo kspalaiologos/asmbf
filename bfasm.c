@@ -318,15 +318,19 @@ Lab:;
 
 void outrep() {
 	#ifndef RLE
-		if(m[3] < 15 || !freecell) {
-			while (m[3]) {
-				putchar(m[6]);
-				m[3]--;
+		#ifndef DISABLE_OPT
+			if(m[3] < 15 || !freecell) {
+		#endif
+				while (m[3]) {
+					putchar(m[6]);
+					m[3]--;
+				}
+		#ifndef DISABLE_OPT
+			} else {
+				translate(m[3], best_base(m[3]));
+				m[3] = 0;
 			}
-		} else {
-			translate(m[3], best_base(m[3]));
-			m[3] = 0;
-		}
+		#endif
 	#else
 		if(m[3] > 2) {
 			#ifndef RLE_POSTFIX
@@ -336,15 +340,19 @@ void outrep() {
 			#endif
 			m[3] = 0;
 		} else {
+		#ifndef DISABLE_OPT
 			if(m[3] < 15 || !freecell) {
+		#endif
 				while (m[3]) {
 					putchar(m[6]);
 					m[3]--;
 				}
+		#ifndef DISABLE_OPT
 			} else {
 				translate(m[3], best_base(m[3]));
 				m[3] = 0;
 			}
+		#endif
 		}
 	#endif
 	

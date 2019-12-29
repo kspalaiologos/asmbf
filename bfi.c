@@ -164,6 +164,7 @@ int main(int argc, char * argv[]) {
 			case '*':
 				for(ic = 0; ic < 256; ic += 4)
 					fprintf(stderr, "%4X %4X %4X %4X\n", mem[ic], mem[ic + 1], mem[ic + 2], mem[ic + 3]);
+				break;
         }
     }
     return EXIT_SUCCESS;

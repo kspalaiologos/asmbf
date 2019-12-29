@@ -24,7 +24,10 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-unsigned int m[2000], off;
+unsigned int m[2000], off, freecell;
+
+int best_base(int n);
+void translate(int n, int base);
 
 int main(void) {
     unsigned int n;
@@ -259,6 +262,7 @@ Lai:;
             m[4] = '^';
             outbf();
             m[6] = '+';
+			freecell = 1;
             outrep();
             m[10] = m[10] + 2;
             if (m[1] == 4) goto Laa;
@@ -313,9 +317,14 @@ Lab:;
 
 void outrep() {
 	#ifndef RLE
-		while (m[3]) {
-			putchar(m[6]);
-			m[3]--;
+		if(m[3] < 15 || !freecell) {
+			while (m[3]) {
+				putchar(m[6]);
+				m[3]--;
+			}
+		} else {
+			translate(m[3], best_base(m[3]));
+			m[3] = 0;
 		}
 	#else
 		if(m[3] > 2) {
@@ -326,12 +335,19 @@ void outrep() {
 			#endif
 			m[3] = 0;
 		} else {
-			while (m[3]) {
-				putchar(m[6]);
-				m[3]--;
+			if(m[3] < 15 || !freecell) {
+				while (m[3]) {
+					putchar(m[6]);
+					m[3]--;
+				}
+			} else {
+				translate(m[3], best_base(m[3]));
+				m[3] = 0;
 			}
 		}
 	#endif
+	
+	freecell = 0;
 }
 
 void outbf() {
@@ -441,3 +457,98 @@ unsigned int inchar() {
     return c;
 }
 
+int stack_usage(int n, int base) {
+	int sp = 0;
+	
+	while(n != 0) {
+		sp++;
+		n /= base;
+	}
+	
+	return sp;
+}
+
+int grade(int n, int base) {
+	int sp = 0, norm = 0;
+	
+	while(n != 0) {
+		sp++;
+		norm += n % base;
+		n /= base;
+	}
+	
+	return norm + (6 + base) * sp + (sp % 2 == 1 ? 4 : 0);
+}
+
+int best_base(int n) {
+	int v = 0, b = 0;
+	
+	for(int i = 2; i < 60; i++) {
+		int cv = grade(n, i);
+		
+		if(v == 0 || v > cv) {
+			v = cv;
+			b = i;
+		}
+	}
+	
+	return b;
+}
+
+void translate(int n, int base) {
+	int stack[stack_usage(n, base) + 1], sp = 0, flip = 1;
+	
+	while(n != 0) {
+		stack[sp++] = n % base;
+		n /= base;
+	}
+	
+	putchar('>');
+	
+	while(sp != 0) {
+		sp--;
+		
+		int bc = base;
+		
+		while(stack[sp]--)
+			putchar('+');
+		
+		if(sp != 0) {
+			if(!flip) {
+				putchar('[');
+				putchar('>');
+				
+				while(bc--)
+					putchar('+');
+				
+				putchar('<');
+				putchar('-');
+				putchar(']');
+				putchar('>');
+			} else {
+				putchar('[');
+				putchar('<');
+				
+				while(bc--)
+					putchar('+');
+				
+				putchar('>');
+				putchar('-');
+				putchar(']');
+				putchar('<');
+			}
+		}
+		
+		flip = !flip;
+	}
+	
+	if(!flip) {
+		putchar('[');
+		putchar('-');
+		putchar('<');
+		putchar('+');
+		putchar('>');
+		putchar(']');
+		putchar('<');
+	}
+}

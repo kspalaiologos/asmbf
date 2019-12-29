@@ -45,12 +45,12 @@ void match(int dir) {
     } while (level > 0);
 }
 
-inline int usage() {
+static int usage() {
     puts("Usage: bfi [OPTIONS] FILE");
     return EXIT_FAILURE;
 }
 
-inline int help() {
+static int help() {
     usage();
     puts("Brainfuck interpreter.\n"
          "\nOPTIONS:\n"
@@ -62,7 +62,7 @@ inline int help() {
     return EXIT_SUCCESS;
 }
 
-inline int version() {
+static int version() {
     puts("bfi 1.0.0\n"
          "Copyright (C) Krzysztof Palaiologos Szewczyk & maviek, 2019.\n"
          "https://github.com/KrzysztofSzewczyk/asmbf");

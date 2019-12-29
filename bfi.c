@@ -31,12 +31,12 @@ void match(int dir) {
     char ipvalue;
     do {
         ip += dir;
-		#ifndef BFI_NOCHECKS
+        #ifndef BFI_NOCHECKS
         if (ip < 0 || ip >= lof) {
             puts("Mismatched brackets");
             exit(EXIT_FAILURE);
         }
-		#endif
+        #endif
         ipvalue = src[ip];
         if (ipvalue == 91)
             level += dir;
@@ -129,16 +129,16 @@ int main(int argc, char * argv[]) {
         puts("Error opening input file");
         return EXIT_FAILURE;
     }
-	
+    
     if (fseek(infile, 0L, SEEK_END) != 0) {
         puts("Error determining length of input file");
         return EXIT_FAILURE;
     }
-	#else
-	fseek(infile, 0L, SEEK_END);
-	#endif
+    #else
+    fseek(infile, 0L, SEEK_END);
+    #endif
     lof = ftell(infile);
-	#ifndef BFI_NOCHECKS
+    #ifndef BFI_NOCHECKS
     if (lof == -1) {
         puts("Error determining length of input file");
         return EXIT_FAILURE;
@@ -149,11 +149,11 @@ int main(int argc, char * argv[]) {
     }
     if (lof == 0)
         return EXIT_SUCCESS;
-	#else
-	fseek(infile, 0L, SEEK_SET);
-	#endif
+    #else
+    fseek(infile, 0L, SEEK_SET);
+    #endif
     src = (char *) calloc(lof + 2, sizeof(char));
-	#ifndef BFI_NOCHECKS
+    #ifndef BFI_NOCHECKS
     if (src == NULL) {
         puts("Program too big to fit in memory");
         return EXIT_FAILURE;
@@ -166,28 +166,28 @@ int main(int argc, char * argv[]) {
         puts("Error closing input file");
         return EXIT_FAILURE;
     }
-	#else
-		fread(src, sizeof(char), lof, infile);
-		fclose(infile);
-	#endif
+    #else
+        fread(src, sizeof(char), lof, infile);
+        fclose(infile);
+    #endif
     mem = calloc(1024, sizeof(unsigned short int));
-	#ifndef BFI_NOCHECKS
+    #ifndef BFI_NOCHECKS
     if (mem == NULL) {
         puts("Out of memory");
         return EXIT_FAILURE;
     }
-	#endif
+    #endif
     while (++ip < lof) {
         switch (src[ip]) {
             case '>':
                 if (mp >= maxmp) {
                     mem = realloc(mem, (maxmp + 1024) * sizeof(unsigned short int));
-					#ifndef BFI_NOCHECKS
+                    #ifndef BFI_NOCHECKS
                     if (mem == NULL) {
                         puts("Out of memory");
                         return EXIT_FAILURE;
                     }
-					#endif
+                    #endif
                     for (n = 1; n <= 1024; n++)
                         mem[maxmp + n] = 0;
                     maxmp += 1024;
@@ -195,12 +195,12 @@ int main(int argc, char * argv[]) {
                 mp++;
                 break;
             case '<':
-				#ifndef BFI_NOCHECKS
+                #ifndef BFI_NOCHECKS
                 if (mp <= 0) {
                     printf("Access Violation, ip=%ld", ip);
                     return EXIT_FAILURE;
                 }
-				#endif
+                #endif
                 mp--;
                 break;
             case '+':

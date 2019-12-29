@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * Copyright (C) Krzysztof Palaiologos Szewczyk, 2019.
+ * Copyright (C) Krzysztof Palaiologos Szewczyk & maviek, 2019.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 char * src;
@@ -44,19 +45,86 @@ void match(int dir) {
     } while (level > 0);
 }
 
+inline int usage() {
+    puts("Usage: bfi [OPTIONS] FILE");
+    return EXIT_FAILURE;
+}
+
+inline int help() {
+    usage();
+    puts("Brainfuck interpreter.\n"
+         "\nOPTIONS:\n"
+         "  -v, --version       Display interpreter version.\n"
+         "  -h, --help          Display this information.\n"
+         "  -x                  Enable dumping memory with '*'.\n"
+         "\nBugs should be reported here:"
+         "\nhttps://github.com/KrzysztofSzewczyk/asmbf/issues");
+    return EXIT_SUCCESS;
+}
+
+inline int version() {
+    puts("bfi 1.0.0\n"
+         "Copyright (C) Krzysztof Palaiologos Szewczyk & maviek, 2019.\n"
+         "https://github.com/KrzysztofSzewczyk/asmbf");
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char * argv[]) {
-    FILE * infile;
+    FILE * infile = NULL;
     long mp = 0, maxmp = 1023;
     int n, ic;
+    bool xflag = false;
     unsigned short int * mem;
-	#ifndef BFI_NOCHECKS
-    if (argc != 2) {
-        puts("Usage: bfi src.b");
-        return EXIT_FAILURE;
+
+    if (argc < 2) {
+        return usage();
     }
-	#endif
-    infile = fopen(argv[1], "rb");
-	#ifndef BFI_NOCHECKS
+
+    for (n = 1; n < argc; n++) {
+        if (argv[n][0] == '-') {
+            if (argv[n][1] == '-') {
+                char *arg = argv[n] + 2;
+                if (strcmp(arg, "version") == 0) {
+                    return version();
+                } else if (strcmp(arg, "help") == 0) {
+                    return help();
+                } else {
+                    fprintf(stderr, "Error: unrecognized command line option '--%s'\n", arg);
+                    return EXIT_FAILURE;
+                }
+            } else {
+                switch (argv[n][1]) {
+                    case 'h':
+                        return help();
+
+                    case 'v':
+                        return version();
+
+                    case 'x':
+                        xflag = true;
+                        break;
+
+                    default:
+                        fprintf(stderr, "Error: unrecognized command line option '-%c'\n", argv[n][1]);
+                        return EXIT_FAILURE;
+                }
+            }
+        } else {
+            if (infile == NULL) {
+                char *fn = argv[n];
+                infile = fopen(fn, "rb");
+                if (infile == NULL) {
+                    fprintf(stderr, "Error: unable to open file %s\n", fn);
+                    return EXIT_FAILURE;
+                }
+            } else {
+                fclose(infile);
+                return usage();
+            }
+        }
+    }
+
+    #ifndef BFI_NOCHECKS
     if (infile == NULL) {
         puts("Error opening input file");
         return EXIT_FAILURE;
@@ -129,7 +197,7 @@ int main(int argc, char * argv[]) {
             case '<':
 				#ifndef BFI_NOCHECKS
                 if (mp <= 0) {
-                    printf("Access Violation, ip=%d", ip);
+                    printf("Access Violation, ip=%ld", ip);
                     return EXIT_FAILURE;
                 }
 				#endif
@@ -162,8 +230,14 @@ int main(int argc, char * argv[]) {
                 ip--;
                 break;
 			case '*':
-				for(ic = 0; ic < 256; ic += 4)
-					fprintf(stderr, "%4X %4X %4X %4X\n", mem[ic], mem[ic + 1], mem[ic + 2], mem[ic + 3]);
+                if (xflag) {
+                    for (ic = 0; ic < 64; ic += 16) {
+                        for (n = 0; n < 16; n++) {
+                            fprintf(stderr, "%4X", mem[ic+n]);
+                        }
+                        fputc('\n', stderr);
+                    }
+                }
 				break;
         }
     }

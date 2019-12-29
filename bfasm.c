@@ -155,9 +155,8 @@ Lae:; /* find operands */
     m[1] = 3;
     goto Laj;
 Lax:;
-    if (m[0] != 'r') goto Lak; /* r_ operand */
+    if (m[0] != 'r' && m[0] != 'R') goto Lak; /* r_ operand */
     m[0] = inchar();
-	m[0] = (m[0] >= 'A' && m[0] <= 'Z') ? (m[0]) - 'A' + 'a' : m[0];
     m[0] = m[0] - '1';
     if (m[0] > 4) goto Laz; /* not a number, quit */
     m[4] = m[0] != 4 ? (m[0] < 4 ? (m[0] + 'f') : (m[0] + 'q')) : 'm';

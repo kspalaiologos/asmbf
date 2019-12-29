@@ -238,7 +238,7 @@ int main(int argc, char * argv[]) {
                         fputc('\n', stderr);
                     }
                 }
-				break;
+                break;
         }
     }
     return EXIT_SUCCESS;

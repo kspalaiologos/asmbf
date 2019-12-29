@@ -1,3 +1,4 @@
+#!/bin/bfmake
 
 STK 2
 ORG 0

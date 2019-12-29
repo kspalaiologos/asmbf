@@ -90,6 +90,7 @@ int main(void) {
     m[1] = 1;
 Laa:;
     m[0] = inchar();
+	if (m[1] == 1) m[0] = (m[0] >= 'A' && m[0] <= 'Z') ? (m[0]) - 'A' + 'a' : m[0];
 Laj:;
     if (m[0] != '\0') goto Lam;
     if (m[1] == 2) goto Lai;
@@ -123,6 +124,8 @@ Lac:;
     if (m[1] != 1) goto Lae; /* get 3 letter instruction */
     m[2] = inchar();
     m[3] = inchar();
+	m[2] = (m[2] >= 'A' && m[2] <= 'Z') ? (m[2]) - 'A' + 'a' : m[2];
+	m[3] = (m[3] >= 'A' && m[3] <= 'Z') ? (m[3]) - 'A' + 'a' : m[3];
     m[4] = 0;
 Laf:;
     m[5] = m[4] + 20;
@@ -154,9 +157,10 @@ Lae:; /* find operands */
 Lax:;
     if (m[0] != 'r') goto Lak; /* r_ operand */
     m[0] = inchar();
+	m[0] = (m[0] >= 'A' && m[0] <= 'Z') ? (m[0]) - 'A' + 'a' : m[0];
     m[0] = m[0] - '1';
     if (m[0] > 4) goto Laz; /* not a number, quit */
-    m[4] = m[0] != 4 ? (m[0] + 'f') : 'm';
+    m[4] = m[0] != 4 ? (m[0] < 4 ? (m[0] + 'f') : (m[0] + 'q')) : 'm';
     goto Laa;
 Lak:;
     if (m[0] != ',') goto Lan; /* , */

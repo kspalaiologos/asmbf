@@ -20,6 +20,12 @@ doc/                             - documentation for the toolchain pieces.
 examples/                        - who doesn't love learning by examples?
 test/                            - unit tests for the entire toolchain.
 
+asm2bf was used to create a JSON formatter webservice:
+https://github.com/KrzysztofSzewczyk/JSONFormatter/blob/master/jsonformatter.asm
+
+also, a subleq interpreter approach has been taken:
+https://github.com/KrzysztofSzewczyk/SqEMU/blob/master/dev-sqemu.s
+
 ------------------------------------------ Get a taste of it! ------------------------------------------
 
 #define while(reg) nav reg __NEWLINE__ raw .[

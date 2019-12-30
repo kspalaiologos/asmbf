@@ -1,10 +1,21 @@
 
-asmbf
 
-The only true brainfuck assembler. Produces quite small brainfuck code if you're
-able to optimize the assembly. With C preprocessor wired up, named labels and all the features
-you'd expect from a normal assembly, it's ready for your use.
+                                                      .oooo.    .o8        .o88o. 
+                                                    .dP""Y88b  "888        888 `" 
+                .oooo.    .oooo.o ooo. .oo.  .oo.         ]8P'  888oooo.  o888oo  
+               `P  )88b  d88(  "8 `888P"Y88bP"Y88b      .d8P'   d88' `88b  888    
+                .oP"888  `"Y88b.   888   888   888    .dP'      888   888  888    
+               d8(  888  o.  )88b  888   888   888  .oP     .o  888   888  888    
+               `Y888""8o 8""888P' o888o o888o o888o 8888888888  `Y8bod8P' o888o   
+                                                                                  
+                                                                                  
+                                                                                  
+The only true brainfuck assembler. Produces quite small brainfuck code if you're able to optimize the assembly.
+With C preprocessor wired up, named labels and all the features you'd expect from a normal assembly, it's ready
+for your use. The standard library is currently being constructed and you may contribute to make it even better.
+Floating point support is being planned and worked on. Please refer to doc/ for detailed documentation.
 
-The standard library is currently being constructed and you may contribute to make it even
-better ;). Floating point support is being planned and worked on. Please refer to doc/ for detailed
-documentation.
+https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
+doc/                             - documentation for the toolchain pieces.
+examples/                        - who doesn't love learning by examples?
+test/                            - unit tests for the entire toolchain.

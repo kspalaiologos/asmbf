@@ -1,3 +1,5 @@
+#!/bin/bfmake
+; Build me by executing!
 
 org 0
 stk 0

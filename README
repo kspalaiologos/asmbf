@@ -19,3 +19,24 @@ https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings
 doc/                             - documentation for the toolchain pieces.
 examples/                        - who doesn't love learning by examples?
 test/                            - unit tests for the entire toolchain.
+
+------------------------------------------ Get a taste of it! ------------------------------------------
+
+#define while(reg) nav reg __NEWLINE__ raw .[
+#define wend(reg) nav reg __NEWLINE__ raw .]
+
+; branchless* bitness test.
+; r1 <= interpreter's bitness
+; r2 <= trashed
+@bitness
+	clr r1
+	mov r2, 1
+while(r2)
+	inc r1
+	asl r2
+wend(r2)
+	ret
+
+; Note: We say branchless, because there are no explicit jumps.
+;       There is a branch (a brainfuck loop), but it's not in a
+;       logical sense (no label is made, no jmp is executed).

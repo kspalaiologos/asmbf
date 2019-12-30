@@ -7,6 +7,7 @@
 
 ; This Malbolge interpreter in Brainfuck is subject of optimizations made by hand.
 ; I'll submit small patches regarding code size with time flowing.
+; It doesn't seem to work right now.
 
 ; Version stamp: 190721:1840
 

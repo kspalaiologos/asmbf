@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * Copyright (C) Krzysztof Palaiologos Szewczyk, 2019.
+ * Copyright (C) Krzysztof Palaiologos Szewczyk & maviek, 2019.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 char * src;
@@ -30,12 +31,12 @@ void match(int dir) {
     char ipvalue;
     do {
         ip += dir;
-		#ifndef BFI_NOCHECKS
+        #ifndef BFI_NOCHECKS
         if (ip < 0 || ip >= lof) {
             puts("Mismatched brackets");
             exit(EXIT_FAILURE);
         }
-		#endif
+        #endif
         ipvalue = src[ip];
         if (ipvalue == 91)
             level += dir;
@@ -44,33 +45,100 @@ void match(int dir) {
     } while (level > 0);
 }
 
+static int usage() {
+    puts("Usage: bfi [OPTIONS] FILE");
+    return EXIT_FAILURE;
+}
+
+static int help() {
+    usage();
+    puts("Brainfuck interpreter.\n"
+         "\nOPTIONS:\n"
+         "  -v, --version       Display interpreter version.\n"
+         "  -h, --help          Display this information.\n"
+         "  -x                  Enable dumping memory with '*'.\n"
+         "\nBugs should be reported here:"
+         "\nhttps://github.com/KrzysztofSzewczyk/asmbf/issues");
+    return EXIT_SUCCESS;
+}
+
+static int version() {
+    puts("bfi 1.0.0\n"
+         "Copyright (C) Krzysztof Palaiologos Szewczyk & maviek, 2019.\n"
+         "https://github.com/KrzysztofSzewczyk/asmbf");
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char * argv[]) {
-    FILE * infile;
+    FILE * infile = NULL;
     long mp = 0, maxmp = 1023;
     int n, ic;
+    bool xflag = false;
     unsigned short int * mem;
-	#ifndef BFI_NOCHECKS
-    if (argc != 2) {
-        puts("Usage: bfi src.b");
-        return EXIT_FAILURE;
+
+    if (argc < 2) {
+        return usage();
     }
-	#endif
-    infile = fopen(argv[1], "rb");
-	#ifndef BFI_NOCHECKS
+
+    for (n = 1; n < argc; n++) {
+        if (argv[n][0] == '-') {
+            if (argv[n][1] == '-') {
+                char *arg = argv[n] + 2;
+                if (strcmp(arg, "version") == 0) {
+                    return version();
+                } else if (strcmp(arg, "help") == 0) {
+                    return help();
+                } else {
+                    fprintf(stderr, "Error: unrecognized command line option '--%s'\n", arg);
+                    return EXIT_FAILURE;
+                }
+            } else {
+                switch (argv[n][1]) {
+                    case 'h':
+                        return help();
+
+                    case 'v':
+                        return version();
+
+                    case 'x':
+                        xflag = true;
+                        break;
+
+                    default:
+                        fprintf(stderr, "Error: unrecognized command line option '-%c'\n", argv[n][1]);
+                        return EXIT_FAILURE;
+                }
+            }
+        } else {
+            if (infile == NULL) {
+                char *fn = argv[n];
+                infile = fopen(fn, "rb");
+                if (infile == NULL) {
+                    fprintf(stderr, "Error: unable to open file %s\n", fn);
+                    return EXIT_FAILURE;
+                }
+            } else {
+                fclose(infile);
+                return usage();
+            }
+        }
+    }
+
+    #ifndef BFI_NOCHECKS
     if (infile == NULL) {
         puts("Error opening input file");
         return EXIT_FAILURE;
     }
-	
+    
     if (fseek(infile, 0L, SEEK_END) != 0) {
         puts("Error determining length of input file");
         return EXIT_FAILURE;
     }
-	#else
-	fseek(infile, 0L, SEEK_END);
-	#endif
+    #else
+    fseek(infile, 0L, SEEK_END);
+    #endif
     lof = ftell(infile);
-	#ifndef BFI_NOCHECKS
+    #ifndef BFI_NOCHECKS
     if (lof == -1) {
         puts("Error determining length of input file");
         return EXIT_FAILURE;
@@ -81,11 +149,11 @@ int main(int argc, char * argv[]) {
     }
     if (lof == 0)
         return EXIT_SUCCESS;
-	#else
-	fseek(infile, 0L, SEEK_SET);
-	#endif
+    #else
+    fseek(infile, 0L, SEEK_SET);
+    #endif
     src = (char *) calloc(lof + 2, sizeof(char));
-	#ifndef BFI_NOCHECKS
+    #ifndef BFI_NOCHECKS
     if (src == NULL) {
         puts("Program too big to fit in memory");
         return EXIT_FAILURE;
@@ -98,28 +166,28 @@ int main(int argc, char * argv[]) {
         puts("Error closing input file");
         return EXIT_FAILURE;
     }
-	#else
-		fread(src, sizeof(char), lof, infile);
-		fclose(infile);
-	#endif
+    #else
+        fread(src, sizeof(char), lof, infile);
+        fclose(infile);
+    #endif
     mem = calloc(1024, sizeof(unsigned short int));
-	#ifndef BFI_NOCHECKS
+    #ifndef BFI_NOCHECKS
     if (mem == NULL) {
         puts("Out of memory");
         return EXIT_FAILURE;
     }
-	#endif
+    #endif
     while (++ip < lof) {
         switch (src[ip]) {
             case '>':
                 if (mp >= maxmp) {
                     mem = realloc(mem, (maxmp + 1024) * sizeof(unsigned short int));
-					#ifndef BFI_NOCHECKS
+                    #ifndef BFI_NOCHECKS
                     if (mem == NULL) {
                         puts("Out of memory");
                         return EXIT_FAILURE;
                     }
-					#endif
+                    #endif
                     for (n = 1; n <= 1024; n++)
                         mem[maxmp + n] = 0;
                     maxmp += 1024;
@@ -127,12 +195,12 @@ int main(int argc, char * argv[]) {
                 mp++;
                 break;
             case '<':
-				#ifndef BFI_NOCHECKS
+                #ifndef BFI_NOCHECKS
                 if (mp <= 0) {
-                    printf("Access Violation, ip=%d", ip);
+                    printf("Access Violation, ip=%ld", ip);
                     return EXIT_FAILURE;
                 }
-				#endif
+                #endif
                 mp--;
                 break;
             case '+':
@@ -161,10 +229,16 @@ int main(int argc, char * argv[]) {
                 match(-1);
                 ip--;
                 break;
-			case '*':
-				for(ic = 0; ic < 256; ic += 4)
-					fprintf(stderr, "%4X %4X %4X %4X\n", mem[ic], mem[ic + 1], mem[ic + 2], mem[ic + 3]);
-				break;
+            case '*':
+                if (xflag) {
+                    for (ic = 0; ic < 64; ic += 16) {
+                        for (n = 0; n < 16; n++) {
+                            fprintf(stderr, "%4X", mem[ic+n]);
+                        }
+                        fputc('\n', stderr);
+                    }
+                }
+                break;
         }
     }
     return EXIT_SUCCESS;

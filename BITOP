@@ -1,0 +1,30 @@
+
+Current ideas for various bit operations:
+ * Shifts (done)
+ * Negation: +[>-<-], as simple as that
+ * Xor - more complex:
+
+; implements a xor operation.
+; r1, r2 = a, b
+; r3 - output
+; r4, r5 preserved, input trashed
+@xor
+	psh r4
+	psh r5
+	mov r4, 1
+	clr r5
+@xor_loop
+	mov r5, r1
+	sub r5, r2
+	mod r5, 2
+	mul r5, r4
+	add r4, r3
+	asr r1
+	asr r2
+	asl r4
+	jnz r1, %xor_loop
+	jnz r2, %xor_loop
+	pop r5
+	pop r4
+	ret
+

@@ -44,8 +44,8 @@
 	asr r1
 	asr r2
 	asl r4
-	jnz r1, %xor_loop
-	jnz r2, %xor_loop
+	jnz r1, %bitand_loop
+	jnz r2, %bitand_loop
 	pop r6
 	pop r5
 	pop r4
@@ -70,8 +70,8 @@
 	asr r1
 	asr r2
 	asl r4
-	jnz r1, %xor_loop
-	jnz r2, %xor_loop
+	jnz r1, %bitor_loop
+	jnz r2, %bitor_loop
 	pop r6
 	pop r5
 	pop r4

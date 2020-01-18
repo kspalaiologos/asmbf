@@ -22,10 +22,10 @@ uninstall:
 
 test: test/*.asm
 	chmod a+x test.pl $^
-	./test.pl $^
 	bfi --help 2> /dev/null
 	bfi --version 2> /dev/null
 	bfi --blah 2> /dev/null
+	./test.pl $^
 
 clean:
 	rm -rf bin/

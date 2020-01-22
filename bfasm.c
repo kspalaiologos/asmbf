@@ -275,6 +275,7 @@ Lai:;
             goto Lap;
 		case 45: /* seg */
             off=m[3];
+		    m[10]=0;
             goto Lap;
     }
 Lao:;

@@ -100,7 +100,7 @@ raw char        Raw output              writes char directly as code
 rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
 rcl regA,immed  Recall (from memory)    regA = *immed (mov regA,[immed])
 ret             Return                  pops label and jmp's to it
-seg             Set segment             Set segment used by all peek/poke functions.
+seg             Set segment             Set segment used by all peek/poke functions. Origin is cleared.
 smp regA,regB   Dereference and sub     *regA -= regB
 smp regA,immed  Dereference and sub     *regA -= immed
 srv             Swap top stack elems    Swap top stack elements with each other. Requires two elements on stack minimum.

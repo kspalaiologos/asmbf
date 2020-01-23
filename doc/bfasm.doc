@@ -145,3 +145,29 @@ command before building bfasm:
 setenv OPTIONS -DRLE
 
 You can run RLE-encoded programs using bfi-rle
+
+9. Historical: .bck file contents:
+
+-----------------------------
+
+BFAsm is application i wrote pretty long time ago, in early 2015.
+It's simple assembly to brainfuck compiler.
+
+This version contains (i hope) a bit more meaningful code. Aside of that, nothing has changed.
+
+Please look EXAMPLES directory regarding bfasm usage. Application was initially written in C
+but I'm working tirelessly to translate it to assembly, so it can compile itself.
+
+To run bfasm assembled programs, the BF interpreter or compiler must be able to handle very
+large source files (over 200k), store at least 16-bit numbers in cells, wrap over and under flows
+of cells, and return character 0 on EOF.
+
+Regarding BFASM.ASM, it's just self compiling version.
+
+There are two functioning names, bfasm and asm2bf while asm2bf is preffered as official one.
+
+~KPS
+
+-----------------------------
+
+

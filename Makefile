@@ -38,4 +38,6 @@ bin: $(TARGETS)
 	cp $(TARGETS) bfpp bfmake strip.pl labels.pl derle.pl bfi-rle bin/
 	rm -rf $(TARGETS)
 	
-	
+test-clean:
+	rm -f test/*.aout
+	rm -f test/*.b

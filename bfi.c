@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * Copyright (C) Kamila Palaiologos Szewczyk & maviek, 2019.
+ * Copyright (C) Kamila Palaiologos Szewczyk 2017-2020 & maviek 2019.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -33,7 +33,7 @@ void match(int dir) {
         ip += dir;
         #ifndef BFI_NOCHECKS
         if (ip < 0 || ip >= lof) {
-            puts("Mismatched brackets");
+            fputs("Mismatched brackets", stderr);
             exit(EXIT_FAILURE);
         }
         #endif
@@ -46,26 +46,26 @@ void match(int dir) {
 }
 
 static int usage() {
-    puts("Usage: bfi [OPTIONS] FILE");
+    fputs("Usage: bfi [OPTIONS] FILE", stderr);
     return EXIT_FAILURE;
 }
 
 static int help() {
     usage();
-    puts("Brainfuck interpreter.\n"
+    fputs("Brainfuck interpreter.\n"
          "\nOPTIONS:\n"
          "  -v, --version       Display interpreter version.\n"
          "  -h, --help          Display this information.\n"
          "  -x                  Enable dumping memory with '*'.\n"
          "\nBugs should be reported here:"
-         "\nhttps://github.com/kspalaiologos/asmbf/issues");
+         "\nhttps://github.com/kspalaiologos/asmbf/issues", stderr);
     return EXIT_SUCCESS;
 }
 
 static int version() {
-    puts("bfi 1.0.0\n"
+    fputs("bfi 1.0.0\n"
          "Copyright (C) Kamila Palaiologos Szewczyk & maviek, 2019.\n"
-         "https://github.com/kspalaiologos/asmbf");
+         "https://github.com/kspalaiologos/asmbf", stderr);
     return EXIT_SUCCESS;
 }
 
@@ -126,12 +126,12 @@ int main(int argc, char * argv[]) {
 
     #ifndef BFI_NOCHECKS
     if (infile == NULL) {
-        puts("Error opening input file");
+        fputs("Error opening input file", stderr);
         return EXIT_FAILURE;
     }
     
     if (fseek(infile, 0L, SEEK_END) != 0) {
-        puts("Error determining length of input file");
+        fputs("Error determining length of input file", stderr);
         return EXIT_FAILURE;
     }
     #else
@@ -140,11 +140,11 @@ int main(int argc, char * argv[]) {
     lof = ftell(infile);
     #ifndef BFI_NOCHECKS
     if (lof == -1) {
-        puts("Error determining length of input file");
+        fputs("Error determining length of input file", stderr);
         return EXIT_FAILURE;
     }
     if (fseek(infile, 0L, SEEK_SET) != 0) {
-        puts("Error determining length of input file");
+        fputs("Error determining length of input file", stderr);
         return EXIT_FAILURE;
     }
     if (lof == 0)
@@ -155,15 +155,15 @@ int main(int argc, char * argv[]) {
     src = (char *) calloc(lof + 2, sizeof(char));
     #ifndef BFI_NOCHECKS
     if (src == NULL) {
-        puts("Program too big to fit in memory");
+        fputs("Program too big to fit in memory", stderr);
         return EXIT_FAILURE;
     }
     if (fread(src, sizeof(char), lof, infile) < (unsigned) lof) {
-        puts("Error reading input file");
+        fputs("Error reading input file", stderr);
         return EXIT_FAILURE;
     }
     if (fclose(infile) == -1) {
-        puts("Error closing input file");
+        fputs("Error closing input file", stderr);
         return EXIT_FAILURE;
     }
     #else
@@ -173,7 +173,7 @@ int main(int argc, char * argv[]) {
     mem = calloc(1024, sizeof(unsigned short int));
     #ifndef BFI_NOCHECKS
     if (mem == NULL) {
-        puts("Out of memory");
+        fputs("Out of memory", stderr);
         return EXIT_FAILURE;
     }
     #endif
@@ -184,7 +184,7 @@ int main(int argc, char * argv[]) {
                     mem = realloc(mem, (maxmp + 1024) * sizeof(unsigned short int));
                     #ifndef BFI_NOCHECKS
                     if (mem == NULL) {
-                        puts("Out of memory");
+                        fputs("Out of memory", stderr);
                         return EXIT_FAILURE;
                     }
                     #endif
@@ -197,7 +197,7 @@ int main(int argc, char * argv[]) {
             case '<':
                 #ifndef BFI_NOCHECKS
                 if (mp <= 0) {
-                    printf("Access Violation, ip=%ld", ip);
+                    fprintf(stderr, "Access Violation, ip=%ld", ip);
                     return EXIT_FAILURE;
                 }
                 #endif

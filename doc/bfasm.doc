@@ -27,12 +27,11 @@ reg,reg              r1,r2
 reg,immed            r3,32
 reg,char             r4,.P
 
-Strings are only used with the "txt" instruction. There are no escape sequences, use "db_" when needed.
-Characters are converted to the appropriate ASCII immediate value. Immediate values can be any size (it depends)
-and are automatically substituted as if a register value. Therefore, immediate values can be used in place of a register.
-There can only be one immediate value per instruction. Operands are evaluated separately from instructions, so it is possible
-to use the wrong number of operands for an instruction with no error reported. However, doing this will most likely lead to
-a crash when the assembled program is run.
+Strings are only used with the "txt" instruction. There are no escape sequences, use "db_" when needed. Characters are converted
+to the appropriate ASCII immediate value. Immediate values can be any size (it depends) and are automatically substituted as if a
+register value. Therefore, immediate values can be used in place of a register. There can only be one immediate value per instruction.
+Operands are evaluated separately from instructions, so it is possible to use the wrong number of operands for an instruction with no
+error reported. However, doing this will most likely lead to a crash when the assembled program is run.
 
 5. Strings
 

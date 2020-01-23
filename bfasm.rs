@@ -16,7 +16,7 @@ extern "C" {
  *
  * This program has been translated automatically.
  *
- * Copyright (C) Krzysztof Palaiologos Szewczyk, 2017-2019.
+ * Copyright (C) Krzysztof Palaiologos Szewczyk, 2017-2020.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation

@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * Copyright (C) Krzysztof Palaiologos Szewczyk, 2017-2019.
+ * Copyright (C) Krzysztof Palaiologos Szewczyk, 2017-2020.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -275,6 +275,7 @@ Lai:;
             goto Lap;
 		case 45: /* seg */
             off=m[3];
+		    m[10]=0;
             goto Lap;
     }
 Lao:;

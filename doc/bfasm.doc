@@ -2,8 +2,8 @@
 
 There are four general purpose registers: r1, r2, r3, and r4. Size of these registers depends on
 interpreter or compiler being used, but they are at least 16-bits wide. There are no flags and no
-instruction pointer. The assembler is case sensitive, so the registers should always be written with
-a lowercase "r".
+instruction pointer. The assembler isn't case sensitive (but it's sensitive inside `txt`, macros
+and labels).
 
 2. Memory
 
@@ -99,7 +99,7 @@ raw char        Raw output              writes char directly as code
 rcl regA,regB   Recall (from memory)    regA = *regB (mov regA,[regB])
 rcl regA,immed  Recall (from memory)    regA = *immed (mov regA,[immed])
 ret             Return                  pops label and jmp's to it
-seg             Set segment             Set segment used by all peek/poke functions.
+seg             Set segment             Set segment used by all peek/poke functions. Origin is cleared.
 smp regA,regB   Dereference and sub     *regA -= regB
 smp regA,immed  Dereference and sub     *regA -= immed
 srv             Swap top stack elems    Swap top stack elements with each other. Requires two elements on stack minimum.

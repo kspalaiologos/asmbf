@@ -1,0 +1,43 @@
+1. Inline assembly
+
+Inline assembly is a feature that allows code written in bfasm to be embedded within a program.
+You can put inline assembly in your program by using `bfasm(...)` macro.
+
+Macro usage example: `bfasm("mov r1, 100");` will set r1 value to 100.
+The memory is common to all calls of macro, so when you set value of register
+to something, the same value will be accessible in different call.
+Despite that, this doesn't happen with labels. You cannot put label
+in one place of your program and jump there from other one.
+You can put new lines between instructions though.
+
+2. Preprocessor
+
+Not yet avaiable.
+
+3. Stack, origin and segment
+
+You can set those by using following #defines' before #include:
+
+#define BF_STK "..."
+#define BF_ORG "..."
+#define BF_SEG "..."
+
+(default: "8", "0", "0")
+
+4. Access to registers
+
+You can use `bf_get_reg(int)` function to get value of register,
+for example `bf_get_reg(1)` will return r1's value.
+
+Also, you can move value to register using bf_set_reg(int, int),
+where first argument is register number, second is value.
+
+Note: Currently only r1-r4 are supported. You can still use r5 and r6 in inline code.
+
+5. I/O handlers
+
+`bf_set_input_func(...)` function sets handler for `in_` instruction and takes
+pointer to `int f()`, returned value will be stored in specified register.
+
+`bf_set_output_func(...)` function sets handler for `out` instruction and takes
+pointer to `int f(int)`, this function takes value of specified register.

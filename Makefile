@@ -43,7 +43,7 @@ test-clean:
 	rm -f test/*.b
 
 bflabels: bflabels.c
-	$(CC) $(CFLAGS) -lfl $^ -o $@ 
+	$(CC) $(CFLAGS) $^ -lfl -o $@
 
 bflabels.c: bflabels.lex
 	lex -o $@ $^

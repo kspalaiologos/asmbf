@@ -1,3 +1,6 @@
+/* A disassembler proof-of-concept. It has to be improved before it can be used
+   efficiently. Help is more than welcome. Copyright (C) by Palaiologos, 2019. */
+
 package bfdisasm;
 
 import java.io.IOException;
@@ -113,12 +116,6 @@ public class Start {
 	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
 	    return s.hasNext() ? s.next() : "";
 	}
-	
-	/*
-	0 1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19
-	a b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t
-	g ip t0 t1 t2 r1 r2 r3 r4 im t3 t4 t5 t6 t7 0  a  ...
-	*/
 	
 	public Start() throws IOException {
 		// entry pattern

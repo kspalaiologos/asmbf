@@ -1,7 +1,15 @@
 #!/bin/bash -e
 
-name=$(echo "$1" | cut -f 1 -d '.')
+if [ "$1" == "-no-strip" ]; then
+	name=$(echo "$2" | cut -f 1 -d '.')
 
-/bin/bfpp "$1"
-/bin/bfasm < "$1.p" | /bin/bfstrip > "${1%.*}.b"
-rm -f "$1.p"
+	/bin/bfpp "$2"
+	/bin/bfasm < "$2.p" > "${2%.*}.b"
+	rm -f "$2.p"
+else
+	name=$(echo "$1" | cut -f 1 -d '.')
+
+	/bin/bfpp "$1"
+	/bin/bfasm < "$1.p" | /bin/bfstrip > "${1%.*}.b"
+	rm -f "$1.p"
+fi

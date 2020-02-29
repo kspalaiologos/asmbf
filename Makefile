@@ -43,4 +43,4 @@ test-clean:
 	rm -f test/*.b
 
 bflabels.c: bflabels.lex
-	lex $^ -o $@
+	lex -o $@ $^

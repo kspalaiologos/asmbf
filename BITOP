@@ -1,4 +1,7 @@
 
+; WARNING: THIS FILE CONTAINS CODE USING R5 AND R6
+; THESE REGISTERS ARE NOT INCLUDED IN THE NEWEST VERSIONS.
+
 ; r3 = r1 ^ r2
 ; r4, r5, r6 preserved, input trashed
 @bitxor

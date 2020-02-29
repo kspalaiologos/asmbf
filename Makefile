@@ -18,7 +18,7 @@ install:
 	sudo cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake data-labels.pl labels.pl bfi-rle && cd -
+	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake data-labels.pl bfi-rle && cd -
 
 test: test/*.asm
 	chmod a+x test.pl $^
@@ -35,7 +35,7 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp bfmake labels.pl bfi-rle data-labels.pl bin/
+	cp $(TARGETS) bfpp bfmake bfi-rle data-labels.pl bin/
 	rm -rf $(TARGETS)
 	
 test-clean:

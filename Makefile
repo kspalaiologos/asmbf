@@ -7,7 +7,7 @@
 
 CC=gcc
 CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS) -Wall -Wextra
-TARGETS=bfasm bfi bfintd bconv bfstrip
+TARGETS=bfasm bfi bfintd bconv bfstrip bfderle
 
 .PHONY: all clean install uninstall test
 
@@ -18,7 +18,7 @@ install:
 	sudo cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake data-labels.pl labels.pl derle.pl bfi-rle && cd -
+	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake data-labels.pl labels.pl bfi-rle && cd -
 
 test: test/*.asm
 	chmod a+x test.pl $^
@@ -35,7 +35,7 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp bfmake labels.pl derle.pl bfi-rle data-labels.pl bin/
+	cp $(TARGETS) bfpp bfmake labels.pl bfi-rle data-labels.pl bin/
 	rm -rf $(TARGETS)
 	
 test-clean:

@@ -48,7 +48,7 @@ made strictly for asm2bf.
 
 === Register model ===
 
-There are five general purpose registers – r1, r2, r3, r4, r5, r6 and r7. Size of these registers depends on
+There are four general purpose registers – r1, r2, r3, r4. Size of these registers depends on
 interpreter or compiler being used, but they are by definition at least 16 bits wide. There are no
 flags and there is no accessible instruction pointer, stack pointer nor base pointer. The assembler
 is case sensitive, so the registers should always be written with a lowercase "r". You can't change
@@ -1144,6 +1144,9 @@ v1.2.8a: First appeared publicly: 23 Jan 2020
 * Separate preprocessor for data labels. Not merged to the mainline yet.
 * `seg` now clears previous `org` value, setting it to 0. Can be treated like a bugfix from v1.1.3.
 
+v1.2.9: First appeared publicly: 29 Feb 2020
+* Important bugfixes regarding registers - r5 and r6 temporairly removed.
+
 = Programming technique =
 
 This part of article will go through common programming techniques worked out before.
@@ -1237,16 +1240,16 @@ noticing and fixing it).
 |-
 | shl || Yes
 |-
-| and || No
+| and || Yes
 |-
-| or || No
+| or || Yes
 |-
 | neg || Yes
 |-
-| xor || No
+| xor || Yes
 |}
 
-Some (half) of common bit operations are implemented in asm2bf. An interesting tool to aid implementing
+All of common bit operations are implemented in asm2bf. An interesting tool to aid implementing
 bit operations is this snippet of asm2bf code for checking the interpreter bitness.
 
 <pre>
@@ -1271,6 +1274,8 @@ bit operations is this snippet of asm2bf code for checking the interpreter bitne
 For the time being, you have to use these shims to get bitops working:
 
 <pre>
+; WARNING: THIS FILE CONTAINS CODE USING R5 AND R6
+; THESE REGISTERS ARE NOT INCLUDED IN THE NEWEST VERSIONS.
 
 ; r3 = r1 ^ r2
 ; r4, r5, r6 preserved, input trashed

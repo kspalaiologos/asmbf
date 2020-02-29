@@ -6,8 +6,8 @@
 # Kamila Szewczyk, Jul 2019
 
 CC=gcc
-CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS) -Wall -Wextra -lfl
-TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels
+CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS) -Wall -Wextra
+TARGETS=bfasm bfi bfintd bconv bfstrip bfderle
 
 .PHONY: all clean install uninstall test
 
@@ -41,6 +41,9 @@ bin: $(TARGETS)
 test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
+
+bflabels: bflabels.c
+	$(CC) $(CFLAGS) -lfl $^ -o $@ 
 
 bflabels.c: bflabels.lex
 	lex -o $@ $^

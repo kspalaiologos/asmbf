@@ -162,8 +162,8 @@ Lax:;
     if (m[0] != 'r' && m[0] != 'R') goto Lak; /* r_ operand */
     m[0] = inchar();
     m[0] = m[0] - '1';
-    if (m[0] > 5) goto Laz; /* not a number, quit */
-    m[4] = m[0] < 4 ? (m[0] + 'f') : (m[0] + 'q' - 5);
+    if (m[0] > 4) goto Laz; /* not a number, quit */
+    m[4] = (m[0] + 'f');
     goto Laa;
 Lak:;
     if (m[0] != ',') goto Lan; /* , */

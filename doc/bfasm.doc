@@ -170,4 +170,7 @@ There are two functioning names, bfasm and asm2bf while asm2bf is preffered as o
 
 -----------------------------
 
+10. txt and db_ behaviour when compression is enabled
 
+txt and db_ will clear the cells when compression via mutliply loops feature is enabled, unlike in the default mode, when they
+will add the values to existing cells.

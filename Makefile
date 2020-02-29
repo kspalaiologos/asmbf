@@ -7,7 +7,7 @@
 
 CC=gcc
 CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS) -Wall -Wextra
-TARGETS=bfasm bfi bfintd bconv bfstrip bfderle
+TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels
 
 .PHONY: all clean install uninstall test
 

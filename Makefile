@@ -6,7 +6,7 @@
 # Kamila Szewczyk, Jul 2019
 
 CC=gcc
-CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS) -Wall -Wextra
+CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS) -Wall -Wextra -lfl
 TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels
 
 .PHONY: all clean install uninstall test

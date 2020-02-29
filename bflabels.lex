@@ -70,6 +70,8 @@ void addlabel(char * text) {
 	surpress_label && printf("%d", curid);
 	head->id = curid++;
 }
+
+int yywrap(void) {}
 %}
 
 %%

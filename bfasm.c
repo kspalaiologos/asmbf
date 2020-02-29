@@ -24,12 +24,16 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-unsigned int m[2000], off, freecell;
+static unsigned int m[2000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
 
+#ifndef BFASM_NO_EXPORT_MAIN
 int main(void) {
+#else
+int bfasm(void) {
+#endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavstkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */

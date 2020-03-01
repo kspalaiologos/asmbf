@@ -1,7 +1,0 @@
-#!/bin/bash -e
-
-set -o pipefail
-
-{ cat <<<"#define __NEWLINE__ "$'\xFF'""$'\n'"#define __ICOUNTER__ "$'\xFE'""$'\n'"" ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | gcc -E -I. -Ilib - -o "$1.i"
-perl -pe "s/\xFF/\x0A/g;" < "$1.i" | perl -pe 's/\xFE/$x++/ge;' | /bin/bflabels | /bin/bfdata | sed '/^#/ d' > "$1.p"
-rm -f "$1.i"

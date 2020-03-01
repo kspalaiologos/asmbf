@@ -1,4 +1,4 @@
-#!/bin/bfmake -no-strip
+#!/bin/bfmake
 
 stk 16
 org 0
@@ -16,29 +16,27 @@ psh 13
 psh 14
 psh 15
 
-raw .#
-
 pop r5
-pop r3
-mod r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
-pop r3
-add r5, r3
+pop r6
+mod r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
+pop r6
+add r5, r6
 mod r5, 20
 sub r5, 2
 add r5, .0

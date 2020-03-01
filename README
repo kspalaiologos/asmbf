@@ -29,6 +29,8 @@ https://github.com/KrzysztofSzewczyk/SqEMU/blob/master/dev-sqemu.s
 Note: This branch (perl) is kept just for historical purposes, as it contains legacy versions of perl scripts.
 As C versions break, you're encouraged to use stuff from this branch.
 
+As of the newest versions, perl scripts are unsupported.
+
 ------------------------------------------ Get a taste of it! ------------------------------------------
 
 #define while(reg) nav reg __NEWLINE__ raw .[

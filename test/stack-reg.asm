@@ -36,9 +36,9 @@ add r2, r3
 pop r3
 add r2, r3
 mod r2, 20
-sub r2, 6
+sub r2, 2
 add r2, .0
-out r2 ; should display 6
+out r2 ; should display 0
 
 rcl r1, 0
 out r1

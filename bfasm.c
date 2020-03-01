@@ -182,7 +182,7 @@ Lal:; /* number */
     goto Laa;
 Lai:;
     if (m[4] && m[4] == m[5]) {
-        m[6] = 22; // ???
+        m[6] = 22;
         m[5] = 'j';
         outbf();
         m[5] = m[4];

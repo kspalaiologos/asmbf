@@ -79,7 +79,7 @@ int yywrap(void) {return 1;}
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
 (\*([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
 ^[ \t]*db_ { origin++; printf("%s", yytext); }
-^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"' + 1)) - 1; printf("%s", yytext); }
+^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"') + 1) - 1; printf("%s", yytext); }
 ^[ \t]*seg[ \t]*([0-9]+) { segment = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
 ^[ \t]*org[ \t]*([0-9]+) { origin = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
 . { putchar(yytext[0]); }

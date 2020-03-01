@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/bfmake -no-strip
 
 stk 16
 org 0
@@ -16,31 +16,33 @@ psh 13
 psh 14
 psh 15
 
-pop r2
+raw .#
+
+pop r5
 pop r3
-mod r2, r3
+mod r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
+add r5, r3
 pop r3
-add r2, r3
-mod r2, 20
-sub r2, 2
-add r2, .0
-out r2 ; should display 0
+add r5, r3
+mod r5, 20
+sub r5, 2
+add r5, .0
+out r5 ; should display 0
 
 rcl r1, 0
 out r1

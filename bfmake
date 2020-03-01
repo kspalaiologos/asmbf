@@ -7,5 +7,5 @@ if [ "$1" == "-no-strip" ]; then
 else
 	name=$(echo "$1" | cut -f 1 -d '.')
 
-	cat "$2" | sed -e "1!b" -e '/#/d' | /bin/bfpp | /bin/bflabels | /bin/bfdata | sed '/^#/ d' | /bin/bfasm | /bin/bfstrip > "${1%.*}.b"
+	cat "$1" | sed -e "1!b" -e '/#/d' | /bin/bfpp | /bin/bflabels | /bin/bfdata | sed '/^#/ d' | /bin/bfasm | /bin/bfstrip > "${1%.*}.b"
 fi

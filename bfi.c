@@ -231,7 +231,7 @@ int main(int argc, char * argv[]) {
                 break;
             case '*':
                 if (xflag) {
-                    for (ic = 0; ic < 64; ic += 16) {
+                    for (ic = 0; ic < 32; ic += 16) {
                         for (n = 0; n < 16; n++) {
                             fprintf(stderr, "%4X", mem[ic+n]);
                         }

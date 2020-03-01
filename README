@@ -47,12 +47,3 @@ wend(r2)
 ;       There is a branch (a brainfuck loop), but it's not in a
 ;       logical sense (no label is made, no jmp is executed).
 
-; With the full power of C preprocessor, you can automate your calls!
-
-#define _CALLIB_CAT(a, ...) _CALLIB_PRIMITIVE(a, __VA_ARGS__)
-#define _CALLIB_PRIMITIVE(a, ...) a ## __VA_ARGS__
-
-#define call(fn) \
-    psh _CALLIB_CAT(%call_return_, __ICOUNTER__) __NEWLINE__ \
-    jmp %fn __NEWLINE__ \
-    _CALLIB_CAT(@call_return_, __CCOUNTER__)

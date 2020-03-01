@@ -21,8 +21,10 @@ pop r3
 mod r2, r3
 pop r3
 add r2, r3
-pop r4
-add r2, r4
+pop r3
+add r2, r3
+pop r3
+add r2, r3
 pop r3
 add r2, r3
 pop r3

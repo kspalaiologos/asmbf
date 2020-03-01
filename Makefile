@@ -5,13 +5,15 @@
 
 # Krzysztof Szewczyk, Jul 2019
 
-CC=gcc
-CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -Wall -Wextra $(COVERAGE) $(OPTIONS)
+export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS)
 TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 
-.PHONY: all clean install uninstall test
+.PHONY: all clean install uninstall test bfpp
 
-all: $(TARGETS) bfasm.b bin
+all: $(TARGETS) bfpp bfasm.b bin
+
+bfpp:
+	make -C bfpp
 
 install:
 	chmod a+x bin/*
@@ -29,13 +31,14 @@ test: test/*.asm
 
 clean:
 	rm -rf bin/
+	cd bfpp && make clean && cd ..
 
 bfasm.b: bfasm bfasm.asm
 	./bfasm < bfasm.asm > $@
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp bfmake bfi-rle bin/
+	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/
 	rm -rf $(TARGETS)
 	
 test-clean:

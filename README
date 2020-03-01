@@ -28,8 +28,8 @@ https://github.com/KrzysztofSzewczyk/SqEMU/blob/master/dev-sqemu.s
 
 ------------------------------------------ Get a taste of it! ------------------------------------------
 
-#define while(reg) nav reg __NEWLINE__ raw .[
-#define wend(reg) nav reg __NEWLINE__ raw .]
+#function bf_while(reg) print("nav " .. reg); print("raw .["); end
+#function bf_wend(reg) print("nav " .. reg); print("raw .["); end
 
 ; branchless* bitness test.
 ; r1 <= interpreter's bitness
@@ -37,10 +37,10 @@ https://github.com/KrzysztofSzewczyk/SqEMU/blob/master/dev-sqemu.s
 @bitness
 	clr r1
 	mov r2, 1
-while(r2)
+$(bf_while("r2"))
 	inc r1
 	asl r2
-wend(r2)
+$(bf_wend("r2"))
 	ret
 
 ; Note: We say branchless, because there are no explicit jumps.

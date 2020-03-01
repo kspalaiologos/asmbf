@@ -66,9 +66,9 @@ void addlabel(char * text) {
 	strcpy(head->name, text);
 	
 	#ifndef IGNORE_SEGMENTS
-		head->id = segment + offset;
+		head->id = segment + origin;
 	#else
-		head->id = offset;
+		head->id = origin;
 	#endif
 }
 
@@ -78,8 +78,8 @@ int yywrap(void) {return 1;}
 %%
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
 (\*([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
-^[ \t]*db_ { offset++; printf("%s", yytext); }
-^[ \t]*txt[ \t]*\".*\" { offset += strlen(strchr(yytext, '"' + 1)) - 1; }
+^[ \t]*db_ { origin++; printf("%s", yytext); }
+^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"' + 1)) - 1; }
 ^[ \t]*seg[ \t]*([0-9]+) { segment = atoi(strpbrk(yytext, "0123456789")); }
 ^[ \t]*org[ \t]*([0-9]+) { origin = atoi(strpbrk(yytext, "0123456789")); }
 . { putchar(yytext[0]); }

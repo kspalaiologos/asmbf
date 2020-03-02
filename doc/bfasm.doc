@@ -5,6 +5,9 @@ interpreter or compiler being used, but they are at least 16-bits wide. There ar
 instruction pointer. The assembler isn't case sensitive (but it's sensitive inside `txt`, macros
 and labels).
 
+There are two additional registers, r5 and r6. They are mostly made for memory and stack I/O (due
+to close proximity of them in memory to the stack segment). They are 16-bits wide aswell.
+
 2. Memory
 
 bfasm allows for a stack (of definable size) and memory. Memory can be accessed indirectly for pointer use.

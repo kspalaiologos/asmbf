@@ -20,7 +20,7 @@ install:
 	sudo cp -rf bin/* /bin/
 
 uninstall:
-	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake bfi-rle && cd -
+	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake lib-bfm.lua bfi-rle && cd -
 
 test: test/*.asm
 	chmod a+x test.pl $^
@@ -38,7 +38,7 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/
+	cp $(TARGETS) bfpp/bfpp lib-bfm.lua bfmake bfi-rle bin/
 	rm -rf $(TARGETS)
 	
 test-clean:

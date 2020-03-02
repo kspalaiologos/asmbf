@@ -3,6 +3,8 @@
 SRCS=$(wildcard *.c)
 OBJS=$(SRCS:.c=.o)
 
+CFLAGS:=-DLUA_USE_POPEN
+
 .PHONY: all clean
 all: bfpp
 

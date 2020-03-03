@@ -1,4 +1,4 @@
 #!/bin/bfmake
 
-#include("inc-test.S")
+#include("test/inc-test.S")
 out .1

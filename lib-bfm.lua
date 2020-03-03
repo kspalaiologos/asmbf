@@ -247,4 +247,12 @@ function include(path)
 	  end
 end
 
+RET_ID = 0
+function call(x)
+	print("psh %_return_" .. RET_ID)
+	print("jmp %" .. x)
+	print("@_return_" .. RET_ID)
+	RET_ID = RET_ID + 1
+end
+	
 )

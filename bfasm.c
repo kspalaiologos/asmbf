@@ -498,9 +498,9 @@ int grade(int n, int base) {
 }
 
 int best_base(int n) {
-	int v = 0, b = 0;
+	int v = 0, b = 0, i = 2;
 	
-	for(int i = 2; i < 60; i++) {
+	for(; i < 60; i++) {
 		int cv = grade(n, i);
 		
 		if(v == 0 || v > cv) {

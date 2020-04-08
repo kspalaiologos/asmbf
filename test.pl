@@ -7,7 +7,7 @@ foreach my $file(@ARGV) {
 
 	$file  =~ s{\.[^.]+$}{};
 
-	`/asmbf/bfi $file.b < $file.in > $file.aout`;
+	`/bin/asmbf/bfi $file.b < $file.in > $file.aout`;
 	$diff = `diff $file.aout $file.out`;
 
 	if(length($diff) > 0) {

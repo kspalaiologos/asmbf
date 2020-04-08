@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/asmbf/bfmake
 
 stk 2
 org 0

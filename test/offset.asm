@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/asmbf/bfmake
 
 ; Absolute:
 ; [5] = 2

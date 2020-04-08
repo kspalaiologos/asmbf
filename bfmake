@@ -3,9 +3,9 @@
 if [ "$1" == "-no-strip" ]; then
 	name=$(echo "$2" | cut -f 1 -d '.')
 
-	{ cat /bin/asmbf/lib-bfm.lua ; cat "$2" | sed -e "1!b" -e '/#/d' ; } | /bin/asmbf/bfpp | /bin/asmbf/bflabels | /bin/asmbf/bfdata | sed '/^#/ d' | /bin/asmbf/bfasm > "${2%.*}.b"
+	{ cat /bin/asmbf/lib/lib-bfm.lua ; cat "$2" | sed -e "1!b" -e '/#/d' ; } | /bin/asmbf/bfpp | /bin/asmbf/bflabels | /bin/asmbf/bfdata | sed '/^#/ d' | /bin/asmbf/bfasm > "${2%.*}.b"
 else
 	name=$(echo "$1" | cut -f 1 -d '.')
 
-	{ cat /bin/asmbf/lib-bfm.lua ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | /bin/asmbf/bfpp | /bin/asmbf/bflabels | /bin/asmbf/bfdata | sed '/^#/ d' | /bin/asmbf/bfasm | /bin/asmbf/bfstrip > "${1%.*}.b"
+	{ cat /bin/asmbf/lib/lib-bfm.lua ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | /bin/asmbf/bfpp | /bin/asmbf/bflabels | /bin/asmbf/bfdata | sed '/^#/ d' | /bin/asmbf/bfasm | /bin/asmbf/bfstrip > "${1%.*}.b"
 fi

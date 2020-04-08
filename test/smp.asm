@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/asmbf/bfmake
 
 db_ 50
 smp r1, 1

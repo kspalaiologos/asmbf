@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/asmbf/bfmake
 ; Build me by executing!
 
 org 0

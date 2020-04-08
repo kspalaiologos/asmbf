@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/asmbf/bfmake
 
 ; An interpreter bitness check.
 

@@ -17,10 +17,10 @@ bfpp:
 
 install:
 	chmod a+x bin/*
-	sudo cp -rf bin/* /bin/
+	sudo cp -rf bin/* /bin/asmbf/
 
 uninstall:
-	cd /bin && sudo rm -f $(TARGETS) bfpp bfmake lib-bfm.lua bfi-rle && cd -
+	sudo rm -rf /bin/asmbf
 
 test: test/*.asm
 	chmod a+x test.pl $^
@@ -38,7 +38,8 @@ bfasm.b: bfasm bfasm.asm
 
 bin: $(TARGETS)
 	mkdir -p bin
-	cp $(TARGETS) bfpp/bfpp lib-bfm.lua bfmake bfi-rle bin/
+	mkdir -p bin/asmbf
+	cp $(TARGETS) bfpp/bfpp lib-bfm.lua bfmake bfi-rle bin/asmbf/
 	rm -rf $(TARGETS)
 	
 test-clean:

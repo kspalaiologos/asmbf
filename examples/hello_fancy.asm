@@ -1,4 +1,4 @@
-#!/bin/bfmake
+#!/bin/asmbf/bfmake
 
 ; A fancy hello world program utilizing the CALLIB, and the newest label features
 ; including data labels and other goodies we've got!

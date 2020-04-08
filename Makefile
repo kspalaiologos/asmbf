@@ -16,7 +16,7 @@ bfpp:
 	make -C bfpp
 
 install:
-	chmod a+x bin/*
+	chmod a+x -R bin/*
 	sudo cp -rf bin/* /bin/asmbf/
 
 uninstall:

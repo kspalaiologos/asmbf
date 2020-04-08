@@ -39,7 +39,7 @@ bfasm.b: bfasm bfasm.asm
 bin: $(TARGETS)
 	mkdir -p bin
 	mkdir -p bin/asmbf
-	mkdir -p bin/lib
+	mkdir -p bin/asmbf/lib
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
 	cp lib-bfm.lua bin/asmbf/lib/
 	rm -rf $(TARGETS)

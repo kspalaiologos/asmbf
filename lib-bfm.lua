@@ -258,3 +258,33 @@ function call(x)
 	RET_ID = RET_ID + 1
 end
 )
+
+#MM_BASE = 0
+#PAGE_SIZE = 16
+
+; Allocate a page and pass the pointer in target_register.
+; This function has a side effect on register passed in clear.
+; It's getting, simply, cleared.
+#function alloc(target_register, clear)
+#	print("psh " .. clear)
+#	print("mov " .. target_register .. ", " .. tostring(MM_BASE))
+#	print("mov " .. clear .. ", 1")
+#	print("nav " .. clear)
+#	print("raw .[")
+#	print("rcl " .. clear .. ", " .. target_register)
+#	print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
+#	print("inc " .. target_register)
+#	print("nav " .. clear)
+#	print("raw .]")
+#	print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
+#	print("dec " .. target_register)
+#	print("sto " .. target_register .. ", 1")
+#	print("inc " .. target_register)
+#	print("pop " .. clear)
+#end
+
+; Free the page in target_register.
+#function free(target_register)
+#	print("dec " .. target_register)
+#	print("sto " .. target_register .. ", 0")
+#end

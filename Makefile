@@ -25,6 +25,7 @@ install:
 	chmod a+x -R bin/*
 	sudo cp -rf bin/* $(ASMBF_DIR)
 	echo $(ASMBF_DIR) > ~/.asmbf
+	ls ~
 
 uninstall:
 	sudo rm -rf $(ASMBF_DIR)

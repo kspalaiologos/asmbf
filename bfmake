@@ -47,6 +47,6 @@ done
 file=${@:$OPTIND:1}
 
 # A special case: no file supplied
-[ -z "$file" ] && exit 2
+[ "$file" == "" ] && exit 2
 
 { ( [ -z "$no_libbfm" ] && echo "" || cat "${bench}lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" | ( [ -z "$no_strip" ] && cat || "${bench}bfstrip" ) > "${file%.*}.b"

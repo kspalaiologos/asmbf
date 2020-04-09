@@ -24,8 +24,7 @@ bfpp:
 install:
 	chmod a+x -R bin/*
 	sudo cp -rf bin/* $(ASMBF_DIR)
-	echo $(ASMBF_DIR) > ~/.asmbf
-	ls ~
+	echo "$(ASMBF_DIR)" > ~/.asmbf
 
 uninstall:
 	sudo rm -rf $(ASMBF_DIR)

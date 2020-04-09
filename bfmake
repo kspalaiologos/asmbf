@@ -1,8 +1,7 @@
 #!/bin/bash -e
 
-if [ ! -f "~/.asmbf" ]; then
+if [ ! -f ~/.asmbf ]; then
 	echo "Error: asm2bf not installed properly."
-	ls "~/.asmbf"
 	exit 1
 fi
 

@@ -7,8 +7,43 @@ fi
 
 bench=$(cat ~/.asmbf)
 
-if [ "$1" == "-no-strip" ]; then
-	{ cat "${bench}lib/lib-bfm.lua" ; cat "$2" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" > "${2%.*}.b"
-else
-	{ cat "${bench}lib/lib-bfm.lua" ; cat "$1" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" | "${bench}bfstrip" > "${1%.*}.b"
-fi
+no_strip=0
+no_libbfm=0
+
+while getopts "hsl" opt; do
+  case $opt in
+    h)
+      echo "bfmake - asm2bf automated build utility." >&2
+      echo "copyright (C) by Krzysztof Szewczyk, 2020" >&2
+	  echo ""
+      echo "usage: bfmake [-h/-s/-l] file.asm" >&2
+      echo "or in form of a shebang: #!/bin/asmbf/bfmake [flags]" >&2
+      echo "" >&2
+      echo "available flags:" >&2
+      echo " -h: display this help page." >&2
+      echo " -s: disable stripping of the brainfuck binary." >&2
+      echo " -l: disable standard library." >&2
+      echo " -a: (not implemented) enable AVM code generation." >&2
+      ;;
+    s)
+      no_strip=1
+      ;;
+    l)
+      no_libbfm=1
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      echo "check bfmake -h" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      echo "check bfmake -h" >&2
+      exit 1
+      ;;
+  esac
+done
+
+file=${@:$OPTIND:1}
+
+{ ( [ -z "$no_libbfm" ] && echo "" || cat "${bench}lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" | ( [ -z "$no_strip" ] && cat || "${bench}bfstrip" ) > "${file%.*}.b"

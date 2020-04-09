@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 foreach my $file(@ARGV) {
-	`$file`;
+	system("$file");
 
 	print "$file\t";
 

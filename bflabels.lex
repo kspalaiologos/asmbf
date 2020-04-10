@@ -19,6 +19,8 @@ struct label_t * alloc_node(void) {
 	return x;
 }
 
+void addlabel(char * text);
+
 void getlabel(char * text) {
 	struct label_t * head;
 	

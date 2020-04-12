@@ -11,7 +11,7 @@ txt "Hello World!"
 db_ 0
 
 mov r1, *string
-#call(puts)
+#call("puts")
 
 end
 

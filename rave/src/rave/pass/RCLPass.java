@@ -12,7 +12,7 @@ import rave.construct.RCL;
 import rave.construct.StackPush;
 
 public class RCLPass implements IPass {
-	// 0: target cell offset, 1: source adress cell offset, 2: garbage, 3: start of memory array + 1
+	// 0: target cell offset, 1: source adress cell offset, 2: garbage, 3: garbage, 4: start of memory array + 1
 	private PatternParser p = new PatternParser("P[-]P[P+P+P+P-]P[P+P-]P[[2>1]+[2<1]2>1-]+[2>1]<[<[2<1]>+P+P[2>1]<-]<[2<1]>[>[2>1]<+<[2<1]>-]>[2>1]2<1[-2<1]");
 	
 	public RCLPass() {

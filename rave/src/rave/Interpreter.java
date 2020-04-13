@@ -1,6 +1,7 @@
 package rave;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Interpreter {
 
 	private ArrayList<IPass> passes;
 	
-	public Interpreter(byte[] file_contents) {
+	public Interpreter(String filename, byte[] file_contents) {
 		ArrayList<INode> base = new ArrayList<INode>();
 		ArrayList<INode> program = new ArrayList<INode>();
 		
@@ -40,8 +41,10 @@ public class Interpreter {
 		
 		int count = 0;
 		
-		System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b005 starting.");
-		System.err.println("Copyright (C) 2020 by Krzysztof Szewczyk (a.k.a. Palaiologos/MENACE)");
+		if(!Rave.quiet) {
+			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b005 starting.");
+			System.err.println("Copyright (C) 2020 by Krzysztof Szewczyk (a.k.a. Palaiologos/MENACE)");
+		}
 		
 		for(byte b : file_contents) {
 			if(Character.isDigit(b)) {
@@ -70,7 +73,9 @@ public class Interpreter {
 			}
 		}
 		
-		System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done building basic AST step.");
+		if(!Rave.quiet) {
+			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done building basic AST step.");
+		}
 		
 		passes.add(new PlusMergePass());
 		passes.add(new MinusMergePass());
@@ -112,11 +117,27 @@ public class Interpreter {
 		// Force-free the memory for base.
 		base = null;
 		
-		System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done optimizing AST.");
+		if(!Rave.quiet) {
+			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done optimizing AST.");
+		}
+		
+		if(Rave.bytecode_out) {
+			try {
+				ASTSerializer.write(new File(filename + ".bc"), program);
+			} catch (IOException e) {
+				System.err.println("Error: Couldn't write the bytecode.");
+			}
+			
+			if(!Rave.quiet) {
+				System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done dumping bytecode.");
+			}
+		}
 		
 		new CodeRunner(program).execute();
 		
-		System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done executing.");
+		if(!Rave.quiet) {
+			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done executing.");
+		}
 	}
 
 }

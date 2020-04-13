@@ -40,8 +40,8 @@ clean:
 	rm -rf bin/
 	cd bfpp && make clean && cd ..
 
-bfasm.b: bfasm bfasm.asm
-	./bfasm < bfasm.asm > $@
+etc/bfasm.b: bfasm etc/bfasm.asm
+	./bfasm < etc/bfasm.asm > $@
 
 bin: $(TARGETS)
 	mkdir -p bin

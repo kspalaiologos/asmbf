@@ -70,7 +70,8 @@ public class Interpreter {
 				}
 				
 				count = 0;
-			}
+			} else
+				count = 0;
 		}
 		
 		if(!Rave.quiet) {

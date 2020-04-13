@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import rave.common.INode;
+import rave.nodes.INode;
 
 public class ASTSerializer {
 	public static void write(File f, ArrayList<INode> data) throws IOException {

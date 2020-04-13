@@ -1,26 +1,15 @@
 package rave.construct.primitive;
 
 import rave.common.Automata;
-import rave.common.INode;
-import rave.construct.WithoutSettings;
+import rave.nodes.CoefficientalNode;
+import rave.nodes.INode;
+import rave.nodes.WithoutSettings;
 
-public class Plus implements WithoutSettings {
-
-	private int coefficient;
-	
-	@Override
-	public void setCoefficient(int c) {
-		coefficient = c;
-	}
-
-	@Override
-	public int getCoefficient() {
-		return coefficient;
-	}
+public class Plus extends CoefficientalNode implements WithoutSettings {
 
 	@Override
 	public void execute(Automata state) {
-		state.tape.set(state.mp.getValue(), state.tape.get(state.mp.getValue()) + coefficient);
+		state.tape.set(state.mp.getValue(), state.tape.get(state.mp.getValue()) + getCoefficient());
 	}
 
 }

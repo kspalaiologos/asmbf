@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rave.common.ConstructBuilder;
-import rave.common.INode;
-import rave.common.IPass;
 import rave.common.Pointer;
 import rave.construct.primitive.BracketLeft;
 import rave.construct.primitive.BracketRight;
@@ -17,7 +15,9 @@ import rave.construct.primitive.Minus;
 import rave.construct.primitive.Plus;
 import rave.construct.primitive.PtrLeft;
 import rave.construct.primitive.PtrRight;
+import rave.nodes.INode;
 import rave.pass.ClearFinderPass;
+import rave.pass.IPass;
 import rave.pass.MinusMergePass;
 import rave.pass.MultiplyLoopPass;
 import rave.pass.PlusMergePass;

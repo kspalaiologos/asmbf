@@ -3,11 +3,10 @@ package rave.pass;
 import java.util.List;
 
 import rave.common.ConstructBuilder;
-import rave.common.INode;
-import rave.common.IPass;
 import rave.common.PatternParser;
 import rave.common.PatternParser.MatchResult;
 import rave.construct.Clear;
+import rave.nodes.INode;
 
 public class ClearFinderPass implements IPass {
 

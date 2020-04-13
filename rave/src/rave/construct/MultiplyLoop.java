@@ -7,10 +7,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import rave.common.Automata;
-import rave.common.INode;
 import rave.common.Pointer;
+import rave.nodes.INode;
+import rave.nodes.WithoutCoefficients;
 
-public class MultiplyLoop implements INode {
+public class MultiplyLoop implements WithoutCoefficients {
 
 	public class Tuple<X, Y> {
 		public final X x;
@@ -22,18 +23,7 @@ public class MultiplyLoop implements INode {
 		}
 	}
 
-	private int coefficient;
 	private HashMap<String, Object> settings = null;
-
-	@Override
-	public void setCoefficient(int c) {
-		this.coefficient = c;
-	}
-
-	@Override
-	public int getCoefficient() {
-		return coefficient;
-	}
 
 	@Override
 	public HashMap<String, Object> settings() {

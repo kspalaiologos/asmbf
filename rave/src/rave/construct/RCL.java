@@ -5,22 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import rave.common.Automata;
-import rave.common.INode;
+import rave.nodes.INode;
+import rave.nodes.WithoutCoefficients;
 
-public class RCL implements INode {
+public class RCL implements WithoutCoefficients {
 
-	private int coefficient;
 	private HashMap<String, Object> settings = null;
-
-	@Override
-	public void setCoefficient(int c) {
-		this.coefficient = c;
-	}
-
-	@Override
-	public int getCoefficient() {
-		return coefficient;
-	}
 
 	@Override
 	public HashMap<String, Object> settings() {

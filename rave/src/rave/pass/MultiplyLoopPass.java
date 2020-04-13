@@ -6,13 +6,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import rave.common.ConstructBuilder;
-import rave.common.INode;
-import rave.common.IPass;
 import rave.common.PatternParser;
 import rave.common.PatternParser.MatchResult;
 import rave.construct.MultiplyLoop;
 import rave.construct.primitive.Minus;
 import rave.construct.primitive.PtrLeft;
+import rave.nodes.INode;
 
 public class MultiplyLoopPass implements IPass {
 

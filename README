@@ -19,6 +19,7 @@ https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings
                                    serves as a documentation aswell. article.txt contains a mirror of this article.
 examples/                        - who doesn't love learning by examples?
 test/                            - unit tests for the entire toolchain.
+rave/                            - an efficient brainfuck interpreter made specifically for executing asm2bf code.
 
 asm2bf was used to create a JSON formatter webservice:
 https://github.com/KrzysztofSzewczyk/JSONFormatter/blob/master/jsonformatter.asm

@@ -40,7 +40,8 @@ public class Interpreter {
 		
 		int count = 0;
 		
-		System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b005 starting. Palaiologos @ MENACE labs, for internal use only.");
+		System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b005 starting.");
+		System.err.println("Copyright (C) 2020 by Krzysztof Szewczyk (a.k.a. Palaiologos/MENACE)");
 		
 		for(byte b : file_contents) {
 			if(Character.isDigit(b)) {

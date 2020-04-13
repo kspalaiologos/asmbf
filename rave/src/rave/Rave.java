@@ -19,16 +19,14 @@ public class Rave {
 			new Interpreter(file_contents);
 		} catch (FileNotFoundException e) {
 			System.err.println("Error: " + filename + " not found.");
-			return;
 		} catch (IOException e) {
 			System.err.println("Error: Couldn't read " + filename + ".");
-			return;
 		}
 	}
 	
 	public static void main(String[] args) {
-		if(args.length != 1) {
-			System.err.println("Error: No file supplied.");
+		if(args.length < 1) {
+			System.err.println("Error: At least one argument expected. Try -h for help.");
 			return;
 		}
 		

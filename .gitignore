@@ -3,3 +3,4 @@ bfdata.c
 bflabels.c
 *.o
 bfpp/bfpp
+*.pyc

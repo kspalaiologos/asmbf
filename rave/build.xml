@@ -36,7 +36,7 @@
 	<!-- A target to run bfasm.b ; will rework later to use test suite from the trunk -->
     <target name="Rave">
         <java classname="rave.Rave" failonerror="true" fork="yes">
-            <arg line="..\bfasm.b"/>
+            <arg line="../etc/bfasm.b"/>
             <classpath refid="rave.classpath"/>
         </java>
     </target>

@@ -9,8 +9,6 @@ ifndef ASMBF_DIR
 export ASMBF_DIR=/bin
 endif
 
-export ASMBF_DIR:=$(ASMBF_DIR)/asmbf/
-
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS)
 TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 
@@ -23,8 +21,8 @@ bfpp:
 
 install:
 	chmod a+x -R bin/*
-	sudo cp -rf bin/* $(ASMBF_DIR)
-	echo "$(ASMBF_DIR)" > ~/.asmbf
+	sudo cp -rf bin/* $(ASMBF_DIR)/asmbf/
+	echo "$(ASMBF_DIR)/asmbf/" > ~/.asmbf
 
 uninstall:
 	sudo rm -rf $(ASMBF_DIR)

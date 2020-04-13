@@ -4,12 +4,11 @@ import java.util.List;
 
 import rave.common.ConstructBuilder;
 import rave.common.DirectionHelper;
-import rave.common.INode;
-import rave.common.IPass;
 import rave.common.PatternParser;
 import rave.common.PatternParser.MatchResult;
 import rave.construct.RCL;
 import rave.construct.StackPush;
+import rave.nodes.INode;
 
 public class RCLPass implements IPass {
 	// 0: target cell offset, 1: source adress cell offset, 2: garbage, 3: garbage, 4: start of memory array + 1

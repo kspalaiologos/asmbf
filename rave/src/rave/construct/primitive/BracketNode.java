@@ -1,10 +1,11 @@
 package rave.construct.primitive;
 
 import rave.common.Automata;
-import rave.common.INode;
-import rave.construct.WithoutSettings;
+import rave.nodes.INode;
+import rave.nodes.WithoutCoefficients;
+import rave.nodes.WithoutSettings;
 
-public abstract class BracketNode implements WithoutSettings {
+public abstract class BracketNode implements WithoutSettings, WithoutCoefficients {
 	public void match(Automata instance, int dir) {
 		int level = 1;
 		INode ipvalue;

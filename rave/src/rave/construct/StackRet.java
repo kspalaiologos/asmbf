@@ -5,21 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import rave.common.Automata;
-import rave.common.INode;
+import rave.nodes.INode;
+import rave.nodes.WithoutCoefficients;
+import rave.nodes.WithoutSettings;
 
-public class StackRet implements WithoutSettings {
-
-	private int coefficient;
-
-	@Override
-	public void setCoefficient(int c) {
-		this.coefficient = c;
-	}
-
-	@Override
-	public int getCoefficient() {
-		return coefficient;
-	}
+public class StackRet implements WithoutSettings, WithoutCoefficients {
 
 	@Override
 	public void execute(Automata state) {

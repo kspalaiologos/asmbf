@@ -3,9 +3,8 @@ package rave.pass;
 import java.util.List;
 
 import rave.common.ConstructBuilder;
-import rave.common.INode;
-import rave.common.IPass;
 import rave.construct.primitive.PtrRight;
+import rave.nodes.INode;
 
 public class PtrRightMergePass implements IPass {
 

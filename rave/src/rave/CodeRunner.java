@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import rave.common.Automata;
-import rave.common.INode;
 import rave.common.Pointer;
+import rave.nodes.INode;
 
 public class CodeRunner {
 

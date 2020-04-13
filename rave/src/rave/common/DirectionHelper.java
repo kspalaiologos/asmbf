@@ -4,6 +4,7 @@ import rave.construct.primitive.Minus;
 import rave.construct.primitive.Plus;
 import rave.construct.primitive.PtrLeft;
 import rave.construct.primitive.PtrRight;
+import rave.nodes.INode;
 
 public class DirectionHelper {
 	private DirectionHelper() {

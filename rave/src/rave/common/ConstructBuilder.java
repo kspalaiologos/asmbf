@@ -1,5 +1,7 @@
 package rave.common;
 
+import rave.nodes.INode;
+
 public class ConstructBuilder {
 	
 	private INode instance;

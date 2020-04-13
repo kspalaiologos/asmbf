@@ -1,7 +1,9 @@
-package rave.common;
+package rave.nodes;
 
 import java.io.Serializable;
 import java.util.HashMap;
+
+import rave.common.Automata;
 
 public interface INode extends Serializable {
 	public void setCoefficient(int c);

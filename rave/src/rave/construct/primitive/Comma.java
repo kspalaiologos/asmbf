@@ -3,29 +3,18 @@ package rave.construct.primitive;
 import java.io.IOException;
 
 import rave.common.Automata;
-import rave.common.INode;
-import rave.construct.WithoutSettings;
+import rave.nodes.CoefficientalNode;
+import rave.nodes.INode;
+import rave.nodes.WithoutSettings;
 
-public class Comma implements WithoutSettings {
-
-	private int coefficient;
-	
-	@Override
-	public void setCoefficient(int c) {
-		coefficient = c;
-	}
-
-	@Override
-	public int getCoefficient() {
-		return coefficient;
-	}
+public class Comma extends CoefficientalNode implements WithoutSettings {
 
 	@Override
 	public void execute(Automata state) {
 		int c = 0;
 		
 		try {
-			for(int i = 0; i < coefficient; i++)
+			for(int i = 0; i < getCoefficient(); i++)
 				c = System.in.read();
 		} catch (IOException e) {
 			c = 0;

@@ -16,7 +16,7 @@ for your use. The standard library is currently being constructed and you may co
 Floating point support is being planned and worked on. Please refer to doc/ for detailed documentation.
 
 https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
-                                   serves as a documentation aswell.
+                                   serves as a documentation aswell. article.txt contains a mirror of this article.
 examples/                        - who doesn't love learning by examples?
 test/                            - unit tests for the entire toolchain.
 

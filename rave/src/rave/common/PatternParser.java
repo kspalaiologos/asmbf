@@ -40,6 +40,10 @@ public class PatternParser {
 		int ptr = 0, pc = 1, pptr = 0;
 		
 		while(ptr < pattern.length()) {
+			if(pptr >= queue.size()) {
+				return new MatchResult(null, false, 0);
+			}
+			
 			if(Character.isDigit(pattern.charAt(ptr))) {
 				pc = pattern.charAt(ptr) - '0';
 				ptr++;

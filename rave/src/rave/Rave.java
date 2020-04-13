@@ -7,13 +7,8 @@ import java.io.IOException;
 
 public class Rave {
 
-	public static void main(String[] args) {
-		if(args.length < 1) {
-			System.err.println("Error: No file supplied.");
-			return;
-		}
-		
-		File input = new File(args[0]);
+	public Rave(String filename) {
+		File input = new File(filename);
 		
 		try {
 			byte[] file_contents = new byte[(int) input.length()];
@@ -23,12 +18,21 @@ public class Rave {
 			
 			new Interpreter(file_contents);
 		} catch (FileNotFoundException e) {
-			System.err.println("Error: " + args[1] + " not found.");
+			System.err.println("Error: " + filename + " not found.");
 			return;
 		} catch (IOException e) {
-			System.err.println("Error: Couldn't read " + args[1] + ".");
+			System.err.println("Error: Couldn't read " + filename + ".");
 			return;
 		}
+	}
+	
+	public static void main(String[] args) {
+		if(args.length != 1) {
+			System.err.println("Error: No file supplied.");
+			return;
+		}
+		
+		new Rave(args[0]);
 	}
 
 }

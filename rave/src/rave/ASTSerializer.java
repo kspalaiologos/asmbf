@@ -2,15 +2,17 @@ package rave;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.List;
+import java.util.ArrayList;
 
 import rave.common.INode;
 
 public class ASTSerializer {
-	public static void write(File f, List<INode> data) throws Exception {
+	public static void write(File f, ArrayList<INode> data) throws IOException {
 		FileOutputStream fo = new FileOutputStream(f);
 		ObjectOutputStream oo = new ObjectOutputStream(fo);
 		oo.writeObject(data);
@@ -18,10 +20,10 @@ public class ASTSerializer {
 		fo.close();
 	}
 	
-	public static List<INode> read(File f) throws Exception {
+	public static ArrayList<INode> read(File f) throws IOException, ClassNotFoundException {
 		FileInputStream fi = new FileInputStream(f);
 		ObjectInputStream oi = new ObjectInputStream(fi);
-		List<INode> data = (List<INode>) oi.readObject();
+		ArrayList<INode> data = (ArrayList<INode>) oi.readObject();
 		oi.close();
 		fi.close();
 		return data;

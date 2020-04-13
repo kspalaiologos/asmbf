@@ -9,9 +9,10 @@ import java.util.stream.IntStream;
 import rave.common.Automata;
 import rave.common.Pointer;
 import rave.nodes.INode;
+import rave.nodes.MorphableNode;
 import rave.nodes.WithoutCoefficients;
 
-public class MultiplyLoop implements WithoutCoefficients {
+public class MultiplyLoop extends MorphableNode implements WithoutCoefficients {
 
 	public class Tuple<X, Y> {
 		public final X x;
@@ -21,16 +22,6 @@ public class MultiplyLoop implements WithoutCoefficients {
 			this.x = x;
 			this.y = y;
 		}
-	}
-
-	private HashMap<String, Object> settings = null;
-
-	@Override
-	public HashMap<String, Object> settings() {
-		if (settings == null)
-			settings = new HashMap<String, Object>();
-
-		return settings;
 	}
 
 	@Override

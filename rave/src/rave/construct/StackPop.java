@@ -1,24 +1,13 @@
 package rave.construct;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import rave.common.Automata;
-import rave.nodes.INode;
+import rave.nodes.MorphableNode;
 import rave.nodes.WithoutCoefficients;
 
-public class StackPop implements WithoutCoefficients {
-
-	private HashMap<String, Object> settings = null;
-
-	@Override
-	public HashMap<String, Object> settings() {
-		if (settings == null)
-			settings = new HashMap<String, Object>();
-
-		return settings;
-	}
+public class StackPop extends MorphableNode implements WithoutCoefficients {
 
 	@Override
 	public void execute(Automata state) {

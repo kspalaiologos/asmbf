@@ -47,6 +47,7 @@ bin: $(TARGETS)
 	mkdir -p bin/asmbf/lib
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
 	cp lib-bfm.lua bin/asmbf/lib/
+	cp ide/src/bfstudio.py bin/asmbf/bfstudio
 	rm -rf $(TARGETS)
 	
 test-clean:

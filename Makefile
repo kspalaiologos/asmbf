@@ -16,7 +16,7 @@ TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 
 .PHONY: all clean install uninstall test bfpp
 
-all: $(TARGETS) bfpp bfasm.b bin
+all: $(TARGETS) bfpp etc/bfasm.b bin
 
 bfpp:
 	make -C bfpp
@@ -30,18 +30,18 @@ uninstall:
 	sudo rm -rf $(ASMBF_DIR)
 
 test: test/*.asm
-	chmod a+x test.pl $^
+	chmod a+x test/test.pl $^
 	-bfi --help 2> /dev/null
 	-bfi --version 2> /dev/null
 	-bfi --blah 2> /dev/null
-	./test.pl $^
+	test/test.pl $^
 
 clean:
 	rm -rf bin/
 	cd bfpp && make clean && cd ..
 
-bfasm.b: bfasm bfasm.asm
-	./bfasm < bfasm.asm > $@
+etc/bfasm.b: bfasm etc/bfasm.asm
+	./bfasm < etc/bfasm.asm > $@
 
 bin: $(TARGETS)
 	mkdir -p bin

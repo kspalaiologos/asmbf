@@ -16,7 +16,7 @@ TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 
 .PHONY: all clean install uninstall test bfpp
 
-all: $(TARGETS) bfpp bfasm.b bin
+all: $(TARGETS) bfpp etc/bfasm.b bin
 
 bfpp:
 	make -C bfpp

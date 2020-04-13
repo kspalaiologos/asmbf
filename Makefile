@@ -30,11 +30,11 @@ uninstall:
 	sudo rm -rf $(ASMBF_DIR)
 
 test: test/*.asm
-	chmod a+x test.pl $^
+	chmod a+x test/test.pl $^
 	-bfi --help 2> /dev/null
 	-bfi --version 2> /dev/null
 	-bfi --blah 2> /dev/null
-	./test.pl $^
+	test/test.pl $^
 
 clean:
 	rm -rf bin/

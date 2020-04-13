@@ -3,7 +3,7 @@ package rave.construct;
 import rave.common.Automata;
 import rave.common.INode;
 
-public class Clear extends WithoutSettings {
+public class Clear implements WithoutSettings {
 
 	private int coefficient;
 	

@@ -7,7 +7,7 @@ import java.util.List;
 import rave.common.Automata;
 import rave.common.INode;
 
-public class StackRet extends WithoutSettings {
+public class StackRet implements WithoutSettings {
 
 	private int coefficient;
 

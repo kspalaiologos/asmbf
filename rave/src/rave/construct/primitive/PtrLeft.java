@@ -4,7 +4,7 @@ import rave.common.Automata;
 import rave.common.INode;
 import rave.construct.WithoutSettings;
 
-public class PtrLeft extends WithoutSettings {
+public class PtrLeft implements WithoutSettings {
 
 	private int coefficient;
 	

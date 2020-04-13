@@ -10,20 +10,23 @@ bench=$(cat ~/.asmbf)
 no_strip=0
 no_libbfm=0
 
-while getopts "hsl" opt; do
+while getopts "hslo:" opt; do
   case $opt in
     h)
       echo "bfmake - asm2bf automated build utility." >&2
       echo "copyright (C) by Krzysztof Szewczyk, 2020" >&2
-	  echo ""
-      echo "usage: bfmake [-h/-s/-l] file.asm" >&2
+      echo ""
+      echo "usage: bfmake [-h/-s/-l/-o file] file.asm" >&2
       echo "or in form of a shebang: #!/bin/asmbf/bfmake [flags]" >&2
       echo "" >&2
       echo "available flags:" >&2
       echo " -h: display this help page." >&2
       echo " -s: disable stripping of the brainfuck binary." >&2
       echo " -l: disable standard library." >&2
-      echo " -a: (not implemented) enable AVM code generation." >&2
+      echo "important! PLACE FLAGS ALWAYS BEFORE THE INPUT FILE."
+      ;;
+    o)
+      output=${OPTARG}
       ;;
     s)
       no_strip=1
@@ -46,7 +49,11 @@ done
 
 file=${@:$OPTIND:1}
 
+if [ -z "$output" ]; then
+  output="${file%.*}.b"
+fi
+
 # A special case: no file supplied
 [ "$file" == "" ] && exit 2
 
-{ ( [ -z "$no_libbfm" ] && echo "" || cat "${bench}lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" | ( [ -z "$no_strip" ] && cat || "${bench}bfstrip" ) > "${file%.*}.b"
+{ ( [ -z "$no_libbfm" ] && echo "" || cat "${bench}lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" | ( [ -z "$no_strip" ] && cat || "${bench}bfstrip" ) > "${output}"

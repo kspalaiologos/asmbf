@@ -49,7 +49,7 @@ done
 
 file=${@:$OPTIND:1}
 
-if [ -z "$var" ]; then
+if [ -z "$output" ]; then
   output="${file%.*}.b"
 fi
 

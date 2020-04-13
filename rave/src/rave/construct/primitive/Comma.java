@@ -6,7 +6,7 @@ import rave.common.Automata;
 import rave.common.INode;
 import rave.construct.WithoutSettings;
 
-public class Comma extends WithoutSettings {
+public class Comma implements WithoutSettings {
 
 	private int coefficient;
 	

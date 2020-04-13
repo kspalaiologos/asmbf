@@ -4,7 +4,7 @@ import rave.common.Automata;
 import rave.common.INode;
 import rave.construct.WithoutSettings;
 
-public class Minus extends WithoutSettings {
+public class Minus implements WithoutSettings {
 
 	private int coefficient;
 	

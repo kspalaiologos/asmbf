@@ -28,6 +28,7 @@ import rave.pass.PushPass;
 import rave.pass.RCLPass;
 import rave.pass.RetPass;
 import rave.pass.SRVPass;
+import rave.pass.SimpleUnbalLoopPass;
 
 public class Interpreter {
 
@@ -42,7 +43,7 @@ public class Interpreter {
 		int count = 0;
 		
 		if(!Rave.quiet) {
-			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b005 starting.");
+			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b007 starting.");
 			System.err.println("Copyright (C) 2020 by Kamila Szewczyk (a.k.a. Palaiologos/MENACE)");
 		}
 		
@@ -89,6 +90,7 @@ public class Interpreter {
 		passes.add(new PushPass());
 		passes.add(new MultiplyLoopPass());
 		passes.add(new ClearFinderPass());
+		passes.add(new SimpleUnbalLoopPass());
 		
 		for(IPass p : passes) {
 			// for each pass

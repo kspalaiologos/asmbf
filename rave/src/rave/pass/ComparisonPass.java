@@ -24,10 +24,22 @@ public class ComparisonPass implements IPass {
 		}
 	}
 	
-	private HashMap<PatternParser, Tuple<Tuple<Integer, Integer>, BinaryOperator<Integer>>> comparsions =
-		new HashMap<PatternParser, Tuple<Tuple<Integer, Integer>, BinaryOperator<Integer>>>() {{
+	public class Triplet<X, Y, Z> {
+		public final X x;
+		public final Y y;
+		public final Z z;
+
+		public Triplet(X x, Y y, Z z) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+	}
+	
+	private HashMap<PatternParser, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>> comparsions =
+		new HashMap<PatternParser, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>>() {{
 			// eq_: 1 -> untouched reg, 4 -> source reg
-		    put(new PatternParser("P[P+P-]+P[P-<+P-]P[P+P-]>[P-P[-]]"), new Tuple<>(new Tuple<>(1, 4), (a, b) -> a == b ? 1 : 0));
+		    put(new PatternParser("P[P+P-]+P[P-<+P-]P[P+P-]>[P-P[-]]"), new Tuple<>(new Triplet<>(0, 3, 4), (a, b) -> a == b ? 1 : 0));
 		}};
 	
 	public ComparisonPass() {
@@ -36,8 +48,8 @@ public class ComparisonPass implements IPass {
 	
 	@Override
 	public int match(List<INode> input) {
-		Optional<Tuple<Tuple<PatternParser, MatchResult>, Tuple<Tuple<Integer, Integer>, BinaryOperator<Integer>>>> match = comparsions.entrySet().stream().map(
-				(a) -> new Tuple<Tuple<PatternParser, MatchResult>, Tuple<Tuple<Integer, Integer>, BinaryOperator<Integer>>>(
+		Optional<Tuple<Tuple<PatternParser, MatchResult>, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>>> match = comparsions.entrySet().stream().map(
+				(a) -> new Tuple<Tuple<PatternParser, MatchResult>, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>>(
 						new Tuple<PatternParser, MatchResult>(a.getKey(), a.getKey().tryMatch(input)
 				), a.getValue())
 		).filter(x -> x.x.y.hasAny).findFirst();
@@ -47,8 +59,8 @@ public class ComparisonPass implements IPass {
 
 	@Override
 	public INode build(List<INode> input) {
-		Optional<Tuple<Tuple<PatternParser, MatchResult>, Tuple<Tuple<Integer, Integer>, BinaryOperator<Integer>>>> match = comparsions.entrySet().stream().map(
-				(a) -> new Tuple<Tuple<PatternParser, MatchResult>, Tuple<Tuple<Integer, Integer>, BinaryOperator<Integer>>>(
+		Optional<Tuple<Tuple<PatternParser, MatchResult>, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>>> match = comparsions.entrySet().stream().map(
+				(a) -> new Tuple<Tuple<PatternParser, MatchResult>, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>>(
 						new Tuple<PatternParser, MatchResult>(a.getKey(), a.getKey().tryMatch(input)
 				), a.getValue())
 		).filter(x -> x.x.y.hasAny).findFirst();
@@ -59,6 +71,7 @@ public class ComparisonPass implements IPass {
 				.coefficient(1).setting("comparator", match.get().y.y)
 				.setting("delta_1", DirectionHelper.getRelativeDelta(match.get().x.y.variableNodes.get(match.get().y.x.x)))
 				.setting("delta_2", DirectionHelper.getRelativeDelta(match.get().x.y.variableNodes.get(match.get().y.x.y)))
+				.setting("abs_mp", match.get().y.x.z)
 				.build();
 	}
 	

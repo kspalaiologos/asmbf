@@ -14,7 +14,7 @@ all: $(TARGETS) bfpp etc/bfasm.b bin
 
 setup:
 	mkdir -p "${HOME}/.asmbf/"
-	cp -rf bin/ "${HOME}/.asmbf/"
+	cp -rf bin/* "${HOME}/.asmbf/"
 	echo "asm2bf has been installed to ${HOME}/.asmbf/."
 
 bfpp:

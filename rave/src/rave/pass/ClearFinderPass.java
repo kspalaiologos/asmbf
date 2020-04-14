@@ -10,7 +10,7 @@ import rave.nodes.INode;
 
 public class ClearFinderPass implements IPass {
 
-	private PatternParser pattern = new PatternParser("[-]");
+	private PatternParser pattern = new PatternParser("[V]");
 	
 	@Override
 	public int match(List<INode> input) {

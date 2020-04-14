@@ -1,13 +1,13 @@
 #!/usr/bin/perl
 
 foreach my $file(@ARGV) {
-	system("$file");
+	`$HOME/.asmbf/bfmake $file`;
 
 	print "$file\t";
 
 	$file  =~ s{\.[^.]+$}{};
 
-	`/bin/asmbf/bfi $file.b < $file.in > $file.aout`;
+	`$HOME/.asmbf/bfi $file.b < $file.in > $file.aout`;
 	$diff = `diff $file.aout $file.out`;
 
 	if(length($diff) > 0) {

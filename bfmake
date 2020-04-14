@@ -1,10 +1,5 @@
 #!/bin/bash -e
 
-if [ ! -f ~/.asmbf ]; then
-	echo "Error: asm2bf not installed properly."
-	exit 1
-fi
-
 no_strip=0
 no_libbfm=0
 

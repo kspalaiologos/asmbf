@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 foreach my $file(@ARGV) {
-	`$ENV{'HOME'}/.asmbf/bfmake $file`;
+	system("$ENV{'HOME'}/.asmbf/bfmake $file");
 
 	print "$file\t";
 

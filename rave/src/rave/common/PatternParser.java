@@ -3,6 +3,7 @@ package rave.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import rave.construct.Clear;
 import rave.construct.primitive.BracketLeft;
 import rave.construct.primitive.BracketRight;
 import rave.construct.primitive.Comma;
@@ -63,6 +64,7 @@ public class PatternParser {
 			else if(pattern.charAt(ptr) == ',' && queue.get(pptr) instanceof Comma && (pedantic ? queue.get(pptr).getCoefficient() == pc : true)) { ptr++; pptr++; }
 			else if(pattern.charAt(ptr) == '[' && queue.get(pptr) instanceof BracketLeft && (pedantic ? queue.get(pptr).getCoefficient() == pc : true)) { ptr++; pptr++; }
 			else if(pattern.charAt(ptr) == ']' && queue.get(pptr) instanceof BracketRight && (pedantic ? queue.get(pptr).getCoefficient() == pc : true)) { ptr++; pptr++; }
+			else if(pattern.charAt(ptr) == 'c' && queue.get(pptr) instanceof Clear && (pedantic ? queue.get(pptr).getCoefficient() == pc : true)) { ptr++; pptr++; }
 			else if(pattern.charAt(ptr) == 'V' && (queue.get(pptr) instanceof Plus || queue.get(pptr) instanceof Minus)) {
 				variableNodes.add(queue.get(pptr)); { ptr++; pptr++; }
 			} else if(pattern.charAt(ptr) == 'P' && (queue.get(pptr) instanceof PtrLeft || queue.get(pptr) instanceof PtrRight)) {

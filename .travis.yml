@@ -5,7 +5,7 @@ matrix:
   include:
     - language: c
       script:
-        - sudo make all install
+        - sudo make all setup
     - language: c
       script:
         - sudo make COVERAGE="-g -coverage -DBFI_NOCHECKS -O0" all setup test

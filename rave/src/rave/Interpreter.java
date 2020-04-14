@@ -45,7 +45,7 @@ public class Interpreter {
 		int count = 0;
 		
 		if(!Rave.quiet) {
-			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b007 starting.");
+			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Rave b008 starting.");
 			System.err.println("Copyright (C) 2020 by Krzysztof Szewczyk (a.k.a. Palaiologos/MENACE)");
 		}
 		

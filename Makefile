@@ -25,7 +25,7 @@ install:
 	echo "$(ASMBF_DIR)/asmbf/" > ~/.asmbf
 
 uninstall:
-	sudo rm -rf $(ASMBF_DIR)
+	sudo rm -rf "$(ASMBF_DIR)/asmbf/"
 
 test: test/*.asm
 	chmod a+x test/test.pl $^

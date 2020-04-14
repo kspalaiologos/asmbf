@@ -17,6 +17,7 @@ import rave.construct.primitive.PtrLeft;
 import rave.construct.primitive.PtrRight;
 import rave.nodes.INode;
 import rave.pass.ClearFinderPass;
+import rave.pass.ComparisonPass;
 import rave.pass.IPass;
 import rave.pass.InitPass;
 import rave.pass.MinusMergePass;
@@ -93,6 +94,7 @@ public class Interpreter {
 		passes.add(new MultiplyLoopPass());
 		passes.add(new ClearFinderPass());
 		passes.add(new SimpleUnbalLoopPass());
+		passes.add(new ComparisonPass());
 		
 		for(IPass p : passes) {
 			// for each pass

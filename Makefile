@@ -8,9 +8,14 @@
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS)
 TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 
-.PHONY: all clean test bfpp
+.PHONY: all clean setup test bfpp
 
 all: $(TARGETS) bfpp etc/bfasm.b bin
+
+setup:
+	mkdir ~/.asmbf/
+	cp -rf bin/ ~/.asmbf/
+	echo "asm2bf has been installed to $HOME/.asmbf/."
 
 bfpp:
 	make -C bfpp

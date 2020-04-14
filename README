@@ -48,3 +48,9 @@ $(bf_wend("r2"))
 ;       There is a branch (a brainfuck loop), but it's not in a
 ;       logical sense (no label is made, no jmp is executed).
 
+--------------------------------------- Installation Instruction ---------------------------------------
+
+1. Pull the repository from github
+2. Build asm2bf using `make all'
+3. Drop asm2bf into your home directory using `make setup'
+4. Optional: Add `~/.asmbf' into your PATH.

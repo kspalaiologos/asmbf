@@ -1,12 +1,5 @@
 #!/bin/bash -e
 
-if [ ! -f ~/.asmbf ]; then
-	echo "Error: asm2bf not installed properly."
-	exit 1
-fi
-
-bench=$(cat ~/.asmbf)
-
 no_strip=0
 no_libbfm=0
 
@@ -56,4 +49,4 @@ fi
 # A special case: no file supplied
 [ "$file" == "" ] && exit 2
 
-{ ( [ -z "$no_libbfm" ] && echo "" || cat "${bench}lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "${bench}bfpp" | "${bench}bflabels" | "${bench}bfdata" | sed '/^#/ d' | "${bench}bfasm" | ( [ -z "$no_strip" ] && cat || "${bench}bfstrip" ) > "${output}"
+{ ( [ -z "$no_libbfm" ] && echo "" || cat "$HOME/.asmbf/lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "$HOME/.asmbf/bfpp" | "$HOME/.asmbf/bflabels" | "$HOME/.asmbf/bfdata" | sed '/^#/ d' | "$HOME/.asmbf/bfasm" | ( [ -z "$no_strip" ] && cat || "$HOME/.asmbf/bfstrip" ) > "${output}"

@@ -5,27 +5,21 @@
 
 # Krzysztof Szewczyk, Jul 2019
 
-ifndef ASMBF_DIR
-export ASMBF_DIR=/bin
-endif
-
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer $(COVERAGE) $(OPTIONS)
 TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 
-.PHONY: all clean install uninstall test bfpp
+.PHONY: all clean setup test bfpp
 
 all: $(TARGETS) bfpp etc/bfasm.b bin
 
+setup:
+	mkdir -p "${HOME}/.asmbf/"
+	cp -rf bin/asmbf/* "${HOME}/.asmbf/"
+	chmod -R a+x "${HOME}/.asmbf/"
+	echo "asm2bf has been installed to ${HOME}/.asmbf/."
+
 bfpp:
 	make -C bfpp
-
-install:
-	chmod a+x -R bin/*
-	sudo cp -rf bin/* $(ASMBF_DIR)/asmbf/
-	echo "$(ASMBF_DIR)/asmbf/" > ~/.asmbf
-
-uninstall:
-	sudo rm -rf "$(ASMBF_DIR)/asmbf/"
 
 test: test/*.asm
 	chmod a+x test/test.pl $^

@@ -18,6 +18,7 @@ import rave.construct.primitive.PtrRight;
 import rave.nodes.INode;
 import rave.pass.ClearFinderPass;
 import rave.pass.IPass;
+import rave.pass.InitPass;
 import rave.pass.MinusMergePass;
 import rave.pass.MultiplyLoopPass;
 import rave.pass.PlusMergePass;
@@ -79,6 +80,7 @@ public class Interpreter {
 			System.err.println("[" + PerformanceCounter.nextOP() + " ms] Done building basic AST step.");
 		}
 		
+		passes.add(new InitPass());
 		passes.add(new PlusMergePass());
 		passes.add(new MinusMergePass());
 		passes.add(new PtrLeftMergePass());

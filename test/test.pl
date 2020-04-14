@@ -13,7 +13,6 @@ foreach my $file(@ARGV) {
 	if(length($diff) > 0) {
 		print " *** TEST FAILED!\tOutput diff:\n";
 		print $diff;
-		system("ls test");
 		exit length($diff);
 	} else {
 		print " *** TEST PASS.\n";

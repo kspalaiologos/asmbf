@@ -8,7 +8,7 @@ matrix:
         - sudo make all install
     - language: c
       script:
-        - sudo make COVERAGE="-g -coverage -DBFI_NOCHECKS -O0" all install test
+        - sudo make COVERAGE="-g -coverage -DBFI_NOCHECKS -O0" all test
       after_success:
         - bash <(curl -s https://codecov.io/bash)
   cache: apt

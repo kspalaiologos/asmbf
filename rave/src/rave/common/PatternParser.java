@@ -28,7 +28,12 @@ public class PatternParser {
 		public int parsedTerms;
 	}
 	
-	private String pattern;
+	private final String pattern;
+	
+	public String getPattern() {
+		return pattern;
+	}
+
 	private boolean pedantic = false;
 	
 	public PatternParser(String pattern) {

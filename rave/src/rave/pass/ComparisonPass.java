@@ -39,7 +39,7 @@ public class ComparisonPass implements IPass {
 	private HashMap<PatternParser, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>> comparsions =
 		new HashMap<PatternParser, Tuple<Triplet<Integer, Integer, Integer>, BinaryOperator<Integer>>>() {{
 			// eq_: 1 -> untouched reg, 4 -> source reg
-		    put(new PatternParser("P[P+P-]+P[P-<+P-]P[P+P-]>[P-P[-]]"), new Tuple<>(new Triplet<>(0, 3, 4), (a, b) -> a == b ? 1 : 0));
+			put(new PatternParser("P[P+P-]+P[P-<+P-]P[P+P-]>[P-P[-]]"), new Tuple<>(new Triplet<>(0, 3, 4), (a, b) -> a == b ? 1 : 0));
 		}};
 	
 	public ComparisonPass() {

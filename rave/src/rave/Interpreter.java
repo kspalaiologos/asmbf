@@ -91,10 +91,10 @@ public class Interpreter {
 		passes.add(new RetPass());
 		passes.add(new PopPass());
 		passes.add(new PushPass());
-		passes.add(new MultiplyLoopPass());
 		passes.add(new ClearFinderPass());
 		passes.add(new SimpleUnbalLoopPass());
 		passes.add(new ComparisonPass());
+		passes.add(new MultiplyLoopPass());
 		
 		for(IPass p : passes) {
 			// for each pass

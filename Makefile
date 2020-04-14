@@ -13,8 +13,8 @@ TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 all: $(TARGETS) bfpp etc/bfasm.b bin
 
 setup:
-	mkdir -p ~/.asmbf/
-	cp -rf bin/ ~/.asmbf/
+	mkdir -p "$HOME/.asmbf/"
+	cp -rf bin/ "$HOME/.asmbf/"
 	echo "asm2bf has been installed to $HOME/.asmbf/."
 
 bfpp:

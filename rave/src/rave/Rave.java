@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Rave {
 	
 	public static boolean quiet = false;
 	public static boolean bytecode_in = false;
 	public static boolean bytecode_out = false;
+	public static boolean integer_io = false;
+	
+	public static Scanner inputScanner;
 
 	public Rave(String filename) {
 		File input = new File(filename);
@@ -66,6 +70,7 @@ public class Rave {
 					System.err.println(" -b\t-\tread prebuilt bytecode file.");
 					System.err.println(" -a\t-\tcompile to bytecode file and exit.");
 					System.err.println(" -q\t-\tshut up all the banners.");
+					System.err.println(" -n\t-\tinteger i/o.");
 					return;
 				case 'q':
 					Rave.quiet = true;
@@ -75,6 +80,10 @@ public class Rave {
 					break;
 				case 'b':
 					Rave.bytecode_in = true;
+					break;
+				case 'n':
+					Rave.integer_io = true;
+					inputScanner = new Scanner(System.in);
 					break;
 				}
 			} else {

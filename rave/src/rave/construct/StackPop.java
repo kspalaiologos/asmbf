@@ -20,6 +20,10 @@ public class StackPop extends MorphableNode implements WithoutCoefficients {
 		state.sp.descend();
 		state.sp.descend();
 		
+		if(state.sp.getValue() < 0) {
+			throw new Error("Stack underflow: PermaGen corruption detected.");
+		}
+		
 		Integer i = state.sp.getValue();
 		
 		stackMemory.set(i, 0);

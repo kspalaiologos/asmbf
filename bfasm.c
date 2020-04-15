@@ -24,7 +24,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[2000], off, freecell;
+static unsigned int m[3000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -83,7 +83,7 @@ int bfasm(void) {
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0" /* smp */
 		   "2\0" /* nav */
 		   ;
-    for (n = 0; n < 1900; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 2000; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;

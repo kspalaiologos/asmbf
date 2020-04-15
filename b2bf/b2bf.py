@@ -565,6 +565,7 @@ class Codegen:
                 self.emit('pop r2')
                 self.emit('pop r1')
                 self.emit('sto r1, r2')
+                self.emit('psh r2')
 
             else:
                 # Compute values.
@@ -587,6 +588,7 @@ class Codegen:
                 self.emit('pop r1')
                 self.emit(f'{inst} r2, r3')
                 self.emit('sto r1, r2')
+                self.emit('psh r2')
 
         elif isinstance(expr, tuple) and expr[0] == 'inc_dec_expr':
             left, right = expr[1:]

@@ -373,6 +373,21 @@ class Codegen:
                     # If pushed value is not the same register,
                     # we can move this value into it.
                     self.output.append(f'\tmov {reg}, {pushed}')
+            elif self.output[-1].startswith('\tmov r3') and code == 'sto r6, r3':
+                # As long as we don't use `r3` anymore,
+                # we can store value using `sto r6, {}`.
+                # For example:
+                #
+                #|   Original   |  Optimized  |
+                #|==============|=============|
+                #| mov r3, 32   |             |
+                #| sto r3, r6   | sto r6, r3  |
+                #
+                # Get moved value.
+                value = self.output[-1][9:].strip()
+
+                # Store it directly in address from `r6`.
+                self.output.append(f'\tsto r6, {value}')
             else:
                 # Add tab indent for code.
                 self.output.append(f'\t{code}')

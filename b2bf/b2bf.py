@@ -398,7 +398,7 @@ class Codegen:
                 self.emit('psh r1')
 
         elif isinstance(expr, tuple) and expr[0] == 'get_item':
-            self.rvalue(expr[1])
+            self.lvalue(expr[1])
             self.rvalue(expr[2])
 
             self.emit('pop r2')

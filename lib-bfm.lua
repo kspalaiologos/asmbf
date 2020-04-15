@@ -288,3 +288,7 @@ end
 #	print("dec " .. target_register)
 #	print("sto " .. target_register .. ", 0")
 #end
+	
+#function times(str, n)
+#	for i=1,n,1 do print(str) end
+#end

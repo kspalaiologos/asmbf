@@ -156,10 +156,10 @@ class Transformer(lark.Transformer):
     def case(self, _):
         return ('case', _[0], _[1])
 
-    _('rval_stmt: rvalue ";"')
+    _('rval_stmt: [rvalue] ";"')
 
     def rval_stmt(self, _):
-        return ('rvalue', _[0])
+        return ('rvalue', _[0] if len(_) > 0 else None)
 
     _('switch: "switch" rvalue statement')
 
@@ -178,10 +178,10 @@ class Transformer(lark.Transformer):
     def while_stmt(self, _):
         return ('while', _[0], _[1])
 
-    _('ret: "return" rvalue ";"')
+    _('ret: "return" [rvalue] ";"')
 
     def ret(self, _):
-        return ('ret', _[0])
+        return ('ret', _[0] if len(_) > 0 else 0)
 
     _('label: NAME ":"')
 
@@ -690,12 +690,13 @@ class Codegen:
                 self.statement(s)
 
         elif stmt_type == 'rvalue':
-            # Compile expression.
-            self.rvalue(stmt[0])
+            if stmt[0]:
+                # Compile expression.
+                self.rvalue(stmt[0])
 
-            # Remove `psh` to maintain stack balance.
-            if self.output[-1].startswith('\tpsh'):
-                self.output.pop()
+                # Remove `psh` to maintain stack balance.
+                if self.output[-1].startswith('\tpsh'):
+                    self.output.pop()
 
         elif stmt_type == 'ret':
             # Compile expression.

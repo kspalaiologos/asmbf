@@ -24,7 +24,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[3000], off, freecell;
+static unsigned int m[2000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -57,7 +57,7 @@ int bfasm(void) {
                "c+a[c-d+a-]d[a+d-]c[-d+b[e-c+b-]c[b+c-]e[d-e[-]]d[a+d-]c]e[-]\0" /* lbl */
                "1[d+1-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[1-d[-]]c[-]\0" /* le_ */
                "1[d+1-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[1+c[-]]d[-]\0" /* lt_ */
-               "1[l+m+c+1-]l[-1+l]c[2[d+e+2-]e[2+e-]d[e+c-[e[-]k+c-]k[c+k-]e[d-[1-d[-]]+e-]d-]1+c]1[d+1-]d[2[1+e+2-]e[2+e-]d-]1[-m-1]m[-1+m]\0" /* mod */
+               "2[k+l+2-]k[-2+k]1[k+1-]k[->-[>+>>]>[+[-<+>]>+>>]<<<<<]m[1+m-]k[-]l[-]n[-]\0" /* mod */
                "1[-]2[1+e+2-]e[2+e-]\0" /* 22 mov */
                "1[d+1-]d[2[1+e+2-]e[2+e-]d-]\0" /* mul */
                "1[d+1-]2[d-e+2-]e[2+e-]d[1+d[-]]\0" /* ne_ */
@@ -83,7 +83,7 @@ int bfasm(void) {
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0" /* smp */
 		   "2\0" /* nav */
 		   ;
-    for (n = 0; n < 2000; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 1900; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;

@@ -4,11 +4,10 @@
 # License: MIT
 # TODO:
 #  * Add more optimizations
-#  * Add argument parser
 #  * Add support for switch/case
 #  * Fix bitwise ops
 
-import sys, string
+import tempfile, subprocess, string, argparse, os
 
 try:
     import lark
@@ -73,8 +72,11 @@ inc_dec_expr: (_inc_dec NAME) | (NAME _inc_dec)
 
 arguments: rvalue ("," rvalue)*
 
+CPP: /#[^\\n]*/
+
 %ignore /[\\t \\f\\n]+/
 %ignore COMMENT
+%ignore CPP
 ''')
 
 
@@ -229,7 +231,10 @@ parser = lark.Lark(_.grammar,
 
 class Codegen:
 
-    def __init__(self, ast):
+    def __init__(self, ast, opt):
+        # Optimization level.
+        self.opt_level = opt
+
         # Output list of lines.
         # First line is empty and is getting removed by
         # `get_output`. We need it when some function
@@ -349,7 +354,8 @@ class Codegen:
             # before `#` character.
             self.output.append(code)
         else:
-            if self.output[-1].startswith('\tpsh') and code.startswith('pop'):
+            if (self.opt_level != 0 and self.output[-1].startswith('\tpsh')
+                    and code.startswith('pop')):
                 # If last line is push, and currently emitted is pop,
                 # we can change this into mov instruction.
                 # For example:
@@ -372,7 +378,8 @@ class Codegen:
                     # If pushed value is not the same register,
                     # we can move this value into it.
                     self.output.append(f'\tmov {reg}, {pushed}')
-            elif self.output[-1].startswith('\tmov r3') and code == 'sto r6, r3':
+            elif (self.opt_level != 0 and self.output[-1].startswith('\tmov r3')
+                    and code == 'sto r6, r3'):
                 # As long as we don't use `r3` anymore,
                 # we can store value using `sto r6, {}`.
                 # For example:
@@ -383,7 +390,7 @@ class Codegen:
                 #| sto r3, r6   | sto r6, r3  |
                 #
                 # Get moved value.
-                value = self.output[-1][9:].strip()
+                value = self.output.pop()[9:].strip()
 
                 # Store it directly in address from `r6`.
                 self.output.append(f'\tsto r6, {value}')
@@ -421,7 +428,7 @@ class Codegen:
                 self.emit('psh r1')
 
         elif isinstance(expr, tuple) and expr[0] == 'get_item':
-            self.lvalue(expr[1])
+            self.rvalue(expr[1])
             self.rvalue(expr[2])
 
             self.emit('pop r2')
@@ -874,7 +881,41 @@ class Codegen:
                  '\n'.join(self.output[1:])).replace('\t', ' ' * 4))
 
 
-with open(sys.argv[1]) as f:
-    ast = parser.parse(f.read())
-    output = Codegen(ast).get_output()
-    print(output)
+# Parse arguments
+app = argparse.ArgumentParser(description='B-like to Brainfuck compiler.')
+app.add_argument('file', metavar='FILE', help='Source file')
+app.add_argument('-o', dest='output', help='Output file')
+app.add_argument('-O', dest='opt', type=int, help='Optimization level')
+app.add_argument('-S', action='store_true', help='Output assembly')
+args = app.parse_args()
+
+if args.opt is None:
+    # Set default optimization level.
+    args.opt = 0
+
+if not args.output:
+    # Set default output file.
+    args.output = 'output.S' if args.S else 'output.b'
+
+with open(args.file) as f:
+    # Get include path.
+    inc = os.path.dirname(os.path.abspath(__file__)) + '/include'
+
+    # Run preprocessor
+    code = subprocess.run(['cpp', '-', '-I', inc], stdout=-1,
+        input=f.read().encode()).stdout.decode()
+    
+    # Compile file.
+    ast = parser.parse(code)
+    output = Codegen(ast, args.opt).get_output()
+
+if args.S:
+    # Output assembly.
+    with open(args.output, 'w') as f:
+        f.write(output)
+else:
+    # Assemble.
+    with tempfile.NamedTemporaryFile(suffix='.asm') as f:
+        f.write(output.encode())
+        f.flush()
+        subprocess.run(['bfmake', '-o', args.output, f.name])

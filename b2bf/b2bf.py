@@ -141,7 +141,7 @@ class Transformer(lark.Transformer):
     def block(self, _):
         return ('block', _)
 
-    _('statement: auto | extrn | label | goto | block | asm | rval_stmt | ret | switch | case | if_stmt | while_stmt')
+    _('statement: auto | extrn | label | goto | block | asm | rval_stmt | ret | switch | case | if_stmt | while_stmt | for_stmt')
 
     def statement(self, _):
         return _[0]
@@ -177,6 +177,15 @@ class Transformer(lark.Transformer):
 
     def while_stmt(self, _):
         return ('while', _[0], _[1])
+
+    _('for_stmt: "for" "(" rvalue ";" rvalue ";" rvalue ")" statement')
+
+    def for_stmt(self, _):
+        return ('block', [
+                ('rvalue', _[0]),
+                ('while', _[1], ('block',
+                    [_[3], ('rvalue', _[2])]
+                ))])
 
     _('ret: "return" [rvalue] ";"')
 

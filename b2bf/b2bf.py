@@ -7,7 +7,6 @@
 #  * Add argument parser
 #  * Add support for switch/case
 #  * Fix bitwise ops
-#  * Add star expr to lvalue (?)
 
 import sys, string
 
@@ -429,6 +428,9 @@ class Codegen:
             self.emit('pop r1')
             self.emit('add r1, r2')
             self.emit('psh r1')
+
+        elif isinstance(expr, lark.Tree) and expr.data == 'star_expr':
+            self.rvalue(expr.children[0])
 
         else:
             raise Exception(f'invalid lvalue: {expr}')

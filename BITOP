@@ -25,7 +25,7 @@
 	pop r4
 	ret
 
-; r3 = r1 ^ r2
+; r3 = r1 & r2
 ; r4, r5, r6 preserved, input trashed
 @bitand
 	psh r4
@@ -51,7 +51,7 @@
 	pop r4
 	ret
 
-; r3 = r1 ^ r2
+; r3 = r1 | r2
 ; r4, r5, r6 preserved, input trashed
 @bitor
 	psh r4

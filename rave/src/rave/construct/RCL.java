@@ -21,7 +21,7 @@ public class RCL extends MorphableNode implements WithoutCoefficients {
 		Integer realAddress = state.tape.get(state.mp.getValue() + realSrcDelta);
 		
 		if(realAddress < 0) {
-			throw new Error("Segmentation Fault: PermaGen-TAPERAM origin corruption detected.");
+			throw new Error("Segmentation Fault. PermaGen-TAPERAM origin corruption detected.");
 		}
 		
 		Integer value = taperam.get(realAddress * 2);

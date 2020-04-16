@@ -15,20 +15,20 @@ lbl 1
 	out 32
 	
 	mov r3, r1
-	eq_ r3, .9
+	eq r3, .9
 	jnz r3, 2
 	
 	mov r3, r2
-	eq_ r3, .9
+	eq r3, .9
 	jnz r3, 3
 	
 	mov r3, r1
-	eq_ r3, r4
+	eq r3, r4
 	jnz r3, 5
 	
 lbl 6
 	mov r3, r2
-	eq_ r3, r4
+	eq r3, r4
 	jnz r3, 4
 	
 	inc r2
@@ -50,5 +50,5 @@ lbl 4
 	jmp 1
 lbl 5
 	mov r3, r2
-	eq_ r3, r4
-	jz_ r3, 6
+	eq r3, r4
+	jz r3, 6

@@ -182,11 +182,8 @@ class Transformer(lark.Transformer):
     _('for_stmt: "for" "(" rvalue ";" rvalue ";" rvalue ")" statement')
 
     def for_stmt(self, _):
-        return ('block', [
-                ('rvalue', _[0]),
-                ('while', _[1], ('block',
-                    [_[3], ('rvalue', _[2])]
-                ))])
+        return ('block', [('rvalue', _[0]),
+                          ('while', _[1], ('block', [_[3], ('rvalue', _[2])]))])
 
     _('ret: "return" [rvalue] ";"')
 
@@ -354,8 +351,11 @@ class Codegen:
             # before `#` character.
             self.output.append(code)
         else:
-            if (self.opt_level != 0 and self.output[-1].startswith('\tpsh')
-                    and code.startswith('pop')):
+            if self.opt_level == 0:
+                # Emit code and skip optimizations.
+                # Add tab indent for code.
+                self.output.append(f'\t{code}')
+            elif self.output[-1].startswith('\tpsh') and code.startswith('pop'):
                 # If last line is push, and currently emitted is pop,
                 # we can change this into mov instruction.
                 # For example:
@@ -378,8 +378,8 @@ class Codegen:
                     # If pushed value is not the same register,
                     # we can move this value into it.
                     self.output.append(f'\tmov {reg}, {pushed}')
-            elif (self.opt_level != 0 and self.output[-1].startswith('\tmov r3')
-                    and code == 'sto r6, r3'):
+            elif self.output[-1].startswith(
+                    '\tmov r3') and code == 'sto r6, r3':
                 # As long as we don't use `r3` anymore,
                 # we can store value using `sto r6, {}`.
                 # For example:
@@ -394,6 +394,20 @@ class Codegen:
 
                 # Store it directly in address from `r6`.
                 self.output.append(f'\tsto r6, {value}')
+            elif (self.output[-2] == '\tpsh r1' and
+                  not self.output[-1].startswith('\tmov r1') and
+                  self.output[-1].startswith('\tmov') and code == 'pop r1'):
+                # Optimize push and pop of `r1` between move.
+                # For example:
+                #
+                #|   Original   |  Optimized  |
+                #|==============|=============|
+                #| psh r1       |             |
+                #| mov r2, 123  | mov r2, 123 |
+                #| pop r1       |             |
+                #
+                # Remove 1st line.
+                self.output.pop(-2)
             else:
                 # Add tab indent for code.
                 self.output.append(f'\t{code}')
@@ -902,9 +916,10 @@ with open(args.file) as f:
     inc = os.path.dirname(os.path.abspath(__file__)) + '/include'
 
     # Run preprocessor
-    code = subprocess.run(['cpp', '-', '-I', inc], stdout=-1,
-        input=f.read().encode()).stdout.decode()
-    
+    code = subprocess.run(['cpp', '-', '-I', inc],
+                          stdout=-1,
+                          input=f.read().encode()).stdout.decode()
+
     # Compile file.
     ast = parser.parse(code)
     output = Codegen(ast, args.opt).get_output()

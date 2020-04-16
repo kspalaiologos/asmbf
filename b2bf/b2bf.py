@@ -254,6 +254,7 @@ class Codegen:
 
         # Global variables.
         self.globals = []
+        self.arrays = []
 
         # Global variables size.
         self.mm_base = 1
@@ -281,12 +282,15 @@ class Codegen:
         # Generate global arrays.
         for v in [v for v in ast if v[0] == 'arr']:
             self.globals.append(v[1])
+            self.arrays.append(v[1])
             self.mm_base += v[2]
             for e in v[3]:
                 self.globals.append(None)
                 self.data_labels.append(f'db_ {e}')
             fill = v[2] - len(v[3])
             if fill != 0:
+                for _ in range(fill):
+                    self.globals.append(None)
                 self.data_labels.append(f'#times("db_ 0", {fill})')
 
         # Compile each function.
@@ -714,11 +718,15 @@ class Codegen:
                 # Get global variable address.
                 addr = self.globals.index(expr[1])
 
-                # Get variable value into `r1`.
-                self.emit(f'rcl r1, {addr}')
+                if expr[1] in self.arrays:
+                    # Push value into stack.
+                    self.emit(f'psh {addr}')
+                else:
+                    # Get variable value into `r1`.
+                    self.emit(f'rcl r1, {addr}')
 
-                # Push value into stack.
-                self.emit('psh r1')
+                    # Push value into stack.
+                    self.emit('psh r1')
 
         else:
             print('\t\tUNSUPPORTED EXPR:', expr)

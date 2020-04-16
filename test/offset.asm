@@ -10,11 +10,11 @@
 ; [2] = 4
 
 seg 5
-db_ 48
+db 48
 inc r1
 sto r1, 49
 org 2
-db_ 50
+db 50
 rcl r2, 0
 rcl r3, 1
 rcl r4, 2

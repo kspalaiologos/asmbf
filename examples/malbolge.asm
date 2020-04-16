@@ -14,96 +14,96 @@
 stk 10
 
 org 20
-db_ 4
-db_ 3
-db_ 3
-db_ 1
-db_ 0
-db_ 0
-db_ 1
-db_ 0
-db_ 0
-db_ 4
-db_ 3
-db_ 5
-db_ 1
-db_ 0
-db_ 2
-db_ 1
-db_ 0
-db_ 2
-db_ 5
-db_ 5
-db_ 4
-db_ 2
-db_ 2
-db_ 1
-db_ 2
-db_ 2
-db_ 1
-db_ 4
-db_ 3
-db_ 3
-db_ 1
-db_ 0
-db_ 0
-db_ 7
-db_ 6
-db_ 6
-db_ 4
-db_ 3
-db_ 5
-db_ 1
-db_ 0
-db_ 2
-db_ 7
-db_ 6
-db_ 8
-db_ 5
-db_ 5
-db_ 4
-db_ 2
-db_ 2
-db_ 1
-db_ 8
-db_ 8
-db_ 7
-db_ 7
-db_ 6
-db_ 6
-db_ 7
-db_ 6
-db_ 6
-db_ 4
-db_ 3
-db_ 3
-db_ 7
-db_ 6
-db_ 8
-db_ 7
-db_ 6
-db_ 8
-db_ 4
-db_ 3
-db_ 5
-db_ 8
-db_ 8
-db_ 7
-db_ 8
-db_ 8
-db_ 7
-db_ 5
-db_ 5
-db_ 4
+db 4
+db 3
+db 3
+db 1
+db 0
+db 0
+db 1
+db 0
+db 0
+db 4
+db 3
+db 5
+db 1
+db 0
+db 2
+db 1
+db 0
+db 2
+db 5
+db 5
+db 4
+db 2
+db 2
+db 1
+db 2
+db 2
+db 1
+db 4
+db 3
+db 3
+db 1
+db 0
+db 0
+db 7
+db 6
+db 6
+db 4
+db 3
+db 5
+db 1
+db 0
+db 2
+db 7
+db 6
+db 8
+db 5
+db 5
+db 4
+db 2
+db 2
+db 1
+db 8
+db 8
+db 7
+db 7
+db 6
+db 6
+db 7
+db 6
+db 6
+db 4
+db 3
+db 3
+db 7
+db 6
+db 8
+db 7
+db 6
+db 8
+db 4
+db 3
+db 5
+db 8
+db 8
+db 7
+db 8
+db 8
+db 7
+db 5
+db 5
+db 4
 
 org 101
 txt "+b(29e*j1VMEKLyC})8&m#~W>qxdRp0wkrUo[D7,XTcA"
-db_ ."
+db ."
 txt "lI.v%{gJh4G\-=O@5`_3i<?Z';FNQuY]szf$!BS/|t:Pn6^Ha"
 
 org 195
 txt "5z]&gqtyfr$(we4{WP)H-Zn,[%\3dL+Q;>U!pJS72FhOA1CB6v^=I_0/8|jsb9m<.TVac`uY*MK'X~xDl}REokN:#?G"
-db_ ."
+db ."
 txt "i@"
 
 ;org 289
@@ -156,25 +156,25 @@ sto r2, r1
 ; m[16] = i
 
 lbl 21
-	in_ r1
+	in r1
 	mov r4, r1
 	mov r3, r1
 	mov r2, 11
 	sto r2, r1
-	eq_ r1, 0
+	eq r1, 0
 	jnz r1, 22
 	psh r3
 	mov r4, r3
 	mov r2, r3
-	eq_ r4, 32
-	lt_ r2, 13
-	or_ r4, r2
+	eq r4, 32
+	lt r2, 13
+	or r4, r2
 	pop r1
 	jnz r4, 21
 	rcl r4, 16
 	rcl r3, 15
 	inc r3
-	eq_ r3, r4
+	eq r3, r4
 	jnz r3, 23
 	sto r4, r1
 	inc r4
@@ -188,8 +188,8 @@ lbl 22
 	mov r3, r1
 	rcl r2, 15
 	inc r2
-	lt_ r1, r2
-	jz_ r1, 23
+	lt r1, r2
+	jz r1, 23
 	
 	rcl r1, 16 ; Get I value
 	dec r1
@@ -233,9 +233,9 @@ lbl 4
 	mov r4, r3
 	psh r4
 	; r3 = mbm[m[12]]
-	lt_ r3, 33
-	gt_ r4, 126
-	or_ r3, r4
+	lt r3, 33
+	gt r4, 126
+	or r3, r4
 	jnz r3, 5
 	
 	; xlat1[( mem[c] - 33 + c ) % 94]
@@ -249,31 +249,31 @@ lbl 4
 	
 	; Now compare instructions against r1.
 	mov r2, r1
-	eq_ r2, .v
+	eq r2, .v
 	jnz r2, 6
 	
 	mov r2, r1
-	eq_ r2, ./
+	eq r2, ./
 	jnz r2, 7
 	
 	mov r2, r1
-	eq_ r2, .<
+	eq r2, .<
 	jnz r2, 10
 	
 	mov r2, r1
-	eq_ r2, .p
+	eq r2, .p
 	jnz r2, 11
 	
 	mov r2, r1
-	eq_ r2, .*
+	eq r2, .*
 	jnz r2, 13
 	
 	mov r2, r1
-	eq_ r2, .i
+	eq r2, .i
 	jnz r2, 14
 	
 	mov r2, r1
-	eq_ r2, .i
+	eq r2, .i
 	jnz r2, 15
 lbl 16
 	; Coding code will go here.
@@ -291,7 +291,7 @@ lbl 16
 	
 	; if ( c == 59048 ) c = 0; else c++;
 	rcl r4, 15
-	eq_ r1, r4
+	eq r1, r4
 	jnz r1, 17
 	jmp 18
 lbl 17
@@ -305,7 +305,7 @@ lbl 18
 	; if ( d == 59048 ) d = 0; else d++;
 	rcl r1, 13
 	rcl r4, 15
-	eq_ r1, r4
+	eq r1, r4
 	jnz r1, 19
 	jmp 20
 lbl 19
@@ -327,9 +327,9 @@ lbl 6
 
 lbl 7
 	; Getchar
-	in_ r1
+	in r1
 	mov r2, r1
-	eq_ r2, 0
+	eq r2, 0
 	jnz r2, 8
 	jmp 9
 lbl 8
@@ -438,7 +438,7 @@ lbl 1
 	clr r3
 lbl 2
 	mov r4, r3
-	ge_ r4, 5
+	ge r4, 5
 	jnz r4, 3
 	psh r2
 	

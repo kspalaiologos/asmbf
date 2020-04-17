@@ -24,7 +24,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[2000], off, freecell;
+static unsigned int m[4000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -35,7 +35,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavstkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccststkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -77,13 +77,37 @@ int bfasm(void) {
                "e[-]2[[-]e+2]e[-2+e]2\0" /* log */
 	       "e[-]2[-e++2]e[-2+e]\0" /* asl */
 	       "c[-]2[-c+2]c[-[->>+<]>[<]<]e[-2+e]\0" /* asr */
-	       "c[-]2[c+2-]2+1[d[-]e[-]2[e+2-]e[c[2+d+c-]d[c+d-]e-]1-]\0" /* pow */
+	       "2[n+c+2-]c[2+c-]k[-]1[k+1-]1+n[l[-]m[-]1[m+1-]m[k[1+l+k-]l[k+l-]m-]n-]k[-]l[-]m[-]\0" /* pow */
 	       "u[-]>[>>]<<-<[>+<-]>>[<<+>>-]<[>+<-]+[<<]>\0" /* srv */
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0" /* amp */
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0" /* smp */
 		   "2\0" /* nav */
+		   /* c?? instructions go here. don't even try to understand that. */
+		    "q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[d-c+2-]c[2+c-]d[q-d[-]]\0" /* ceq v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[d-e+2-]e[2+e-]d[q+d[-]]\0" /* cne v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q-d[-]]c[-]\0" /* cle v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q+c[-]]d[-]\0" /* clt */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q-c[-]]d[-]\0" /* cge v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q+d[-]]c[-]\0" /* cgt v */
+			"q[c+d+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjn v */
+			"d+q[d[-]c+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjz v */
+			"q[2[1+e+2-]e[2+e-]q[-]<+>]<[>+<-]>\0" /* cad v */
+			"q[2[1-e+2-]e[2+e-]q[-]<+>]<[>+<-]>\0" /* csu v */
+			"q[1[d+1-]d[2[1+e+2-]e[2+e-]d-]q[-]<+>]<[>+<-]>\0" /* cmu */
+			"q[1[c+1-]c[2[d+e+2-]e[2+e-]d[e+c-[e[-]k+c-]k[c+k-]e[d-[1-d[-]]+e-]d-]1+c]q[-]<+>]<[>+<-]>\0" /* cdi */
+			"q[1[-n+1]2[-o+2]n[>->+<[>]>[<+>-]<<[<]>-]p[-1+p]o[-]p[-]q[-]<+>]<[>+<-]>\0" /* cmd */
+			"q[e[-]2[-e++2]e[-2+e]q[-]<+>]<[>+<-]>\0" /* csl v */
+			"q[c[-]2[-c+2]c[-[->>+<]>[<]<]e[-2+e]q[-]<+>]<[>+<-]>\0" /* csr v */
+			"q[2[n+c+2-]c[2+c-]k[-]1[k+1-]1+n[l[-]m[-]1[m+1-]m[k[1+l+k-]l[k+l-]m-]n-]k[-]l[-]m[-]q[-]<+>]<[>+<-]>\0" /* cpw v */
+			"q[2[e+u+2-]e[2+e-]u>[>>]+<<[<<]>[>[>>]<+<[<<]>-]q[-]<+>]<[>+<-]>\0" /* cps v */
+			"q[2[-]u[-]>[>>]<<->[<<<[<<]>+>[>>]>-]<<<[<<]>[2+u-]q[-]<+>]<[>+<-]>\0" /* cpo v */
+			"q[1[e+1-]2[1+2-]e[2+e-]q[-]<+>]<[>+<-]>\0" /* csw v */
+			"q[u[-]>[>>]<<-<[>+<-]>>[<<+>>-]<[>+<-]+[<<]>q[-]<+>]<[>+<-]>\0" /* crv v */
+			"q[1[-]2[1+e+2-]e[2+e-]q[-]<+>]<[>+<-]>\0" /* cmo v */
+			"q[1[-]2[e+o+*>+<2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<[<[<<]>+1+*>[>>]<-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* crc v */
+			"q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<[-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* cst v */
 		   ;
-    for (n = 0; n < 1900; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 3900; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;
@@ -110,7 +134,7 @@ Lad:;
             m[1] = 1;
             goto Laa;
         }
-        m[2] = 42;
+        m[2] = 65;
         m[3] = m[0];
         goto Lai;
     }
@@ -146,7 +170,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 138) goto Laz; /* not found, quit */
+    if (m[4] == 207) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -156,16 +180,16 @@ Lah:;
     m[5] = 0;
     goto Laa;
 Lae:; /* find operands */
-    if (m[2] != 43) goto Lax; /* txt command */
+    if (m[2] != 66) goto Lax; /* txt command */
     m[1] = 3;
     goto Laj;
 Lax:;
     if (m[0] != 'r' && m[0] != 'R') goto Lak; /* r_ operand */
     m[0] = inchar();
     m[0] = m[0] - '1';
-    if (m[0] > 5) goto Laz; /* not a number, quit */
-    m[4] = m[0] >= 4 ? (m[0] - 4 + 'r') : (m[0] + 'f');
-    goto Laa;
+	if (m[0] > 5) goto Laz; /* not a number, quit */
+	m[4] = m[0] >= 4 ? (m[0] - 4 + 's') : (m[0] + 'f');
+	goto Laa;
 Lak:;
     if (m[0] != ',') goto Lan; /* , */
     m[5] = m[4];
@@ -209,11 +233,11 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 10: /* jnz */
+        case 10: case 46: /* jnz */
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 11: /* jz_ */
+        case 11: case 47: /* jz_ */
             m[11] = 1;
             m[12] = 1;
             goto Lao;
@@ -259,13 +283,13 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 40: /* stk */
+        case 63: /* stk */
             m[9] = m[3] * 2 + 22; // ???
             goto Lap;
-        case 41: /* org */
+        case 64: /* org */
             m[10] = m[3] * 2 + m[9] + 2;
             goto Lap;
-        case 42: /* db_ */
+        case 65: /* db_ */
             m[6] = 4;
             m[4] = '^';
             outbf();
@@ -275,10 +299,10 @@ Lai:;
             m[10] = m[10] + 2;
             if (m[1] == 4) goto Laa;
             goto Lap;
-        case 44: /* raw */
+        case 67: /* raw */
             putchar(m[3]);
             goto Lap;
-		case 45: /* seg */
+		case 68: /* seg */
             off=m[3];
 		    m[10]=m[9] + 2;
             goto Lap;
@@ -370,7 +394,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 158;
+    m[7] = 227;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;

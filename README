@@ -50,7 +50,7 @@ $(bf_wend("r2"))
 
 --------------------------------------- Installation Instruction ---------------------------------------
 
-1. Pull the repository from github
-2. Build asm2bf using `make all'
-3. Drop asm2bf into your home directory using `make setup'
+1. Pull the repository from github: `git clone https://github.com/KrzysztofSzewczyk/asmbf'
+2. Build asm2bf: `make all'
+3. Drop asm2bf into your home directory: `make setup'
 4. Optional: Add `~/.asmbf' into your PATH.

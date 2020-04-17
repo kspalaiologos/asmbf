@@ -17,7 +17,7 @@ you'd expect from a normal assembly, it's ready for your use.
 The standard library is currently being constructed and you may contribute to make it even
 better ;). [https://github.com/KrzysztofSzewczyk/asmbf Github] repository.
 
-= The toolkit =
+= The toolkit description =
 
 This part of article will go through most commonly used tools in the toolkit.
 
@@ -45,6 +45,8 @@ just ASCII in any case as a rule of thumb).
 
 '''bfasm''' is the core of the asm2bf toolkit. It uses a very low-level representation of certain code
 made strictly for asm2bf.
+
+Note: Since v1.3.4, underscores in instruction names at the end are optional.
 
 === Register model ===
 
@@ -263,6 +265,41 @@ better tighten your seatbelts before doing that) to use when sticking with asm2b
 |-
 | txt string      || Text                    || converts string to immediate values and performs db_'s
 |}
+
+=== Conditional instructions ===
+
+Note: This feature will work only with v1.3.5 and up.
+
+Since then, asm2bf has an internal flag register (inaccessible via normal means). The flag register can be set by the following: <code>ceq cne cle clt cge cgt</code> (equivalent to <code>eq, ne, le, lt, ge, gt</code>). For instance:
+
+<pre>
+mov r1, 23
+ceq r1, 23
+; will set the flag register to 1.
+ceq r1, 0
+; nope, didn't succeed, now clears the flag register.
+</pre>
+
+
+New jump types are ready to use: <code>cjn cjz</code>, that depend on the state of the flag register. For example:
+
+<pre>
+; Old way (trashes r3):
+mov r3, r1
+eq_ r3, 10
+jnz r3, %target
+
+; New way (no trashes):
+ceq r1, 10
+cjn %target
+</pre>
+
+All of these conditional instructions execute, whenever the flag register is set to 1:
+
+<pre>
+Conditional variant: cad csu cmu cdi cmd csl csr cpw cps cpo csw crv cmo crc cst
+Classic variant:     add sub mul div mod asl asr pow psh pop swp srv mov rcl sto
+</pre>
 
 === Tips and tricks ===
 
@@ -1018,6 +1055,25 @@ mov r2, *another
 out r1               ; outputs ASCII 15
 </pre>
 
+== rave ==
+
+Rave is an (unfinished) implementation of BFVM concept - an interpreter made specifically to execute asm2bf code efficiently.
+It can be used the same way bfi is used, albeit it doesn't support commandline switches, debugging and AST dumps as of now.
+
+== b2bf ==
+
+b2bf is a B compiler targetting asm2bf. The code isn't of bad quality (just 3 times bigger than hand-written optimized assembly), the compiler is quite fast but may still have some bugs, so it may not be the best idea to jump into asm2bf development using just b2bf (at least not now). Example code:
+
+<pre>
+getnumb() {
+    auto a, c, x, z 1, s;
+    s = &s + 1;
+    while (isdigit(c = getchar()) && a < 10) s[a++] = c;
+    for (0; a--; z =* 10) x =+ z * (s[a] - 48);
+    return x;
+}
+</pre>
+
 == versioning ==
 
 Contents of the VERSIONING document; pasted for various reasons, one of which is uniformity.
@@ -1159,8 +1215,49 @@ v1.2.9: First appeared publicly: 29 Feb 2020
 v1.3.0: First appeared publicly: 13 Mar 2020
 * Milestone release, bugfixes.
 
-v1.3.1: First appeared publicly: 13 Apr 2020
+v1.3.1: First appeared publicly: 10 Apr 2020
 * Milestone release, bugfixes.
+
+v1.3.2: First appeared publicly: 13 Apr 2020
+* Minor project structure cleanup.
+* Documentation files removed from the repository.
+* Repository contains a mirror of the article.
+
+v1.3.3: First appeared publicly: 14 Apr 2020
+* bfvm (rave) - a brainfuck interpreter targeted at optimizing, running and debugging asm2bf code at high speed.
+* new installation system (fixes a critical bug occuring without a ASMBF_DIR set)
+
+v1.3.4: First appeared publicly: 16 Apr 2020
+* the floor character (_) at the end of an instruction is optional.
+
+v1.3.5: First appeared publicly: 17 Apr 2020
+ * Now, asm2bf has an internal flag register (inaccessible via normal means),
+ * The flag register can be set by the following: <code>ceq cne cle clt cge cgt</code> (equivalent to <code>eq, ne, le, lt, ge, gt</code>). For instance:
+<pre>
+mov r1, 23
+ceq r1, 23
+; will set the flag register to 1.
+ceq r1, 0
+; nope, didn't succeed, now clears the flag register.
+<pre>
+
+ * New jumps: <code>cjn cjz</code>, that depend on the state of the flag register. For example:
+<pre>
+; Old way (trashes r3):
+mov r3, r1
+eq_ r3, 10
+jnz r3, %target
+
+; New way (no trashes):
+ceq r1, 10
+cjn %target
+<pre>
+ * New instructions! All of these execute, whenever the flag register is set to 1:
+<pre>
+Conditional variant: cad csu cmu cdi cmd csl csr cpw cps cpo csw crv cmo crc cst
+Classic variant:     add sub mul div mod asl asr pow psh pop swp srv mov rcl sto
+<pre>
+ * b2bf (coined by comrade Maviek) - a B to asm2bf compiler. It's an initial release, so a few things in b2bf may be rigged, but it's able to produce decent code (just three times bigger than the handcoded and optimized assembly equivalent).
 
 = Programming technique =
 

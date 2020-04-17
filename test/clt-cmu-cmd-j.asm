@@ -5,3 +5,5 @@ cmu r1, 32
 cmd r1, 10
 add r1, .0
 out r1
+cnz r1, 0
+out .!

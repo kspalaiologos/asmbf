@@ -82,16 +82,15 @@ int bfasm(void) {
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>\0" /* amp */
 	       "1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>\0" /* smp */
 		   "2\0" /* nav */
-		   /* c?? instructions go here. don't even try to understand that.
-                                     */
-		    "1[c+q+1-]c[-1+c]q[d+q-]+2[d-c+2-]c[2+c-]d[q-d[-]]\0" /* ceq v */
-			"1[c+q+1-]c[-1+c]q[d+q-]2[d-e+2-]e[2+e-]d[q+d[-]]\0" /* cne v */
-			"1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q-d[-]]c[-]\0" /* cle v */
-			"1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q+c[-]]d[-]\0" /* clt */
-			"1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q-c[-]]d[-]\0" /* cge v */
-			"1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q+d[-]]c[-]\0" /* cgt v */
-			"q[c+d+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjn */
-			"d+q[d[-]c+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjz */
+		   /* c?? instructions go here. don't even try to understand that. */
+		    "q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[d-c+2-]c[2+c-]d[q-d[-]]\0" /* ceq v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[d-e+2-]e[2+e-]d[q+d[-]]\0" /* cne v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q-d[-]]c[-]\0" /* cle v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q+c[-]]d[-]\0" /* clt */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q-c[-]]d[-]\0" /* cge v */
+			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q+d[-]]c[-]\0" /* cgt v */
+			"q[c+d+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjn v */
+			"d+q[d[-]c+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjz v */
 			"q[2[1+e+2-]e[2+e-]q[-]<+>]<[>+<-]>\0" /* cad v */
 			"q[2[1-e+2-]e[2+e-]q[-]<+>]<[>+<-]>\0" /* csu v */
 			"q[1[d+1-]d[2[1+e+2-]e[2+e-]d-]q[-]<+>]<[>+<-]>\0" /* cmu */
@@ -234,11 +233,11 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 10: /* jnz */
+        case 10: case 46: /* jnz */
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 11: /* jz_ */
+        case 11: case 47: /* jz_ */
             m[11] = 1;
             m[12] = 1;
             goto Lao;

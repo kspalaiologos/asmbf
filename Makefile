@@ -13,6 +13,7 @@ TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
 all: $(TARGETS) bfpp etc/bfasm.b bin
 
 setup:
+	rm -rf "${HOME}/.asmbf/"
 	mkdir -p "${HOME}/.asmbf/"
 	cp -rf bin/asmbf/* "${HOME}/.asmbf/"
 	chmod -R a+x "${HOME}/.asmbf/"

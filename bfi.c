@@ -211,6 +211,7 @@ int main(int argc, char * argv[]) {
                 break;
             case '.':
                 putchar(mem[mp]);
+                fflush(stdout);
                 break;
             case ',':
                 n = getchar();

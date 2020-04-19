@@ -18,6 +18,17 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/*
+ * --------------------------------------------------------------------------------------------------------------------------
+ * A VERY VERY IMPORTANT NOTE! THIS FILE MAY SEEM OBFUSCATED OR OVERALL UNREADABLE. HERE'S WHY.
+ * Back in the day when I started the asm2bf project (early 2017), I thought that I'd write this reference implementation,
+ * and then write an asm2bf version of it, so that my self compiler actually runs the project.
+ * Later on, I thought that I'll rather write asm2bf in C, so I froze the asm2bf self compiler in v0.9 and started to tweak
+ * this program, that was meant to be the reference implementation.
+ * There's no need for running away in terror, as the most of the code is just parsing the input and outputting the premade
+ * instruction microcode in the `s' string, containing instruction names and the microcode.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -8,6 +8,7 @@ public class BracketRight extends BracketNode {
 	public void execute(Automata state) {
 		match(state, -1);
 		state.ip.descend();
+		state.ip.descend();
 	}
 
 }

@@ -12,6 +12,7 @@ public class Rave {
 	public static boolean bytecode_in = false;
 	public static boolean bytecode_out = false;
 	public static boolean integer_io = false;
+	public static boolean compatibility = false;
 	
 	public static Scanner inputScanner;
 
@@ -71,6 +72,7 @@ public class Rave {
 					System.err.println(" -a\t-\tcompile to bytecode file and exit.");
 					System.err.println(" -q\t-\tshut up all the banners.");
 					System.err.println(" -n\t-\tinteger i/o.");
+					System.err.println(" -c\t-\tcompatible mode - 16-bit cells.");
 					return;
 				case 'q':
 					Rave.quiet = true;
@@ -84,6 +86,9 @@ public class Rave {
 				case 'n':
 					Rave.integer_io = true;
 					inputScanner = new Scanner(System.in);
+					break;
+				case 'c':
+					Rave.compatibility = true;
 					break;
 				}
 			} else {

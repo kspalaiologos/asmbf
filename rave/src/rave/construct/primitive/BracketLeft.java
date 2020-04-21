@@ -6,8 +6,10 @@ public class BracketLeft extends BracketNode {
 
 	@Override
 	public void execute(Automata state) {
-		if(state.tape.get(state.mp.getValue()) == 0)
+		if(state.tape.get(state.mp.getValue()) == 0) {
 			match(state, 1);
+			state.ip.descend();
+		}
 	}
 
 }

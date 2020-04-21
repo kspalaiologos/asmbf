@@ -20,6 +20,10 @@ public class CodeRunner {
 			while(instance.ip.getValue() < instance.program.size()) {
 				instance.program.get(instance.ip.getValue()).execute(instance);
 				instance.ip.advance();
+				
+				// The worst solution you'll ever see.
+				if(Rave.compatibility)
+					instance.tape.replaceAll((x) -> x & 65535);
 			}
 		} catch(Exception e) {
 			System.err.println("IP = " + instance.ip.getValue() + ", MP = " + instance.mp.getValue());

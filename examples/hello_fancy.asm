@@ -4,7 +4,7 @@
 ; including data labels and other goodies we've got!
 
 stk 2
-org 2
+org 0
 
 &string
 txt "Hello World!"

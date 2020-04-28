@@ -30,7 +30,7 @@ https://github.com/kspalaiologos/SqEMU/blob/master/dev-sqemu.s
 ------------------------------------------ Get a taste of it! ------------------------------------------
 
 #function bf_while(reg) print("nav " .. reg); print("raw .["); end
-#function bf_wend(reg) print("nav " .. reg); print("raw .["); end
+#function bf_wend(reg) print("nav " .. reg); print("raw .]"); end
 
 ; branchless* bitness test.
 ; r1 <= interpreter's bitness

@@ -6,7 +6,7 @@
 # Krzysztof Szewczyk, Jul 2019
 
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE) $(OPTIONS)
-TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels bfdata
+TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels constpp bfdata
 
 .PHONY: all clean setup test bfpp
 
@@ -50,13 +50,19 @@ test-clean:
 	rm -f test/*.b
 
 bflabels: bflabels.c
-	$(CC) $(CFLAGS) $^ -lfl -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 bflabels.c: bflabels.lex
 	lex -o $@ $^
 
+constpp: constpp.c
+	$(CC) $(CFLAGS) $^ -o $@
+
+constpp.c: constpp.lex
+	lex -o $@ $^
+
 bfdata: bfdata.c
-	$(CC) $(CFLAGS) $^ -lfl -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 bfdata.c: bfdata.lex
 	lex -o $@ $^

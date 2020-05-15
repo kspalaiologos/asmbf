@@ -73,7 +73,12 @@ void addlabel(char * text) {
 	head->id = curid++;
 }
 
-int yywrap(void) {return 1;}
+int yywrap(void) { return 1; }
+
+int main(void) {
+	yylex();
+}
+
 %}
 
 %%

@@ -1,9 +1,9 @@
 
 ; Don't ask questions, this is beyond explaining
-?band=000
-?bor=001
-?bxor=002
-?bneg=003
+?band=x00
+?bor=x01
+?bxor=x02
+?bneg=x03
 
 $(
 

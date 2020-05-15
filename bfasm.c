@@ -56,7 +56,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[4000], off, freecell;
+static unsigned int m[6000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -144,9 +144,9 @@ int bfasm(void) {
 		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>+<<]<[-[->>+<]<]>>[>-<<]>>+[e[<+1+e-]o[-]]>[l+p-]e[<+>-]<[>++<-]l]>>[e[<+1+e-]<[>+<-]n-]e[-]\0" /* x01 */
 		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>-<<]<[-[->>+<]<]>>[>-<<]>>+[e[<+1+e-]o+[-]]>[l+p-]e[<+>-]<[>++<-]l]>>[e[<+1+e-]<[>+<-]n-]e[-]\0" /* x02 */
 		    "2[d+2-]-d[2-d-]\0" /* x03 */
-		    "q-[e-q-]e[q+e-]" /* x04 */
+		    "q-[e-q-]e[q+e-]\0" /* x04 */
 		   ;
-    for (n = 0; n < 3900; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 4000; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;

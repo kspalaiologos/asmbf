@@ -32,6 +32,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define IC 71
+
+/* db command location: instruction count - 4 */
+#define C1 (IC-4)
+
+/* total mnemonic length: instruction count * 3 */
+#define C2 (IC*3)
+
+/* txt command location: instruction count - 3 */
+#define C3 (IC-3)
+
+/* location of various instructions */
+#define STK (IC-6)
+#define ORG (IC-5)
+#define DB (IC-4)
+#define RAW (IC-2)
+#define SEG (IC-1)
+
+/* no idea what this is */
+#define C4 ((IC+7)*3)
+
 unsigned int inchar();
 void outbf();
 void outrep();
@@ -147,7 +168,7 @@ Lad:;
             m[1] = 1;
             goto Laa;
         }
-        m[2] = 67;
+        m[2] = C1;
         m[3] = m[0];
         goto Lai;
     }
@@ -183,7 +204,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-    if (m[4] == 213) goto Laz; /* not found, quit */
+    if (m[4] == C2) goto Laz; /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -193,7 +214,7 @@ Lah:;
     m[5] = 0;
     goto Laa;
 Lae:; /* find operands */
-    if (m[2] != 68) goto Lax; /* txt command */
+    if (m[2] != C3) goto Lax; /* txt command */
     m[1] = 3;
     goto Laj;
 Lax:;
@@ -296,13 +317,13 @@ Lai:;
             m[11] = 1;
             m[12] = 1;
             goto Lao;
-        case 65: /* stk */
+        case STK: /* stk */
             m[9] = m[3] * 2 + 22; // ???
             goto Lap;
-        case 66: /* org */
+        case ORG: /* org */
             m[10] = m[3] * 2 + m[9] + 2;
             goto Lap;
-        case 67: /* db_ */
+        case DB: /* db_ */
             m[6] = 4;
             m[4] = '^';
             outbf();
@@ -312,10 +333,10 @@ Lai:;
             m[10] = m[10] + 2;
             if (m[1] == 4) goto Laa;
             goto Lap;
-        case 69: /* raw */
+        case RAW: /* raw */
             putchar(m[3]);
             goto Lap;
-		case 70: /* seg */
+		case SEG: /* seg */
             off=m[3];
 		    m[10]=m[9] + 2;
             goto Lap;
@@ -407,7 +428,7 @@ void outrep() {
 
 void outbf() {
     unsigned int r1, r4;
-    m[7] = 233;
+    m[7] = C4;
     r4 = 0;
 o1:;
     if (r4 >= m[6]) goto o2;

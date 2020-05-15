@@ -5,6 +5,29 @@
 ?bxor=x02
 ?bneg=x03
 
+; Some common defines
+?push=psh
+?xchg=swp
+
+; Conditional instructions
+?cadd=cad
+?csub=csu
+?cmul=cmu
+?cdiv=cdi
+?cmod=cmd
+?casl=csl
+?casr=csr
+?cpow=cpw
+?cpush=cps
+?cpsh=cps
+?cpop=cpo
+?cxchg=csw
+?cswp=csw
+?csrv=crv
+?cmov=cmo
+?crcl=crc
+?csto=cst
+
 $(
 
 function include(path)

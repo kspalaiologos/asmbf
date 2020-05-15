@@ -49,4 +49,4 @@ fi
 # A special case: no file supplied
 [ "$file" == "" ] && exit 2
 
-{ ( [ -z "$no_libbfm" ] && echo "" || cat "$HOME/.asmbf/lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "$HOME/.asmbf/bfpp" | "$HOME/.asmbf/bflabels" | "$HOME/.asmbf/bfdata" | sed '/^#/ d' | "$HOME/.asmbf/bfasm" | ( [ -z "$no_strip" ] && cat || "$HOME/.asmbf/bfstrip" ) > "${output}"
+{ ( [ -z "$no_libbfm" ] && echo "" || cat "$HOME/.asmbf/lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "$HOME/.asmbf/bfpp" | "$HOME/.asmbf/bflabels" | "$HOME/.asmbf/bfdata" | sed '/^#/ d' | "$HOME/.asmbf/constpp" | "$HOME/.asmbf/bfasm" | ( [ -z "$no_strip" ] && cat || "$HOME/.asmbf/bfstrip" ) > "${output}"

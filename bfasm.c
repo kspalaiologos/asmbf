@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 71
+#define IC 75
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -67,7 +67,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmstkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03stkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -140,6 +140,10 @@ int bfasm(void) {
 			"q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<[-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* cst v */
 		    "q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* cam */
 		    "q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<<[<<]>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* csm */
+		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>+<<]<[-[->>+<]<]>>[>-<<]>>[+[--e[<+1+e-]o]]>[l+p-]e[<+>-]<[>++<-]l]>>[-]e[-]\0" /* x00 */
+		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>+<<]<[-[->>+<]<]>>[>-<<]>>+[e[<+1+e-]o[-]]>[l+p-]e[<+>-]<[>++<-]l]>>[e[<+1+e-]<[>+<-]n-]e[-]\0" /* x01 */
+		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>-<<]<[-[->>+<]<]>>[>-<<]>>+[e[<+1+e-]o+[-]]>[l+p-]e[<+>-]<[>++<-]l]>>[e[<+1+e-]<[>+<-]n-]e[-]\0" /* x02 */
+		    "2[d+2-]-d[2-d-]\0" /* x03 */
 		   ;
     for (n = 0; n < 3900; n++)  m[n + 20] = s[n];
     m[6] = 0;

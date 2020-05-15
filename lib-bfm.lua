@@ -1,4 +1,10 @@
 
+; Don't ask questions, this is beyond explaining
+?band=000
+?bor=001
+?bxor=002
+?bneg=003
+
 $(
 
 function include(path)

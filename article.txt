@@ -1,3 +1,4 @@
+{{lowercase}}
 {{infobox proglang
 |name=asm2bf
 |paradigms=imperative
@@ -8,14 +9,15 @@
 |refimpl=[https://github.com/kspalaiologos/asmbf asmbf]
 |majorimpl=
 |influence=[[Brainfuck]]
-|files=<code>.asm</code>, <code>.p</code>
+|files=<code>.asm</code>, <code>.s</code>
 }}
 '''asm2bf''' is the only true brainfuck assembler toolkit. It produces quite small brainfuck code if you're
 able to optimize the assembly. With a Lua-based preprocessor wired up, named labels and all the features
 you'd expect from a normal assembly, it's ready for your use.
 
-The standard library is currently being constructed and you may contribute to make it even
-better ;). [https://github.com/kspalaiologos/asmbf Github] repository.
+'''[https://discord.gg/m4Wcenn You can join the Discord server discussing asm2bf].'''
+
+The article has been written in a quite technical manner, so if you spot anything unclear please mention it on the asm2bf talk page, or open an issue in the github repo, or ask me on the discord server, on #esoteric, or state your thoughts on my user page.
 
 = The toolkit description =
 
@@ -45,8 +47,6 @@ just ASCII in any case as a rule of thumb).
 
 '''bfasm''' is the core of the asm2bf toolkit. It uses a very low-level representation of certain code
 made strictly for asm2bf.
-
-Note: Since v1.3.4, underscores in instruction names at the end are optional.
 
 === Register model ===
 
@@ -143,7 +143,7 @@ better tighten your seatbelts before doing that) to use when sticking with asm2b
 |-
 | clr reg         || Clear                   || reg = 0
 |-
-| db_ immed       || Put constant            || puts immed at the next memory position (see org)
+| db immed       || Put constant            || puts immed at the next memory position (see org)
 |-
 | dec reg         || Decrement               || reg = reg - 1
 |-
@@ -153,19 +153,19 @@ better tighten your seatbelts before doing that) to use when sticking with asm2b
 |-
 | end             || End (Exit) program      || jmp 0 (exit)
 |-
-| eq_ regA,regB   || Equal to?               || regA = regA == regB
+| eq regA,regB   || Equal to?               || regA = regA == regB
 |-
-| eq_ regA,immed  || Equal to?               || regA = regA == immed
+| eq regA,immed  || Equal to?               || regA = regA == immed
 |-
-| ge_ regA,regB   || Greater than or equal?  || regA = regA >= regB
+| ge regA,regB   || Greater than or equal?  || regA = regA >= regB
 |-
-| ge_ regA,immed  || Greater than or equal?  || regA = regA >= immed
+| ge regA,immed  || Greater than or equal?  || regA = regA >= immed
 |-
-| gt_ regA,regB   || Greater than?           || regA = regA > regB
+| gt regA,regB   || Greater than?           || regA = regA > regB
 |-
-| gt_ regA,immed  || Greater than?           || regA = regA > immed
+| gt regA,immed  || Greater than?           || regA = regA > immed
 |-
-| in_ reg         || Input                   || reg = input from STDIN (EOF = 0)
+| in reg         || Input                   || reg = input from STDIN (EOF = 0)
 |-
 | inc reg         || Increment               || reg = reg + 1
 |-
@@ -177,21 +177,21 @@ better tighten your seatbelts before doing that) to use when sticking with asm2b
 |-
 | jnz regA,immed  || Jump if not zero        || jmp's to immed if regA != 0
 |-
-| jz_ regA,regB   || Jump if zero            || jmp's to regB if regA == 0
+| jz regA,regB   || Jump if zero            || jmp's to regB if regA == 0
 |-
-| jz_ regA,immed  || Jump if zero            || jmp's to immed if regA == 0
+| jz regA,immed  || Jump if zero            || jmp's to immed if regA == 0
 |-
 | lbl immed       || Label                   || defines a line label. do NOT use with asm2bf toolkit
 |-
-| le_ regA,regB   || Less than or equal to?  || regA = regA <= regB
+| le regA,regB   || Less than or equal to?  || regA = regA <= regB
 |-
-| le_ regA,immed  || Less than or equal to?  || regA = regA <= immed
+| le regA,immed  || Less than or equal to?  || regA = regA <= immed
 |-
 | log regA        || Change to logic value   || regA = regA >= 1
 |-
-| lt_ regA,regB   || Less than?              || regA = regA < regB
+| lt regA,regB   || Less than?              || regA = regA < regB
 |-
-| lt_ regA,immed  || Less than?              || regA = regA < immed
+| lt regA,immed  || Less than?              || regA = regA < immed
 |-
 | mod regA,regB   || Modulus                 || regA = regA % regB
 |-
@@ -205,9 +205,9 @@ better tighten your seatbelts before doing that) to use when sticking with asm2b
 |-
 | mul regA,immed  || Multiply                || regA = regA * immed
 |-
-| ne_ regA,regB   || Not equal to?           || regA = regA != regB
+| ne regA,regB   || Not equal to?           || regA = regA != regB
 |-
-| ne_ regA,immed  || Not equal to?           || regA = regA != immed
+| ne regA,immed  || Not equal to?           || regA = regA != immed
 |-
 | nav regA        || Navigate to regA        || A low level command. Sets the memory pointer at the register.
 |-
@@ -215,9 +215,9 @@ better tighten your seatbelts before doing that) to use when sticking with asm2b
 |-
 | not reg         || Logical NOT             || reg = !reg
 |-
-| or_ regA,regB   || Boolean OR              || regA = regA OR regB
+| or regA,regB   || Boolean OR              || regA = regA OR regB
 |-
-| or_ regA,immed  || Boolean OR              || regA = regA OR immed
+| or regA,immed  || Boolean OR              || regA = regA OR immed
 |-
 | org immed       || Origin                  || sets memory position of the next db_ or txt output (default is 0,  needs to be set again after stk is used)
 |-
@@ -297,8 +297,8 @@ cjn %target
 All of these conditional instructions execute, whenever the flag register is set to 1:
 
 <pre>
-Conditional variant: cad csu cmu cdi cmd csl csr cpw cps cpo csw crv cmo crc cst
-Classic variant:     add sub mul div mod asl asr pow psh pop swp srv mov rcl sto
+Conditional variant: cad csu cmu cdi cmd csl csr cpw cps cpo csw crv cmo crc cst cam csm
+Classic variant:     add sub mul div mod asl asr pow psh pop swp srv mov rcl sto amp smp
 </pre>
 
 === Tips and tricks ===
@@ -318,7 +318,10 @@ ret             ; return
 Labels are numbered from 1. Jumping to label 0 is the same as invoking end.
 
 ALL instructions have length of 3 and whenever it's needed, an underscore
-(_) is added at the end.
+(_) is added at the end. Note: As of v1.3.4, you can omit the underscore.
+
+When using bfasm alongside with the rest of asm2bf toolchain, avoid jumping to numeric labels
+and avoid defining them using lbl instruction.
 
 === Debugging ===
 
@@ -342,8 +345,48 @@ You can run RLE-encoded programs using bfi-rle. You can also change the RLE vari
 In this section I'll try to cover example programs in pure bfasm – no label preprocessor, no preprocessor at all,
 no fancy asm2bf stuff.
 
-Note: All longer programs (including the following ones) are licensed under terms of MIT license. I think they are a valuable
-knowledge source, so I'm sharing them here.
+Note 2: All these programs have been written before asm2bf hit it's prime. Nowadays, we don't use numerical labels (lbl n),
+you should resort to the bflabels instead. The same goes with comparisons (they can be replaced using conditional execution).
+Because the interest around asm2bf isn't quite as big as I'd like it to be, the code examples will sadly remain outdated.
+
+=== Modern code example: Sierpinski triangles ===
+
+This code example is quite up to date with current asm2bf features. It's utilizing bflabels and conditional instrutions.
+
+<pre>
+@main
+	clr r2
+	@b
+		psh r1
+		mov r4, r2
+	@c
+		mov r5, r1
+		mod r5, 2
+		mov r6, r4
+		mod r6, 2
+		mul r5, r6
+		cge r5, 1
+		cmo r5, 1
+		cjn %d
+		asr r1
+		asr r4
+		jnz r1, %c
+		jnz r4, %c
+		clr r3
+	@d
+		cge r3, 1
+		mov r3, .*
+		cmo r3, 32
+		out r3
+		pop r1
+		inc r2
+		cge r2, 64
+		cjz %b
+		out 10
+	inc r1
+	cge r1, 64
+	cjz %main
+</pre>
 
 === Project example: A JSON formatter ===
 
@@ -374,26 +417,26 @@ org 0
 mov r4, .0
 
 lbl 1
-	in_ r1
-	jz_ r1, 0
+	in r1
+	jz r1, 0
 	mov r2, r1
-	eq_ r2, .%
+	eq r2, .%
 	jnz r2, 2
 	; -----------
 	mov r2, r1
-	eq_ r2, .&
+	eq r2, .&
 	jnz r2, 0
 	; -----------
 	mov r2, r1
-	eq_ r2, .+
+	eq r2, .+
 	jnz r2, 7
 	out r1
 	jmp 1
 lbl 2
-	in_ r1
-	in_ r2
+	in r1
+	in r2
 	mov r3, r1
-	ge_ r3, .A
+	ge r3, .A
 	jnz r3, 3
 	jmp 4
 lbl 3
@@ -401,7 +444,7 @@ lbl 3
 lbl 4
 	sub r1, r4
 	mov r3, r2
-	ge_ r3, .A
+	ge r3, .A
 	jnz r3, 5
 	jmp 6
 lbl 5
@@ -440,7 +483,7 @@ mov r1, 10
 
 lbl 15
 	rcl r2, r1
-	jz_ r2, 16
+	jz r2, 16
 	out r2
 	inc r1
 	jmp 15
@@ -451,53 +494,53 @@ clr r1
 clr r2
 
 lbl 17
-	in_ r1
-	eq_ r1, .=
-	jz_ r1, 17
+	in r1
+	eq r1, .=
+	jz r1, 17
 
 psh 0
 lbl 1
-	in_ r1
-	jz_ r1, 0
+	in r1
+	jz r1, 0
 	mov r3, r1
-	eq_ r3, 13
+	eq r3, 13
 	jnz r3, 1
 	mov r3, r1
-	eq_ r3, 10
+	eq r3, 10
 	jnz r3, 1
 	mov r3, r1
-	eq_ r3, 58
+	eq r3, 58
 	jnz r3, 6
 	mov r3, r1
-	eq_ r3, 32
+	eq r3, 32
 	jnz r3, 4
 	mov r3, r1
-	eq_ r3, 34
+	eq r3, 34
 	jnz r3, 5
 	mov r3, r1
-	eq_ r3, .\
+	eq r3, .\
 	jnz r3, 7
 	mov r3, r1
-	eq_ r3, .,
+	eq r3, .,
 	jnz r3, 8
 	mov r3, r1
-	eq_ r3, .]
+	eq r3, .]
 	psh r4
 	mov r4, r1
-	eq_ r4, .}
-	or_ r3, r4
+	eq r4, .}
+	or r3, r4
 	pop r4
 	jnz r3, 9
 	mov r3, r1
-	eq_ r3, .{
+	eq r3, .{
 	psh r4
 	mov r4, r1
-	eq_ r4, .[
-	or_ r3, r4
+	eq r4, .[
+	or r3, r4
 	pop r4
 	jnz r3, 14
 	pop r3
-	jz_ r3, 10
+	jz r3, 10
 	clr r3
 lbl 10
 	psh r3
@@ -507,7 +550,7 @@ lbl 2
 	clr r3
 lbl 11
 	psh r3
-	ge_ r3, r2
+	ge r3, r2
 	jnz r3, 12
 	out 9
 	pop r3
@@ -522,7 +565,7 @@ lbl 6
 	out 32
 	jmp 1
 lbl 4
-	jz_ r4, 1
+	jz r4, 1
 	jmp 3
 lbl 5
 	pop r3
@@ -546,7 +589,7 @@ lbl 8
 	jmp 2
 lbl 9
 	jnz r4, 3
-	jz_ r2, 13
+	jz r2, 13
 	dec r2
 lbl 13
 	out 10
@@ -603,7 +646,7 @@ lbl 1
 
     ; If the cell is equal to zero, jump to 2 (read)
     mov r2, 2
-    jz_ r1, r2
+    jz r1, r2
 
     ; Else, jump to 4 (execute)
     jmp 4
@@ -612,20 +655,20 @@ lbl 2
     inc r4, 1
 
     ; Trash all the registers here.
-    in_ r1
+    in r1
     mov r3, r1
 
     ; Nothing to read, jump to 5 (end)
     mov r2, 5
-    jz_ r1, r2
+    jz r1, r2
 lbl 3
     ; Start reading. Current index: r1
     ; First, check is r1 equal to 0. If so, go to 4 (execute).
     mov r2, 4
-    jz_ r1, r2
+    jz r1, r2
     
     ; Note that reading is done in inverse order.
-    in_ r2
+    in r2
     sto r2, r1
 
     ; Decrement r1 and loop
@@ -639,11 +682,11 @@ lbl 4
     ; R1 is equal to zero.
 
     inc r1
-    eq_ r1, r4
+    eq r1, r4
     
     ; Now, r1 is 0 if there is nothing to change.
     mov r2, 6
-    jz_ r1, r2
+    jz r1, r2
     clr r4
     jmp 7
 lbl 5
@@ -655,7 +698,7 @@ lbl 6
     ; while(ip <= 0)
     clr r4
     mov r3, 8
-    le_ r4, r1
+    le r4, r1
     jnz r4, r3
     jmp 5
 lbl 7
@@ -682,7 +725,7 @@ lbl 7
     mov r2, 1
 
     ; Now r1 is 1 or bigger
-    eq_ r1, r2
+    eq r1, r2
 
     ; If r1 is 1, done reversing.
     mov r2, 6
@@ -705,7 +748,7 @@ lbl 8
     mov r4, 9
 
     ; A = -1?
-    eq_ r3, r2
+    eq r3, r2
     jnz r3, r4
 
     ; Let's check for B
@@ -713,7 +756,7 @@ lbl 8
     inc r1
     clr r4
     dec r4
-    eq_ r4, r3
+    eq r4, r3
     mov r3, 10
     jnz r4, r3
 
@@ -730,7 +773,7 @@ lbl 8
     ; Only r3 is needed now.
     clr r4
     mov r3, 11
-    le_ r4, r3
+    le r4, r3
     
     ; Critical point, increment r1 (don't forget about it, we need to point C!)
     inc r1
@@ -758,7 +801,7 @@ lbl 10
     dec r1
 
     ; read and load to context A
-    in_ r2
+    in r2
     sto r1, r2
 
     ; point context B
@@ -923,6 +966,8 @@ s/\d+(.)/$1x$&/ge if $style eq "postfix" or $style == undef;
 s/(.)\d+/$1x$&/ge if $style eq "prefix";
 </pre>
 
+'''note: derle has been replaced with bfderle written in C sinve v1.2.7. The behaviour is left unchanged.'''
+
 == bfstrip ==
 
 '''bfstrip''' is just a simple utility to shorten the code to a certain extent.
@@ -936,9 +981,9 @@ As of newer versions (v1.3.0), bfstrip is now implemented in C.
 
 '''NOTE: bfstrip will purge RLE and debugging data, if you'd like it to do otherwise, use --keep-rle'''
 
-== labels ==
+== bflabels ==
 
-Very useful program. It allows labels to be inserted into asm2bf programs. At first, it has been implemented
+A very useful program. It allows labels to be inserted into asm2bf programs. At first, it has been implemented
 in asm2bf, but now the implementation relies on lex.
 
 <pre>
@@ -1059,6 +1104,50 @@ out r1               ; outputs ASCII 15
 
 Rave is an (unfinished) implementation of BFVM concept - an interpreter made specifically to execute asm2bf code efficiently.
 It can be used the same way bfi is used, albeit it doesn't support commandline switches, debugging and AST dumps as of now.
+
+== constpp ==
+'''constpp''' is a preprocessor introduced along v1.3.8. It allows to create aliases for instructions and registers. For example:
+<pre>
+?myout=out
+
+push r1
+xchg r1, r2
+myout r2
+</pre>
+
+Alias is created by placing ? at the beginning of the line, followed by an alphanumeric string (must start with a character) terminated by first occurence of =.
+Then, the 2nd part of the alias (from = to the end of the declaration) is treated like the replacement, therefore:
+
+<pre>
+?myout=out
+; replace all occurences of myout with out.
+; replacing occurs outside quotes.
+; W A R N I N G: DO NOT define one letter aliases, otherwise character constants (i.e. .K) may
+;                not work correctly.
+</pre>
+
+List of builtin aliases:
+<pre>
+?push=psh
+?xchg=swp
+?cadd=cad
+?csub=csu
+?cmul=cmu
+?cdiv=cdi
+?cmod=cmd
+?casl=csl
+?casr=csr
+?cpow=cpw
+?cpush=cps
+?cpsh=cps
+?cpop=cpo
+?cxchg=csw
+?cswp=csw
+?csrv=crv
+?cmov=cmo
+?crcl=crc
+?csto=cst
+</pre>
 
 == b2bf ==
 
@@ -1231,17 +1320,17 @@ v1.3.4: First appeared publicly: 16 Apr 2020
 * the floor character (_) at the end of an instruction is optional.
 
 v1.3.5: First appeared publicly: 17 Apr 2020
- * Now, asm2bf has an internal flag register (inaccessible via normal means),
- * The flag register can be set by the following: <code>ceq cne cle clt cge cgt</code> (equivalent to <code>eq, ne, le, lt, ge, gt</code>). For instance:
+* Now, asm2bf has an internal flag register (inaccessible via normal means),
+* The flag register can be set by the following: <code>ceq cne cle clt cge cgt</code> (equivalent to <code>eq, ne, le, lt, ge, gt</code>). For instance:
 <pre>
 mov r1, 23
 ceq r1, 23
 ; will set the flag register to 1.
 ceq r1, 0
 ; nope, didn't succeed, now clears the flag register.
-<pre>
+</pre>
 
- * New jumps: <code>cjn cjz</code>, that depend on the state of the flag register. For example:
+* New jumps: <code>cjn cjz</code>, that depend on the state of the flag register. For example:
 <pre>
 ; Old way (trashes r3):
 mov r3, r1
@@ -1251,15 +1340,75 @@ jnz r3, %target
 ; New way (no trashes):
 ceq r1, 10
 cjn %target
-<pre>
- * New instructions! All of these execute, whenever the flag register is set to 1:
+</pre>
+* New instructions! All of these execute, whenever the flag register is set to 1:
 <pre>
 Conditional variant: cad csu cmu cdi cmd csl csr cpw cps cpo csw crv cmo crc cst
 Classic variant:     add sub mul div mod asl asr pow psh pop swp srv mov rcl sto
-<pre>
- * b2bf (coined by comrade Maviek) - a B to asm2bf compiler. It's an initial release, so a few things in b2bf may be rigged, but it's able to produce decent code (just three times bigger than the handcoded and optimized assembly equivalent).
+</pre>
+* b2bf (coined by comrade Maviek) - a B to asm2bf compiler. It's an initial release, so a few things in b2bf may be rigged, but it's able to produce decent code (just three times bigger than the handcoded and optimized assembly equivalent).
 
-= Programming technique =
+v1.3.6: First appeared publicly: 18 Apr 2020
+* purely bugfix-related update.
+* optimized modulus
+* (now working) r5 and r6 due to a programming error introduced while implementing conditional instructions.
+
+v1.3.7: First appeared publicly: 15 May 2020
+* constpp is a new preprocessor introduced alongside asm2bf. It can be used to alias instruction and register names, like so:
+
+<pre>
+?r6=sp
+; and now
+sub sp, 4
+; is equal to
+sub r6, 4
+; No spaces are allowed after and before =, no spaces are allowed inside aliases,
+; no spaces are allowed after the question mark (?).
+</pre>
+
+* Rave has now a 16-bit compatibility option.
+* Raw left and right bracket fix for Rave (oops)
+* Now the bitness example has the correct brackets used to create a while loop.
+* smp and amp micropatch
+* Removed dependency on -lfl
+
+v1.3.8: First appeared publicly: 15 May 2020
+* This release features a tool to alias registers and instruction names. Example:
+<pre>
+?bp=r1
+?sp=r2
+mov bp, sp
+</pre>
+* List of aliases:
+<pre>
+?push=psh
+?xchg=swp
+?cadd=cad
+?csub=csu
+?cmul=cmu
+?cdiv=cdi
+?cmod=cmd
+?casl=csl
+?casr=csr
+?cpow=cpw
+?cpush=cps
+?cpsh=cps
+?cpop=cpo
+?cxchg=csw
+?cswp=csw
+?csrv=crv
+?cmov=cmo
+?crcl=crc
+?csto=cst
+</pre>
+* Instruction alias example:
+<pre>
+push r1
+xchg r1, r2
+out r2
+</pre>
+
+= Programming techniques =
 
 This part of article will go through common programming techniques worked out before.
 
@@ -1472,10 +1621,107 @@ For the time being, you have to use these shims to get bitops working:
 	ret
 </pre>
 
+= Useful listings =
+
+== lib-bfm.lua ==
+
+lib-bfm.lua is a file prepended to most asm2bf programs. It contains some useful macros for development.
+The listing below will outline the contents of it and (hopefully) all symbols it defines.
+
+<pre>
+$(
+
+function include(path)
+    ; Code truncated (because it's too large), but this function's
+    ; duty is including other files into the current file.
+    ; For example, #include('file.asm') will pump the contents of
+    ; file.asm in place of the #include directive.
+    ; The file will be fully preprocessed.
+
+    ; This file (lib-bfm.lua) is included automatically.
+end
+	
+)
+
+; call given label (provide only the name! without a % sign)
+$(
+RET_ID = 0
+function call(x)
+	print("psh %_return_" .. RET_ID)
+	print("jmp %" .. x)
+	print("@_return_" .. RET_ID)
+	RET_ID = RET_ID + 1
+end
+)
+
+#MM_BASE = 0
+#PAGE_SIZE = 16
+
+; Allocate a page and pass the pointer in target_register.
+; This function has a side effect on register passed in clear.
+; It's getting, simply, cleared.
+#function alloc(target_register, clear)
+#	print("psh " .. clear)
+#	print("mov " .. target_register .. ", " .. tostring(MM_BASE))
+#	print("mov " .. clear .. ", 1")
+#	print("nav " .. clear)
+#	print("raw .[")
+#	print("rcl " .. clear .. ", " .. target_register)
+#	print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
+#	print("inc " .. target_register)
+#	print("nav " .. clear)
+#	print("raw .]")
+#	print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
+#	print("dec " .. target_register)
+#	print("sto " .. target_register .. ", 1")
+#	print("inc " .. target_register)
+#	print("pop " .. clear)
+#end
+
+; Free the page in target_register.
+#function free(target_register)
+#	print("dec " .. target_register)
+#	print("sto " .. target_register .. ", 0")
+#end
+
+; Repeat str n times
+#function times(str, n)
+#	for i=1,n,1 do print(str) end
+#end
+</pre>
+
+== Regular expressions for preprocessors ==
+
+=== bflabels ===
+<pre>
+^[ \t]*\@([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
+(%([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*%([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
+. { putchar(yytext[0]); }
+</pre>
+
+=== data-labels ===
+<pre>
+^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
+(\*([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
+^[ \t]*db_ { origin++; printf("%s", yytext); }
+^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"') + 1) - 1; printf("%s", yytext); }
+^[ \t]*seg[ \t]*([0-9]+) { segment = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
+^[ \t]*org[ \t]*([0-9]+) { origin = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
+. { putchar(yytext[0]); }
+</pre>
+
+=== constpp ===
+<pre>
+^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_]*) { push_def(yytext); }
+(([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
+. { putchar(yytext[0]); }
+</pre>
+
 [[Category:Languages]]
 [[Category:Turing complete]]
 [[Category:Cell-based]]
 [[Category:Stack-based]]
 [[Category:Implemented]]
 [[Category:Brainfuck]]
+[[Category:Low-level]]
 [[Category:2017]]

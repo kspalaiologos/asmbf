@@ -5,6 +5,8 @@
 ?bxor=x02
 ?bneg=x03
 
+?cflip=x04
+
 ; Some common defines
 ?push=psh
 ?xchg=swp

@@ -577,8 +577,8 @@ class Codegen:
                         '>=': 'ge_ r1, r2',
                         '==': 'eq_ r1, r2',
                         '!=': 'ne_ r1, r2',
-                        '<<': '#call("shl")',
-                        '>>': '#call("shr")',
+                        '<<': 'shl r1, r2',
+                        '>>': 'shr r1, r2',
                         '||': 'or_ r1, r2',
                         '&&': 'and r1, r2',
                         '&':  'band r1, r2',
@@ -891,18 +891,11 @@ class Codegen:
 
     def get_output(self):
         # Add some code before output and join everything as string.
-        return (('#!/usr/bin/env bfmake\n\tstk 16\n\torg 0\n$(\n'
-                 'function times(s, n) for i=1,n,1 do print(s) end end\n)\n' +
+        return (('#!/usr/bin/env bfmake\n\tstk 16\n\torg 0\n' +
                  '\n'.join(self.data_labels) + '\n' +
                  f'#PAGE_SIZE = {self.page_size}\n#MM_BASE = {self.mm_base}\n'
                  '#call("alloc")\n\tmov r4, r6\n#call("_main")\n\tend\n'
-                 '@alloc\n#alloc("r6", "r5")\n\tret\n'
-                 '@shl\n\tpsh r2\n\tnav r2\n\traw .[\n'
-                 '\tasl r1\n\tdec r2\n\tnav r2\n'
-                 '\traw .]\n\tpop r2\n\tret\n'
-                 '@shr\n\tpsh r2\n\tnav r2\n\traw .[\n'
-                 '\tasr r1\n\tdec r2\n\tnav r2\n'
-                 '\traw .]\n\tpop r2\n\tret\n' +
+                 '@alloc\n#alloc("r6", "r5")\n\tret\n' +
                  '\n'.join(self.output[1:])).replace('\t', ' ' * 4))
 
 

@@ -580,7 +580,10 @@ class Codegen:
                         '<<': '#call("shl")',
                         '>>': '#call("shr")',
                         '||': 'or_ r1, r2',
-                        '&&': 'and r1, r2'
+                        '&&': 'and r1, r2',
+                        '&':  'band r1, r2',
+                        '|':  'bor r1, r2',
+                        '^':  'bxor r1, r2'
                     }[e.value], 'psh r1')
 
         elif isinstance(expr, lark.Tree) and expr.data == 'not':

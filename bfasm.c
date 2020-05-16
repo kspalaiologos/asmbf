@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 71
+#define IC 76
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -56,7 +56,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[4000], off, freecell;
+static unsigned int m[6000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -67,7 +67,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmstkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04stkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -140,8 +140,13 @@ int bfasm(void) {
 			"q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<[-]<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* cst v */
 		    "q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<<[<<]>[>[>>]<+<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* cam */
 		    "q[1[e+*>+<1-]e[1+e-]2[e+*+2-]e[2+e-]*>[[>>]+[<<]>>-]+[>>]<<[<<]>[>[>>]<-<[<<]>-]>[>>]<<[-<<]>q[-]<+>]<[>+<-]>\0" /* csm */
+		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>+<<]<[-[->>+<]<]>>[>-<<]>>[+[--<<<e[d+1+e-]o]]p[l+p-]e[<+>-]<[>++<-]>l]n[-]e[-]\0" /* x00 */
+		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>+<<]<[-[->>+<]<]>>[>-<<]>>+[<<<e[d+1+e-]o[-]]p[l+p-]e[<+>-]<[>++<-]>l]n[e[d+1+e-]d[>+<-]n-]e[-]\0" /* x01 */
+		    "1[l+1-]2[1+n+2-]1[2+1-]e+l[>>[-[->>+<]<]<[>>>-<<]<[-[->>+<]<]>>[>-<<]>>+[<<<e[d+1+e-]o+[-]]p[l+p-]e[<+>-]<[>++<-]>l]n[e[d+1+e-]d[>+<-]n-]e[-]\0" /* x02 */
+		    "2[d+2-]-d[2-d-]\0" /* x03 */
+		    "q-[e-q-]e[q+e-]\0" /* x04 */
 		   ;
-    for (n = 0; n < 3900; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 4000; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;

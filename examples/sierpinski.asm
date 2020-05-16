@@ -1,36 +1,24 @@
 
-; Sierpinski triangle fractal viewer for asm2bf obfuscated code contest.
-; Released to the public domain by Palaiologos/MENACE @ Apr 2020
+; Sierpinski triangle fractal viewer
 
-@a
-clrr2
-@b
-pshr1
-movr4,r2
-@c
-movr5,r1
-modr5,2
-movr6,r4
-modr6,2
-mulr5,r6
-cger5,1
-cmor5,1
-cjn%d
-asrr1
-asrr4
-jnzr1,%c
-jnzr4,%c
-clrr3
-@d
-cger3,1
-movr3,.*
-cmor3,. 
-outr3
-popr1
-incr2
-cger2,64
-cjz%b
-out10
-incr1
-cger1,64
-cjz%a
+
+@loop1
+	mov r2, 0
+	
+	@loop2
+		mov r3, r1
+		band r3, r2
+		cge r3, 1
+		mov r3, .*
+		cmov r3, 32
+		out r3
+		
+		clt r2, 63
+		cadd r2, 1
+		cjn %loop2
+	
+	out 10
+	
+	clt r1, 63
+	cadd r1, 1
+	cjn %loop1

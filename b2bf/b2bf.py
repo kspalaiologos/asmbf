@@ -920,7 +920,7 @@ with open(args.file) as f:
     inc = os.path.dirname(os.path.abspath(__file__)) + '/include'
 
     # Run preprocessor
-    code = subprocess.run(['cpp', '-', '-I', inc],
+    code = subprocess.run(['cat'],
                           stdout=-1,
                           input=f.read().encode()).stdout.decode()
 

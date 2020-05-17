@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 78
+#define IC 80
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -67,7 +67,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlstkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucinstkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
@@ -147,6 +147,8 @@ int bfasm(void) {
 		    "q-[e-q-]e[q+e-]\0" /* x04 */
 			"2[-l+m+2]l[-2+l]1[-l+1]m[c[-]l[-c+l]c[-[->>+<]>[<]<]e[-l+e]m-]l[-1+l]\0" /* shr */
 			"2[-c+d+2]c[-2+c]1[-c+1]d[e[-]c[-e++c]e[-c+e]d-]c[-1+c]\0" /* shl */
+			"q[2.q[-]<+>]<[>+<-]>\0" /* cou */
+			"q[2,q[-]<+>]<[>+<-]>\0" /* cin */
 		   ;
     for (n = 0; n < 5000; n++)  m[n + 20] = s[n];
     m[6] = 0;

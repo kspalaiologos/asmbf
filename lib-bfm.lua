@@ -29,6 +29,7 @@
 ?cmov=cmo
 ?crcl=crc
 ?csto=cst
+?cout=cou
 
 $(
 

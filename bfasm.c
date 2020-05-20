@@ -116,7 +116,7 @@ int bfasm(void) {
 		   "2\0" /* nav */
 		   /* c?? instructions go here. don't even try to understand that. */
 		    "q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[d-c+2-]c[2+c-]d[q-d[-]]\0" /* ceq v */
-			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[d-e+2-]e[2+e-]d[q+d[-]]\0" /* cne v */
+			"q[-]1[2-e+1-]2[q+2[1-e+2-]]e[1+2+e-]\0" /* cne v */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q-d[-]]c[-]\0" /* cle v */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q+c[-]]d[-]\0" /* clt */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q-c[-]]d[-]\0" /* cge v */

@@ -30,6 +30,7 @@
 ?crcl=crc
 ?csto=cst
 ?cout=cou
+?cjnz=cjn
 
 $(
 

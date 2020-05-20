@@ -70,8 +70,8 @@ int bfasm(void) {
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucinstkorgdb_txtrawseg"
                "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
-               "a[c+d+a-]c[a+c-]d[[-]\0" /* 2 pre */
-               "d]\0" /* 3 post */
+               "a[c+a-]c[[a+c-]\0" /* 2 pre */
+               "c]\0" /* 3 post */
                "2\0" /* 4 immed */
                "2[-]\0" /* 5 immed clear */
                "2[1+e+2-]e[2+e-]\0" /* 6 add */
@@ -84,8 +84,8 @@ int bfasm(void) {
                "2,\0" /* in_ */
                "2+\0" /* inc */
                "a[-]b[-]2[b+c+2-]c[2+c-]\0" /* jmp addr */
-               "1[c+d+1-]c[1+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* jnz val, addr */
-               "d+1[d[-]c+1-]c[1+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* jz_ val, addr */
+               "1[a[-]b[-]2[b+c+2-]c[2+c-]1[c+1-]]c[1+c-]\0" /* jnz val, addr */
+               "1[d-1[c+1-]]c[1+c-]d+[-a[-]b[-]2[b+c+2-]c[2+c-]d]\0" /* jz_ val, addr */
                "c+a[c-d+a-]d[a+d-]c[-d+b[e-c+b-]c[b+c-]e[d-e[-]]d[a+d-]c]e[-]\0" /* lbl */
                "1[d+1-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[1-d[-]]c[-]\0" /* le_ */
                "1[d+1-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[1+c[-]]d[-]\0" /* lt_ */

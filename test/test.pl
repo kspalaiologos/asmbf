@@ -7,7 +7,7 @@ foreach my $file(@ARGV) {
 
 	$file  =~ s{\.[^.]+$}{};
 
-	`$ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout`;
+	`timeout 20s $ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout`;
 	$diff = `diff $file.aout $file.out`;
 
 	if(length($diff) > 0) {

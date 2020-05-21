@@ -68,9 +68,9 @@ int bfasm(void) {
 #endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucinstkorgdb_txtrawseg"
-               "a+b+[\0" /* 0 first */
+               "a+b+[<[>-]>[>]<\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
-               "a[c+a-]c[[a+c-]\0" /* 2 pre */
+               "a[c+a-]c[-a+\0" /* 2 pre */
                "c]\0" /* 3 post */
                "2\0" /* 4 immed */
                "2[-]\0" /* 5 immed clear */
@@ -84,9 +84,9 @@ int bfasm(void) {
                "2,\0" /* in_ */
                "2+\0" /* inc */
                "a[-]b[-]2[b+c+2-]c[2+c-]\0" /* jmp addr */
-               "1[a[-]b[-]2[b+c+2-]c[2+c-]1[c+1-]]c[1+c-]\0" /* jnz val, addr */
-               "1[d-1[c+1-]]c[1+c-]d+[-a[-]b[-]2[b+c+2-]c[2+c-]d]\0" /* jz_ val, addr */
-               "c+a[c-d+a-]d[a+d-]c[-d+b[e-c+b-]c[b+c-]e[d-e[-]]d[a+d-]c]e[-]\0" /* lbl */
+               "1[a[-]2[b+c+2-]c[2+c-]1[c+1-]]c[1+c-]\0" /* jnz val, addr */
+               "1[d-1[c+1-]]c[1+c-]d+[-a[-]2[b+c+2-]c[2+c-]d]\0" /* jz_ val, addr */
+               "a[e[-]c-a-]+c+[-b[c+e-b-]e[a-c[b+e+c-]e[-]]c[-]]\0" /* lbl */
                "1[d+1-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[1-d[-]]c[-]\0" /* le_ */
                "1[d+1-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[1+c[-]]d[-]\0" /* lt_ */
                "2[n+2-]1[m+>-[<<]<[[>+<-]<<]>>1-]m[1+2+m-]n[2+n-]\0" /* mod */
@@ -115,14 +115,14 @@ int bfasm(void) {
 	       "1[e+*>[>>]+[<<]>1-]e[1+e-]2[e+*>[>>]>-<<<[<<]>2-]e[2+e-]*>[>>]<<[-<<]>\0" /* smp */
 		   "2\0" /* nav */
 		   /* c?? instructions go here. don't even try to understand that. */
-		    "q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[d-c+2-]c[2+c-]d[q-d[-]]\0" /* ceq v */
+		    "q[-]+2[1-e+2-]1[q-1[2-e+1-]]e[2+1+e-]\0" /* ceq v */
 			"q[-]1[2-e+1-]2[q+2[1-e+2-]]e[1+2+e-]\0" /* cne v */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q-d[-]]c[-]\0" /* cle v */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q+c[-]]d[-]\0" /* clt */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]+2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]c[q-c[-]]d[-]\0" /* cge v */
 			"q[-]1[c+q+1-]c[-1+c]q[d+q-]2[c+k+e+2-]e[2+e-]k[d[l+e+d-]e[d+e-]+l[c-d-e-l[-]]e[k[-]+e-]k-]d[q+d[-]]c[-]\0" /* cgt v */
 			"q[c+d+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjn v */
-			"d+q[d[-]c+q-]c[q+c-]d[a[-]b[-]2[b+c+2-]c[2+c-]d[-]]\0" /* cjz v */
+			"p+>[<-]<[-a[-]b[-]2[b+c+2-]c[2+c-]p<]>\0" /* cjz v */
 			"q[2[1+e+2-]e[2+e-]p<+>]<[->]\0" /* cad v */
 			"q[2[1-e+2-]e[2+e-]p<+>]<[->]\0" /* csu v */
 			"q[1[d+1-]d[2[1+e+2-]e[2+e-]d-]p<+>]<[->]\0" /* cmu */

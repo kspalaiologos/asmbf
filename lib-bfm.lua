@@ -31,6 +31,7 @@
 ?csto=cst
 ?cout=cou
 ?cjnz=cjn
+?cpar=cpa
 
 $(
 

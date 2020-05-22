@@ -68,7 +68,7 @@ int bfasm(void) {
 #endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpaparstkorgdb_txtrawseg"
-               "a+b+[\0" /* 0 first */
+               "a+b+[<[>-]>[>]<\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+a-]c[-a+\0" /* 2 pre */
                "c]\0" /* 3 post */

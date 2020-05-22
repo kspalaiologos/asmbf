@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 80
+#define IC 82
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -67,8 +67,8 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucinstkorgdb_txtrawseg"
-               "a+b+[<[>-]>[>]<\0" /* 0 first */
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpaparstkorgdb_txtrawseg"
+               "a+b+[\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+a-]c[-a+\0" /* 2 pre */
                "c]\0" /* 3 post */
@@ -149,6 +149,8 @@ int bfasm(void) {
 			"2[d+2-]d[2+1[e+1-]e[1++e-]d-]\0" /* shl */
 			"q[2.p<+>]<[->]\0" /* cou */
 			"q[2,p<+>]<[->]\0" /* cin */
+      "2[m+2-]k+q[-]m[-[-2++m>]<]<[>>2+q+m<]>k-\0" /* cpa */
+			"2[m+2-]k+1[-]m[-[-2++m>]<]<[>>2+1+m<]>k-\0" /* par */
 		   ;
     for (n = 0; n < 5000; n++)  m[n + 20] = s[n];
     m[6] = 0;

@@ -6,6 +6,7 @@
 ?bneg=x03
 
 ?cflip=x04
+?xor=ne
 
 ; Some common defines
 ?push=psh

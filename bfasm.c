@@ -385,8 +385,6 @@ Lab:;
     }
     m[6] = 2;
     outbf(); /* pre */
-    m[6] = 37; // ???
-    outbf(); /* end */
     m[6] = 3;
     outbf(); /* post */
     m[6] = 1;

@@ -73,7 +73,7 @@ int main(int argc, char * argv[]) {
     FILE * infile = NULL;
     long mp = 0, maxmp = 1023;
     int n, ic;
-    bool xflag = false;
+    bool xflag = false, dflag = false;
     unsigned short int * mem;
 
     if (argc < 2) {
@@ -103,6 +103,10 @@ int main(int argc, char * argv[]) {
                     case 'x':
                         xflag = true;
                         break;
+					
+					case 'd':
+						dflag = true;
+						break;
 
                     default:
                         fprintf(stderr, "Error: unrecognized command line option '-%c'\n", argv[n][1]);
@@ -210,7 +214,11 @@ int main(int argc, char * argv[]) {
                 mem[mp]--;
                 break;
             case '.':
-                putchar(mem[mp]);
+				if(dflag)
+					printf("%u", mem[mp]);
+                else
+					putchar(mem[mp]);
+				
                 fflush(stdout);
                 break;
             case ',':

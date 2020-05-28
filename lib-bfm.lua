@@ -12,6 +12,10 @@
 ?push=psh
 ?xchg=swp
 
+; gcd, cgc, cre
+?cgcd=cgc
+?cret=crc
+
 ; Conditional instructions
 ?cadd=cad
 ?csub=csu

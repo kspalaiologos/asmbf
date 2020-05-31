@@ -18,6 +18,9 @@
 
 ; floating point
 ;finv=srv
+;fmul=fmu
+?fdiv=fdi
+?freduce=fre
 
 ; Conditional instructions
 ?cadd=cad

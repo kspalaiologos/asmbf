@@ -21,6 +21,8 @@
 ;fmul=fmu
 ?fdiv=fdi
 ?freduce=fre
+?fadd=fad
+?fsub=fsu
 
 ; Conditional instructions
 ?cadd=cad

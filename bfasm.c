@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 85
+#define IC 88
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -67,7 +67,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrestkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrestkorgdb_txtrawseg"
                "a+b+[<[>-]>[>]<\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+a-]c[-a+\0" /* 2 pre */
@@ -154,6 +154,9 @@ int bfasm(void) {
 		"1[k+1-]2[l+m+2-]m[2+m-]l[<[>>+<-[>>]>[[<+>-]>>]<<<<-]>[<+>-]>[<<+>+>-]<]k[1+k-]\0" /* gcd */
 		"q[1[k+1-]2[l+m+2-]m[2+m-]l[<[>>+<-[>>]>[[<+>-]>>]<<<<-]>[<+>-]>[<<+>+>-]<]k[1+k-]p<+>]<[->]\0" /* cgc */
 		"q[a[-]b[-]u>[>>]<<->[<<<[<<]>b+u>[>>]>-]<<<[<<]>p<+>]<[->]\0" /* cre */
+		"u>[>>]<<[-<<<[<+>-]<-[>>>>>[<<<<+>>>+>-]<[>+<-]<<<<-]>>>>>[-]<<<]+<<+[<<]>\0" /* fmul */
+"u>[>>]<<-<<-<<-<[>+<-]>>[>>[<<<<+>>>+>-]<[>+<-]<-]>>[-]>>[<<<<<[>+>+<<-]>>[<<+>>-]>>>-]<<<<<[-]+[<<]>\0" /* fdiv */
+"u>[>>]<<-<[<+>>+<-]>>[<<+>>>+<-]>[<<[>+>-[>>]<[[>+<-]>>]<<<-]>>[<<+>>-]<[<+>>+<-]>]<<<[>[<->>>+<<-]>+>[<<+>>-]<<<]<-[>+>[<<->>>>+<<-]>>[<<+>>-]<<<<]+>>[-]+[<<]>\0" /* freduce */
 		   ;
     for (n = 0; n < 5000; n++)  m[n + 20] = s[n];
     m[6] = 0;

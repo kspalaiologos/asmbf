@@ -16,6 +16,9 @@
 ?cgcd=cgc
 ?cret=crc
 
+; floating point
+;finv=srv
+
 ; Conditional instructions
 ?cadd=cad
 ?csub=csu

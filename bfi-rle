@@ -1,5 +1,5 @@
 #!/bin/bash -e
 name="/tmp/bfprog$RANDOM"
-asmbf/bfderle $1 > $name
-asmbf/bfi $name
+"$HOME/.asmbf/bfderle" $1 > $name
+"$HOME/.asmbf/bfi" $name
 rm -f $name

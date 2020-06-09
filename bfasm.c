@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 90
+#define IC 91
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -67,7 +67,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsustkorgdb_txtrawseg"
+    char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupstkorgdb_txtrawseg"
                "a+b+[<[>-]>[>]<\0" /* 0 first */
                "b]\0" /* 1 last (end, post, last) */
                "a[c+a-]c[-a+\0" /* 2 pre */
@@ -159,6 +159,7 @@ int bfasm(void) {
 "u>[>>]<<-<[<+>>+<-]>>[<<+>>>+<-]>[<<[>+>-[>>]<[[>+<-]>>]<<<-]>>[<<+>>-]<[<+>>+<-]>]<<<[>[<->>>+<<-]>+>[<<+>>-]<<<]<-[>+>[<<->>>>+<<-]>>[<<+>>-]<<<<]+>>[-]+[<<]>\0" /* freduce */
 "u>[>>]<<-<[<<<<->+>>>-]<-<<-<[>[<+>>>>+<<<-]>[<+>-]<[>>>[<<+>+>-]<[>+<-]<<-]<[>+<-]>>>>>>[<<<<<[<+>>+<-]<[>+<-]>>>>>>-]<<[<<<[<+>>>+<<-]>>[<<+>>-]>-]]<[>>[<+>-]>>>>>[<<<<+>>>>-]<<<]<<[-]+[<<]>\0" /* fadd */
 "u>[>>]<<-<[<<<<->+>>>-]<-<<-<[>[<+>>>>+<<<-]>[<+>-]<[>>>[<<->+>-]<[>+<-]<<-]<[>+<-]>>>>>>[<<<<<[<+>>+<-]<[>+<-]>>>>>>-]<<[<<<[<+>>>+<<-]>>[<<+>>-]>-]]<[>>[<+>-]>>>>>[<<<<+>>>>-]<<<]<<[-]+[<<]>\0" /* fsub */
+"u>[>>]<[->+>+<<]>[-<+>]+[<<]>\0" /* dup */
 		   ;
     for (n = 0; n < 5000; n++)  m[n + 20] = s[n];
     m[6] = 0;

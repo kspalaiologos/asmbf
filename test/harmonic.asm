@@ -9,10 +9,8 @@ psh 1
 	inc r1
 	psh r1
 	psh 1
-	raw .1
 	fadd
 	freduce
-	raw .1
 	ceq r1, 9
 	cjn %q
 	jmp %loop

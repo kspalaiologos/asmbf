@@ -70,6 +70,7 @@ int bfasm(void) {
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
 	"x05"
 	"x06"
+	"x07"
 	"stkorgdb_txtrawseg"
 			   
                "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -167,6 +168,7 @@ int bfasm(void) {
 "q[u>[>>]<[->+>+<<]>[-<+>]+[<<]>p<+>]<[->]\0" /* cdup (cdp) */
 "1[-c+d+1]d[-1+d]c[2-e+c-]+2[c-2[e+2-]]e[2+e-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candeq */
 "1[-c+d+1]c[-1+c]d[2-c+d-]2[d+2[c+2-]]c[2+c-]q[e+q[-]]e[-d[q+d[e+d-]]e[d+e-]]d[-]\0" /* candne */
+"1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candle */
 		   ;
     for (n = 0; n < 7000; n++)  m[n + 20] = s[n];
     m[6] = 0;

@@ -72,6 +72,7 @@ int bfasm(void) {
 	"x06"
 	"x07"
 	"x08"
+	"x09"
 	"stkorgdb_txtrawseg"
 			   
                "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -171,6 +172,7 @@ int bfasm(void) {
 "1[-c+d+1]c[-1+c]d[2-c+d-]2[d+2[c+2-]]c[2+c-]q[e+q[-]]e[-d[q+d[e+d-]]e[d+e-]]d[-]\0" /* candne */
 "1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candle */
 "1[-c+d+1]d[-1+d]c[n+c-]+2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candge */
+"1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candlt */
 		   ;
     for (n = 0; n < 7000; n++)  m[n + 20] = s[n];
     m[6] = 0;

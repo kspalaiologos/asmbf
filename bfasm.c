@@ -56,7 +56,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[7000], off, freecell;
+static unsigned int m[9000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -163,7 +163,7 @@ int bfasm(void) {
 "u>[>>]<[->+>+<<]>[-<+>]+[<<]>\0" /* dup */
 "q[u>[>>]<[->+>+<<]>[-<+>]+[<<]>p<+>]<[->]\0" /* cdup (cdp) */
 		   ;
-    for (n = 0; n < 5000; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 7000; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;

@@ -46,6 +46,25 @@
 ?cjnz=cjn
 ?cpar=cpa
 
+?candeq=x05
+?candne=x06
+?candle=x07
+?candge=x08
+?candlt=x09
+?candgt=x0A
+?coreq=x0B
+?corne=x0C
+?corle=x0D
+?corge=x0E
+?corlt=x0F
+?corgt=x10
+?cxoreq=x11
+?cxorne=x12
+?cxorle=x13
+?cxorge=x14
+?cxorlt=x15
+?cxorgt=x16
+
 $(
 
 function include(path)

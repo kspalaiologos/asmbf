@@ -68,24 +68,7 @@ int bfasm(void) {
 #endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
-	"x05"
-	"x06"
-	"x07"
-	"x08"
-	"x09"
-	"x0a"
-	"x0b"
-	"x0c"
-	"x0d"
-	"x0e"
-	"x0f"
-	"x10"
-	"x11"
-	"x12"
-	"x13"
-	"x14"
-	"x15"
-	"x16"
+	"x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16"
 	"stkorgdb_txtrawseg"
 			   
                "a+b+[<[>-]>[>]<\0" /* 0 first */

@@ -1,52 +1,58 @@
-#!/bin/bash -e
+#!/usr/bin/perl
 
-no_strip=0
-no_libbfm=0
+use File::Basename;
+use Getopt::Std;
 
-while getopts "hslo:" opt; do
-  case $opt in
-    h)
-      echo "bfmake - asm2bf automated build utility." >&2
-      echo "copyright (C) by Krzysztof Szewczyk, 2020" >&2
-      echo ""
-      echo "usage: bfmake [-h/-s/-l/-o file] file.asm" >&2
-      echo "or in form of a shebang: #!/bin/asmbf/bfmake [flags]" >&2
-      echo "" >&2
-      echo "available flags:" >&2
-      echo " -h: display this help page." >&2
-      echo " -s: disable stripping of the brainfuck binary." >&2
-      echo " -l: disable standard library." >&2
-      echo "important! PLACE FLAGS ALWAYS BEFORE THE INPUT FILE."
-      ;;
-    o)
-      output=${OPTARG}
-      ;;
-    s)
-      no_strip=1
-      ;;
-    l)
-      no_libbfm=1
-      ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      echo "check bfmake -h" >&2
-      exit 1
-      ;;
-    :)
-      echo "Option -$OPTARG requires an argument." >&2
-      echo "check bfmake -h" >&2
-      exit 1
-      ;;
-  esac
-done
+%options = ();
 
-file=${@:$OPTIND:1}
+sub help {
+	print "bfmake - asm2bf automated build utility.";
+	print "copyright (C) by Krzysztof Szewczyk, 2020";
+	print "";
+	print "usage: bfmake [-h/-s/-l/-o file] file.asm";
+	print "or in form of a shebang: #!/bin/asmbf/bfmake [flags]";
+	print "";
+	print "available flags:";
+	print " -h: display this help page.";
+	print " -s: disable stripping of the brainfuck binary.";
+	print " -p: disable bfasm step.";
+	print " -l: disable standard library.";
+	print "";
+	print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.";
+	exit
+}
 
-if [ -z "$output" ]; then
-  output="${file%.*}.b"
-fi
+sub switch_ext {
+	my $path = shift @_;
+	my ($name,$dir,$ext) = fileparse($path,'\..*');
+	return $dir . $name . ".b";
+}
 
-# A special case: no file supplied
-[ "$file" == "" ] && exit 2
+sub build {
+	my $name = shift @_;
+	my $home = $ENV{"HOME"};
+	
+	die "No such file: $name" if (! -e $name);
+	
+	my $lib = "cat \"$home/.asmbf/lib/lib-bfm.lua\"";
+	my $stripper = "\"$home/.asmbf/bfstrip\"";
+	my $compiler = "\"$home/.asmbf/bfasm\"";
+	my $output = switch_ext($name);
+	
+	$output = $options{o} if defined $options{o};
+	$lib = 'echo ""' if defined $options{l};
+	$stripper = 'cat' if defined $options{s};
+	$compiler = 'cat' if defined $options{p};
+	
+	`bash -c \"{ $lib ; cat "$name" | sed -e "1!b" -e '/#/d' ; } | "$home/.asmbf/bfpp" | "$home/.asmbf/bflabels" | "$home/.asmbf/bfdata" | "$home/.asmbf/constpp" } | $compiler | $stripper > $output\"`;
+	
+	exit;
+}
 
-{ ( [ -z "$no_libbfm" ] && echo "" || cat "$HOME/.asmbf/lib/lib-bfm.lua" ) ; cat "$file" | sed -e "1!b" -e '/#/d' ; } | "$HOME/.asmbf/bfpp" | "$HOME/.asmbf/bflabels" | "$HOME/.asmbf/bfdata" | sed '/^#/ d' | "$HOME/.asmbf/constpp" | "$HOME/.asmbf/bfasm" | ( [ -z "$no_strip" ] && cat || "$HOME/.asmbf/bfstrip" ) > "${output}"
+getopts("hsplo:", \%options);
+
+help() if defined $options{h};
+
+foreach (@ARGV) {
+	build($_);
+}

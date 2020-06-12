@@ -79,6 +79,7 @@ int bfasm(void) {
 	"x0D"
 	"x0E"
 	"x0F"
+	"x10"
 	"stkorgdb_txtrawseg"
 			   
                "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -185,6 +186,7 @@ int bfasm(void) {
 "1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corle */
 "1[-c+d+1]d[-1+d]c[n+c-]+2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corge */
 "1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corlt */
+"1[-c+d+1]d[-1+d]c[m+c-]2[n+2-]m[2+m>[-<]>]<<[[-]c+2-m<<]>>n[2+n-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corgt */
 		   ;
     for (n = 0; n < 7000; n++)  m[n + 20] = s[n];
     m[6] = 0;

@@ -84,6 +84,7 @@ int bfasm(void) {
 	"x12"
 	"x13"
 	"x14"
+	"x15"
 	"stkorgdb_txtrawseg"
 			   
                "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -195,6 +196,7 @@ int bfasm(void) {
 "1[-c+d+1]c[-1+c]d[2-c+d-]2[d+2[c+2-]]c[2+c-]d[q-e+d-]e[d+e-]q[e+q[-]]e[q+e-]d[-]\0" /* cxorne */
 "1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorle */
 "1[-c+d+1]d[-1+d]c[n+c-]+2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorge */
+"1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorlt */
 		   ;
     for (n = 0; n < 7000; n++)  m[n + 20] = s[n];
     m[6] = 0;

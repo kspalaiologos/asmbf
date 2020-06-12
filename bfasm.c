@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 92
+#define IC 110
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -56,7 +56,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[9000], off, freecell;
+static unsigned int m[10000], off, freecell;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -200,7 +200,7 @@ int bfasm(void) {
 "1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorlt */
 "1[-c+d+1]d[-1+d]c[m+c-]2[n+2-]m[2+m>[-<]>]<<[[-]c+2-m<<]>>n[2+n-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorgt */
 		   ;
-    for (n = 0; n < 7000; n++)  m[n + 20] = s[n];
+    for (n = 0; n < 8000; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = 22;

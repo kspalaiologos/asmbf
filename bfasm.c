@@ -341,7 +341,6 @@ Lai:;
                 m[4] = m[5];
                 outbf();
                 m[6] = '+';
-				freecell = 1;
                 outrep();
                 goto Lap;
             }

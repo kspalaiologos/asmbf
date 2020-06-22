@@ -6,7 +6,7 @@
 # Krzysztof Szewczyk, Jul 2019
 
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE) $(OPTIONS)
-TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels constpp bfdata
+TARGETS=bfasm bfi bfintd bconv bfstrip bfderle bflabels constpp bfdata effective
 
 .PHONY: all clean setup test bfpp
 
@@ -31,6 +31,7 @@ test: test/*.asm
 
 clean:
 	rm -rf bin/
+	rm -f effective.c constpp.c bflabels.c bfdata.c
 	cd bfpp && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
@@ -53,13 +54,19 @@ bflabels: bflabels.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 bflabels.c: bflabels.lex
-	lex -o $@ $^
+	lex -f -o $@ $^
+
+effective: effective.c
+	$(CC) $(CFLAGS) $^ -o $@
+
+effective.c: effective.lex
+	lex -f -o $@ $^
 
 constpp: constpp.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 constpp.c: constpp.lex
-	lex -o $@ $^
+	lex -f -o $@ $^
 
 bfdata: bfdata.c
 	$(CC) $(CFLAGS) $^ -o $@

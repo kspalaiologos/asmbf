@@ -58,71 +58,55 @@ void effective_addr(char * text) {
 	
 	/* step 1: read DISP `2 ( r2 , r3 , 4 )` */
 	disp = atoi(addr);
-	printf("\n`%s` %d\n", addr, disp);
 	
 	/* step 2: remove numerics ` ( r2 , r3 , 4 )`*/
 	addr = chomp_num(addr);
-	printf("\n`%s`\n", addr);
 	
 	/* step 3: remove whitespace `( r2 , r3 , 4 )`*/
 	addr = chomp(addr);
-	printf("\n`%s`\n", addr);
 	
 	/* step 4: remove the paren ` r2 , r3 , 4 )`*/
 	addr++;
-	printf("\n`%s`\n", addr);
 	
 	/* step 5: remove whitespace `r2 , r3 , 4 )`*/
 	addr = chomp(addr);
-	printf("\n`%s`\n", addr);
 	
 	/* step 6: read register / number for base */
 	addr++; /* skip r */
 	base = atoi(addr);
-	printf("\n`%s` %d\n", addr, base);
 	
 	addr++;
-	printf("\n`%s`\n", addr);
 	
 	/* step 7: remove numerics and whitespace */
 	
 	addr = chomp(chomp_num(addr));
-	printf("\n`%s`\n", addr);
 	
 	/* step 8: remove comma ` r3 , 4 )` */
 	
 	addr++;
-	printf("\n`%s`\n", addr);
 	
 	/* step 9: remove whitespace */
 	
 	addr = chomp(addr);
-	printf("\n`%s`\n", addr);
 	
 	/* step 10: read register/number for index `r3 , 4 )` */
 	
 	addr++; /* skip r */
 	index = atoi(addr);
-	printf("\n`%s` %d\n", addr, index);
 	
 	addr++;
-	printf("\n`%s`\n", addr);
 	
 	addr = chomp(chomp_num(addr));
-	printf("\n`%s`\n", addr);
 	
 	/* step 11: remove comma and whitespace `, 4 )` */
 	
 	addr++;
-	printf("\n`%s`\n", addr);
 	
 	addr = chomp(addr);
-	printf("\n`%s`\n", addr);
 	
 	/* step 12: read scale `4 )` */
 	
 	scale = atoi(addr);
-	printf("\n`%s`, %d\n", addr, scale);
 	
 	/* step 13: construct the operation */
 	
@@ -165,6 +149,7 @@ int main(void) {
 
 %%
 
-^.+([0-9]+[ \t]*\([ \t]*r[0-9]+[ \t]*,[ \t]*r[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)) { effective_addr(yytext); }
+
+^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*r[0-9]+[ \t]*,[ \t]*r[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)) { effective_addr(yytext); }
 . { putchar(yytext[0]); }
 %%

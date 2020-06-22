@@ -271,8 +271,8 @@ Lax:;
 	if(m[0] == 'f' || m[0] == 'F') {
 		m[0] = inchar();
 		m[0] = m[0] - '1';
-		if (m[0] != 0) goto Laz;
-		m[4] = 'q';
+		if (m[0] > 1) goto Laz;
+		m[4] = m[0] == 0 ? 'q' : 't';
 		goto Laa;
 	}
 	

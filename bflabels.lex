@@ -83,6 +83,6 @@ int main(void) {
 
 %%
 ^[ \t]*\@([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
-(%([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*%([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
+(%([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*%([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
 . { putchar(yytext[0]); }
 %%

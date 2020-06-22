@@ -21,6 +21,12 @@ struct def_t * new_def(void) {
 
 void pop_def(char * text) {
 	struct def_t * p = ctx;
+	
+	if(*text == '"') {
+		printf("%s", text);
+		return;
+	}
+	
 	while(p->next && p->find && p->replace) {
 		if(!strcmp(text, p->find)) {
 			printf("%s", p->replace);
@@ -66,6 +72,6 @@ int main(void) {
 
 %%
 ^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_]*) { push_def(yytext); }
-(([A-Za-z_][A-Za-z0-9_]*)|"[^"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
+(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
 . { putchar(yytext[0]); }
 %%

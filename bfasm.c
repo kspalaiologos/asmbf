@@ -264,6 +264,14 @@ Lae:; /* find operands */
     m[1] = 3;
     goto Laj;
 Lax:;
+	if(m[0] == 'f' || m[0] == 'F') {
+		m[0] = inchar();
+		m[0] = m[0] - '1';
+		if (m[0] != 0) goto Laz;
+		m[4] = 'q';
+		goto Laa;
+	}
+	
     if (m[0] != 'r' && m[0] != 'R') goto Lak; /* r_ operand */
     m[0] = inchar();
     m[0] = m[0] - '1';

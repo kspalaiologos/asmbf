@@ -11,6 +11,7 @@
 ; Some common defines
 ?push=psh
 ?xchg=swp
+?cots=cot
 
 ; gcd, cgc, cre
 ?cgcd=cgc

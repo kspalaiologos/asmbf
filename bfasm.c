@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 110
+#define IC 112
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -68,7 +68,7 @@ int bfasm(void) {
 #endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
-	"x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16"
+	"x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscot"
 	"stkorgdb_txtrawseg"
 			   
                "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -164,24 +164,28 @@ int bfasm(void) {
 "u>[>>]<<-<[<<<<->+>>>-]<-<<-<[>[<+>>>>+<<<-]>[<+>-]<[>>>[<<->+>-]<[>+<-]<<-]<[>+<-]>>>>>>[<<<<<[<+>>+<-]<[>+<-]>>>>>>-]<<[<<<[<+>>>+<<-]>>[<<+>>-]>-]]<[>>[<+>-]>[>>>>-<<<<-]>>>>[<<<<+>>>>-]<<<]<<[-]+[<<]>\0" /* fsub */
 "u>[>>]<[->+>+<<]>[-<+>]+[<<]>\0" /* dup */
 "q[u>[>>]<[->+>+<<]>[-<+>]+[<<]>p<+>]<[->]\0" /* cdup (cdp) */
-"1[-c+d+1]d[-1+d]c[2-e+c-]+2[c-2[e+2-]]e[2+e-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candeq x05 */
-"1[-c+d+1]c[-1+c]d[2-c+d-]2[d+2[c+2-]]c[2+c-]q[e+q[-]]e[-d[q+d[e+d-]]e[d+e-]]d[-]\0" /* candne x06 */
-"1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candle x07 */
-"1[-c+d+1]d[-1+d]c[n+c-]+2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candge x08 */
-"1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candlt x09 */
-"1[-c+d+1]d[-1+d]c[m+c-]2[n+2-]m[2+m>[-<]>]<<[[-]c+2-m<<]>>n[2+n-]q[e+q[-]]e[-c[q+c[e+c-]]e[c+e-]]c[-]\0" /* candgt x0A */
-"1[-c+d+1]d[-1+d]c[2-e+c-]+2[c-2[e+2-]]e[2+e-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* coreq x0B */
-"1[-c+d+1]c[-1+c]d[2-c+d-]2[d+2[c+2-]]c[2+c-]q[e-q[-]]+e+[-q-d[q+[e+d-]]e[d+e-]]d[-]\0" /* corne x0C */
-"1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corle x0D */
-"1[-c+d+1]d[-1+d]c[n+c-]+2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corge x0E */
-"1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corlt x0F */
-"1[-c+d+1]d[-1+d]c[m+c-]2[n+2-]m[2+m>[-<]>]<<[[-]c+2-m<<]>>n[2+n-]q[e-q[-]]+e+[-q-c[q+[e+c-]]e[c+e-]]c[-]\0" /* corgt x10 */
-"1[-c+d+1]d[-1+d]c[2-e+c-]+2[c-2[e+2-]]e[2+e-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxoreq x11 */
-"1[-c+d+1]c[-1+c]d[2-c+d-]2[d+2[c+2-]]c[2+c-]d[q-e+d-]e[d+e-]q[e+q[-]]e[q+e-]d[-]\0" /* cxorne x12 */
-"1[-c+d+1]d[-1+d]c[m+c-]+2[n+2-]m[2+m>[-<]>]<<[[-]c-2-m<<]>>n[2+n-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorle x13 */
-"1[-c+d+1]d[-1+d]c[n+c-]+2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorge x14 */
-"1[-c+d+1]d[-1+d]c[n+c-]2[m+2-]m[2+m>[-<]>]<<[c-m-[2+m-]<<]>>n[-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorlt x15 */
-"1[-c+d+1]d[-1+d]c[m+c-]2[n+2-]m[2+m>[-<]>]<<[[-]c+2-m<<]>>n[2+n-]c[q-e+c-]e[c+e-]q[e+q[-]]e[q+e-]c[-]\0" /* cxorgt x16 */
+"q[2[1-k+2-]1[q-k[1+2+k-]1[l+1-]]l[1+l-]k[1+2+k-]p<+>]<[->]\0" /* candeq x05 */
+"q[-2[1-k+2-]1[q+k[1+2+k-]1[l+1-]]l[1+l-]k[1+2+k-]p<+>]<[->]\0" /* candne x06 */
+"q[1[m+1-]2[n+2-]m[1+2+m>[-<]>]<<[q-2-m-[1+m-]<<]>>n[2+n-]p<+>]<[->]\0" /* candle x07 */
+"q[1[n+1-]2[m+2-]m[1+2+m>[-<]>]<<[q-1-m-[2+m-]<<]>>n[1+n-]p<+>]<[->]\0" /* candge x08 */
+"q[-1[n+1-]2[m+2-]m[1+2+m>[-<]>]<<[q+1-m-[2+m-]<<]>>n[1+n-]p<+>]<[->]\0" /* candlt x09 */
+"q[-1[m+1-]2[n+2-]m[1+2+m>[-<]>]<<[q+2-m-[1+m-]<<]>>n[2+n-]p<+>]<[->]\0" /* candgt x0A */
+
+"p+>[<-]<[-q+2[1-k+2-]1[q-k[1+2+k-]1[l+1-]]l[1+l-]k[1+2+k-]p<]>\0" /* coreq x0B */
+"p+>[<-]<[-2[1-k+2-]1[q+k[1+2+k-]1[l+1-]]l[1+l-]k[1+2+k-]p<]>\0" /* corne x0C */
+"p+>[<-]<[-q+1[m+1-]2[n+2-]m[1+2+m>[-<]>]<<[q-2-m-[1+m-]<<]>>n[2+n-]p<]>\0" /* corle x0D */
+"p+>[<-]<[-q+1[n+1-]2[m+2-]m[1+2+m>[-<]>]<<[q-1-m-[2+m-]<<]>>n[1+n-]p<]>\0" /* corge x0E */
+"p+>[<-]<[-1[n+1-]2[m+2-]m[1+2+m>[-<]>]<<[q+1-m-[2+m-]<<]>>n[1+n-]p<]>\0" /* corlt x0F */
+"p+>[<-]<[-1[m+1-]2[n+2-]m[1+2+m>[-<]>]<<[q+2-m-[1+m-]<<]>>n[2+n-]p<]>\0" /* corgt x10 */
+
+"2[1-k+2-]1[q+k[1+2+k-]1[l+1-]]l[1+l-]k[1+2+k-]q-[+[-]+<<+>]<[->]>\0" /* cxoreq x11 */
+"2[1-k+2-]1[q-k[1+2+k-]1[l+1-]]l[1+l-]k[1+2+k-]q[+[-]+<<+>]<[->]>\0" /* cxorne x12 */
+"1[m+1-]2[n+2-]m[1+2+m>[-<]>]<<[q+2-m-[1+m-]<<]>>n[2+n-]q-[+[-]+<<+>]<[->]>\0" /* cxorle x13 */
+"1[n+1-]2[m+2-]m[1+2+m>[-<]>]<<[q+1-m-[2+m-]<<]>>n[1+n-]q-[+[-]+<<+>]<[->]>\0" /* cxorge x14 */
+"1[n+1-]2[m+2-]m[1+2+m>[-<]>]<<[q-1-m-[2+m-]<<]>>n[1+n-]q[+[-]+<<+>]<[->]>\0" /* cxorlt x15 */
+"1[m+1-]2[n+2-]m[1+2+m>[-<]>]<<[q-2-m-[1+m-]<<]>>n[2+n-]q[+[-]+<<+>]<[->]>\0" /* cxorgt x16 */
+"2[p+*>[>>]+[<<]>2-]p[2+p-]*>[>>]>[-]<<<[<<]>1[p+*>[>>]>+<<<[<<]>1-]p[1+p-]*>[>>]<<[-<<]>\0" /* ots: sto with reversed parameters */
+"q[2[p+*>[>>]+[<<]>2-]p[2+p-]*>[>>]>[-]<<<[<<]>1[p+*>[>>]>+<<<[<<]>1-]p[1+p-]*>[>>]<<[-<<]>p<+>]<[->]\0" /* cots => cot */
 		   ;
     for (n = 0; n < 8000; n++)  m[n + 20] = s[n];
     m[6] = 0;

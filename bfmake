@@ -6,19 +6,19 @@ use Getopt::Std;
 %options = ();
 
 sub help {
-	print "bfmake - asm2bf automated build utility.";
-	print "copyright (C) by Kamila Szewczyk, 2020";
-	print "";
-	print "usage: bfmake [-h/-s/-l/-o file] file.asm";
-	print "or in form of a shebang: #!/bin/asmbf/bfmake [flags]";
-	print "";
-	print "available flags:";
-	print " -h: display this help page.";
-	print " -s: disable stripping of the brainfuck binary.";
-	print " -p: disable bfasm step.";
-	print " -l: disable standard library.";
-	print "";
-	print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.";
+	print "bfmake - asm2bf automated build utility.\n";
+	print "copyright (C) by Kamila Szewczyk, 2020\n";
+	print "\n";
+	print "usage: bfmake [-h/-s/-l/-o file] file.asm\n";
+	print "or in form of a shebang: #!/bin/asmbf/bfmake [flags]\n";
+	print "\n";
+	print "available flags:\n";
+	print " -h: display this help page.\n";
+	print " -s: disable stripping of the brainfuck binary.\n";
+	print " -p: disable bfasm step.\n";
+	print " -l: disable standard library.\n";
+	print "\n";
+	print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
 	exit
 }
 
@@ -44,7 +44,7 @@ sub build {
 	$stripper = 'cat' if defined $options{s};
 	$compiler = 'cat' if defined $options{p};
 	
-	`bash -c \"{ $lib ; cat "$name" | sed -e "1!b" -e '/#/d' ; } | "$home/.asmbf/bfpp" | "$home/.asmbf/bflabels" | "$home/.asmbf/bfdata" | "$home/.asmbf/constpp" } | $compiler | $stripper > $output\"`;
+	`bash -c \"{ $lib ; cat "$name" | sed -e "1!b" -e '/#/d' ; } | "$home/.asmbf/bfpp" | "$home/.asmbf/bflabels" | "$home/.asmbf/bfdata" | "$home/.asmbf/effective" | "$home/.asmbf/constpp" } | $compiler | $stripper > $output\"`;
 	
 	exit;
 }

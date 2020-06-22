@@ -277,7 +277,7 @@ Lax:;
         m[0] = inchar();
         m[0] = m[0] - '1';
 #ifndef BFASM_NO_ERROR_CODES
-        if (m[0] > 1) { printf("\n** ERROR: Register unavailable: f%d", m[0] + '1'); goto Laz; }
+        if (m[0] > 1) { printf("\n** ERROR: Register unavailable: f%d\n", m[0] + 1); goto Laz; }
 #else
         if (m[0] > 1) goto Laz;
 #endif
@@ -289,7 +289,7 @@ Lax:;
     m[0] = inchar();
     m[0] = m[0] - '1';
 #ifndef BFASM_NO_ERROR_CODES
-    if (m[0] > 5) { printf("\n** ERROR: Register unavailable: f%d", m[0] + '1'); goto Laz; }
+    if (m[0] > 5) { printf("\n** ERROR: Register unavailable: r%d\n", m[0] + 1); goto Laz; }
 #else
     if (m[0] > 5) goto Laz;
 #endif
@@ -307,7 +307,7 @@ Lan:;
 Lal:; /* number */
     m[0] = m[0] - '0';
 #ifndef BFASM_NO_ERROR_CODES
-    if (m[0] > 9) { printf("\n** ERROR: Expected digit, got `%c'", m[0] + '0'); goto Laz; }
+    if (m[0] > 9) { printf("\n** ERROR: Expected digit, got `%c'\n", m[0] + '0'); goto Laz; }
 #else
     if (m[0] > 9) goto Laz;
 #endif

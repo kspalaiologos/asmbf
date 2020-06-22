@@ -1,4 +1,5 @@
 bin
+effective.c
 bfdata.c
 bflabels.c
 constpp.c

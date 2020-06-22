@@ -12,6 +12,7 @@
 ?push=psh
 ?xchg=swp
 ?cots=cot
+?movf=rcl
 
 ; gcd, cgc, cre
 ?cgcd=cgc

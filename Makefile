@@ -6,7 +6,7 @@
 # Krzysztof Szewczyk, Jul 2019
 
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE) $(OPTIONS)
-TARGETS=bfasm bfi bconv bfstrip bfderle bflabels constpp bfdata effective
+TARGETS=bfasm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
 
 .PHONY: all clean setup test bfpp
 
@@ -72,4 +72,10 @@ bfdata: bfdata.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 bfdata.c: bfdata.lex
-	lex -o $@ $^
+	lex -f -o $@ $^
+
+vxcall: vxcall.c
+	$(CC) $(CFLAGS) $^ -o $@
+
+vxcall.c: vxcall.lex
+	lex -f -o $@ $^

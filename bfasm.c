@@ -50,6 +50,8 @@
 #define RAW (IC-2)
 #define SEG (IC-1)
 
+#define STACK 23
+
 /* no idea what this is */
 #define C4 ((IC+7)*3)
 
@@ -192,7 +194,7 @@ int bfasm(void) {
     for (n = 0; n < 8000; n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
-    m[9] = 23;
+    m[9] = STACK;
     m[10] = m[9] + 2;
     outbf();
     m[11] = 1;
@@ -285,7 +287,7 @@ Lax:;
 #else
         if (m[0] > 2) goto Laz;
 #endif
-        m[4] = m[0] == 0 ? 'q' : (m[0] == 1 ? 'v' : 't');
+        m[4] = m[0] == 0 ? 'q' : (m[0] == 1 ? 'v' : 't'); // if crashes, change v to t.
         goto Laa;
     }
     
@@ -404,7 +406,7 @@ Lai:;
             m[12] = 1;
             goto Lao;
         case STK: /* stk */
-            m[9] = m[3] * 2 + 23; // ???
+            m[9] = m[3] * 2 + STACK; // ???
             goto Lap;
         case ORG: /* org */
             m[10] = m[3] * 2 + m[9] + 2;
@@ -547,7 +549,7 @@ o5:;
     if (r1 != '2') goto o6;
     r1 = m[4];
 o6:;
-    if (r1 == '#') { r1 = 21; goto o11; } /* when stack changes, set it */
+    if (r1 == '#') { r1 = STACK-2; goto o11; } /* when stack changes, set it */
     if (r1 != '*') goto o7;
     r1 = m[9] + off * 2; // ???
     goto o11;

@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 113
+#define IC 116
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -68,7 +68,7 @@ int bfasm(void) {
 #endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
-    "x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscotdsc"
+    "x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscotdscsgtsptsle"
     "stkorgdb_txtrawseg"
            
            "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -185,6 +185,9 @@ int bfasm(void) {
            "2[p+*>[>>]+[<<]>2-]p[2+p-]*>[>>]>[-]<<<[<<]>1[p+*>[>>]>+<<<[<<]>1-]p[1+p-]*>[>>]<<[-<<]>\0" /* ots: sto with reversed parameters */
            "q[2[p+*>[>>]+[<<]>2-]p[2+p-]*>[>>]>[-]<<<[<<]>1[p+*>[>>]>+<<<[<<]>1-]p[1+p-]*>[>>]<<[-<<]>p<+>]<[->]\0" /* cots => cot */
            "u>[>>]<[-]<[-]<<[<<]>\0" /* dsc */
+           "1[-]2-[p+u>[>>]+<<-<<[<<]>2-]+p[2+p-]u>[>>]<[<+>-]<-[[<<]>1+u>[>>]<+<-]>>+[-<<+>>>>]<<<<[<<]>\0" /* sgt */
+           "2-[p+u>[>>]+<<-<<[<<]>2-]+p[2+p-]u>[>>]<[-]<[<<]>1[p+u>[>>]<+<[<<]>1-]p[1+p-]u>[>>]>>[-<<+>>>>]<<<<[<<]>\0" /* spt */
+           "2[-]u>[>>]<<<<[>>[<<+>>-]+<<<<]>>[<2+u>-]+<\0" /* sle */
            ;
     for (n = 0; n < 8000; n++)  m[n + 20] = s[n];
     m[6] = 0;

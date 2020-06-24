@@ -72,8 +72,8 @@ static int version() {
 int main(int argc, char * argv[]) {
     FILE * infile = NULL;
     long mp = 0, maxmp = 1023;
-    int n, ic;
-    bool xflag = false, dflag = false;
+    int n, ic, nc = 0;
+    bool xflag = false, dflag = false, cycles = false;
     unsigned short int * mem;
 
     if (argc < 2) {
@@ -108,6 +108,10 @@ int main(int argc, char * argv[]) {
 						dflag = true;
 						break;
 
+                    case 'c':
+                        cycles = true;
+                        break;
+                    
                     default:
                         fprintf(stderr, "Error: unrecognized command line option '-%c'\n", argv[n][1]);
                         return EXIT_FAILURE;
@@ -182,6 +186,7 @@ int main(int argc, char * argv[]) {
     }
     #endif
     while (++ip < lof) {
+        if(cycles) nc++;
         switch (src[ip]) {
             case '>':
                 if (mp >= maxmp) {
@@ -250,5 +255,6 @@ int main(int argc, char * argv[]) {
                 break;
         }
     }
+    if(cycles) fprintf(stderr, "Done, %d cycles.", nc);
     return EXIT_SUCCESS;
 }

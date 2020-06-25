@@ -20,7 +20,7 @@ char * chomp_num(char * s) {
 
 void effective_addr(char * text) {
 	char * orig, * addr;
-	int disp, base, index, scale;
+	int disp, base, index, scale, prim = 0, prim2 = 0;
 	
 	orig = text;
 	
@@ -107,6 +107,17 @@ void effective_addr(char * text) {
 	/* step 12: read scale `4 )` */
 	
 	scale = atoi(addr);
+    
+    addr = chomp(chomp_num(addr));
+    addr++;
+    
+    if(*addr == '\'') {
+        prim = 1;
+        
+        if(addr[1] == '\'') {
+            prim2 = 1;
+        }
+    }
 	
 	/* step 13: construct the operation */
 	
@@ -136,7 +147,51 @@ void effective_addr(char * text) {
     if(disp > 0)
         printf("add f2, %d\n", disp);
     
-	printf("%sf2\n", orig);
+    if(prim)
+        printf("rcl f2, f2\n");
+    
+	printf("%s f2\n", orig);
+    
+    if(prim2) {
+        printf("mov f3, f2\n");
+        
+        // generate effective adress again.
+        if(index > 0)
+            printf("mov f2, r%d\n", index);
+        else
+            printf("clr f2\n");
+        
+        if(scale != 1)
+            printf("mul f2, %d\n", scale);
+        
+        if(base > 0)
+            printf("add f2, r%d\n", base);
+        
+        if(disp > 0)
+            printf("add f2, %d\n", disp);
+        
+        printf("sto f2, f3\n");
+    }
+}
+
+void sp_addr(char * text) {
+    char * bracket = strchr(text, '?');
+    *bracket++ = 0;
+    
+    while(!isdigit(*bracket) && *bracket != 'r' && *bracket != 'R' && bracket != '.')
+        bracket++;
+    
+    printf("\sgt f2, ");
+    
+    if(*bracket == 'r') {
+        printf("r%d\n", atoi(++bracket));
+    } else if(*bracket == '.') {
+        printf(".%c\n", bracket[1]);
+    } else {
+        printf("%d\n", atoi(bracket));
+    }
+    
+    printf("%s f2\n", text);
 }
 
 int yywrap(void) { return 1; }
@@ -150,6 +205,9 @@ int main(void) {
 %%
 
 
-^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*r[0-9]+[ \t]*,[ \t]*r[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)) { effective_addr(yytext); }
+^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*r[0-9]+[ \t]*,[ \t]*r[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
+^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*R[0-9]+[ \t]*,[ \t]*R[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
+^[A-Za-z0-9 \t\,]+\?\[sp[ \t]?\-[ \t]?(r[0-9]+|[0-9]+|\..)\] { sp_addr(yytext); }
+^[A-Za-z0-9 \t\,]+\?\[sp[ \t]?\-[ \t]?(R[0-9]+|[0-9]+|\..)\] { sp_addr(yytext); }
 . { putchar(yytext[0]); }
 %%

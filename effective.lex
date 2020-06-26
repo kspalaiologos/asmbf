@@ -175,13 +175,13 @@ void effective_addr(char * text) {
 }
 
 void sp_addr(char * text) {
-    char * bracket = strchr(text, '?');
+    char * bracket = strchr(text, '[');
     *bracket++ = 0;
     
     while(!isdigit(*bracket) && *bracket != 'r' && *bracket != 'R' && bracket != '.')
         bracket++;
     
-    printf("\sgt f2, ");
+    printf("sgt f2, ");
     
     if(*bracket == 'r') {
         printf("r%d\n", atoi(++bracket));
@@ -192,6 +192,19 @@ void sp_addr(char * text) {
     }
     
     printf("%s f2\n", text);
+    
+    if(strchr(text, "'") == NULL)
+        return;
+    
+    printf("tps f2, ");
+    
+    if(*bracket == 'r') {
+        printf("r%d\n", atoi(++bracket));
+    } else if(*bracket == '.') {
+        printf(".%c\n", bracket[1]);
+    } else {
+        printf("%d\n", atoi(bracket));
+    }
 }
 
 int yywrap(void) { return 1; }
@@ -207,7 +220,7 @@ int main(void) {
 
 ^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*r[0-9]+[ \t]*,[ \t]*r[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
 ^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*R[0-9]+[ \t]*,[ \t]*R[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
-^[A-Za-z0-9 \t\,]+\?\[sp[ \t]?\-[ \t]?(r[0-9]+|[0-9]+|\..)\] { sp_addr(yytext); }
-^[A-Za-z0-9 \t\,]+\?\[sp[ \t]?\-[ \t]?(R[0-9]+|[0-9]+|\..)\] { sp_addr(yytext); }
+^[A-Za-z0-9 \t\,]+\[sp[ \t]?\-[ \t]?(r[0-9]+|[0-9]+|\..)\]\'? { sp_addr(yytext); }
+^[A-Za-z0-9 \t\,]+\[sp[ \t]?\-[ \t]?(R[0-9]+|[0-9]+|\..)\]\'? { sp_addr(yytext); }
 . { putchar(yytext[0]); }
 %%

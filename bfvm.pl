@@ -35,6 +35,23 @@ sub tweak_mp {
 
 sub tweak_value {
     my $match = shift;
+    
+    # If we have any digits inside the match
+    # this probably means, we've got a RLE-d string.
+    $match =~ s/([0-9]+)(\+|\-)//g and do {
+        print "tape[mp] += $1;\n" if $2 eq "+";
+        print "tape[mp] -= $1;\n" if $2 eq "-";
+        return;
+    };
+    
+    # Match some normal brainfucky movements.
+    $match =~ s/(\++)//g and do {
+        print "tape[mp] += " . length($1) . "\n";
+    };
+    
+    $match =~ s/(\-+)//g and do {
+        print "tape[mp] -= " . length($1) . "\n";
+    };
 }
 
 while(<STDIN>) {

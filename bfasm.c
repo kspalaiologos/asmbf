@@ -63,6 +63,10 @@ static unsigned int m[10000], off, freecell;
 int best_base(int n);
 void translate(int n, int base);
 
+#ifdef BFVM
+    #define RLE
+#endif
+
 #ifndef BFASM_NO_EXPORT_MAIN
 int main(void) {
 #else
@@ -72,7 +76,7 @@ int bfasm(void) {
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
     "x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscotdscsgtsptsletps"
     "stkorgdb_txtrawseg"
-           
+           #ifndef BFVM
            "a+b+[<[>-]>[>]<\0" /* 0 first */
            "b]\0" /* 1 last (end, post, last) */
            "a[c+a-]c[-a+\0" /* 2 pre */
@@ -111,6 +115,46 @@ int bfasm(void) {
            "2[-]\0" /* clr */
            "a[-]b[-]#>[>>]<<->[<<<[<<]>b+#>[>>]>-]<<<[<<]>\0" /* ret */
            "a[-]b[-]\0" /* end */
+           #else
+           "AA\0" /* 0 first */
+           "AB\0" /* 1 last (end, post, last) */
+           "AC\0" /* 2 pre */
+           "AD\0" /* 3 post */
+           "AE2|\0" /* 4 immed */
+           "AF2|\0" /* 5 immed clear */
+           "AG1|2|\0" /* 6 add */
+           "AH1|2|\0" /* and */
+           "AI2|\0" /* dec */
+           "AJ1|2|\0" /* div */
+           "AK1|2|\0" /* eq_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]+e[1-e-] */
+           "AL1|2|\0" /* ge_ */
+           "AM1|2|\0" /* gt_ */
+           "AN2|\0" /* in_ */
+           "AM2|\0" /* inc */
+           "AO2|\0" /* jmp addr */
+           "AP1|2|\0" /* jnz val, addr */
+           "AQ1|2|\0" /* jz_ val, addr */
+           "AR2|\0" /* lbl */
+           "AS1|2|\0" /* le_ */
+           "AT1|2|\0" /* lt_ */
+           "AU1|2|\0" /* mod */
+           "AV1|2|\0" /* 22 mov */
+           "AW1|2|\0" /* mul */
+           "AX1|2|\0" /* ne_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]e[1+e-] */
+           "AY1|2|\0" /* neg */
+           "AZ1|2|\0" /* not */
+           "BA1|2|\0" /* or_ */
+           "BB2|\0" /* out */
+           "BC2|\0" /* pop */
+           "BD2|\0" /* psh */
+           "BE1|2|\0"  /* rcl */
+           "BF1|2|\0" /* sto */
+           "BG1|2|\0" /* sub */
+           "BH1|2|\0" /* swp */
+           "BI2|\0" /* clr */
+           "BJ\0" /* ret */
+           "BK\0" /* end */
+           #endif
            "2[e+2[-]]e[2+e-]\0" /* log */
            "2[e+2-]e[2++e-]\0" /* asl */
            "2[m+2-]k+m[-[-2+m>]<]<[>]>k-\0" /* asr */
@@ -439,6 +483,11 @@ Lai:;
             if (m[1] == 4) goto Laa;
             goto Lap;
         case RAW: /* raw */
+            #ifdef BFVM
+                putchar('E');
+                putchar('E');
+            #endif
+            
             putchar(m[3]);
             goto Lap;
         case SEG: /* seg */
@@ -470,7 +519,11 @@ Lap:;
     }
     goto Laj;
 Laz:;
+#ifdef BFVM
+    putchar('?');
+#else
     putchar('#');
+#endif
     return 0;
 Lab:;
     if (m[11] == 0 || m[12] == 1) {

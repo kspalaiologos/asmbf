@@ -116,43 +116,43 @@ int bfasm(void) {
            "a[-]b[-]#>[>>]<<->[<<<[<<]>b+#>[>>]>-]<<<[<<]>\0" /* ret */
            "a[-]b[-]\0" /* end */
            #else
-           "AA\0" /* 0 first */
+           "AAA\0" /* 0 first */
            "AB\0" /* 1 last (end, post, last) */
            "AC\0" /* 2 pre */
            "AD\0" /* 3 post */
-           "AE2|\0" /* 4 immed */
-           "AF2|\0" /* 5 immed clear */
-           "AG1|2|\0" /* 6 add */
-           "AH1|2|\0" /* and */
-           "AI2|\0" /* dec */
-           "AJ1|2|\0" /* div */
-           "AK1|2|\0" /* eq_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]+e[1-e-] */
-           "AL1|2|\0" /* ge_ */
-           "AM1|2|\0" /* gt_ */
-           "AN2|\0" /* in_ */
-           "BZ2|\0" /* inc */
-           "AO2|\0" /* jmp addr */
-           "AP1|2|\0" /* jnz val, addr */
-           "AQ1|2|\0" /* jz_ val, addr */
-           "|AR\0" /* lbl */
-           "AS1|2|\0" /* le_ */
-           "AT1|2|\0" /* lt_ */
-           "AU1|2|\0" /* mod */
-           "AV1|2|\0" /* 22 mov */
-           "AW1|2|\0" /* mul */
-           "AX1|2|\0" /* ne_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]e[1+e-] */
-           "AY2|\0" /* neg */
-           "AZ2|\0" /* not */
-           "BA1|2|\0" /* or_ */
-           "BB2|\0" /* out */
-           "BC2|#|\0" /* pop */
-           "BD2|#|\0" /* psh */
-           "BE1|2|*|\0" /* rcl */
-           "BF1|2|*|\0" /* sto */
-           "BG1|2|\0" /* sub */
-           "BH1|2|\0" /* swp */
-           "BI2|\0" /* clr */
-           "BJ#|\0" /* ret */
+           "AE2Z\0" /* 4 immed */
+           "AF2Z\0" /* 5 immed clear */
+           "AG1Z2Z\0" /* 6 add */
+           "AH1Z2Z\0" /* and */
+           "AI2Z\0" /* dec */
+           "AJ1Z2Z\0" /* div */
+           "AK1Z2Z\0" /* eq_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]+e[1-e-] */
+           "AL1Z2Z\0" /* ge_ */
+           "AM1Z2Z\0" /* gt_ */
+           "AN2Z\0" /* in_ */
+           "BZ2Z\0" /* inc */
+           "AO2Z\0" /* jmp addr */
+           "AP1Z2Z\0" /* jnz val, addr */
+           "AQ1Z2Z\0" /* jz_ val, addr */
+           "ZAR\0" /* lbl */
+           "AS1Z2Z\0" /* le_ */
+           "AT1Z2Z\0" /* lt_ */
+           "AU1Z2Z\0" /* mod */
+           "AV1Z2Z\0" /* 22 mov */
+           "AW1Z2Z\0" /* mul */
+           "AX1Z2Z\0" /* ne_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]e[1+e-] */
+           "AY2Z\0" /* neg */
+           "AZ2Z\0" /* not */
+           "BA1Z2Z\0" /* or_ */
+           "BB2Z\0" /* out */
+           "BC2Z#Z\0" /* pop */
+           "BD2Z#Z\0" /* psh */
+           "BE1Z2Z*Z\0" /* rcl */
+           "BF1Z2Z*Z\0" /* sto */
+           "BG1Z2Z\0" /* sub */
+           "BH1Z2Z\0" /* swp */
+           "BI2Z\0" /* clr */
+           "BJ#Z\0" /* ret */
            "BK\0" /* end */
            #endif
            "2[e+2[-]]e[2+e-]\0" /* log */

@@ -130,29 +130,29 @@ int bfasm(void) {
            "AL1|2|\0" /* ge_ */
            "AM1|2|\0" /* gt_ */
            "AN2|\0" /* in_ */
-           "AM2|\0" /* inc */
+           "BZ2|\0" /* inc */
            "AO2|\0" /* jmp addr */
            "AP1|2|\0" /* jnz val, addr */
            "AQ1|2|\0" /* jz_ val, addr */
-           "AR2|\0" /* lbl */
+           "|AR\0" /* lbl */
            "AS1|2|\0" /* le_ */
            "AT1|2|\0" /* lt_ */
            "AU1|2|\0" /* mod */
            "AV1|2|\0" /* 22 mov */
            "AW1|2|\0" /* mul */
            "AX1|2|\0" /* ne_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]e[1+e-] */
-           "AY1|2|\0" /* neg */
-           "AZ1|2|\0" /* not */
+           "AY2|\0" /* neg */
+           "AZ2|\0" /* not */
            "BA1|2|\0" /* or_ */
            "BB2|\0" /* out */
            "BC2|#|\0" /* pop */
            "BD2|#|\0" /* psh */
-           "BE1|2|*|\0"  /* rcl */
+           "BE1|2|*|\0" /* rcl */
            "BF1|2|*|\0" /* sto */
            "BG1|2|\0" /* sub */
            "BH1|2|\0" /* swp */
            "BI2|\0" /* clr */
-           "BJ\0" /* ret */
+           "BJ#|\0" /* ret */
            "BK\0" /* end */
            #endif
            "2[e+2[-]]e[2+e-]\0" /* log */

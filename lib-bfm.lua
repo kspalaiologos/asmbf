@@ -13,6 +13,7 @@
 ?xchg=swp
 ?cots=cot
 ?movf=rcl
+?lea=mov
 
 ; gcd, cgc, cre
 ?cgcd=cgc

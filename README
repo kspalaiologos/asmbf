@@ -11,10 +11,12 @@
                                                                                   
                                                                                   
 The only true brainfuck assembler. Produces small and efficient brainfuck code based on instruction choice.
-With C preprocessor wired up, named labels and all the features you'd expect from a normal assembly, it's ready
-for your use. The standard library is currently being constructed and you may contribute to make it even better.
-Floating point support is being planned and worked on. Please refer to doc/ for detailed documentation.
+With Lua preprocessor wired up, named labels and all the features you'd expect from a normal assembly, it's ready
+for your use. Precise floating point library is on the board, memory allocation procedures are available for
+inlining. Last changes include stack-based offsets, virtual instructions and effective adresses. Why not
+check it out?
 
+https://discord.gg/m4Wcenn       - THE DISCORD SERVER FOR ASM2BF.
 https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
                                    serves as a documentation aswell. article.txt contains a mirror of this article.
 examples/                        - who doesn't love learning by examples?

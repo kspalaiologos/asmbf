@@ -54,3 +54,9 @@ $(bf_wend("r2"))
 2. Build asm2bf: `make all'
 3. Drop asm2bf into your home directory: `make setup'
 4. Optional: Add `~/.asmbf' into your PATH.
+
+-------------------------------------- State-of-art Documentation --------------------------------------
+
+There is the esolang wiki article which you can check out, but it's a bit outdated and incomplete.
+Feel free to join the discord server for asm2bf, where you can discuss the project or ask me about
+learning asm2bf: https://discord.gg/m4Wcenn

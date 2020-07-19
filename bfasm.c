@@ -116,17 +116,17 @@ int bfasm(void) {
            "a[-]b[-]#>[>>]<<->[<<<[<<]>b+#>[>>]>-]<<<[<<]>\0" /* ret */
            "a[-]b[-]\0" /* end */
            #else
-           "AAA\0" /* 0 first */
-           "AB\0" /* 1 last (end, post, last) */
-           "AC\0" /* 2 pre */
-           "AD\0" /* 3 post */
+           "AAAb\0" /* 0 first */
+           "ABb\0" /* 1 last (end, post, last) */
+           "ACa\0" /* 2 pre */
+           "ADc\0" /* 3 post */
            "AE2Z\0" /* 4 immed */
            "AF2Z\0" /* 5 immed clear */
            "AG1Z2Z\0" /* 6 add */
            "AH1Z2Z\0" /* and */
            "AI2Z\0" /* dec */
            "AJ1Z2Z\0" /* div */
-           "AK1Z2Z\0" /* eq_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]+e[1-e-] */
+           "AK1Z2Z\0" /* eq_ */
            "AL1Z2Z\0" /* ge_ */
            "AM1Z2Z\0" /* gt_ */
            "AN2Z\0" /* in_ */
@@ -134,13 +134,13 @@ int bfasm(void) {
            "AO2Z\0" /* jmp addr */
            "AP1Z2Z\0" /* jnz val, addr */
            "AQ1Z2Z\0" /* jz_ val, addr */
-           "ZAR\0" /* lbl */
+           "AR\0" /* lbl */
            "AS1Z2Z\0" /* le_ */
            "AT1Z2Z\0" /* lt_ */
            "AU1Z2Z\0" /* mod */
            "AV1Z2Z\0" /* 22 mov */
            "AW1Z2Z\0" /* mul */
-           "AX1Z2Z\0" /* ne_, alternatively: 2[1-e+2-]e[2+e-]1[e+1[-]]e[1+e-] */
+           "AX1Z2Z\0" /* ne_ */
            "AY2Z\0" /* neg */
            "AZ2Z\0" /* not */
            "BA1Z2Z\0" /* or_ */
@@ -153,7 +153,7 @@ int bfasm(void) {
            "BH1Z2Z\0" /* swp */
            "BI2Z\0" /* clr */
            "BJ#Z\0" /* ret */
-           "BK\0" /* end */
+           "BKb\0" /* end */
            #endif
            "2[e+2[-]]e[2+e-]\0" /* log */
            "2[e+2-]e[2++e-]\0" /* asl */
@@ -403,16 +403,18 @@ Lai:;
             goto Lao;
         case 12: /* lbl */
             if (m[11] == 0) {
-            m[6] = 3;
-            outbf(); /* post */
+                m[6] = 3;
+                outbf(); /* post */
             }
+            
             if(m[3] == 0) {
 #ifndef BFASM_NO_ERROR_CODES
-            fprintf(stderr, "\n** WARNING: Everytime you use `lbl 0', a neko girl dies. "
-                            "You shouldn't be using `lbl' anyway, asm2bf is bundled with "
-                            "a label preprocessor for a reason\n");
+                fprintf(stderr, "\n** WARNING: Everytime you use `lbl 0', a neko girl dies. "
+                                "You shouldn't be using `lbl' anyway, asm2bf is bundled with "
+                                "a label preprocessor for a reason\n");
 #endif
             }
+#ifndef BFVM
             m[11] = 1;
             m[6] = 4;
             m[4] = 'e';
@@ -421,6 +423,16 @@ Lai:;
             outrep(); // note: potential optimalization, << & < free
             m[6] = 18; // ???
             outbf();
+#else
+            m[6] = 18; // ???
+            outbf();
+            m[11] = 1;
+            m[6] = 4;
+            m[4] = 'e';
+            outbf();
+            m[6] = '+';
+            outrep(); // note: potential optimalization, << & < free
+#endif
             goto Lap;
         case 16: /* mov */
             if (m[4] == 0) {
@@ -555,7 +567,7 @@ void outrep() {
             }
         #endif
     #else
-        if(m[3] > 2) {
+        if(m[3] > 1) {
             #ifndef RLE_POSTFIX
                 printf("%d%c", m[3], m[6]);
             #else
@@ -563,19 +575,8 @@ void outrep() {
             #endif
             m[3] = 0;
         } else {
-        #ifndef DISABLE_OPT
-            if(m[3] < 15 || !freecell) {
-        #endif
-            while (m[3]) {
-                putchar(m[6]);
-                m[3]--;
-            }
-        #ifndef DISABLE_OPT
-            } else {
-                translate(m[3], best_base(m[3]));
-                m[3] = 0;
-            }
-        #endif
+            putchar(m[6]);
+            m[3] = 0;
         }
     #endif
     
@@ -622,7 +623,7 @@ o11:;
 #ifdef RLE
 o14:;
     if (m[15] <= r4) goto o13;
-    if (m[15] > 2) {
+    if (m[15] > 1) {
         #ifndef RLE_POSTFIX
             printf("%d>", m[15]);
         #else
@@ -631,8 +632,6 @@ o14:;
         r4 = m[15];
     } else {
         putchar('>');
-        if(m[15] == 2)
-            putchar('>');
         
         r4 = m[15];
     }
@@ -650,7 +649,7 @@ o12:;
 #ifdef RLE
 o16:;
     if (m[15] <= r4) goto o13;
-    if (m[15] > 2) {
+    if (m[15] > 1) {
         #ifndef RLE_POSTFIX
             printf("%d<", m[15]);
         #else
@@ -659,8 +658,6 @@ o16:;
         r4 = m[15];
     } else {
         putchar('<');
-        if(m[15] == 2)
-            putchar('<');
         
         r4 = m[15];
     }

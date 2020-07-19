@@ -11,12 +11,16 @@
                                                                                   
                                                                                   
 The only true brainfuck assembler. Produces small and efficient brainfuck code based on instruction choice.
-With C preprocessor wired up, named labels and all the features you'd expect from a normal assembly, it's ready
-for your use. The standard library is currently being constructed and you may contribute to make it even better.
-Floating point support is being planned and worked on. Please refer to doc/ for detailed documentation.
+With Lua preprocessor wired up, named labels and all the features you'd expect from a normal assembly, it's ready
+for your use. Precise floating point library is on the board, memory allocation procedures are available for
+inlining. Last changes include stack-based offsets, virtual instructions and effective adresses. Why not
+check it out?
 
+https://discord.gg/m4Wcenn       - THE DISCORD SERVER FOR ASM2BF.
 https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
                                    serves as a documentation aswell. article.txt contains a mirror of this article.
+                                   it is a bit outdated (check section "State-of-art Documentation"), but it may
+                                   prove itself useful.
 examples/                        - who doesn't love learning by examples?
 test/                            - unit tests for the entire toolchain.
 rave/                            - an efficient brainfuck interpreter made specifically for executing asm2bf code.
@@ -54,3 +58,9 @@ $(bf_wend("r2"))
 2. Build asm2bf: `make all'
 3. Drop asm2bf into your home directory: `make setup'
 4. Optional: Add `~/.asmbf' into your PATH.
+
+-------------------------------------- State-of-art Documentation --------------------------------------
+
+There is the esolang wiki article which you can check out, but it's a bit outdated and incomplete.
+Feel free to join the discord server for asm2bf, where you can discuss the project or ask me about
+learning asm2bf: https://discord.gg/m4Wcenn

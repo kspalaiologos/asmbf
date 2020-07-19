@@ -424,14 +424,16 @@ Lai:;
             m[6] = 18; // ???
             outbf();
 #else
-            m[6] = 18; // ???
-            outbf();
+            putchar('A');
+            putchar('R');
             m[11] = 1;
             m[6] = 4;
             m[4] = 'e';
             outbf();
             m[6] = '+';
             outrep(); // note: potential optimalization, << & < free
+            m[6] = 18; // ???
+            outbf();
 #endif
             goto Lap;
         case 16: /* mov */
@@ -556,10 +558,10 @@ void outrep() {
         #ifndef DISABLE_OPT
             if(m[3] < 15 || !freecell) {
         #endif
-            while (m[3]) {
-                putchar(m[6]);
-                m[3]--;
-            }
+                while (m[3]) {
+                    putchar(m[6]);
+                    m[3]--;
+                }
         #ifndef DISABLE_OPT
             } else {
                 translate(m[3], best_base(m[3]));
@@ -574,7 +576,7 @@ void outrep() {
                 printf("%c%d", m[6], m[3]);
             #endif
             m[3] = 0;
-        } else {
+        } else if(m[3]) {
             putchar(m[6]);
             m[3] = 0;
         }
@@ -630,7 +632,7 @@ o14:;
             printf(">%d", m[15]);
         #endif
         r4 = m[15];
-    } else {
+    } else if(m[15]) {
         putchar('>');
         
         r4 = m[15];
@@ -656,7 +658,7 @@ o16:;
             printf("<%d", m[15]);
         #endif
         r4 = m[15];
-    } else {
+    } else if(m[15]) {
         putchar('<');
         
         r4 = m[15];

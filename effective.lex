@@ -153,24 +153,22 @@ void effective_addr(char * text) {
 	printf("%s f2\n", orig);
     
     if(prim2) {
-        printf("mov f3, f2\n");
-        
         // generate effective adress again.
         if(index > 0)
-            printf("mov f2, r%d\n", index);
+            printf("mov f3, r%d\n", index);
         else
-            printf("clr f2\n");
+            printf("clr f3\n");
         
         if(scale != 1)
-            printf("mul f2, %d\n", scale);
+            printf("mul f3, %d\n", scale);
         
         if(base > 0)
-            printf("add f2, r%d\n", base);
+            printf("add f3, r%d\n", base);
         
         if(disp > 0)
-            printf("add f2, %d\n", disp);
+            printf("add f3, %d\n", disp);
         
-        printf("sto f2, f3\n");
+        printf("sto f3, f2\n");
     }
 }
 

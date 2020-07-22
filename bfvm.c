@@ -16,7 +16,7 @@ struct replacement {
 };
 
 struct delta_match queue[16];
-unsigned int qp = 0;
+unsigned int qp = 0, pos = 0;
 
 struct delta_match suck_delta(void) {
     int c;
@@ -29,6 +29,7 @@ struct delta_match suck_delta(void) {
     }
     
     while(isdigit(c = getchar())) {
+        pos++;
         m.coefficient *= 10;
         m.coefficient += c - '0';
     }
@@ -46,7 +47,8 @@ struct delta_match suck_delta(void) {
         m.type = 0; m.coefficient = 0;
         
         return m;
-    }
+    } else
+        pos++;
     
     m.type = c == '<' || c == '>';
     
@@ -57,8 +59,8 @@ struct delta_match suck_delta(void) {
 
 void match_ignore(void) { suck_delta(); }
 void match_const(void) { printf("%d", suck_delta().coefficient); }
-void match_value(void) { printf("tape[mp] += %d;\n", suck_delta().coefficient); }
-void match_mp(void) { printf("mp += %d;\n", suck_delta().coefficient); }
+void match_value(void) { int32_t x = suck_delta().coefficient; if(x) printf("tape[mp] += %d;\n", x); }
+void match_mp(void) { int32_t x = suck_delta().coefficient; if(x) printf("mp += %d;\n", x); }
 void match_flexy(void) {
     struct delta_match m = suck_delta();
     
@@ -66,6 +68,8 @@ void match_flexy(void) {
         fprintf(stderr, "Severe: Incorrect flexy match type.\n");
         abort();
     }
+    
+    if(!m.coefficient) return;
     
     printf(!m.type ? "tape[mp] += %d;\n" : "mp += %d;\n", m.coefficient);
 }
@@ -83,7 +87,7 @@ void emit(const char * template) {
                 case 'C': match_const(); break;
                 case 'I': match_ignore(); break;
                 case 'T': printf("tape[mp]"); break;
-                case 'S': getchar(); break;
+                case 'S': pos++; getchar(); break;
                 default: putchar('$'); putchar(*template);
             }
             
@@ -102,10 +106,10 @@ void emit(const char * template) {
 }
 
 struct replacement vm_model[] = {
-    {"AA", "mp=OFF('b');$I"},
-    {"AB", "mp=OFF('b');$I"},
-    {"AC", "mp=OFF('a');$I"},
-    {"AD", "mp=OFF('c');$I"},
+    {"AA", "G=1;IP=1;mp=OFF('b');while(tape[mp]){$I"},
+    {"AB", "mp=OFF('b');if(tape[0])tape[1]=0;}$I"},
+    {"AC", "mp=OFF('a');if($T){$I"},
+    {"AD", "mp=OFF('c');}$I"},
     {"AE", "$M$S"},
     {"AF", "$M$S$T=0;"},
     {"AG", "$Mt0=$T;$S$M$T+=t0;$S"},
@@ -116,11 +120,11 @@ struct replacement vm_model[] = {
     {"AL", "$Mt0=$T;$S$M$T=$T>=t0;$S"},
     {"AM", "$Mt0=$T;$S$M$T=$T>t0;$S"},
     {"AN", "$M$T=inchar();$S"},
-    {"BZ", "$M$T++;$S"},
-    {"AO", "$Mip=$T;g=0;break;$S"},
-    {"AP", "$Mt0=$T;$Sif(t0){$M$Sip=$T;g=0;break;}"},
-    {"AQ", "$Mt0=$T;$Sif(!t0){$M$Sip=$T;g=0;break;}"},
-    {"AR", "case $C:"},
+    {"BL", "$M$T++;$S"},
+    {"AO", "$MIP=$T;G=0;$S"},
+    {"AP", "$Mt0=$T;$S$Mif(t0){$SIP=$T;G=0;}"},
+    {"AQ", "$Mt0=$T;$S$Mif(!t0){$SIP=$T;G=0;}"},
+    {"AR", "$S$S$M$Sif(IP==$C)G=1;$S$S"},
     {"AS", "$Mt0=$T;$S$M$S$T=$T<=t0;"},
     {"AT", "$Mt0=$T;$S$M$S$T=$T<t0;"},
     {"AU", "$Mt0=$T;$S$M$S$T=$T%t0;"},
@@ -131,14 +135,14 @@ struct replacement vm_model[] = {
     {"AZ", "$M$T=!$T;$S"},
     {"BA", "$Mt0=$T;$S$M$T=$T||t0;$S"},
     {"BB", "$Mputchar($T);$S"},
-    {"BC", "$Mt1=mp;$S$M$St0=tape[mp+2*sp];sp--;tape[mp=t1]=t0;"},
-    {"BD", "$Mt0=$T;$S$M$Stape[mp+2*t0]=t0;sp++;"},
-    {"BE", "$Mt2=mp;$S$M$St0=$T;$Mt1=tape[mp+2*t0];mp=t2;$T=t1;"},
-    {"BF", "$Mt0=$T;$S$M$St1=$T;$Mtape[mp+2*t0]=t1;"},
+    {"BC", "$Mt1=mp;$S$M$St2=mp;t0=tape[mp+2*sp];sp--;tape[mp=t1]=t0;mp=t2;"},
+    {"BD", "$Mt0=$T;$S$M$St2=mp;tape[mp+2*t0]=t0;sp++;mp=t2;"},
+    {"BE", "$Mt2=mp;$S$M$St0=$T;$Mt1=tape[mp+2+2*t0];tape[t2]=t1;"},
+    {"BF", "$Mt0=$T;$S$M$St1=$T;$Mtape[mp+2+2*t0]=t1;"},
     {"BG", "$Mt0=$T;$S$M$S$T-=t0;"},
     {"BH", "$Mt2=mp;$S$M$St3=mp;mp=t2;t0=$T;mp=t3;t1=$t;mp=t2;$T=t0;mp=t3;$T=t1;"},
     {"BI", "$M$S$T=0;"},
-    {"BJ", "$M$Sip=tape[mp+2*sp];sp--;g=0;break;"},
+    {"BJ", "$M$SIP=tape[mp+2*sp];sp--;G=0;"},
     {"BK", "return 0;"},
     {NULL, NULL}
 };
@@ -169,30 +173,28 @@ int main(void) {
         "#include <stdlib.h>\n"
         "#include <stdint.h>\n"
         "#define OFF(x) ((x) - 'a')\n"
+        "#define G (tape[0])\n"
+        "#define IP (tape[1])\n"
         "uint8_t inchar(void) {\n"
             "uint8_t v = getchar();\n"
             "return v < 0 ? 0 : v;\n"
         "}\n"
         "int main(void) {\n"
-            "uint16_t*tape=malloc(sizeof(uint16_t)*65536),mp,t0,t1,t2,t3,sp,ip=0,g=1;\n"
-            "while(1)\n"
-                "switch(ip) {\n"
-                "case 0:\n"
-                "if(!g)\n"
-                    "return 0;\n"
+            "uint16_t*tape=calloc(sizeof(uint16_t),65536),mp,t0,t1,t2,t3,sp;\n"
     );
     
     while((c = getchar()) != EOF) {
+        pos++;
         switch(c) {
             case '0' ... '9':
                 fprintf(stderr, "Debug: found a backfill delta.\n");
                 ungetc(c, stdin);
                 match_flexy();
                 break;
-            case '+': printf("tape[mp]++;"); break;
-            case '>': printf("mp++;"); break;
-            case '-': printf("tape[mp]--;"); break;
-            case '<': printf("mp++;"); break;
+            case '+': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("tape[mp]++;"); break;
+            case '>': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("mp++;"); break;
+            case '-': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("tape[mp]--;"); break;
+            case '<': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("mp++;"); break;
             case 'Z': case '\n': case '\r': case ' ': break;
             default:
                 match[mp++] = c;
@@ -207,5 +209,5 @@ int main(void) {
         }
     }
     
-    puts("return 0;}}");
+    puts("}");
 }

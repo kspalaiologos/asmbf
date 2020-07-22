@@ -130,7 +130,7 @@ int bfasm(void) {
            "AL1Z2Z\0" /* ge_ */
            "AM1Z2Z\0" /* gt_ */
            "AN2Z\0" /* in_ */
-           "BZ2Z\0" /* inc */
+           "BL2Z\0" /* inc */
            "AO2Z\0" /* jmp addr */
            "AP1Z2Z\0" /* jnz val, addr */
            "AQ1Z2Z\0" /* jz_ val, addr */
@@ -472,19 +472,19 @@ Lai:;
             goto Lap;
         case DB: /* db_ */
             if(m[3] == '\\' && m[1] == 4) {
-            m[3] = getchar();
-            
-            switch(m[3]) {
-                case 'n': m[3] = '\n'; break;
-                case 'f': m[3] = '\f'; break;
-                case 'r': m[3] = '\r'; break;
-                case '0': m[3] = '\0'; break;
-                default:
+                m[3] = getchar();
+                
+                switch(m[3]) {
+                    case 'n': m[3] = '\n'; break;
+                    case 'f': m[3] = '\f'; break;
+                    case 'r': m[3] = '\r'; break;
+                    case '0': m[3] = '\0'; break;
+                    default:
 #ifndef BFASM_NO_ERROR_CODES
-                    fprintf(stderr, "\n** ERROR: No such escape sequence: \\%c\n", m[3]);
+                        fprintf(stderr, "\n** ERROR: No such escape sequence: \\%c\n", m[3]);
 #endif
-                    goto Laz;
-            }
+                        goto Laz;
+                }
             }
             
             m[6] = 4;

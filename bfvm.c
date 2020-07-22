@@ -52,7 +52,7 @@ struct delta_match suck_delta(void) {
     
     m.type = c == '<' || c == '>';
     
-    fprintf(stderr, "Debug: sucked delta: %d, %d\n", m.coefficient, m.type);
+    fprintf(stderr, "\033[32mDebug: sucked delta: %d, %d\033[37m\n", m.coefficient, m.type);
     
     return m;
 }
@@ -65,7 +65,7 @@ void match_flexy(void) {
     struct delta_match m = suck_delta();
     
     if(m.type == 2) {
-        fprintf(stderr, "Severe: Incorrect flexy match type.\n");
+        fprintf(stderr, "\033[31m*** Severe: Incorrect flexy match type.\033[37m\n");
         abort();
     }
     
@@ -153,7 +153,6 @@ int try_match(char buf[]) {
     
     while((current_row = vm_model[i]).src) {
         if(!strcmp(buf, current_row.src)) {
-            fprintf(stderr, "Debug: try_match: matched.\n");
             emit(current_row.dest);
             return 1;
         }
@@ -187,7 +186,7 @@ int main(void) {
         pos++;
         switch(c) {
             case '0' ... '9':
-                fprintf(stderr, "Debug: found a backfill delta.\n");
+                fprintf(stderr, "\033[36mDebug: found a backfill delta.\033[37m\n");
                 ungetc(c, stdin);
                 match_flexy();
                 break;
@@ -200,9 +199,9 @@ int main(void) {
                 match[mp++] = c;
                 
                 if(!try_match(match)) {
-                    fprintf(stderr, "Debug: tried matching '%s'.\n", match);
+                    fprintf(stderr, "\033[33mDebug: tried matching '%s'.\033[37m\n", match);
                 } else {
-                    fprintf(stderr, "Debug: matched '%s'.\n", match);
+                    fprintf(stderr, "\033[33mDebug: matched '%s'.\033[37m\n", match);
                     memset(match, 0, 32);
                     mp = 0;
                 }

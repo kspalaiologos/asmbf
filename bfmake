@@ -9,7 +9,7 @@ sub help {
 	print "bfmake - asm2bf automated build utility.\n";
 	print "copyright (C) by Krzysztof Szewczyk, 2020\n";
 	print "\n";
-	print "usage: bfmake [-h/-s/-l/-o file] file.asm\n";
+	print "usage: bfmake [-h/-s/-l/-c/-o file] file.asm\n";
 	print "or in form of a shebang: #!/bin/asmbf/bfmake [flags]\n";
 	print "\n";
 	print "available flags:\n";
@@ -17,6 +17,8 @@ sub help {
 	print " -s: disable stripping of the brainfuck binary.\n";
 	print " -p: disable bfasm step.\n";
 	print " -l: disable standard library.\n";
+	print " -c: build C code. Only use if you have built a BFVM\n";
+    print "     version of asm2bf, e.g: `setenv OPTIONS \"-DBFVM\"'\n";
 	print "\n";
 	print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
 	exit
@@ -24,8 +26,9 @@ sub help {
 
 sub switch_ext {
 	my $path = shift @_;
+    my $text = shift @_;
 	my ($name,$dir,$ext) = fileparse($path,'\..*');
-	return $dir . $name . ".b";
+	return $dir . $name . $text;
 }
 
 sub build {
@@ -34,22 +37,27 @@ sub build {
 	
 	die "No such file: $name" if (! -e $name);
 	
+    my $target_ext = '.b';
+    $target_ext = '.c' if defined $options{c};
+    
 	my $lib = "cat \"$home/.asmbf/lib/lib-bfm.lua\"";
 	my $stripper = "\"$home/.asmbf/bfstrip\"";
 	my $compiler = "\"$home/.asmbf/bfasm\"";
-	my $output = switch_ext($name);
+	my $output = switch_ext($name, $target_ext);
+    my $bfvm = 'cat';
 	
 	$output = $options{o} if defined $options{o};
 	$lib = 'echo ""' if defined $options{l};
-	$stripper = 'cat' if defined $options{s};
+	$stripper = 'cat' if defined $options{s} or $options{c};
 	$compiler = 'cat' if defined $options{p};
+    $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
 	
-	`bash -c \"{ $lib ; cat "$name" | sed -e "1!b" -e '/#/d' ; } | "$home/.asmbf/bfpp" | "$home/.asmbf/bflabels" | "$home/.asmbf/bfdata" | "$home/.asmbf/effective" | "$home/.asmbf/vxcall" | "$home/.asmbf/constpp" } | $compiler | $stripper > $output\"`;
+	`bash -c \"{ $lib ; cat "$name" | sed -e "1!b" -e '/#/d' ; } | "$home/.asmbf/bfpp" | "$home/.asmbf/bflabels" | "$home/.asmbf/bfdata" | "$home/.asmbf/effective" | "$home/.asmbf/vxcall" | "$home/.asmbf/constpp" } | $compiler | $stripper | $bfvm > $output\"`;
 	
 	exit;
 }
 
-getopts("hsplo:", \%options);
+getopts("hspclo:", \%options);
 
 help() if defined $options{h};
 

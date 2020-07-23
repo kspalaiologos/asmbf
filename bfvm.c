@@ -136,7 +136,7 @@ struct replacement vm_model[] = {
     {"BA", "$Mt0=$T;$S$M$T=$T||t0;$S"},
     {"BB", "$Mputchar($T);$S"},
     {"BC", "$Mt1=mp;$S$M$St2=mp;t0=tape[mp+2*sp];sp--;tape[mp=t1]=t0;mp=t2;"},
-    {"BD", "$Mt0=$T;$S$M$St2=mp;tape[mp+2*t0]=t0;sp++;mp=t2;"},
+    {"BD", "$Mt0=$T;$S$M$Stape[mp+2*t0]=t0;sp++;"},
     {"BE", "$Mt2=mp;$S$M$St0=$T;$Mt1=tape[mp+2+2*t0];tape[t2]=t1;"},
     {"BF", "$Mt0=$T;$S$M$St1=$T;$Mtape[mp+2+2*t0]=t1;"},
     {"BG", "$Mt0=$T;$S$M$S$T-=t0;"},

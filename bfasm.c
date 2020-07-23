@@ -122,34 +122,34 @@ int bfasm(void) {
            "ADc\0" /* 3 post */
            "AE2Z\0" /* 4 immed */
            "AF2Z\0" /* 5 immed clear */
-           "AG1Z2Z\0" /* 6 add */
-           "AH1Z2Z\0" /* and */
+           "AG2Z1Z\0" /* 6 add */
+           "AH2Z1Z\0" /* and */
            "AI2Z\0" /* dec */
-           "AJ1Z2Z\0" /* div */
-           "AK1Z2Z\0" /* eq_ */
-           "AL1Z2Z\0" /* ge_ */
-           "AM1Z2Z\0" /* gt_ */
+           "AJ2Z1Z\0" /* div */
+           "AK2Z1Z\0" /* eq_ */
+           "AL2Z1Z\0" /* ge_ */
+           "AM2Z1Z\0" /* gt_ */
            "AN2Z\0" /* in_ */
            "BL2Z\0" /* inc */
            "AO2Z\0" /* jmp addr */
            "AP1Z2Z\0" /* jnz val, addr */
            "AQ1Z2Z\0" /* jz_ val, addr */
            "AR\0" /* lbl */
-           "AS1Z2Z\0" /* le_ */
-           "AT1Z2Z\0" /* lt_ */
-           "AU1Z2Z\0" /* mod */
-           "AV1Z2Z\0" /* 22 mov */
-           "AW1Z2Z\0" /* mul */
-           "AX1Z2Z\0" /* ne_ */
+           "AS2Z1Z\0" /* le_ */
+           "AT2Z1Z\0" /* lt_ */
+           "AU2Z1Z\0" /* mod */
+           "AV2Z1Z\0" /* 22 mov */
+           "AW2Z1Z\0" /* mul */
+           "AX2Z1Z\0" /* ne_ */
            "AY2Z\0" /* neg */
            "AZ2Z\0" /* not */
-           "BA1Z2Z\0" /* or_ */
+           "BA2Z1Z\0" /* or_ */
            "BB2Z\0" /* out */
            "BC2Z#Z\0" /* pop */
            "BD2Z#Z\0" /* psh */
            "BE1Z2Z*Z\0" /* rcl */
            "BF1Z2Z*Z\0" /* sto */
-           "BG1Z2Z\0" /* sub */
+           "BG2Z1Z\0" /* sub */
            "BH1Z2Z\0" /* swp */
            "BI2Z\0" /* clr */
            "BJ#Z\0" /* ret */

@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 117
+#define IC 118
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -44,6 +44,7 @@
 #define C3 (IC-3)
 
 /* location of various instructions */
+#define RSE (IC-7)
 #define STK (IC-6)
 #define ORG (IC-5)
 #define DB (IC-4)
@@ -58,7 +59,7 @@
 unsigned int inchar();
 void outbf();
 void outrep();
-static unsigned int m[10000], off, freecell;
+static unsigned int m[10000], off, freecell, rseg;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -75,7 +76,7 @@ int bfasm(void) {
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
     "x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscotdscsgtsptsletps"
-    "stkorgdb_txtrawseg"
+    "rsestkorgdb_txtrawseg"
            #ifndef BFVM
            "a+b+[<[>-]>[>]<\0" /* 0 first */
            "b]\0" /* 1 last (end, post, last) */
@@ -508,6 +509,13 @@ Lai:;
             off=m[3];
             m[10]=m[9] + 2;
             goto Lap;
+        case RSE:
+            #ifdef BFVM
+                rseg = !rseg;
+            #else
+                fprintf(stderr, " *** WARNING: Brainfuck target; `rse' ignored.\n");
+            #endif
+            goto Lap;
     }
 Lao:;
     if (m[4] == 0) {
@@ -608,11 +616,13 @@ o5:;
 o6:;
     if (r1 == '#') { r1 = STACK-2; goto o11; } /* when stack changes, set it */
     if (r1 != '*') goto o7;
-    r1 = m[9] + off * 2; // ???
+    if(rseg == 0) r1 = m[9] + off * 2; // ???
+    else r1 = m[9] + off;
     goto o11;
 o7:;
     if (r1 != '^') goto o8;
-    r1 = m[10] + off * 2; // ???
+    if(rseg == 0) r1 = m[10] + off * 2; // ???
+    else r1 = m[10] + off;
     goto o11;
 o8:;
     if (r1 < 'a') goto o9;

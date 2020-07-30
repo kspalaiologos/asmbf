@@ -144,6 +144,10 @@ struct replacement vm_model[] = {
     {"BI", "$M$S$T=0;"},
     {"BJ", "$M$SIP=tape[mp+2*sp];sp--;G=0;"},
     {"BK", "return 0;"},
+    {"BM", "$M$S$T=$T==1;"},
+    {"BN", "$M$S$T=$T<<1;"},
+    {"BO", "$M$S$T=$T>>1;"},
+    {"BP", "$M$St0=$T;$M$T=bfpow($T,t0);"},
     {NULL, NULL}
 };
 
@@ -185,6 +189,9 @@ int main(void) {
         "uint8_t inchar(void) {\n"
             "uint8_t v = getchar();\n"
             "return v < 0 ? 0 : v;\n"
+        "}\n"
+        "type bfpow(type x, type y) {\n"
+            "type i = 0, s = x; for(; i < y; y++) s *= x; return s;\n"
         "}\n"
         #endif
         "int main(void) {\n"

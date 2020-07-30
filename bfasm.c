@@ -498,11 +498,6 @@ Lai:;
             if (m[1] == 4) goto Laa;
             goto Lap;
         case RAW: /* raw */
-            #ifdef BFVM
-                putchar('E');
-                putchar('E');
-            #endif
-            
             putchar(m[3]);
             goto Lap;
         case SEG: /* seg */

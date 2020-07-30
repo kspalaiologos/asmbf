@@ -168,18 +168,31 @@ int main(void) {
     int c, mp = 0;
     
     printf(
+        #ifndef FREESTANDING
         "#include <stdio.h>\n"
         "#include <stdlib.h>\n"
         "#include <stdint.h>\n"
+        #endif
         "#define OFF(x) ((x) - 'a')\n"
         "#define G (tape[0])\n"
         "#define IP (tape[1])\n"
+        #ifdef BFVM_32
+        "#define type uint32_t\n"
+        #else
+        "#define type uint16_t\n"
+        #endif
+        #ifndef FREESTANDING
         "uint8_t inchar(void) {\n"
             "uint8_t v = getchar();\n"
             "return v < 0 ? 0 : v;\n"
         "}\n"
+        #endif
         "int main(void) {\n"
-            "uint16_t*tape=calloc(sizeof(uint16_t),65536),mp,t0,t1,t2,t3,sp;\n"
+        #ifndef FREESTANDING
+            "type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"
+        #else
+            "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
+        #endif
     );
     
     while((c = getchar()) != EOF) {

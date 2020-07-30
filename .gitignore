@@ -7,3 +7,4 @@ constpp.c
 bfpp/bfpp
 *.pyc
 vxcall.c
+os

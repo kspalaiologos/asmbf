@@ -148,6 +148,7 @@ struct replacement vm_model[] = {
     {"BN", "$M$S$T=$T<<1;"},
     {"BO", "$M$S$T=$T>>1;"},
     {"BP", "$M$St0=$T;$M$T=bfpow($T,t0);"},
+    {"BR", "$M$St0=tape[mp+2*sp];tape[mp+2*sp]=tape[mp+2*(sp-1)];tape[mp+2*(sp-1)]=t0;"},
     {NULL, NULL}
 };
 
@@ -214,7 +215,7 @@ int main(void) {
             case '>': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("mp++;"); break;
             case '-': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("tape[mp]--;"); break;
             case '<': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("mp++;"); break;
-            case 'Z': case '\n': case '\r': case ' ': break;
+            case 'Z': fprintf(stderr, "\033[31mDebug: !! Z not matched @%d\033[37m\n", pos); case '\n': case '\r': case ' ': break;
             default:
                 match[mp++] = c;
                 

@@ -220,7 +220,7 @@ int main(int argc, char * argv[]) {
                 break;
             case '.':
 				if(dflag)
-					printf("%u", mem[mp]);
+					printf("%u ", mem[mp]);
                 else
 					putchar(mem[mp]);
 				

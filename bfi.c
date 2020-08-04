@@ -64,7 +64,7 @@ static int help() {
 
 static int version() {
     fputs("bfi 1.0.0\n"
-         "Copyright (C) Kamila Palaiologos Szewczyk & maviek, 2019.\n"
+         "Copyright (C) Palaiologos & maviek, 2019.\n"
          "https://github.com/kspalaiologos/asmbf", stderr);
     return EXIT_SUCCESS;
 }

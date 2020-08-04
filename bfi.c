@@ -58,14 +58,14 @@ static int help() {
          "  -h, --help          Display this information.\n"
          "  -x                  Enable dumping memory with '*'.\n"
          "\nBugs should be reported here:"
-         "\nhttps://github.com/KrzysztofSzewczyk/asmbf/issues", stderr);
+         "\nhttps://github.com/kspalaiologos/asmbf/issues", stderr);
     return EXIT_SUCCESS;
 }
 
 static int version() {
     fputs("bfi 1.0.0\n"
-         "Copyright (C) Krzysztof Palaiologos Szewczyk & maviek, 2019.\n"
-         "https://github.com/KrzysztofSzewczyk/asmbf", stderr);
+         "Copyright (C) Palaiologos & maviek, 2019.\n"
+         "https://github.com/kspalaiologos/asmbf", stderr);
     return EXIT_SUCCESS;
 }
 

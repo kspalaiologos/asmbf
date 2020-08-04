@@ -341,7 +341,7 @@ Lax:;
 #else
         if (m[0] > 2) goto Laz;
 #endif
-        m[4] = m[0] == 0 ? 'q' : (m[0] == 1 ? 'v' : 't'); // if crashes, change v to t.
+        m[4] = m[0] == 0 ? 'q' : (m[0] == 1 ? 'v' : 't');
         goto Laa;
     }
     

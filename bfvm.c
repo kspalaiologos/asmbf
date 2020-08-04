@@ -149,6 +149,9 @@ struct replacement vm_model[] = {
     {"BO", "$M$S$T=$T>>1;"},
     {"BP", "$M$St0=$T;$M$T=bfpow($T,t0);"},
     {"BR", "$M$St0=tape[mp+2*sp];tape[mp+2*sp]=tape[mp+2*(sp-1)];tape[mp+2*(sp-1)]=t0;"},
+    {"BS", "$Mt2=$T;$S$M$St1=mp;$M$Stape[mp+2+2*t1]+=t2;"},
+    {"BT", "$Mt2=$T;$S$M$St1=mp;$M$Stape[mp+2+2*t1]-=t2;"},
+    {"BU", "$M$Z"},
     {NULL, NULL}
 };
 

@@ -173,10 +173,11 @@ void effective_addr(char * text) {
 }
 
 void sp_addr(char * text) {
+    int no_prim = text[strlen(text) - 1] != '\'';
     char * bracket = strchr(text, '[');
     *bracket++ = 0;
     
-    while(!isdigit(*bracket) && *bracket != 'r' && *bracket != 'R' && bracket != '.')
+    while(!isdigit(*bracket) && *bracket != 'r' && *bracket != 'R' && *bracket != '.')
         bracket++;
     
     printf("sgt f2, ");
@@ -191,7 +192,7 @@ void sp_addr(char * text) {
     
     printf("%s f2\n", text);
     
-    if(strchr(text, "'") == NULL)
+    if(no_prim)
         return;
     
     printf("tps f2, ");

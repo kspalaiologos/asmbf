@@ -7,7 +7,7 @@ use Getopt::Std;
 
 sub help {
 	print "bfmake - asm2bf automated build utility.\n";
-	print "copyright (C) by Kamila Szewczyk, 2020\n";
+	print "copyright (C) by K. Palaiologos Szewczyk, 2020\n";
 	print "\n";
 	print "usage: bfmake [-h/-s/-l/-c/-o file] file.asm\n";
 	print "or in form of a shebang: #!/bin/asmbf/bfmake [flags]\n";

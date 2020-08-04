@@ -10,7 +10,6 @@ sub help {
 	print "copyright (C) by K. Palaiologos Szewczyk, 2020\n";
 	print "\n";
 	print "usage: bfmake [-h/-s/-l/-c/-o file] file.asm\n";
-	print "or in form of a shebang: #!/bin/asmbf/bfmake [flags]\n";
 	print "\n";
 	print "available flags:\n";
 	print " -h: display this help page.\n";

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 char * chomp(char * s) {
 	while(isspace(*s))
@@ -195,7 +196,7 @@ void sp_addr(char * text) {
     if(no_prim)
         return;
     
-    printf("tps f2, ");
+    printf("spt f2, ");
     
     if(*bracket == 'r') {
         printf("r%d\n", atoi(++bracket));
@@ -207,6 +208,8 @@ void sp_addr(char * text) {
 }
 
 int yywrap(void) { return 1; }
+
+int yylex(void);
 
 int main(void) {
 	yylex();

@@ -60,7 +60,7 @@ void getlabel(char * text) {
 		    #ifndef RELATIVE_SEGMENTATION
 			    printf("%d", head->id);
             #else
-                printf("%d", head->id - segment)
+                printf("%d", head->id - segment);
             #endif
             
 			return;

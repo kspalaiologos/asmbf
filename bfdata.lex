@@ -86,7 +86,7 @@ void addlabel(char * text) {
 	head->name = malloc(strlen(text) + 1);
 	strcpy(head->name, text);
 	
-	#ifndef IGNORE_SEGMENTS
+	#ifdef ACCOUNT_SEGMENTS
 		head->id = segment + origin;
 	#else
 		head->id = origin;

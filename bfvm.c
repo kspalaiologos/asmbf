@@ -219,7 +219,11 @@ int main(void) {
         "}\n"
         "int main(void) {\n"
         #ifndef FREESTANDING
-            "type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"
+			#ifdef BFVM_HEAP
+				"type*tape=calloc(sizeof(type)," BFVM_HEAP "),mp,t0,t1,t2,t3,sp;\n"
+			#else
+            	"type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"
+			#endif
         #else
             "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
         #endif

@@ -57,7 +57,12 @@ void getlabel(char * text) {
 	head = main_node;
 	while(head->next != NULL)
 		if(head->name && strcmp(text, head->name) == 0) {
-			printf("%d", head->id);
+		    #ifndef RELATIVE_SEGMENTATION
+			    printf("%d", head->id);
+            #else
+                printf("%d", head->id - segment)
+            #endif
+            
 			return;
 		} else
 			head = head->next;

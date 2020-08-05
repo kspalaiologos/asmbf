@@ -213,10 +213,10 @@ int main(void) {
             "uint8_t v = getchar();\n"
             "return v < 0 ? 0 : v;\n"
         "}\n"
+        #endif
         "type bfpow(type x, type y) {\n"
             "type i = 0, s = x; for(; i < y; y++) s *= x; return s;\n"
         "}\n"
-        #endif
         "int main(void) {\n"
         #ifndef FREESTANDING
             "type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"

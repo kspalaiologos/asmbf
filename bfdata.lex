@@ -60,6 +60,11 @@ void getlabel(char * text) {
 		    #ifndef RELATIVE_SEGMENTATION
 			    printf("%d", head->id);
             #else
+				if(head->id - segment < 0) {
+					fprintf(stderr, "asm2bf: error: relative segment is negative.");
+					exit(1);
+				}
+				
                 printf("%d", head->id - segment);
             #endif
             

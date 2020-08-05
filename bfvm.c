@@ -215,7 +215,7 @@ int main(void) {
         "}\n"
         #endif
         "type bfpow(type x, type y) {\n"
-            "type i = 0, s = x; for(; i < y; y++) s *= x; return s;\n"
+            "type i = 1, s = x; for(; i < y; y++) s *= x; return s;\n"
         "}\n"
         "int main(void) {\n"
         #ifndef FREESTANDING

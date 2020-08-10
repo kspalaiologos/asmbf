@@ -24,10 +24,10 @@
 #include <string.h>
 
 char * chomp(char * s) {
-	while(isspace(*s))
-		s++;
-	
-	return s;
+    while(isspace(*s))
+        s++;
+    
+    return s;
 }
 
 char * allowed_instructions[] = {
@@ -36,7 +36,7 @@ char * allowed_instructions[] = {
 };
 
 void virtual_call(char * text) {
-	text = chomp(chomp(text)+6);
+    text = chomp(chomp(text)+6);
     
     /* text now contains the entire linetext. */
     /* now, parse the instruction. */
@@ -77,7 +77,7 @@ void virtual_call(char * text) {
 int yywrap(void) { return 1; }
 
 int main(void) {
-	yylex();
+    yylex();
 }
 
 %}

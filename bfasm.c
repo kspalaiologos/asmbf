@@ -488,6 +488,7 @@ Lai:;
                     case 'f': m[3] = '\f'; break;
                     case 'r': m[3] = '\r'; break;
                     case '0': m[3] = '\0'; break;
+					case '\\': m[3] = '\\'; break;
                     default:
 #ifndef BFASM_NO_ERROR_CODES
                         fprintf(stderr, "\n** ERROR: No such escape sequence: \\%c\n", m[3]);
@@ -748,9 +749,6 @@ void translate(int n, int base) {
         n /= base;
     }
     
-    putchar('[');
-    putchar('-');
-    putchar(']');
     putchar('>');
     
     while(sp != 0) {

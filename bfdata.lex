@@ -57,7 +57,17 @@ void getlabel(char * text) {
 	head = main_node;
 	while(head->next != NULL)
 		if(head->name && strcmp(text, head->name) == 0) {
-			printf("%d", head->id);
+		    #ifndef RELATIVE_SEGMENTATION
+			    printf("%d", head->id);
+            #else
+				if(head->id - segment < 0) {
+					fprintf(stderr, "asm2bf: error: relative segment is negative.");
+					exit(1);
+				}
+				
+                printf("%d", head->id - segment);
+            #endif
+            
 			return;
 		} else
 			head = head->next;
@@ -86,7 +96,7 @@ void addlabel(char * text) {
 	head->name = malloc(strlen(text) + 1);
 	strcpy(head->name, text);
 	
-	#ifndef IGNORE_SEGMENTS
+	#ifdef ACCOUNT_SEGMENTS
 		head->id = segment + origin;
 	#else
 		head->id = origin;
@@ -105,6 +115,7 @@ int main(void) {
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
 (\*([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
 ^[ \t]*db_ { origin++; printf("%s", yytext); }
+^[ \t]*db { origin++; printf("%s", yytext); }
 ^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"') + 1) - 1; printf("%s", yytext); }
 ^[ \t]*seg[ \t]*([0-9]+) { segment = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
 ^[ \t]*org[ \t]*([0-9]+) { origin = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }

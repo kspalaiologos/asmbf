@@ -103,10 +103,10 @@ int main(int argc, char * argv[]) {
                     case 'x':
                         xflag = true;
                         break;
-					
-					case 'd':
-						dflag = true;
-						break;
+                    
+                    case 'd':
+                        dflag = true;
+                        break;
 
                     case 'c':
                         cycles = true;
@@ -219,11 +219,11 @@ int main(int argc, char * argv[]) {
                 mem[mp]--;
                 break;
             case '.':
-				if(dflag)
-					printf("%u ", mem[mp]);
+                if(dflag)
+                    printf("%u ", mem[mp]);
                 else
-					putchar(mem[mp]);
-				
+                    putchar(mem[mp]);
+                
                 fflush(stdout);
                 break;
             case ',':

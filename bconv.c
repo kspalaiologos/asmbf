@@ -27,54 +27,54 @@
 #include <stdio.h>
 
 int main(void) {
-	int c;
-	
-	while((c=getchar()) != EOF) {
-		switch(c) {
-			case '>':
-				#ifdef DOUBLE_NOCOPY
-					puts(">>>>");
-				#else
-					puts(">>>");
-				#endif
-				break;
-			case '<':
-				#ifdef DOUBLE_NOCOPY
-					puts("<<<<");
-				#else
-					puts("<<<");
-				#endif
-				break;
-			case '+':
-				#ifdef DOUBLE_NOCOPY
-					puts(">+<+[>-]>[->>+<]<<");
-				#else
-					puts("+>+[<->[->>+<<]]>>[-<<+>>]<<<[->>+<<]");
-				#endif
-				break;
-			case '-':
-				#ifdef DOUBLE_NOCOPY
-					puts(">+<[>-]>[->>-<]<<-");
-				#else
-					puts("+>[<->[->>+<<]]>>[-<<+>>]<<<[->>-<<]>-<");
-				#endif
-				break;
-			case '[':
-				#ifdef DOUBLE_NOCOPY
-					puts(">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-[+<");
-				#else
-					puts(">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<[[-]");
-				#endif
-				break;
-			case ']':
-				#ifdef DOUBLE_NOCOPY
-					puts(">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-]<");
-				#else
-					puts(">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<]");
-				#endif
-				break;
-			default:
-				putchar(c);
-		}
-	}
+    int c;
+    
+    while((c=getchar()) != EOF) {
+        switch(c) {
+            case '>':
+                #ifdef DOUBLE_NOCOPY
+                    puts(">>>>");
+                #else
+                    puts(">>>");
+                #endif
+                break;
+            case '<':
+                #ifdef DOUBLE_NOCOPY
+                    puts("<<<<");
+                #else
+                    puts("<<<");
+                #endif
+                break;
+            case '+':
+                #ifdef DOUBLE_NOCOPY
+                    puts(">+<+[>-]>[->>+<]<<");
+                #else
+                    puts("+>+[<->[->>+<<]]>>[-<<+>>]<<<[->>+<<]");
+                #endif
+                break;
+            case '-':
+                #ifdef DOUBLE_NOCOPY
+                    puts(">+<[>-]>[->>-<]<<-");
+                #else
+                    puts("+>[<->[->>+<<]]>>[-<<+>>]<<<[->>-<<]>-<");
+                #endif
+                break;
+            case '[':
+                #ifdef DOUBLE_NOCOPY
+                    puts(">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-[+<");
+                #else
+                    puts(">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<[[-]");
+                #endif
+                break;
+            case ']':
+                #ifdef DOUBLE_NOCOPY
+                    puts(">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-]<");
+                #else
+                    puts(">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<]");
+                #endif
+                break;
+            default:
+                putchar(c);
+        }
+    }
 }

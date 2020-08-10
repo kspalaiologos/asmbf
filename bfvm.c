@@ -213,13 +213,17 @@ int main(void) {
             "uint8_t v = getchar();\n"
             "return v < 0 ? 0 : v;\n"
         "}\n"
-        "type bfpow(type x, type y) {\n"
-            "type i = 0, s = x; for(; i < y; y++) s *= x; return s;\n"
-        "}\n"
         #endif
+        "type bfpow(type x, type y) {\n"
+            "type i = 1, s = x; for(; i < y; y++) s *= x; return s;\n"
+        "}\n"
         "int main(void) {\n"
         #ifndef FREESTANDING
-            "type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"
+			#ifdef BFVM_HEAP
+				"type*tape=calloc(sizeof(type)," BFVM_HEAP "),mp,t0,t1,t2,t3,sp;\n"
+			#else
+            	"type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"
+			#endif
         #else
             "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
         #endif

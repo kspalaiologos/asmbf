@@ -16,6 +16,7 @@ for your use. Precise floating point library is on the board, memory allocation 
 inlining. Last changes include stack-based offsets, virtual instructions and effective adresses. Why not
 check it out?
 
+manual.pdf                       - WIP, UP TO DATE ASM2BF MANUAL AND DOCUMENTATION.
 https://discord.gg/m4Wcenn       - THE DISCORD SERVER FOR ASM2BF.
 https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
                                    serves as a documentation aswell. article.txt contains a mirror of this article.
@@ -62,4 +63,6 @@ $(bf_wend("r2"))
 
 There is the esolang wiki article which you can check out, but it's a bit outdated and incomplete.
 Feel free to join the discord server for asm2bf, where you can discuss the project or ask me about
-learning asm2bf: https://discord.gg/m4Wcenn
+learning asm2bf: https://discord.gg/m4Wcenn.
+
+You can also check out the manual.pdf file; although up to date, it's not complete.

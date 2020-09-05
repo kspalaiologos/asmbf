@@ -2,11 +2,11 @@
 {{infobox proglang
 |name=asm2bf
 |paradigms=imperative
-|author=[[User:Palaiologos|Krzysztof Szewczyk]]
+|author=[[User:Palaiologos|Kamila Szewczyk]]
 |year=[[:Category:2017|2017]]
 |memsys=register,cell,stack
 |class=[[Turing-complete|Turing-complete]]
-|refimpl=[https://github.com/KrzysztofSzewczyk/asmbf asmbf]
+|refimpl=[https://github.com/kspalaiologos/asmbf asmbf]
 |majorimpl=
 |influence=[[Brainfuck]]
 |files=<code>.asm</code>, <code>.s</code>

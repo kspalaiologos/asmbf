@@ -3,7 +3,7 @@
 # elegant manner, but I'm fine with it's current
 # state.
 
-# Krzysztof Szewczyk, Jul 2019
+# Kamila Szewczyk, Jul 2019
 
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE) $(OPTIONS)
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall

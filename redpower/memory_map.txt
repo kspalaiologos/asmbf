@@ -1,0 +1,14 @@
+0x000004FF bytes - 0x00000000 - 0x000004FF - reserved memory
+0x000003FF bytes - 0x00000500 - 0x000008FF - 2nd stage bootloader
+
+0x000086FF bytes - 0x00000900 - 0x00008BFE - drivers
+0x00000400 bytes - 0x00008BFF - 0x00008FFF - I/O buffer
+
+0x00000C00 bytes - 0x00009000 - 0x00009C00 - stack
+
+0x000763FE bytes - 0x00009C01 - 0x0007FFFF - drivers pt. 2
+
+0x0007FFFF bytes - 0x00080000 - 0x000FFFFF - reserved memory
+0x00EFFFFF bytes - 0x00100000 - 0x00FFFFFF - kernel code
+0xBEFFFFFF bytes - 0x01000000 - 0xBFFFFFFF - kernel taperam
+0x3FFFFFFF bytes - 0xC0000000 - 0xFFFFFFFF - reserved memory

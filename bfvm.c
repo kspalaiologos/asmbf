@@ -171,6 +171,12 @@ struct replacement vm_model[] = {
     {"BS", "$Mt2=$T;$S$M$St1=mp;$M$Stape[mp+2+2*t1]+=t2;"},
     {"BT", "$Mt2=$T;$S$M$St1=mp;$M$Stape[mp+2+2*t1]-=t2;"},
     {"BU", "$M$Z"},
+    {"BV", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0==t1;$S$M$S"},
+    {"BW", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0!=t1;$S$M$S"},
+    {"BX", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0<=t1;$S$M$S"},
+    {"BY", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0<t1;$S$$S"},
+    {"BZ", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0>=t1;$S$$S"},
+    {"CA", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0>t1;$S$$S"},
     {NULL, NULL}
 };
 

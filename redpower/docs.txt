@@ -1,0 +1,62 @@
+==============================================================================
+=               REDPOWER - an asm2bf bootable kernel toolchain               =
+==============================================================================
+~~~~ (C) Palaiologos, 2020
+
+==[ 1. General description
+
+	The RedPower toolchain can be used to build bootable asm2bf programs.
+It's built for x86 IBM PC platform. It exposes basic driver interface (via
+example kernels) and allows basic memory I/O to allow loading custom drivers
+to memory.
+
+	Kernels booted with RedPower are loaded on the 1st megabyte of the
+memory. The tape is put on 16M, therefore two assumptions are being made:
+
+
+	 * The ISA memory hole is present. This is rarely the case for modern
+	   PC's, but it's safer to assume that this memory area is unusable.
+
+	 * The CPU can operate in big unreal mode, with descriptors for `ds'
+	   loaded. This means the 65K limit on segments for data peeks and
+	   pokes is lifted and the entire 4G of memory is adressable.
+
+==[ 2. Boot process
+
+	The RedPower bootloader gets loaded by BIOS on origin 0x7C00h. It's
+duty includes generic mainteinance tasks, including reclocking the PIT (to
+assure that the driver gets loaded and install itself quickly, before the
+kernel can execute any interrupts). It's also storing the drive letter to
+make sure the kernel can read it later on. It also performs basic tasks
+like presenting the user with the boot process which is happening and check-
+ing the capabilities of the BIOS extended read procedures. The basic read
+implementation isn't currently implemented or supported. The bootloader makes
+an attempt of enabling A20 via BIOS (and doesn't check whether it succeeded
+or not). The Voodoo (unreal) "mode" is getting enabled soon afterwards.
+
+	Then, the bootloader loads the second stage loader from LBA(1) to
+linear adress 0x500 and calls it. `cx' is passed to the interpreter as the
+amount of sectors (LBA blocks), `dl' is passed as the drive letter and `eax'
+is the beginning adress of the data on the device.
+
+
+==[ 3. Driver basics
+
+	To load an assembly driver, the kernel is expected to poke it into
+the memory over at 0x900. The poking process is expected to happen from
+right to left, or skipping the first byte altogether, and poking it at the
+end. This ensures no code is executed before the entirety of data is written.
+This approach skips the `iret' instruction on 0x900 and overwrites it only
+when all the code is ready to execute.
+
+	Assembly drivers are expected to save their state via popad/pushad.
+Trashing high bits of any register is unacceptable and will lead to an
+inevitable crash. The I/O stack can be extended by hooking the callback
+procedure of the BIOS driver or modifying it.
+
+==[ 4. I/O stack
+
+	The I/O stack control is offloaded to the kernel and the kernel is
+responsible for keeping it balanced. The I/O stack can be used to prime the
+BIOS driver interrupts or notify other user-loaded drivers.
+

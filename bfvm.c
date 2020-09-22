@@ -186,6 +186,8 @@ struct replacement vm_model[] = {
     {"CH", "$Mt0=$T;$S$Mif(tape[OFF('q')])$T%=t0;$S"},
     {"CI", "$Mif(tape[OFF('q')])$T<<=1;$S"},
     {"CJ", "$Mif(tape[OFF('q')])$T>>=1;$S"},
+    {"CK", "$Mt0=$T;$S$Mif(tape[OFF('q')]){$T=bfpow($T,t0);}$S"},
+    {"CL", "$Mt0=$T;$S$M$Sif(tape[OFF('q')]){tape[mp+2*t0]=t0;sp++;}"},
     {NULL, NULL}
 };
 

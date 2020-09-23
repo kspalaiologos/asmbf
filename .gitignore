@@ -8,3 +8,13 @@ bfpp/bfpp
 *.pyc
 vxcall.c
 os
+
+hla/hla
+
+hla/lex.yy.c
+
+hla/parser.tab.c
+
+hla/parser.tab.h
+
+hla/parser.output

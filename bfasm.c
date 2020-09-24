@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IC 118
+#define IC 120
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -75,7 +75,7 @@ int bfasm(void) {
 #endif
     unsigned int n;
     char * s = "addanddecdiveq_ge_gt_in_incjmpjnzjz_lblle_lt_modmovmulne_negnotor_outpoppshrclstosubswpclrretendlogaslasrpowsrvampsmpnavceqcneclecltcgecgtcjncjzcadcsucmucdicmdcslcsrcpwcpscpocswcrvcmocrccstcamcsmx00x01x02x03x04shrshlcoucincpapargcdcgccrefmufdifrefadfsudupcdp"
-    "x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscotdscsgtsptsletps"
+    "x05x06x07x08x09x0ax0bx0cx0dx0ex0fx10x11x12x13x14x15x16otscotdscsgtsptsletpsfpsfpo"
     "rsestkorgdb_txtrawseg"
            #ifndef BFVM
            "a+b+[<[>-]>[>]<\0" /* 0 first */
@@ -261,6 +261,8 @@ int bfasm(void) {
            "2-[p+#>[>>]+<<-<<[<<]>2-]+p[2+p-]#>[>>]<[-]<[<<]>1[p+#>[>>]<+<[<<]>1-]p[1+p-]#>[>>]>>[-<<+>>>>]<<<<[<<]>\0" /* spt */
            "2[-]#>[>>]<<<<[>>[<<+>>-]+<<<<]>>[<2+#>-]+<\0" /* sle */
            "1-[p+#>[>>]+<<-<<[<<]>1-]+p[1+p-]#>[>>]<[-]<[<<]>2[p+#>[>>]<+<[<<]>2-]p[2+p-]#>[>>]>>[-<<+>>>>]<<<<[<<]>\0" /* tps */
+           "q[p+#>[>>]>+<<<[<<]>q-]p[q+p-]#>[>>]+[<<]>\0" /* fps */
+           "q[-]#>[>>]<<->[<<<[<<]>q+#>[>>]>-]<<<[<<]>\0" /* fpo */
            ;
     for (n = 0; n < 8000; n++)  m[n + 20] = s[n];
     m[6] = 0;

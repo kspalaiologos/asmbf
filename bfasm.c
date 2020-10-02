@@ -139,7 +139,7 @@ int bfasm(void) {
            "q[2[n+2-]1[m+>-[<<]<[[>+<-]<<]>>1-]m[1+2+m-]n[2+n-]p<+>]<[->]\0" /* cmd */
            "q[2[e+2-]e[2++e-]p<+>]<[->]\0" /* csl v */
            "q[2[m+2-]k+m[-[-2+m>]<]<[>]>k-p<+>]<[->]\0" /* csr v */
-	   "q[1[k+1-]+2[c+1[k[l+m+k-]l[k+l-]1-]m[1+m-]2-]c[2+c-]k[-]p<+>]<[->]\0" /* cpw v */
+           "q[1[k+1-]+2[c+1[k[l+m+k-]l[k+l-]1-]m[1+m-]2-]c[2+c-]k[-]p<+>]<[->]\0" /* cpw v */
            "q[2[p+#>[>>]>+<<<[<<]>2-]p[2+p-]#>[>>]+[<<]>p<+>]<[->]\0" /* cps v */
 	   #else
            "AAAb\0" /* 0 first */
@@ -188,23 +188,23 @@ int bfasm(void) {
            "BS1Z2Z*Z\0" /* amp */
            "BT1Z2Z*Z\0" /* smp */
            "BU2Z\0" /* nav */
-	   "BV1Z2ZqZ\0" /* ceq */
-	   "BW1Z2ZqZ\0" /* cne */
+           "BV1Z2ZqZ\0" /* ceq */
+           "BW1Z2ZqZ\0" /* cne */
            "BX1Z2ZqZ\0" /* cle */
-	   "BY1Z2ZqZ\0" /* clt */
-	   "BZ1Z2ZqZ\0" /* cge */
-	   "CA1Z2ZqZ\0" /* cgt */
-	   "CB1Z\0" /* cjn */
-	   "CC1Z\0" /* cjz */
-	   "CD1Z2Z\0" /* cad */
-	   "CE1Z2Z\0" /* csu */
-	   "CF1Z2Z\0" /* cmu */
-	   "CG1Z2Z\0" /* cdi */
-	   "CH1Z2Z\0" /* cmd */
-	   "CI2Z\0" /* csl */
-	   "CJ2Z\0" /* csr */
-	   "CK1Z2Z\0" /* cpw */
-	   "CL2Z#Z\0" /* cps */
+           "BY1Z2ZqZ\0" /* clt */
+           "BZ1Z2ZqZ\0" /* cge */
+           "CA1Z2ZqZ\0" /* cgt */
+           "CB1Z\0" /* cjn */
+           "CC1Z\0" /* cjz */
+           "CD1Z2Z\0" /* cad */
+           "CE1Z2Z\0" /* csu */
+           "CF1Z2Z\0" /* cmu */
+           "CG1Z2Z\0" /* cdi */
+           "CH1Z2Z\0" /* cmd */
+           "CI2Z\0" /* csl */
+           "CJ2Z\0" /* csr */
+           "CK1Z2Z\0" /* cpw */
+           "CL2Z#Z\0" /* cps */
 	   #endif
            /* c?? instructions go here. don't even try to understand that. */
            "q[2[-]#>[>>]<<->[<<<[<<]>2+#>[>>]>-]<<<[<<]>p<+>]<[->]\0" /* cpo v */
@@ -300,7 +300,7 @@ Lad:;
     
     if (m[0] != '\"') {
 #ifndef BFASM_NO_ERROR_CODES
-        printf("\n** ERROR: Closing quote expected.\n");
+        fprintf(stderr, "\n** ERROR: Closing quote expected.\n");
 #endif
         goto Laz;
     }
@@ -356,7 +356,7 @@ Lax:;
         m[0] = inchar();
         m[0] = m[0] - '1';
 #ifndef BFASM_NO_ERROR_CODES
-        if (m[0] > 2) { printf("\n** ERROR: Register unavailable: f%d\n", m[0] + 1); goto Laz; }
+        if (m[0] > 2) { fprintf(stderr, "\n** ERROR: Register unavailable: f%d\n", m[0] + 1); goto Laz; }
 #else
         if (m[0] > 2) goto Laz;
 #endif
@@ -368,7 +368,7 @@ Lax:;
     m[0] = inchar();
     m[0] = m[0] - '1';
 #ifndef BFASM_NO_ERROR_CODES
-    if (m[0] > 5) { printf("\n** ERROR: Register unavailable: r%d\n", m[0] + 1); goto Laz; }
+    if (m[0] > 5) { fprintf(stderr, "\n** ERROR: Register unavailable: r%d\n", m[0] + 1); goto Laz; }
 #else
     if (m[0] > 5) goto Laz;
 #endif
@@ -386,7 +386,7 @@ Lan:;
 Lal:; /* number */
     m[0] = m[0] - '0';
 #ifndef BFASM_NO_ERROR_CODES
-    if (m[0] > 9) { printf("\n** ERROR: Expected digit, got `%c'\n", m[0] + '0'); goto Laz; }
+    if (m[0] > 9) { fprintf(stderr, "\n** ERROR: Expected digit, got `%c'\n", m[0] + '0'); goto Laz; }
 #else
     if (m[0] > 9) goto Laz;
 #endif
@@ -409,12 +409,12 @@ Lai:;
     switch (m[2]) {
         case 0: /* add */
             if (m[4] == 0) {
-            m[6] = 4;
-            m[4] = m[5];
-            outbf();
-            m[6] = '+';
-            outrep();
-            goto Lap;
+                m[6] = 4;
+                m[4] = m[5];
+                outbf();
+                m[6] = '+';
+                outrep();
+                goto Lap;
             }
             goto Lao;
         case 9: /* jmp */
@@ -466,12 +466,12 @@ Lai:;
             goto Lap;
         case 16: /* mov */
             if (m[4] == 0) {
-            m[6] = 5;
-            m[4] = m[5];
-            outbf();
-            m[6] = '+';
-            outrep();
-            goto Lap;
+                m[6] = 5;
+                m[4] = m[5];
+                outbf();
+                m[6] = '+';
+                outrep();
+                goto Lap;
             }
             goto Lao;
         case 27: /* sub */
@@ -637,14 +637,14 @@ o5:;
     if (r1 != '2') goto o6;
     r1 = m[4];
 o6:;
-    if (r1 == '#') { r1 = STACK-2; goto o11; } /* when stack changes, set it */
+    if (r1 == '#') { r1 = STACK-2; goto o11; }
     if (r1 != '*') goto o7;
-    if(rseg == 0) r1 = m[9] + off * 2; // ???
+    if (rseg == 0) r1 = m[9] + off * 2; // ???
     else r1 = m[9] + off;
     goto o11;
 o7:;
     if (r1 != '^') goto o8;
-    if(rseg == 0) r1 = m[10] + off * 2; // ???
+    if (rseg == 0) r1 = m[10] + off * 2; // ???
     else r1 = m[10] + off;
     goto o11;
 o8:;
@@ -780,27 +780,27 @@ void translate(int n, int base) {
         
         if(sp != 0) {
             if(!flip) {
-            putchar('[');
-            putchar('>');
-            
-            while(bc--)
-                putchar('+');
-            
-            putchar('<');
-            putchar('-');
-            putchar(']');
-            putchar('>');
+                putchar('[');
+                putchar('>');
+
+                while(bc--)
+                    putchar('+');
+
+                putchar('<');
+                putchar('-');
+                putchar(']');
+                putchar('>');
             } else {
-            putchar('[');
-            putchar('<');
-            
-            while(bc--)
-                putchar('+');
-            
-            putchar('>');
-            putchar('-');
-            putchar(']');
-            putchar('<');
+                putchar('[');
+                putchar('<');
+
+                while(bc--)
+                    putchar('+');
+
+                putchar('>');
+                putchar('-');
+                putchar(']');
+                putchar('<');
             }
         }
         

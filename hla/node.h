@@ -10,7 +10,8 @@ enum {
     InternalFunctionDeclaration, FunctionArityNode, ImperativeReturn,
     ImperativeAssign, RegisterReference, ConstantWrapper, ImperativeAssignAdd,
     MinusExpression, PlusExpression, RegisterList, Preserve, ImperativeExit,
-    ExternalFunctionDeclaration
+    ExternalFunctionDeclaration, Call, Function, ImperativeOut, ImperativeIn,
+    RefNode, ImperativeDeref, While
 };
 
 struct node {

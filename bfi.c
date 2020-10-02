@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "config.h"
 
 char * src;
 long lof, ip = -1;

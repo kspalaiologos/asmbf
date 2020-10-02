@@ -18,3 +18,13 @@ hla/parser.tab.c
 hla/parser.tab.h
 
 hla/parser.output
+
+autom4te.cache/
+
+Makefile
+
+config.status
+
+config.h
+
+config.log

@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../config.h"
 
 char * chomp(char * s) {
     while(isspace(*s))

@@ -33,7 +33,8 @@
 %token KEYWORD_PROGRAM KEYWORD_MODULE KEYWORD_DATA KEYWORD_DISCARD
 %token KEYWORD_FN KEYWORD_PUBLIC KEYWORD_PRESERVE KEYWORD_END KEYWORD_RET
 %token KEYWORD_FUSE KEYWORD_WHILE KEYWORD_DO KEYWORD_WITH KEYWORD_OUT
-%token KEYWORD_IN KEYWORD_STACK KEYWORD_ADDRESS
+%token KEYWORD_IN KEYWORD_STACK KEYWORD_ADDRESS KEYWORD_FOR KEYWORD_REF
+%token KEYWORD_DEREF
 
 %token COLON SLASH DOLLAR AT HASH ATTRIBUTE_OPEN ATTRIBUTE_CLOSE
 %token BLOCK_CLOSE BLOCK_OPEN PAREN_OPEN PAREN_CLOSE MINUS ASSIGN EQUALS
@@ -41,7 +42,8 @@
 
 %type<ast> TopLevelScope ProgramDeclaration ModuleDeclaration Address
 %type<ast> DataDeclaration ImperativeDeclarations RegisterReference
-%type<ast> ImperativeDeclaration RValue Expression RegisterList
+%type<ast> ImperativeDeclaration RValue Expression RegisterList Function
+%type<ast> FunctionCall RelOp
 
 %start Start
 
@@ -69,9 +71,21 @@ RegisterReference
 }
 ;
 
+RelOp
+: RValue {
+    $$ = $1;
+}
+| RValue EQUALS RValue {
+    $$ = node(RelEq, append_brother($1, $3), NULL, NULL);
+}
+;
+
 RValue
 : CONSTANT {
     $$ = node(ConstantWrapper, NULL, NULL, $1);
+}
+| KEYWORD_REF IDENTIFIER {
+    $$ = node(RefNode, NULL, NULL, $2);
 }
 | RegisterReference {
     $$ = $1;
@@ -109,16 +123,48 @@ ImperativeDeclaration
 | RegisterReference ASSIGN Expression {
     $$ = node(ImperativeAssign, append_brother($1, $3), NULL, NULL);
 }
-| RegisterReference PLUSEQUALS RValue {
+| RegisterReference PLUSEQUALS Expression {
     $$ = node(ImperativeAssignAdd, append_brother($1, $3), NULL, NULL);
 }
 | KEYWORD_PRESERVE BLOCK_OPEN RegisterList[regs] BLOCK_CLOSE KEYWORD_IN BLOCK_OPEN ImperativeDeclarations[code] BLOCK_CLOSE {
     $$ = node(Preserve, append_brother(node(RegisterList, $regs, NULL, NULL), $code), NULL, NULL);
 }
-| IDENTIFIER SLASH CONSTANT BLOCK_OPEN ImperativeDeclarations BLOCK_CLOSE {
-
+| KEYWORD_PRESERVE BLOCK_OPEN RegisterList[regs] BLOCK_CLOSE FunctionCall[code] {
+    $$ = node(Preserve, append_brother(node(RegisterList, $regs, NULL, NULL), $code), NULL, NULL);
 }
-| IDENTIFIER SLASH CONSTANT
+| KEYWORD_OUT RValue {
+    $$ = node(ImperativeOut, $2, NULL, NULL);
+}
+| RegisterReference ASSIGN KEYWORD_IN {
+    $$ = node(ImperativeIn, $1, NULL, NULL);
+}
+| RegisterReference ASSIGN KEYWORD_DEREF RegisterReference {
+    $$ = node(ImperativeDeref, append_brother($1, $4), NULL, NULL);
+}
+| KEYWORD_WHILE BLOCK_OPEN ImperativeDeclarations[decl] BLOCK_CLOSE PAREN_OPEN RelOp[comp] PAREN_CLOSE BLOCK_OPEN ImperativeDeclarations[decl2] BLOCK_CLOSE {
+    $$ = node(While, append_brother(append_brother($comp, $decl), $decl2), NULL, NULL);
+}
+| KEYWORD_WHILE PAREN_OPEN RelOp[comp] PAREN_CLOSE BLOCK_OPEN ImperativeDeclarations[decl2] BLOCK_CLOSE {
+    $$ = node(While, append_brother($comp, $decl2), NULL, NULL);
+}
+| FunctionCall {
+    $$ = $1;
+}
+;
+
+FunctionCall
+: KEYWORD_FOR Function BLOCK_OPEN ImperativeDeclarations BLOCK_CLOSE {
+    $$ = node(Call, append_brother($2, $4), NULL, NULL);
+}
+| Function {
+    $$ = node(Call, $1, NULL, NULL);
+}
+;
+
+Function
+: IDENTIFIER SLASH CONSTANT {
+    $$ = node(Function, node(FunctionArityNode, NULL, NULL, $3), NULL, $1);
+}
 ;
 
 ImperativeDeclarations

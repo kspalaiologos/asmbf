@@ -5,7 +5,7 @@ CFLAGS=-g3 -Wall -Wextra -pedantic
 all: hla
 
 clean:
-	rm -f *.o hla
+	rm -f *.o hla parser.output lex.yy.c parser.tab.h parser.tab.c
 
 lex.yy.c: lexer.l
 	flex --full -o $@ $^
@@ -16,5 +16,5 @@ parser.tab.c: parser.y
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
-hla: parser.tab.o lex.yy.o node.o codegen.o main.o
+hla: parser.tab.o lex.yy.o modq.o emitter.o symtab.o node.o codegen.o main.o
 	$(CC) $(CFLAGS) -o $@ $^

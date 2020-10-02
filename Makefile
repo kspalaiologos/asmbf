@@ -31,7 +31,7 @@ test: test/*.asm
 
 clean:
 	rm -rf bin/
-	rm -f effective.c constpp.c bflabels.c bfdata.c
+	rm -f effective.c constpp.c bflabels.c bfdata.c vxcall.c
 	cd bfpp && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm

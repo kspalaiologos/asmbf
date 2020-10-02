@@ -5,10 +5,10 @@ matrix:
   include:
     - language: c
       script:
-        - sudo make all setup
+        - ./configure && sudo make all setup
     - language: c
       script:
-        - sudo make COVERAGE="-g -coverage -DBFI_NOCHECKS -O0" all setup test
+        - ./configure && sudo make COVERAGE="-g -coverage -DBFI_NOCHECKS -O0" all setup test
       after_success:
         - bash <(curl -s https://codecov.io/bash)
   cache: apt

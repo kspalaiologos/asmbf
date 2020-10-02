@@ -16,7 +16,7 @@ for your use. Precise floating point library is on the board, memory allocation 
 inlining. Last changes include stack-based offsets, virtual instructions and effective adresses. Why not
 check it out?
 
-manual.pdf                       - WIP, UP TO DATE ASM2BF MANUAL AND DOCUMENTATION.
+etc/manual.pdf                   - WIP, UP TO DATE ASM2BF MANUAL AND DOCUMENTATION.
 https://discord.gg/m4Wcenn       - THE DISCORD SERVER FOR ASM2BF.
 https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
                                    serves as a documentation aswell. article.txt contains a mirror of this article.
@@ -55,7 +55,7 @@ $(bf_wend("r2"))
 --------------------------------------- Installation Instruction ---------------------------------------
 
 1. Pull the repository from github: `git clone https://github.com/kspalaiologos/asmbf'
-2. Build asm2bf: `make all'
+2. Run the configure script and build asm2bf: `./configure & make all`
 3. Drop asm2bf into your home directory: `make setup'
 4. Optional: Add `~/.asmbf' into your PATH.
 

@@ -19,6 +19,7 @@
  */
 
 #include <stdio.h>
+#include "config.h"
 
 #define STYLE_POSTFIX 1
 #define STYLE_PREFIX 0

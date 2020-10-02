@@ -5,7 +5,7 @@
 
 # Kamila Szewczyk, Jul 2019
 
-export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE) $(OPTIONS)
+export CFLAGS=$(OPTIONS)
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
 
 .PHONY: all clean setup test bfpp

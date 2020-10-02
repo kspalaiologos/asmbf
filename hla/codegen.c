@@ -3,14 +3,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#include "modq.h"
 #include "node.h"
-
-struct symbol_t {
-	unsigned char type, arity;
-	char * string;
-
-    struct symbol_t * next;
-};
+#include "emitter.h"
+#include "symtab.h"
 
 struct {
     unsigned int stack_size;
@@ -18,83 +15,14 @@ struct {
     unsigned int origin;
     unsigned int segment;
 
+    unsigned char in_preserve;
+
     unsigned char moduleDeclared;
     unsigned char programDeclared;
 
     unsigned char functionsDeclared;
     unsigned char startDeclared;
 } context;
-
-static struct symbol_t * symbol_table = NULL, * symbol_table_head = NULL;
-
-static void add_symbol(unsigned char type, char * name) {
-    struct symbol_t * instance = malloc(sizeof(struct symbol_t));
-
-    if(!symbol_table) {
-        symbol_table = symbol_table_head = instance;
-        symbol_table->type = type;
-        symbol_table->string = name;
-        symbol_table->next = NULL;
-    } else {
-        symbol_table_head->next = instance;
-        symbol_table_head->next->type = type;
-        symbol_table_head->next->string = name;
-        symbol_table_head->next->next = NULL;
-        symbol_table_head = symbol_table_head->next;
-    }
-}
-
-struct symbol_t * fetch_symbol(unsigned char type, char * name) {
-    struct symbol_t * ptr = symbol_table;
-    
-    while(ptr) {
-        if(!strcmp(name, ptr->string) && type == ptr->type)
-            return ptr;
-        
-        ptr = ptr->next;
-    }
-
-    return NULL;
-}
-
-enum {
-    Txt, Db, Seg, Off, Stk
-};
-
-enum {
-    ExternalLinkage, InternalLinkage
-};
-
-enum {
-    NONE = -8, F3 = -7, R1 = -6, R2 = -5, R3 = -4, R4 = -3, R5 = -2, R6 = -1
-};
-
-enum {
-    SymbolData, SymbolCode
-};
-
-struct code_chunk {
-    char * instruction;
-    int param1, param2;
-
-    struct code_chunk * next;
-};
-
-struct data_chunk {
-    unsigned char linkage;
-    int type;
-    char * identifier;
-
-    union {
-        char * char_sequence;
-        int constant;
-    } value;
-
-    struct data_chunk * next;
-};
-
-static struct code_chunk * code = NULL, * code_head = NULL;
-static struct data_chunk * data = NULL, * data_head = NULL;
 
 #define INDENT for(i = 0; i < indent; i++) putchar(' ')
 static void dump_tree(struct node * n) {
@@ -110,67 +38,6 @@ static void dump_tree(struct node * n) {
     if(n->brother)  { INDENT; printf("----\n"); dump_tree(n->brother); }
 }
 #undef INDENT
-
-static void emit(char * instruction, int param1, int param2) {
-    struct code_chunk * instance = malloc(sizeof(struct code_chunk));
-
-    if(!code) {
-        code = code_head = instance;
-        code->instruction = instruction;
-        code->param1 = param1;
-        code->param2 = param2;
-        code->next = NULL;
-    } else {
-        code_head->next = instance;
-        code_head->next->instruction = instruction;
-        code_head->next->param1 = param1;
-        code_head->next->param2 = param2;
-        code_head->next->next = NULL;
-        code_head = code_head->next;
-    }
-}
-
-static void emit_txt(unsigned char linkage, char * identifier, char * string) {
-    struct data_chunk * instance = malloc(sizeof(struct data_chunk));
-
-    if(!data) {
-        data = data_head = instance;
-        data->next = NULL;
-        data->type = Txt;
-        data->linkage = linkage;
-        data->identifier = identifier;
-        data->value.char_sequence = string;
-    } else {
-        data_head->next = instance;
-        data_head->next->next = NULL;
-        data_head->next->type = Txt;
-        data_head->next->linkage = linkage;
-        data_head->next->identifier = identifier;
-        data_head->next->value.char_sequence = string;
-        data_head = data_head->next;
-    }
-}
-
-static void emit_data(unsigned char linkage, char * identifier, int type, int n) {
-    struct data_chunk * instance = malloc(sizeof(struct data_chunk));
-
-    if(!data) {
-        data = data_head = instance;
-        data->next = NULL;
-        data->type = type;
-        data->identifier = identifier;
-        data->linkage = linkage;
-        data->value.constant = n;
-    } else {
-        data_head->next = instance;
-        data_head->next->next = NULL;
-        data_head->next->type = type;
-        data_head->next->linkage = linkage;
-        data_head->next->identifier = identifier;
-        data_head->next->value.constant = n;
-        data_head = data_head->next;
-    }
-}
 
 static void dispatch_program(struct node * n) {
     switch(n->type) {
@@ -217,29 +84,43 @@ static void validate_register(int reg, struct node * n) {
     }
 }
 
-static int immediatify(struct node * n) {
+static char * immediatify(struct node * n) {
     if(n->type == ConstantWrapper)
-        return atoi(n->value);
+        return n->value;
     else if(n->type == RegisterReference) {
-        const int reg_lookup[] = {R1, R2, R3, R4, R5, R6};
+        char * reg_lookup[] = {"r1", "r2", "r3", "r4", "r5", "r6"};
         int reg = atoi(n->value);
         validate_register(reg, n);
         return reg_lookup[reg - 1];
+    } else if(n->type == RefNode) {
+        char * name = n->value;
+        struct symbol_t * sym = fetch_symbol(SymbolData, name, NULL);
+        
+        if(!sym) {
+            fprintf(stderr, "[%d:%d] Unknown data symbol: `%s'\n", n->line, n->col, n->value);
+            exit(1);
+        }
+
+        char * buf;
+
+        asprintf(&buf, sym->linkage == InternalLinkage ? "*_internal_%s" : "*%s", name);
+
+        return buf;
     } else {
-        fprintf(stderr, "NOT IMPLEMENTED!!\n");
-        return 0;
+        fprintf(stderr, "[%d:%d] Unknown immediate type.\n", n->line, n->col);
+        exit(1);
     }
 }
 
 static void emit_expr(char * insn, struct node * n) {
-    const int reg_lookup[] = {R1, R2, R3, R4, R5, R6};
+    char * reg_lookup[] = {"r1", "r2", "r3", "r4", "r5", "r6"};
     int reg = atoi(n->child->value);
     
     validate_register(reg, n);
 
-    if(n->child->brother->type == ConstantWrapper) {
-        emit(insn, reg_lookup[reg - 1], immediatify(n->child->brother));
-    } else if(n->child->brother->type == RegisterReference) {
+    if(n->child->brother->type == ConstantWrapper
+    || n->child->brother->type == RegisterReference
+    || n->child->brother->type == RefNode) {
         emit(insn, reg_lookup[reg - 1], immediatify(n->child->brother));
     } else if(n->child->brother->type == MinusExpression
            || n->child->brother->type == PlusExpression) {
@@ -256,10 +137,15 @@ static void emit_expr(char * insn, struct node * n) {
             expr = expr->child->brother;
         }
         
-        if(expr->type == MinusExpression)
-            emit("sub", reg_lookup[reg - 1], immediatify(child_expr));
-        else if(expr->type == PlusExpression)
-            emit("add", reg_lookup[reg - 1], immediatify(child_expr->child));
+        if(child_expr) {
+            if(expr->type == MinusExpression)
+                emit("sub", reg_lookup[reg - 1], immediatify(child_expr));
+            else if(expr->type == PlusExpression)
+                emit("add", reg_lookup[reg - 1], immediatify(child_expr));
+        }
+    } else {
+        fprintf(stderr, "[%d:%d] Unknown expression node.", n->line, n->col);
+        exit(1);
     }
 }
 
@@ -267,18 +153,22 @@ static void unroll_pop(struct node * n) {
     if(n->brother)
         unroll_pop(n->brother);
     
-    emit("pop", immediatify(n), NONE);
+    emit("pop", immediatify(n), NULL);
 }
 
 static void dispatch_imperative(struct node * n) {
     switch(n->type) {
         case ImperativeReturn: {
-            emit("ret", NONE, NONE);
+            if(context.in_preserve) {
+                fprintf(stderr, "[%d:%d] Warning: `ret' used inside `preserve'\n", n->line, n->col);
+            }
+
+            emit("ret", NULL, NULL);
             break;
         }
 
         case ImperativeExit: {
-            emit("end", NONE, NONE);
+            emit("end", NULL, NULL);
             break;
         }
 
@@ -294,20 +184,36 @@ static void dispatch_imperative(struct node * n) {
             break;
         }
 
+        case ImperativeOut: {
+            emit("out", immediatify(n->child), NULL);
+
+            break;
+        }
+
+        case ImperativeIn: {
+            emit("in", immediatify(n->child), NULL);
+            
+            break;
+        }
+
         case Preserve: {
             struct node * regs = n->child->child;
             struct node * unrolled_regs = regs;
             struct node * code = n->child->brother;
 
             while(regs) {
-                emit("push", immediatify(regs), NONE);
+                emit("push", immediatify(regs), NULL);
                 regs = regs->brother;
             }
+
+            context.in_preserve = 1;
 
             while(code) {
                 dispatch_imperative(code);
                 code = code->brother;
             }
+
+            context.in_preserve = 0;
 
             // Unroll a list.
             // Captain recursion.
@@ -315,6 +221,72 @@ static void dispatch_imperative(struct node * n) {
             unroll_pop(unrolled_regs);
 
             break;
+        }
+
+        case Call: {
+            // Has special arguments?
+            if(n->child->brother) {
+                struct node * code = n->child->brother;
+                
+                while(code) {
+                    dispatch_imperative(code);
+                    code = code->brother;
+                }
+            }
+
+            struct node * name = n->child;
+            struct node * arity = n->child->child;
+
+            struct symbol_t * s = NULL;
+
+            unsigned char status = 0;
+
+            while((s = fetch_symbol(SymbolCode, name->value, s))) {
+                char * buf = NULL;
+
+                if(s->arity != atoi(arity->value))
+                    continue;
+
+                if(s->linkage == ExternalLinkage) {
+                    asprintf(&buf, "#call(\"%s%s\")", name->value, arity->value);
+                } else {
+                    asprintf(&buf, "#call(\"_internal_%s%s\")", name->value, arity->value);
+                }
+
+                emit(buf, NULL, NULL);
+                
+                status = 1;
+
+                break;
+            }
+
+            if(!status) {
+                fprintf(stderr, "[%d:%d] Unresolved `%s/%s'\n", n->line, n->col, name->value, arity->value);
+                exit(1);
+            }
+
+            break;
+        }
+
+        case ImperativeDeref: {
+            struct node * from = n->child;
+            struct node * to = n->child->brother;
+            
+            if(from->type != RegisterReference) {
+                fprintf(stderr, "[%d:%d] Bogus deref.\n", n->line, n->col);
+                exit(1);
+            }
+
+            emit("movf", immediatify(from), immediatify(to));
+            break;
+        }
+
+        case While: {
+            if(n->child->brother->brother) {
+                // while { blocc1 } (cond) { blocc2 }
+            } else {
+                // while (cond) { blocc }
+            }
         }
     }
 }
@@ -342,12 +314,12 @@ static void dispatch_module(struct node * n) {
                     context.origin++;
                 }
 
-                if(fetch_symbol(SymbolData, n->child->value)) {
+                if(fetch_symbol(SymbolData, n->child->value, NULL)) {
                     fprintf(stderr, "[%d:%d] Data symbol `%s' redeclared.\n", n->line, n->col, n->child->value);
                     exit(1);
                 }
 
-                add_symbol(SymbolData, n->child->value);
+                add_symbol(SymbolData, n->child->value, 0, InternalLinkage);
             }
 
             break;
@@ -362,12 +334,12 @@ static void dispatch_module(struct node * n) {
                 context.origin++;
             }
 
-            if(fetch_symbol(SymbolData, n->child->value)) {
+            if(fetch_symbol(SymbolData, n->child->value, NULL)) {
                 fprintf(stderr, "[%d:%d] External data symbol `%s' redeclared.\n", n->line, n->col, n->child->value);
                 exit(1);
             }
 
-            add_symbol(SymbolData, n->child->value);
+            add_symbol(SymbolData, n->child->value, 0, ExternalLinkage);
 
             break;
         }
@@ -395,18 +367,14 @@ static void dispatch_module(struct node * n) {
 
             asprintf(&name_buf, "@_internal_%s%d", name, arity);
 
-            if(fetch_symbol(SymbolCode, name_buf + 1)) {
+            if(fetch_symbol(SymbolCode, name, NULL)) {
                 fprintf(stderr, "[%d:%d] `%s/%d' redeclared.", n->line, n->col, name, arity);
                 exit(1);
             }
 
-            if(!isStart)
-                emit(name_buf, NONE, NONE);
+            add_symbol(SymbolCode, name, arity, InternalLinkage);
 
-            while(body) {
-                dispatch_imperative(body);
-                body = body->brother;
-            }
+            enqueue(NULL, body);
 
             break;
         }
@@ -421,96 +389,20 @@ static void dispatch_module(struct node * n) {
 
             asprintf(&name_buf, "@%s%d", name, arity);
 
-            if(fetch_symbol(SymbolCode, name_buf + 1)) {
+            if(fetch_symbol(SymbolCode, name, NULL)) {
                 fprintf(stderr, "[%d:%d] `%s/%d' redeclared.", n->line, n->col, name, arity);
                 exit(1);
             }
 
-            emit(name_buf, NONE, NONE);
+            add_symbol(SymbolCode, name, arity, ExternalLinkage);
 
-            while(body) {
-                dispatch_imperative(body);
-                body = body->brother;
-            }
-
+            enqueue(name_buf, body);
             break;
         }
 
         default: {
             fprintf(stderr, "[%d:%d] ICE: unsupported declaration inside the module scope.\n", n->line, n->col);
             exit(1);
-        }
-    }
-}
-
-void flush_code(FILE * f) {
-    {
-        struct data_chunk * iterator = data;
-
-        while(iterator) {
-            switch(iterator->type) {
-                case Txt:
-                    if(iterator->identifier) {
-                        fprintf(f,
-                            iterator->linkage == ExternalLinkage ?
-                                "&%s\n" : "&_internal_%s\n"
-                            , iterator->identifier
-                        );
-                    }
-
-                    fprintf(f, "txt %s\n", iterator->value.char_sequence);
-                    break;
-                case Db:
-                    if(iterator->identifier) {
-                        fprintf(f,
-                            iterator->linkage == ExternalLinkage ?
-                                "&%s\n" : "&_internal_%s\n"
-                            , iterator->identifier
-                        );
-                    }
-
-                    fprintf(f, "db %d\n", iterator->value.constant);
-                    break;
-                case Seg:
-                    fprintf(f, "seg %d\n", iterator->value.constant);
-                    break;
-                case Off:
-                    fprintf(f, "org %d\n", iterator->value.constant);
-                    break;
-                case Stk:
-                    fprintf(f, "stk %d\n", iterator->value.constant);
-                    break;
-            }
-
-            iterator = iterator->next;
-        }
-    }
-    {
-        struct code_chunk * iterator = code;
-        
-        const char * regs[] = {
-            NULL, "r6", "r5", "r4", "r3", "r2", "r1", "f3"
-        };
-        
-        while(iterator) {
-            fprintf(f, "%s", iterator->instruction);
-            
-            if(iterator->param1 != NONE) {
-                if(iterator->param1 >= 0)
-                    fprintf(f, " %d", iterator->param1);
-                else
-                    fprintf(f, " %s", regs[-iterator->param1]);
-            }
-
-            if(iterator->param2 != NONE) {
-                if(iterator->param2 >= 0)
-                    fprintf(f, ", %d\n", iterator->param2);
-                else
-                    fprintf(f, ", %s\n", regs[-iterator->param2]);
-            } else
-                fprintf(f, "\n");
-
-            iterator = iterator->next;
         }
     }
 }
@@ -545,6 +437,8 @@ void dispatch(struct node * n) {
                 dispatch_module(tmp);
                 tmp = tmp->brother;
             }
+
+            finalize(dispatch_imperative);
 
             break;
         }

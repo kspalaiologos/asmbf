@@ -1,11 +1,19 @@
 %{
 #define _GNU_SOURCE
-#include <string.h>
+#include <stdio.h>
 
 #include "error.h"
 #include "lexer.h"
 
 #include "parser.tab.h"
+
+// Supply the prototype ourselves.
+// Flex doesn't put this code at the top, and probably
+// already includes <stdio.h> without GNU extensions.
+
+#ifndef asprintf
+    int asprintf(char ** strp, const char * fmt, ...); 
+#endif
 
 #define YY_USER_ACTION                          \
   yylloc->first_line = yylloc->last_line;       \
@@ -42,8 +50,11 @@ do                 return KEYWORD_DO;
 with               return KEYWORD_WITH;
 out                return KEYWORD_OUT;
 in                 return KEYWORD_IN;
+for                return KEYWORD_FOR;
 stack              return KEYWORD_STACK;
 address            return KEYWORD_ADDRESS;
+ref                return KEYWORD_REF;
+deref              return KEYWORD_DEREF;
 
 ":"                return COLON;
 "/"                return SLASH;
@@ -85,7 +96,7 @@ address            return KEYWORD_ADDRESS;
 }
 
 [\n\r\f\t ]    ;
-;              { lexer_error(*yytext, yylineno); exit(1); }
+.|\n           { lexer_error(*yytext, yylineno); exit(1); }
 
 %%
 

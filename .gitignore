@@ -18,3 +18,5 @@ hla/parser.tab.c
 hla/parser.tab.h
 
 hla/parser.output
+
+autom4te.cache/

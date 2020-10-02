@@ -31,7 +31,7 @@ test: test/*.asm
 
 clean:
 	rm -rf bin/
-	rm -f effective.c constpp.c bflabels.c bfdata.c vxcall.c
+	rm -f preprocessor/*.c
 	cd bfpp && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
@@ -49,32 +49,22 @@ test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
 
-bflabels: bflabels.c
-	$(CC) $(CFLAGS) $^ -o $@
+bflabels: preprocessor/bflabels.lex
+	lex -f -o preprocessor/bflabels.c $^
+	$(CC) $(CFLAGS) preprocessor/bflabels.c -o $@
 
-bflabels.c: bflabels.lex
-	lex -f -o $@ $^
+effective: preprocessor/effective.lex
+	lex -f -o preprocessor/effective.c $^
+	$(CC) $(CFLAGS) preprocessor/effective.c -o $@
 
-effective: effective.c
-	$(CC) $(CFLAGS) $^ -o $@
+constpp: preprocessor/constpp.lex
+	lex -f -o preprocessor/constpp.c $^
+	$(CC) $(CFLAGS) preprocessor/constpp.c -o $@
 
-effective.c: effective.lex
-	lex -f -o $@ $^
+bfdata: preprocessor/bfdata.lex
+	lex -f -o preprocessor/bfdata.c $^
+	$(CC) $(CFLAGS) preprocessor/bfdata.c -o $@
 
-constpp: constpp.c
-	$(CC) $(CFLAGS) $^ -o $@
-
-constpp.c: constpp.lex
-	lex -f -o $@ $^
-
-bfdata: bfdata.c
-	$(CC) $(CFLAGS) $^ -o $@
-
-bfdata.c: bfdata.lex
-	lex -f -o $@ $^
-
-vxcall: vxcall.c
-	$(CC) $(CFLAGS) $^ -o $@
-
-vxcall.c: vxcall.lex
-	lex -f -o $@ $^
+vxcall: preprocessor/vxcall.lex
+	lex -f -o preprocessor/vxcall.c $^
+	$(CC) $(CFLAGS) preprocessor/vxcall.c -o $@

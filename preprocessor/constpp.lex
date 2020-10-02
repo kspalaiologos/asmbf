@@ -24,6 +24,7 @@
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include "../config.h"
 
 struct def_t {
     char * find, * replace;

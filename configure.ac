@@ -5,8 +5,6 @@ AC_CONFIG_SRCDIR([bfasm.c])
 AC_CONFIG_HEADERS([config.h])
 AC_COPYRIGHT([Copyright (C) Kamila Szewczyk, 2020. Licensed under the terms of MIT license.])
 
-OPTIONS="-Ofast -march=native -funroll-loops -fomit-frame-pointer -w"
-
 # Checks for programs.
 AC_PROG_YACC
 AC_PROG_CC
@@ -93,12 +91,6 @@ AC_ARG_ENABLE([bfvm-freestanding],
 AC_ARG_ENABLE([double-nocopy],
     AS_HELP_STRING([--enable-double-nocopy], [Utilizes the other set of rules in bconv.c]), [
         AC_DEFINE([FREESTANDING], [], ["A switch for bconv."])
-])
-
-AC_ARG_ENABLE([coverage],
-    AS_HELP_STRING([--enable-coverage], [Performs code coverage checks.]), [
-        AC_DEFINE([COVERAGE], [], ["A coverage test will be performed on this build."])
-        OPTIONS="-g -coverage -DBFI_NOCHECKS -O0"
 ])
 
 # Checks for library functions.

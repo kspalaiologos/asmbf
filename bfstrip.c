@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "config.h"
 
 #define a(v,l,r,z)({s=v<0?l:r;v=abs(v);while(v--)putchar(s);v=0;z;})
 int x,y,s,r,c;int main(int n,char**p){r=n==2&&strcmp("--strip-rle",p

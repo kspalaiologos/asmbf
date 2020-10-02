@@ -11,8 +11,8 @@
 // Flex doesn't put this code at the top, and probably
 // already includes <stdio.h> without GNU extensions.
 
-#ifndef asprintf
-    int asprintf(char ** strp, const char * fmt, ...); 
+#ifndef HAVE_ASPRINTF
+#error The lexer requires asprintf to process character constants.
 #endif
 
 #define YY_USER_ACTION                          \

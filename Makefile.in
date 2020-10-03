@@ -8,9 +8,9 @@
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE)
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
 
-.PHONY: all clean setup test bfpp
+.PHONY: all clean setup test bfpp redpower
 
-all: $(TARGETS) bfpp etc/bfasm.b bin
+all: $(TARGETS) bfpp redpower etc/bfasm.b bin
 
 setup:
 	rm -rf "${HOME}/.asmbf/"
@@ -18,6 +18,9 @@ setup:
 	cp -rf bin/asmbf/* "${HOME}/.asmbf/"
 	chmod -R a+x "${HOME}/.asmbf/"
 	echo "asm2bf has been installed to ${HOME}/.asmbf/."
+
+redpower:
+	make -C redpower
 
 bfpp:
 	make -C bfpp
@@ -32,7 +35,9 @@ test: test/*.asm
 clean:
 	rm -rf bin/
 	rm -f preprocessor/*.c config.h config.log config.status
+    rm Makefile bfpp/Makefile redpower/Makefile
 	cd bfpp && make clean && cd ..
+	cd redpower && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
 	./bfasm < etc/bfasm.asm | ./bfstrip > $@

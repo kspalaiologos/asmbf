@@ -31,7 +31,7 @@ test: test/*.asm
 
 clean:
 	rm -rf bin/
-	rm -f preprocessor/*.c
+	rm -f preprocessor/*.c config.h config.log config.status
 	cd bfpp && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm

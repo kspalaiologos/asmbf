@@ -1,4 +1,3 @@
-#!/bin/asmbf/bfmake
 
 jmp %hello1text3
 end

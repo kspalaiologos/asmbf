@@ -1,4 +1,4 @@
-#!/bin/asmbf/bfmake
+
 mov r1, 2 ; r1 = 2
 cgt r1, 1 ; true
 csl r1    ; 2 * 2

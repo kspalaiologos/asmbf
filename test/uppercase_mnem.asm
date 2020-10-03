@@ -1,4 +1,3 @@
-#!/bin/asmbf/bfmake
 
 STK 2
 ORG 0

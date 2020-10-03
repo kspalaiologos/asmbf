@@ -1,0 +1,1 @@
+$(dofile(os.getenv("HOME") .. '/.asmbf/lib/lib-bfm.lua')) 

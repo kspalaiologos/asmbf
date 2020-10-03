@@ -36,3 +36,5 @@ redpower/redpower.img
 redpower/kernel/kernel.b
 
 redpower/kernel/kernel.p
+
+etc/signedmath.b

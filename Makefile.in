@@ -8,11 +8,11 @@
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE)
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
 
-.PHONY: all clean setup test bfpp redpower
+.PHONY: all clean install test bfpp redpower
 
 all: $(TARGETS) bfpp etc/bfasm.b bin
 
-setup:
+install:
 	rm -rf "${HOME}/.asmbf/"
 	mkdir -p "${HOME}/.asmbf/"
 	cp -rf bin/asmbf/* "${HOME}/.asmbf/"

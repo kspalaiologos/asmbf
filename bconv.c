@@ -25,57 +25,37 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
+
+char * bconv_commands = "><+-[]";
+char * bconv_snippets[] = {
+    #ifdef DOUBLE_NOCOPY
+    /* > */ ">>>>",
+    /* < */ "<<<<",
+    /* + */ ">+<+[>-]>[->>+<]<<",
+    /* - */ ">+<[>-]>[->>-<]<<-",
+    /* [ */ ">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-[+<",
+    /* ] */ ">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-]<"
+    #else
+    /* > */ ">>>",
+    /* < */ "<<<",
+    /* + */ "+>+[<->[->>+<<]]>>[-<<+>>]<<<[->>+<<]",
+    /* - */ "+>[<->[->>+<<]]>>[-<<+>>]<<<[->>-<<]>-<",
+    /* [ */ ">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<[[-]",
+    /* ] */ ">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<]"
+    #endif
+};
 
 int main(void) {
     int c;
     
-    while((c=getchar()) != EOF) {
-        switch(c) {
-            case '>':
-                #ifdef DOUBLE_NOCOPY
-                    puts(">>>>");
-                #else
-                    puts(">>>");
-                #endif
-                break;
-            case '<':
-                #ifdef DOUBLE_NOCOPY
-                    puts("<<<<");
-                #else
-                    puts("<<<");
-                #endif
-                break;
-            case '+':
-                #ifdef DOUBLE_NOCOPY
-                    puts(">+<+[>-]>[->>+<]<<");
-                #else
-                    puts("+>+[<->[->>+<<]]>>[-<<+>>]<<<[->>+<<]");
-                #endif
-                break;
-            case '-':
-                #ifdef DOUBLE_NOCOPY
-                    puts(">+<[>-]>[->>-<]<<-");
-                #else
-                    puts("+>[<->[->>+<<]]>>[-<<+>>]<<<[->>-<<]>-<");
-                #endif
-                break;
-            case '[':
-                #ifdef DOUBLE_NOCOPY
-                    puts(">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-[+<");
-                #else
-                    puts(">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<[[-]");
-                #endif
-                break;
-            case ']':
-                #ifdef DOUBLE_NOCOPY
-                    puts(">+<[>-]>[->+>[<-]<[<]>[-<+>]]<-]<");
-                #else
-                    puts(">[<+>[->>+<<]]>>[-<<+>>]<[<<+>>[->+<]]>[-<+>]<<<]");
-                #endif
-                break;
-            default:
-                putchar(c);
-        }
+    while((c = getchar()) != EOF) {
+        char * x = strchr(bconv_commands, c);
+        
+        if(x == NULL)
+            putchar(c);
+        else
+            printf("%s", bconv_snippets[x - bconv_commands]);
     }
 }

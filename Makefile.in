@@ -10,7 +10,7 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective v
 
 .PHONY: all clean setup test bfpp redpower
 
-all: $(TARGETS) bfpp redpower etc/bfasm.b bin
+all: $(TARGETS) bfpp etc/bfasm.b bin
 
 setup:
 	rm -rf "${HOME}/.asmbf/"

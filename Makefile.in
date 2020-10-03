@@ -8,7 +8,7 @@
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE)
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
 
-.PHONY: all clean install test bfpp redpower
+.PHONY: all clean install test bfpp redpower uninstall
 
 all: $(TARGETS) bfpp etc/bfasm.b bin
 
@@ -31,6 +31,9 @@ test: test/*.asm
 	-bfi --version 2> /dev/null
 	-bfi --blah 2> /dev/null
 	test/test.pl $^
+
+uninstall:
+	rm -rf "${HOME}/.asmbf/"
 
 clean:
 	rm -rf bin/

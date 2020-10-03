@@ -201,6 +201,11 @@ int main(void) {
             case 'Z': fprintf(stderr, "\033[31mDebug: !! Z not matched @%d\033[37m\n", pos); case '\n': case '\r': case ' ': break;
             default:
                 match[mp++] = c;
+
+                if(mp > 32) {
+                    fprintf(stderr, "\033[31m*** Severe: BFVM matcher jammed.\033[37m\n");
+                    exit(1);
+                }
                 
                 if(!try_match(match)) {
                     fprintf(stderr, "\033[33mDebug: tried matching '%s'.\033[37m\n", match);

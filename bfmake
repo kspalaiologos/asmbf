@@ -16,6 +16,7 @@ sub help {
 	print " -s: disable stripping of the brainfuck binary.\n";
 	print " -p: disable bfasm step.\n";
 	print " -l: disable standard library.\n";
+    print " -b: build asm2bf bytecode. Restriction from below applies.\n";
 	print " -c: build C code. Only use if you have built a BFVM\n";
     print "     version of asm2bf, e.g: `setenv OPTIONS \"-DBFVM\"'\n";
 	print "\n";
@@ -45,9 +46,21 @@ sub build {
 	my $output = switch_ext($name, $target_ext);
     my $bfvm = 'cat';
 	
+    my $single_test = `echo "" | $home/.asmbf/bfasm`;
+
+    if(defined $options{c} or $options{b}) {
+        if($single_test =~ /^[^A-Z]/) {
+            die 'asm2bf wasn\'t built for the bfvm target.';
+        }
+    } else {
+        if($single_test =~ /^[A-Z]/) {
+            die 'asm2bf wasn\'t built for the brainfuck target.';
+        }
+    }
+
 	$output = $options{o} if defined $options{o};
 	$lib = 'echo ""' if defined $options{l};
-	$stripper = 'cat' if defined $options{s} or $options{c};
+	$stripper = 'cat' if defined $options{s} or $options{c} or $options{b};
 	$compiler = 'cat' if defined $options{p};
     $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
 	
@@ -67,7 +80,7 @@ sub build {
 	exit 0;
 }
 
-getopts("hspclo:", \%options);
+getopts("hspcblo:", \%options);
 
 help() if defined $options{h};
 

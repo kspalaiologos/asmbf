@@ -32,3 +32,7 @@ config.log
 redpower/redpower.hex
 
 redpower/redpower.img
+
+redpower/kernel/kernel.b
+
+redpower/kernel/kernel.p

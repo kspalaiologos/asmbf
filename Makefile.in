@@ -35,7 +35,6 @@ test: test/*.asm
 clean:
 	rm -rf bin/
 	rm -f preprocessor/*.c config.h config.log config.status
-    rm Makefile bfpp/Makefile redpower/Makefile
 	cd bfpp && make clean && cd ..
 	cd redpower && make clean && cd ..
 

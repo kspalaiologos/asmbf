@@ -1,33 +1,22 @@
-
-; Don't ask questions, this is beyond explaining
 ?band=x00
 ?bor=x01
 ?bxor=x02
 ?bneg=x03
-
 ?cflip=x04
 ?xor=ne
-
-; Some common defines
 ?push=psh
 ?xchg=swp
 ?cots=cot
 ?movf=rcl
 ?lea=mov
-
-; gcd, cgc, cre
 ?cgcd=cgc
 ?cret=crc
-
-; floating point
 ?finv=srv
 ?fmul=fmu
 ?fdiv=fdi
 ?freduce=fre
 ?fadd=fad
 ?fsub=fsu
-
-; Conditional instructions
 ?cadd=cad
 ?csub=csu
 ?cmul=cmu
@@ -48,7 +37,6 @@
 ?cout=cou
 ?cjnz=cjn
 ?cpar=cpa
-
 ?candeq=x05
 ?candne=x06
 ?candle=x07

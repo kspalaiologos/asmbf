@@ -28,3 +28,7 @@ config.status
 config.h
 
 config.log
+
+redpower/redpower.hex
+
+redpower/redpower.img

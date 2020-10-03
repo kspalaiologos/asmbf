@@ -7,8 +7,9 @@
 
 export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE)
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
+VERSION=trunk
 
-.PHONY: all clean install test bfpp redpower uninstall
+.PHONY: all clean install test bfpp redpower uninstall distclean dist
 
 all: $(TARGETS) bfpp etc/bfasm.b bin
 
@@ -18,6 +19,18 @@ install:
 	cp -rf bin/asmbf/* "${HOME}/.asmbf/"
 	chmod -R a+x "${HOME}/.asmbf/"
 	echo "asm2bf has been installed to ${HOME}/.asmbf/."
+
+dist: clean distclean test-clean
+	mkdir "asm2bf-$(VERSION)"
+	cp -rf b2bf bfpp etc examples hla lib-bfm microcode preprocessor redpower test "asm2bf-$(VERSION)/"
+	cp -rf *.* "asm2bf-$(VERSION)/"
+	cd "asm2bf-$(VERSION)" && rm -f Makefile configure .travis.yml .editorconfig .gitattributes && cd ..
+	tar -cf "asm2bf-$(VERSION).tar" "asm2bf-$(VERSION)/"
+	rm -rf "asm2bf-$(VERSION)"
+
+distclean:
+	rm -f config.log config.status redpower/Makefile hla/Makefile etc/bfasm.b
+	rm -rf autom4te.cache
 
 redpower:
 	make -C redpower
@@ -37,9 +50,9 @@ uninstall:
 
 clean:
 	rm -rf bin/
-	rm -f preprocessor/*.c config.h config.log config.status
-	cd bfpp && make clean && cd ..
-	cd redpower && make clean && cd ..
+	rm -f preprocessor/*.c config.h asm2bf-*.tar
+	-cd bfpp && make clean && cd ..
+	-cd redpower && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
 	./bfasm < etc/bfasm.asm | ./bfstrip > $@

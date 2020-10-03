@@ -69,22 +69,8 @@ test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
 
-bflabels: preprocessor/bflabels.lex
-	lex -f -o preprocessor/bflabels.c $^
-	$(CC) $(CFLAGS) preprocessor/bflabels.c -o $@
+preprocessor/%.c: preprocessor/%.lex
+	lex -f -o $@ $<
 
-effective: preprocessor/effective.lex
-	lex -f -o preprocessor/effective.c $^
-	$(CC) $(CFLAGS) preprocessor/effective.c -o $@
-
-constpp: preprocessor/constpp.lex
-	lex -f -o preprocessor/constpp.c $^
-	$(CC) $(CFLAGS) preprocessor/constpp.c -o $@
-
-bfdata: preprocessor/bfdata.lex
-	lex -f -o preprocessor/bfdata.c $^
-	$(CC) $(CFLAGS) preprocessor/bfdata.c -o $@
-
-vxcall: preprocessor/vxcall.lex
-	lex -f -o preprocessor/vxcall.c $^
-	$(CC) $(CFLAGS) preprocessor/vxcall.c -o $@
+%: preprocessor/%.c
+	$(CC) $(CFLAGS) -o $@ $<

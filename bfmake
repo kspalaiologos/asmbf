@@ -39,7 +39,7 @@ sub build {
     my $target_ext = '.b';
     $target_ext = '.c' if defined $options{c};
     
-	my $lib = "cat \"$home/.asmbf/lib/lib-bfm.lua\"";
+	my $lib = "cat \"$home/.asmbf/lib/lib-bfm-stub.lua\"";
 	my $stripper = "\"$home/.asmbf/bfstrip\"";
 	my $compiler = "\"$home/.asmbf/bfasm\"";
 	my $output = switch_ext($name, $target_ext);
@@ -51,7 +51,7 @@ sub build {
 	$compiler = 'cat' if defined $options{p};
     $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
 	
-	`bash -c \"{ $lib ; cat "$name" | sed -e "1!b" -e '/#/d' ; } | "$home/.asmbf/bfpp" 2>> error.log | "$home/.asmbf/bflabels" 2>> error.log | "$home/.asmbf/bfdata" 2>> error.log | "$home/.asmbf/effective" 2>> error.log | "$home/.asmbf/vxcall" 2>> error.log | "$home/.asmbf/constpp" 2>> error.log } | $compiler | $stripper | $bfvm > $output\"`;
+	`bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error.log | "$home/.asmbf/bflabels" 2>> error.log | "$home/.asmbf/bfdata" 2>> error.log | "$home/.asmbf/effective" 2>> error.log | "$home/.asmbf/vxcall" 2>> error.log | "$home/.asmbf/constpp" 2>> error.log } | $compiler | $stripper | $bfvm > $output\"`;
 	
     if(-s "error.log" != 0) {
         open (FILE, '<', "error.log") or die "Could not open the log file.\n";

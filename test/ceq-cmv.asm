@@ -1,4 +1,4 @@
-#!/bin/asmbf/bfmake
+
 mov r1, 49
 mov r2, r1
 raw .0

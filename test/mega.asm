@@ -1,4 +1,3 @@
-#!/bin/asmbf/bfmake
 
 ; Complex test suite testing remainants of asm2bf.
 ; we can skip:

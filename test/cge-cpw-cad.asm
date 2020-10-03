@@ -1,4 +1,4 @@
-#!/bin/asmbf/bfmake
+
 mov r1, 2
 mov r2, 6
 cge r1, 1

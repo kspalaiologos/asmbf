@@ -1,4 +1,4 @@
-#!/sublime/asmbf
+
 txt "abcdefghijklmnop"
 
 mov r5, 2

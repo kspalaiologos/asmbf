@@ -1,62 +1,3 @@
-?band=x00
-?bor=x01
-?bxor=x02
-?bneg=x03
-?cflip=x04
-?xor=ne
-?push=psh
-?xchg=swp
-?cots=cot
-?movf=rcl
-?lea=mov
-?cgcd=cgc
-?cret=crc
-?finv=srv
-?fmul=fmu
-?fdiv=fdi
-?freduce=fre
-?fadd=fad
-?fsub=fsu
-?cadd=cad
-?csub=csu
-?cmul=cmu
-?cdiv=cdi
-?cmod=cmd
-?casl=csl
-?casr=csr
-?cpow=cpw
-?cpush=cps
-?cpsh=cps
-?cpop=cpo
-?cxchg=csw
-?cswp=csw
-?csrv=crv
-?cmov=cmo
-?crcl=crc
-?csto=cst
-?cout=cou
-?cjnz=cjn
-?cpar=cpa
-?candeq=x05
-?candne=x06
-?candle=x07
-?candge=x08
-?candlt=x09
-?candgt=x0A
-?coreq=x0B
-?corne=x0C
-?corle=x0D
-?corge=x0E
-?corlt=x0F
-?corgt=x10
-?cxoreq=x11
-?cxorne=x12
-?cxorle=x13
-?cxorge=x14
-?cxorlt=x15
-?cxorgt=x16
-
-$(
 
 function include(path)
 	local M = {}
@@ -303,10 +244,7 @@ function include(path)
 		os.exit(1)
 	  end
 end
-	
-)
 
-$(
 RET_ID = 0
 function call(x)
 	print("psh %_return_" .. RET_ID)
@@ -314,38 +252,35 @@ function call(x)
 	print("@_return_" .. RET_ID)
 	RET_ID = RET_ID + 1
 end
-)
 
-#MM_BASE = 0
-#PAGE_SIZE = 16
+MM_BASE = 0
+PAGE_SIZE = 16
 
-; Allocate a page and pass the pointer in target_register.
-; This function has a side effect on register passed in clear.
-; It's getting, simply, cleared.
-#function alloc(target_register, clear)
-#	print("psh " .. clear)
-#	print("mov " .. target_register .. ", " .. tostring(MM_BASE))
-#	print("mov " .. clear .. ", 1")
-#	print("nav " .. clear)
-#	print("raw .[")
-#	print("rcl " .. clear .. ", " .. target_register)
-#	print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
-#	print("inc " .. target_register)
-#	print("nav " .. clear)
-#	print("raw .]")
-#	print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
-#	print("dec " .. target_register)
-#	print("sto " .. target_register .. ", 1")
-#	print("inc " .. target_register)
-#	print("pop " .. clear)
-#end
+function alloc(target_register, clear)
+	print("psh " .. clear)
+	print("mov " .. target_register .. ", " .. tostring(MM_BASE))
+	print("mov " .. clear .. ", 1")
+	print("nav " .. clear)
+	print("raw .[")
+	print("rcl " .. clear .. ", " .. target_register)
+	print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
+	print("inc " .. target_register)
+	print("nav " .. clear)
+	print("raw .]")
+	print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
+	print("dec " .. target_register)
+	print("sto " .. target_register .. ", 1")
+	print("inc " .. target_register)
+	print("pop " .. clear)
+end
 
-; Free the page in target_register.
-#function free(target_register)
-#	print("dec " .. target_register)
-#	print("sto " .. target_register .. ", 0")
-#end
+function free(target_register)
+	print("dec " .. target_register)
+	print("sto " .. target_register .. ", 0")
+end
 	
-#function times(str, n)
-#	for i=1,n,1 do print(str) end
-#end
+function times(str, n)
+	for i=1,n,1 do print(str) end
+end
+
+include("lib-def.lua")

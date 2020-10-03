@@ -55,3 +55,6 @@
 ?cxorge=x14
 ?cxorlt=x15
 ?cxorgt=x16
+?fcpush=fps
+?fcpsh=fps
+?fcpop=fpo

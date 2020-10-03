@@ -1,4 +1,3 @@
-#!/bin/asmbf/bfmake
 
 mov r1, .0
 clr r4

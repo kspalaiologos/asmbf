@@ -283,4 +283,4 @@ function times(str, n)
 	for i=1,n,1 do print(str) end
 end
 
-include("lib-def.lua")
+include(os.getenv("HOME") .. '/.asmbf/lib/lib-def.lua')

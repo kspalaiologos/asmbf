@@ -56,6 +56,7 @@ void pop_def(char * text) {
         
         p = p->next;
     }
+
     printf("%s", text);
 }
 
@@ -70,11 +71,13 @@ void push_def(char * text) {
     char * find = text, * replace = strchr(text, '=') + 1;
     unsigned find_len = replace - find - 1, replace_len = strlen(replace);
     
-    ctx_ptr->find = malloc(find_len);
-    memcpy(ctx_ptr->find, find, find_len);
+    replace[-1] = 0;
+
+    ctx_ptr->find = malloc(find_len + 1);
+    memcpy(ctx_ptr->find, find, find_len + 1);
     
-    ctx_ptr->replace = malloc(replace_len);
-    memcpy(ctx_ptr->replace, replace, replace_len);
+    ctx_ptr->replace = malloc(replace_len + 1);
+    memcpy(ctx_ptr->replace, replace, replace_len + 1);
     
     ctx_ptr->next = new_def();
     ctx_ptr->next->find = ctx_ptr->next->replace = NULL;

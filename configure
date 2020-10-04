@@ -689,6 +689,7 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_line_width
 enable_version
 with_target
 enable_account_segments
@@ -1357,7 +1358,7 @@ Optional Features:
   --enable-rle-prefix     Enable prefixed RLE for bfasm.
   --enable-rle-postfix    Enable postfix RLE for bfasm.
   --enable-bfvm32         Makes the bfvm output code 32-bit.
-  --enable-bfvm-heap      Sets the bfvm heap size.
+  --enable-bfvm-heap=size Sets the bfvm heap size.
   --enable-bfvm-freestanding
                           Builds bfvm in freestanding mode (tape located at
                           0x7000).
@@ -1366,6 +1367,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-line-width=size  Sets the wrapping point for bfstrip.
   --with-target=[auto/release/debug/coverage]
                           Build target (default: auto)
 
@@ -4240,6 +4242,19 @@ $as_echo "$as_me: not updating unwritable cache $cache_file" >&6;}
 fi
 rm -f confcache
 
+
+# Check whether --with-line-width was given.
+if test "${with_line_width+set}" = set; then :
+  withval=$with_line_width;
+
+cat >>confdefs.h <<_ACEOF
+#define BFSTRIP_LINE_WIDTH $withval
+_ACEOF
+
+
+fi
+
+
 # Check whether --enable-version was given.
 if test "${enable_version+set}" = set; then :
   enableval=$enable_version;
@@ -4786,16 +4801,14 @@ fi
 
 
 
-
-    # Check whether --enable-bfvm-heap was given.
+# Check whether --enable-bfvm-heap was given.
 if test "${enable_bfvm_heap+set}" = set; then :
   enableval=$enable_bfvm_heap;
 
-$as_echo "#define BFVM_HEAP /**/" >>confdefs.h
+$as_echo "#define BFVM_HEAP \$enableval" >>confdefs.h
 
 
 fi
-
 
 
 
@@ -5427,7 +5440,7 @@ $as_echo "$as_me: not updating unwritable cache $cache_file" >&6;}
 fi
 rm -f confcache
 
-ac_config_files="$ac_config_files Makefile bfpp/Makefile hla/Makefile redpower/Makefile"
+ac_config_files="$ac_config_files Makefile bfpp/Makefile hla/Makefile redpower/Makefile preprocessor/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -6123,6 +6136,7 @@ do
     "bfpp/Makefile") CONFIG_FILES="$CONFIG_FILES bfpp/Makefile" ;;
     "hla/Makefile") CONFIG_FILES="$CONFIG_FILES hla/Makefile" ;;
     "redpower/Makefile") CONFIG_FILES="$CONFIG_FILES redpower/Makefile" ;;
+    "preprocessor/Makefile") CONFIG_FILES="$CONFIG_FILES preprocessor/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

@@ -62,6 +62,11 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 AC_CACHE_SAVE
 
+AC_ARG_WITH([line-width],
+    AS_HELP_STRING([--with-line-width=size], [Sets the wrapping point for bfstrip.]), [
+        AC_DEFINE_UNQUOTED([BFSTRIP_LINE_WIDTH], [$withval], [Sets the wrapping point for bfstrip.])
+])
+
 AC_ARG_ENABLE([version], AS_HELP_STRING([--enable-version], [Sets the dist version for asm2bf]), [
     AC_SUBST([VERSION], [$enableval])
 ], [
@@ -154,9 +159,10 @@ PROG_SWITCH([bfvm32], [
     Makes the bfvm output code 32-bit.
 ], [BFVM_32])
 
-PROG_SWITCH([bfvm-heap], [
-    Sets the bfvm heap size.
-], [BFVM_HEAP])
+AC_ARG_ENABLE([bfvm-heap],
+    AS_HELP_STRING([--enable-bfvm-heap=size], [Sets the bfvm heap size.]), [
+        AC_DEFINE([BFVM_HEAP], [$enableval], [Sets the bfvm heap size.])
+])
 
 PROG_SWITCH([bfvm-freestanding], [
     Builds bfvm in freestanding mode (tape located at 0x7000).
@@ -178,5 +184,6 @@ AC_CACHE_SAVE
 AC_CONFIG_FILES([Makefile
                  bfpp/Makefile
                  hla/Makefile
-                 redpower/Makefile])
+                 redpower/Makefile
+                 preprocessor/Makefile])
 AC_OUTPUT

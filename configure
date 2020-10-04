@@ -628,6 +628,7 @@ ac_header_list=
 ac_func_list=
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+LOC_F
 DISTRO
 VERSION
 EGREP
@@ -2358,6 +2359,17 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 ac_config_headers="$ac_config_headers config.h"
+
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+
+
 
 
 
@@ -4255,10 +4267,395 @@ case "$asmbf_distro_target" in
 
         ;;
     "debug")
-        DISTRO=" -Wall -Wextra -g3 -O2 -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=leak -fsanitize=undefined -fcf-protection=full -fstack-protector-strong -fstack-check "
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fsanitize=pointer-compare" >&5
+$as_echo_n "checking whether C compiler accepts -fsanitize=pointer-compare... " >&6; }
+if ${ax_cv_check_cflags__Werror__fsanitize_pointer_compare+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fsanitize=pointer-compare"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fsanitize_pointer_compare=yes
+else
+  ax_cv_check_cflags__Werror__fsanitize_pointer_compare=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fsanitize_pointer_compare" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fsanitize_pointer_compare" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fsanitize_pointer_compare" = xyes; then :
+  LOC_F="$LOC_F -fsanitize=pointer-compare"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fsanitize=pointer-compare is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fsanitize=pointer-compare is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fsanitize=pointer-subtract" >&5
+$as_echo_n "checking whether C compiler accepts -fsanitize=pointer-subtract... " >&6; }
+if ${ax_cv_check_cflags__Werror__fsanitize_pointer_subtract+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fsanitize=pointer-subtract"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fsanitize_pointer_subtract=yes
+else
+  ax_cv_check_cflags__Werror__fsanitize_pointer_subtract=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fsanitize_pointer_subtract" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fsanitize_pointer_subtract" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fsanitize_pointer_subtract" = xyes; then :
+  LOC_F="$LOC_F -fsanitize=pointer-subtract"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fsanitize=pointer-subtract is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fsanitize=pointer-subtract is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fsanitize=address" >&5
+$as_echo_n "checking whether C compiler accepts -fsanitize=address... " >&6; }
+if ${ax_cv_check_cflags__Werror__fsanitize_address+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fsanitize=address"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fsanitize_address=yes
+else
+  ax_cv_check_cflags__Werror__fsanitize_address=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fsanitize_address" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fsanitize_address" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fsanitize_address" = xyes; then :
+  LOC_F="$LOC_F -fsanitize=address"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fsanitize=address is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fsanitize=address is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fsanitize=leak" >&5
+$as_echo_n "checking whether C compiler accepts -fsanitize=leak... " >&6; }
+if ${ax_cv_check_cflags__Werror__fsanitize_leak+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fsanitize=leak"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fsanitize_leak=yes
+else
+  ax_cv_check_cflags__Werror__fsanitize_leak=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fsanitize_leak" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fsanitize_leak" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fsanitize_leak" = xyes; then :
+  LOC_F="$LOC_F -fsanitize=leak"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fsanitize=leak is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fsanitize=leak is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fsanitize=undefined" >&5
+$as_echo_n "checking whether C compiler accepts -fsanitize=undefined... " >&6; }
+if ${ax_cv_check_cflags__Werror__fsanitize_undefined+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fsanitize=undefined"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fsanitize_undefined=yes
+else
+  ax_cv_check_cflags__Werror__fsanitize_undefined=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fsanitize_undefined" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fsanitize_undefined" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fsanitize_undefined" = xyes; then :
+  LOC_F="$LOC_F -fsanitize=undefined"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fsanitize=undefined is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fsanitize=undefined is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fcf-protection=full" >&5
+$as_echo_n "checking whether C compiler accepts -fcf-protection=full... " >&6; }
+if ${ax_cv_check_cflags__Werror__fcf_protection_full+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fcf-protection=full"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fcf_protection_full=yes
+else
+  ax_cv_check_cflags__Werror__fcf_protection_full=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fcf_protection_full" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fcf_protection_full" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fcf_protection_full" = xyes; then :
+  LOC_F="$LOC_F -fcf-protection=full"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fcf-protection=full is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fcf-protection=full is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fstack-protector-strong" >&5
+$as_echo_n "checking whether C compiler accepts -fstack-protector-strong... " >&6; }
+if ${ax_cv_check_cflags__Werror__fstack_protector_strong+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fstack-protector-strong"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fstack_protector_strong=yes
+else
+  ax_cv_check_cflags__Werror__fstack_protector_strong=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fstack_protector_strong" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fstack_protector_strong" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fstack_protector_strong" = xyes; then :
+  LOC_F="$LOC_F -fstack-protector-strong"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fstack-protector-strong is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fstack-protector-strong is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fstack-check" >&5
+$as_echo_n "checking whether C compiler accepts -fstack-check... " >&6; }
+if ${ax_cv_check_cflags__Werror__fstack_check+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -fstack-check"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__fstack_check=yes
+else
+  ax_cv_check_cflags__Werror__fstack_check=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fstack_check" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fstack_check" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fstack_check" = xyes; then :
+  LOC_F="$LOC_F -fstack-check"
+
+else
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: -fstack-check is beneficial for debug builds, but it's not present." >&5
+$as_echo "$as_me: WARNING: -fstack-check is beneficial for debug builds, but it's not present." >&2;}
+
+fi
+
+
+
+
+        DISTRO=" -Wall -Wextra -g3 -O2 $LOC_F "
 
         ;;
     "coverage")
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -coverage" >&5
+$as_echo_n "checking whether C compiler accepts -coverage... " >&6; }
+if ${ax_cv_check_cflags__Werror__coverage+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="-Werror -coverage"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags__Werror__coverage=yes
+else
+  ax_cv_check_cflags__Werror__coverage=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__coverage" >&5
+$as_echo "$ax_cv_check_cflags__Werror__coverage" >&6; }
+if test "x$ax_cv_check_cflags__Werror__coverage" = xyes; then :
+  :
+else
+  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "-coverage is required for coverage builds.
+See \`config.log' for more details" "$LINENO" 5; }
+fi
+
+
         DISTRO="-g3 -O0 -coverage"
 
         ;;

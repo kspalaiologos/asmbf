@@ -35,9 +35,9 @@ foreach my $file(@ARGV) {
 
         if(length($diff) > 0) {
             print color('bold yellow');
-            printf "[%03d/%03d]", $current, $max;
+            printf "[%03d/%03d] ", $current, $max;
             print color('reset');
-            printf "%-40s", $file;
+            printf "%-30s", $file;
             print color('bold red');
             print " *** TEST FAILED!\tOutput diff:\n";
             print $diff;
@@ -45,9 +45,9 @@ foreach my $file(@ARGV) {
             exit length($diff);
         } else {
             print color('bold yellow');
-            printf "[%03d/%03d]", $current, $max;
+            printf "[%03d/%03d] ", $current, $max;
             print color('reset');
-            printf "%-40s", $file;
+            printf "%-30s", $file;
             print color('bold green');
             print " *** TEST PASS.";
             print color('reset');

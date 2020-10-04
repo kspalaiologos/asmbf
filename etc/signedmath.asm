@@ -122,7 +122,7 @@ eq r1, r2
 add r1, .0
 out r1
 
-; 13) -5 - -1
+; 14) -5 - -1
 mov r1, $(signed(-5))
 mov r2, $(signed(-1))
 #call("sign_sub")
@@ -130,6 +130,16 @@ mov r2, $(signed(-4))
 eq r1, r2
 add r1, .0
 out r1
+
+; 15) -1 + -5
+mov r1, $(signed(-1))
+mov r2, $(signed(-5))
+#call("sign_add")
+mov r2, $(signed(-6))
+eq r1, r2
+add r1, .0
+out r1
+
 
 end
 
@@ -197,28 +207,53 @@ end
     jmp %sign_sub
 
 ; -----------------------------------------------------
+; sign_mul: Multiply r2 with & to r1.
+; r1 *= r2
+; Modified: r1
+; Trashed: r2
+@sign_mul
+    push r3
+    push r4
+    
+    mov r3, r1
+    mov r4, r2
+
+    mod r3, 2
+    mod r4, 2
+
+    asr r1
+    asr r2
+
+    mul r1, r2
+    asl r1
+
+    neq r3, r4
+    add r1, r3
+
+    pop r4
+    pop r3
+    ret
+
+; -----------------------------------------------------
 ; sign_sub: Subtract r1 from r2.
 ; r1 -= r2
 ; Modified: r1
 ; Trashed: r2
 @sign_sub
-    push r3
-    push r4
-
     ; r3 = sign of r1
     ; r4 = sign of r2
-    mov r3, r1
-    mov r4, r2
-    mod r3, 2
-    mod r4, 2
+    mov f3, r1
+    mov f2, r2
+    mod f3, 2
+    mod f2, 2
 
     ; Remove the sign bit.
     asr r1
     asr r2
 
     ; x>0 ^ y>0
-    ceq r3, 0
-    candeq r4, 0
+    ceq f3, 0
+    candeq f2, 0
     fps
     candgt r1, r2
     csub r1, r2
@@ -231,21 +266,21 @@ end
     cadd r1, 1
 
     ; x>0 ^ y<0
-    ceq r3, 0
-    candeq r4, 1
+    ceq f3, 0
+    candeq f2, 1
     cadd r1, r2
     casl r1
 
     ; x<0 ^ y>0
-    ceq r3, 1
-    candeq r4, 0
+    ceq f3, 1
+    candeq f2, 0
     cadd r1, r2
     casl r1
     cadd r1, 1
 
     ; x<0 ^ y<0
-    ceq r3, 1
-    candeq r4, 1
+    ceq f3, 1
+    candeq f2, 1
     fps
     candge r1, r2
     csub r1, r2
@@ -257,6 +292,4 @@ end
     csub r1, r2
     casl r1
 
-    pop r4
-    pop r3
     ret

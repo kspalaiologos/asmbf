@@ -9,7 +9,12 @@ foreach my $file(@ARGV) {
     push @proc, $pid;
 
     if ($pid == 0) {
-        system("$ENV{'HOME'}/.asmbf/bfmake $file");
+        my $code = system("$ENV{'HOME'}/.asmbf/bfmake $file > /dev/null");
+        if($file =~ /invalid/) {
+            die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
+        } else {
+            die " *** TEST FAILED: $file should build." if($code != 0);
+        }
 
         $file  =~ s{\.[^.]+$}{};
 

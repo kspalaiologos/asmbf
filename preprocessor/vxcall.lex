@@ -59,6 +59,7 @@ void virtual_call(char * text) {
             if(*text == '.') {
                 text++;
                 printf("%d", *text);
+                text++;
             } else {
                 while(isdigit(*text)) {
                     putchar(*text);

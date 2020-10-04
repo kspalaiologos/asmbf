@@ -19,6 +19,7 @@
  */
 
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,7 +37,8 @@ struct label_t * main_node;
 
 struct label_t * alloc_node(void) {
     struct label_t * x = malloc(sizeof(struct label_t));
-    x->next = x->name = NULL;
+    x->next = NULL;
+    x->name = NULL;
     x->id = 0;
     return x;
 }
@@ -104,13 +106,9 @@ void addlabel(char * text) {
     #endif
 }
 
-int yywrap(void) { return 1; }
-
-int main(void) {
-    yylex();
-}
-
 %}
+
+%option nounput noinput noyywrap nodefault
 
 %%
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
@@ -120,5 +118,9 @@ int main(void) {
 ^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"') + 1) - 1; printf("%s", yytext); }
 ^[ \t]*seg[ \t]*([0-9]+) { segment = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
 ^[ \t]*org[ \t]*([0-9]+) { origin = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
-. { putchar(yytext[0]); }
+.|\n { putchar(yytext[0]); }
 %%
+
+int main(void) {
+    yylex();
+}

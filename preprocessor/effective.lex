@@ -19,6 +19,7 @@
  */
 
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,7 +73,7 @@ void effective_addr(char * text) {
     
     text++;
     
-    addr = malloc(strlen(text));
+    addr = malloc(strlen(text) + 1);
     strcpy(addr, text);
     
     *text = 0;
@@ -227,22 +228,18 @@ void sp_addr(char * text) {
     }
 }
 
-int yywrap(void) { return 1; }
-
-int yylex(void);
-
-int main(void) {
-    yylex();
-}
-
 %}
 
+%option nounput noinput noyywrap nodefault
+
 %%
-
-
 ^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*r[0-9]+[ \t]*,[ \t]*r[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
 ^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*R[0-9]+[ \t]*,[ \t]*R[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
 ^[A-Za-z0-9 \t\,]+\[sp[ \t]?\-[ \t]?(r[0-9]+|[0-9]+|\..)\]\'? { sp_addr(yytext); }
 ^[A-Za-z0-9 \t\,]+\[sp[ \t]?\-[ \t]?(R[0-9]+|[0-9]+|\..)\]\'? { sp_addr(yytext); }
-. { putchar(yytext[0]); }
+.|\n { putchar(yytext[0]); }
 %%
+
+int main(void) {
+    yylex();
+}

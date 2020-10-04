@@ -1357,7 +1357,7 @@ Optional Features:
   --enable-rle-prefix     Enable prefixed RLE for bfasm.
   --enable-rle-postfix    Enable postfix RLE for bfasm.
   --enable-bfvm32         Makes the bfvm output code 32-bit.
-  --enable-bfvm-heap=size Sets the bfvm heap size.
+  --enable-bfvm-heap      Sets the bfvm heap size.
   --enable-bfvm-freestanding
                           Builds bfvm in freestanding mode (tape located at
                           0x7000).
@@ -2366,6 +2366,8 @@ ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
 
 
 
@@ -4665,7 +4667,8 @@ fi
         ;;
 esac
 
-# Check whether --enable-account-segments was given.
+
+    # Check whether --enable-account-segments was given.
 if test "${enable_account_segments+set}" = set; then :
   enableval=$enable_account_segments;
 
@@ -4675,7 +4678,9 @@ $as_echo "#define ACCOUNT_SEGMENTS /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-relative-segmentation was given.
+
+
+    # Check whether --enable-relative-segmentation was given.
 if test "${enable_relative_segmentation+set}" = set; then :
   enableval=$enable_relative_segmentation;
 
@@ -4685,7 +4690,9 @@ $as_echo "#define RELATIVE_SEGMENTATION /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-silient-errors was given.
+
+
+    # Check whether --enable-silient-errors was given.
 if test "${enable_silient_errors+set}" = set; then :
   enableval=$enable_silient_errors;
 
@@ -4695,7 +4702,9 @@ $as_echo "#define BFASM_NO_ERROR_CODES /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-library was given.
+
+
+    # Check whether --enable-library was given.
 if test "${enable_library+set}" = set; then :
   enableval=$enable_library;
 
@@ -4705,7 +4714,9 @@ $as_echo "#define BFASM_NO_EXPORT_MAIN /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-nocheck-bfi was given.
+
+
+    # Check whether --enable-nocheck-bfi was given.
 if test "${enable_nocheck_bfi+set}" = set; then :
   enableval=$enable_nocheck_bfi;
 
@@ -4715,7 +4726,9 @@ $as_echo "#define BFI_NOCHECKS /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-bfvm was given.
+
+
+    # Check whether --enable-bfvm was given.
 if test "${enable_bfvm+set}" = set; then :
   enableval=$enable_bfvm;
 
@@ -4725,7 +4738,9 @@ $as_echo "#define BFVM /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-o0 was given.
+
+
+    # Check whether --enable-o0 was given.
 if test "${enable_o0+set}" = set; then :
   enableval=$enable_o0;
 
@@ -4733,6 +4748,7 @@ $as_echo "#define DISABLE_OPT /**/" >>confdefs.h
 
 
 fi
+
 
 
 # Check whether --enable-rle-prefix was given.
@@ -4758,7 +4774,8 @@ $as_echo "#define RLE_POSTFIX /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-bfvm32 was given.
+
+    # Check whether --enable-bfvm32 was given.
 if test "${enable_bfvm32+set}" = set; then :
   enableval=$enable_bfvm32;
 
@@ -4768,17 +4785,21 @@ $as_echo "#define BFVM_32 /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-bfvm-heap was given.
+
+
+    # Check whether --enable-bfvm-heap was given.
 if test "${enable_bfvm_heap+set}" = set; then :
   enableval=$enable_bfvm_heap;
 
-$as_echo "#define BFVM_HEAP \$enableval" >>confdefs.h
+$as_echo "#define BFVM_HEAP /**/" >>confdefs.h
 
 
 fi
 
 
-# Check whether --enable-bfvm-freestanding was given.
+
+
+    # Check whether --enable-bfvm-freestanding was given.
 if test "${enable_bfvm_freestanding+set}" = set; then :
   enableval=$enable_bfvm_freestanding;
 
@@ -4788,7 +4809,9 @@ $as_echo "#define FREESTANDING /**/" >>confdefs.h
 fi
 
 
-# Check whether --enable-double-nocopy was given.
+
+
+    # Check whether --enable-double-nocopy was given.
 if test "${enable_double_nocopy+set}" = set; then :
   enableval=$enable_double_nocopy;
 
@@ -4796,6 +4819,7 @@ $as_echo "#define DOUBLE_NOCOPY /**/" >>confdefs.h
 
 
 fi
+
 
 
 # Checks for library functions.

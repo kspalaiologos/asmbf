@@ -33,6 +33,13 @@ AC_DEFUN([CHK_FLAG], [
     CHK_FLAG2($1, [LOC_F])
 ])
 
+AC_DEFUN([PROG_SWITCH], [
+    AC_ARG_ENABLE([$1],
+        AS_HELP_STRING([--enable-$1], [$2]), [
+            AC_DEFINE([$3], [], [$2])
+    ])
+])
+
 # Checks for programs.
 AC_PROG_YACC
 AC_PROG_CC
@@ -101,71 +108,63 @@ case "$asmbf_distro_target" in
         ;;
 esac
 
-AC_ARG_ENABLE([account-segments],
-    AS_HELP_STRING([--enable-account-segments], [Makes bfdata respect cross-segment references while defining labels.]), [
-        AC_DEFINE([ACCOUNT_SEGMENTS], [], ["A switch for bfdata."])
-])
+PROG_SWITCH([account-segments], m4_normalize([
+    Makes bfdata respect cross-segment references while defining labels.
+]), [ACCOUNT_SEGMENTS])
 
-AC_ARG_ENABLE([relative-segmentation],
-    AS_HELP_STRING([--enable-relative-segmentation], [Makes bfdata respect cross-segment references towards nonzero segments. Note: This will recalculate segments. bfdata will fail if the segment becomes negative, or overflow if the effective adress overflows the memory storage data type.]), [
-        AC_DEFINE([RELATIVE_SEGMENTATION], [], ["A switch for bfdata."])
-])
+PROG_SWITCH([relative-segmentation], m4_normalize([
+    Makes bfdata respect cross-segment references towards nonzero segments.
+    Note: This will recalculate segments.
+    bfdata will fail if the segment becomes negative,
+    or overflow if the effective adress overflows the memory storage data type.
+]), [RELATIVE_SEGMENTATION])
 
-AC_ARG_ENABLE([silient-errors],
-    AS_HELP_STRING([--enable-silient-errors], [Shut up all the error and warning messages from bfasm.]), [
-        AC_DEFINE([BFASM_NO_ERROR_CODES], [], ["A switch for bfasm."])
-])
+PROG_SWITCH([silient-errors], [
+    Shut up all the error and warning messages from bfasm.
+], [BFASM_NO_ERROR_CODES])
 
-AC_ARG_ENABLE([library],
-    AS_HELP_STRING([--enable-library], [Export bfasm instead of main from bfasm.c]), [
-        AC_DEFINE([BFASM_NO_EXPORT_MAIN], [], ["A switch for bfasm."])
-])
+PROG_SWITCH([library], [
+    Export bfasm instead of main from bfasm.c
+], [BFASM_NO_EXPORT_MAIN])
 
-AC_ARG_ENABLE([nocheck-bfi],
-    AS_HELP_STRING([--enable-nocheck-bfi], [Skip all checks in bfi (making it a tiny bit faster).]), [
-        AC_DEFINE([BFI_NOCHECKS], [], ["A switch for bfasm."])
-])
+PROG_SWITCH([nocheck-bfi], [
+    Skip all checks in bfi (making it a tiny bit faster).
+], [BFI_NOCHECKS])
 
-AC_ARG_ENABLE([bfvm],
-    AS_HELP_STRING([--enable-bfvm], [Makes bfasm emit bfvm code.]), [
-        AC_DEFINE([BFVM], [], ["A switch for bfasm."])
-])
+PROG_SWITCH([bfvm], [
+    Makes bfasm emit bfvm code.
+], [BFVM])
 
-AC_ARG_ENABLE([o0],
-    AS_HELP_STRING([--enable-o0], [Disable size optimizations in bfasm.]), [
-        AC_DEFINE([DISABLE_OPT], [], ["A switch for bfasm."])
-])
+PROG_SWITCH([o0], [
+    Disable size optimizations in bfasm.
+], [DISABLE_OPT])
 
 AC_ARG_ENABLE([rle-prefix],
     AS_HELP_STRING([--enable-rle-prefix], [Enable prefixed RLE for bfasm.]), [
-        AC_DEFINE([RLE], [], ["A switch for bfasm."])
+        AC_DEFINE([RLE], [], [Enable prefixed RLE for bfasm.])
 ])
 
 AC_ARG_ENABLE([rle-postfix],
     AS_HELP_STRING([--enable-rle-postfix], [Enable postfix RLE for bfasm.]), [
-        AC_DEFINE([RLE], [], ["A switch for bfasm."])
-        AC_DEFINE([RLE_POSTFIX], [], ["A switch for bfasm."])
+        AC_DEFINE([RLE], [], [Enable postfix RLE for bfasm.])
+        AC_DEFINE([RLE_POSTFIX], [], [Enable postfix RLE for bfasm.])
 ])
 
-AC_ARG_ENABLE([bfvm32],
-    AS_HELP_STRING([--enable-bfvm32], [Makes the bfvm output code 32-bit.]), [
-        AC_DEFINE([BFVM_32], [], ["A switch for bfvm."])
-])
+PROG_SWITCH([bfvm32], [
+    Makes the bfvm output code 32-bit.
+], [BFVM_32])
 
-AC_ARG_ENABLE([bfvm-heap],
-    AS_HELP_STRING([--enable-bfvm-heap=size], [Sets the bfvm heap size.]), [
-        AC_DEFINE([BFVM_HEAP], [$enableval], ["A switch for bfvm."])
-])
+PROG_SWITCH([bfvm-heap], [
+    Sets the bfvm heap size.
+], [BFVM_HEAP])
 
-AC_ARG_ENABLE([bfvm-freestanding],
-    AS_HELP_STRING([--enable-bfvm-freestanding], [Builds bfvm in freestanding mode (tape located at 0x7000).]), [
-        AC_DEFINE([FREESTANDING], [], ["A switch for bfvm."])
-])
+PROG_SWITCH([bfvm-freestanding], [
+    Builds bfvm in freestanding mode (tape located at 0x7000).
+], [FREESTANDING])
 
-AC_ARG_ENABLE([double-nocopy],
-    AS_HELP_STRING([--enable-double-nocopy], [Utilizes the other set of rules in bconv.c]), [
-        AC_DEFINE([DOUBLE_NOCOPY], [], ["A switch for bconv."])
-])
+PROG_SWITCH([double-nocopy], [
+    Utilizes the other set of rules in bconv.c
+], [DOUBLE_NOCOPY])
 
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE

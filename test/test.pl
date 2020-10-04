@@ -18,7 +18,12 @@ foreach my $file(@ARGV) {
 
         $file  =~ s{\.[^.]+$}{};
 
-        `timeout 20s $ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout`;
+        my $code = system("timeout 20s $ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout");
+
+        if($code != 0) {
+            die " *** TEST FAILED: $file.asm, interpreter crashed.";
+        }
+
         $diff = `diff $file.aout $file.out`;
 
         if(length($diff) > 0) {

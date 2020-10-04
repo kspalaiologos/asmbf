@@ -34,7 +34,8 @@ struct label_t * main_node;
 
 struct label_t * alloc_node(void) {
     struct label_t * x = malloc(sizeof(struct label_t));
-    x->next = x->name = NULL;
+    x->next = NULL;
+    x->name = NULL;
     x->id = 0;
     return x;
 }
@@ -88,21 +89,20 @@ void addlabel(char * text) {
     head->next = alloc_node();
     head->name = malloc(strlen(text) + 1);
     strcpy(head->name, text);
-    !surpress_label && printf("lbl %d\n", curid);
-    surpress_label && printf("%d", curid);
+    printf(!surpress_label ? "lbl %d\n" : "%d", curid);
     head->id = curid++;
-}
-
-int yywrap(void) { return 1; }
-
-int main(void) {
-    yylex();
 }
 
 %}
 
+%option nounput noinput noyywrap nodefault
+
 %%
 ^[ \t]*\@([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
 (%([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*%([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
-. { putchar(yytext[0]); }
+.|\n { putchar(yytext[0]); }
 %%
+
+int main(void) {
+    yylex();
+}

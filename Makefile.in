@@ -5,9 +5,8 @@
 
 # Kamila Szewczyk, Jul 2019
 
-export CFLAGS=-Ofast -march=native -funroll-loops -fomit-frame-pointer -w $(COVERAGE)
+export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
-VERSION=trunk
 
 .PHONY: all clean install test bfpp redpower uninstall distclean dist
 
@@ -21,12 +20,12 @@ install:
 	echo "asm2bf has been installed to ${HOME}/.asmbf/."
 
 dist: clean distclean test-clean
-	mkdir "asm2bf-$(VERSION)"
-	cp -rf b2bf bfpp etc examples hla lib-bfm microcode preprocessor redpower test "asm2bf-$(VERSION)/"
-	cp -rf *.* "asm2bf-$(VERSION)/"
-	cd "asm2bf-$(VERSION)" && rm -f Makefile configure .travis.yml .editorconfig .gitattributes && cd ..
-	tar -cf "asm2bf-$(VERSION).tar" "asm2bf-$(VERSION)/"
-	rm -rf "asm2bf-$(VERSION)"
+	mkdir "asm2bf-@VERSION@"
+	cp -rf b2bf bfpp etc examples hla lib-bfm microcode preprocessor redpower test "asm2bf-@VERSION@/"
+	cp -rf *.* "asm2bf-@VERSION@/"
+	cd "asm2bf-@VERSION@" && rm -f Makefile configure .travis.yml .editorconfig .gitattributes && cd ..
+	tar -cf "asm2bf-@VERSION@.tar" "asm2bf-@VERSION@/"
+	rm -rf "asm2bf-@VERSION@"
 
 distclean:
 	rm -f config.log config.status redpower/Makefile hla/Makefile etc/bfasm.b

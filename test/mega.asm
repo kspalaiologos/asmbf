@@ -46,30 +46,30 @@ jmp r3
 out .!
 
 @l
-	jnz r1, 0
-	mod r2, 2 ; r1 = 0, r2 = 0, r3 = 1, r4 = 1
-	out r2
-	inc r3    ; r1 = 0, r2 = 0, r3 = 2 r4 = 1
-	mul r3, 8 ; r1 = 0, r2 = 0, r3 = 16, r4 = 1
-	out r3
-	neg r3
-	out r3
-	log r3
-	not r3
-	out r3
-	psh r3
-	pop r3
-	out r3
-	psh 9
-	pop r3
-	out r3
-	psh 5
-	psh 9
-	srv
-	pop r4
-	out r4
-	pop r3
-	swp r4, r3
-	out r3
-	psh 0
-	ret
+    jnz r1, 0
+    mod r2, 2 ; r1 = 0, r2 = 0, r3 = 1, r4 = 1
+    out r2
+    inc r3    ; r1 = 0, r2 = 0, r3 = 2 r4 = 1
+    mul r3, 8 ; r1 = 0, r2 = 0, r3 = 16, r4 = 1
+    out r3
+    neg r3
+    out r3
+    log r3
+    not r3
+    out r3
+    psh r3
+    pop r3
+    out r3
+    psh 9
+    pop r3
+    out r3
+    psh 5
+    psh 9
+    srv
+    pop r4
+    out r4
+    pop r3
+    swp r4, r3
+    out r3
+    psh 0
+    ret

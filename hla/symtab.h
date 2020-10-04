@@ -3,8 +3,8 @@
 #define _SYMTAB_H
 
 struct symbol_t {
-	unsigned char type, arity, linkage;
-	char * string;
+    unsigned char type, arity, linkage;
+    char * string;
 
     struct symbol_t * next;
 };

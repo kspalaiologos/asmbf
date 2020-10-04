@@ -360,37 +360,37 @@ This code example is quite up to date with current asm2bf features. It's utilizi
 
 <pre>
 @main
-	clr r2
-	@b
-		psh r1
-		mov r4, r2
-	@c
-		mov r5, r1
-		mod r5, 2
-		mov r6, r4
-		mod r6, 2
-		mul r5, r6
-		cge r5, 1
-		cmo r5, 1
-		cjn %d
-		asr r1
-		asr r4
-		jnz r1, %c
-		jnz r4, %c
-		clr r3
-	@d
-		cge r3, 1
-		mov r3, .*
-		cmo r3, 32
-		out r3
-		pop r1
-		inc r2
-		cge r2, 64
-		cjz %b
-		out 10
-	inc r1
-	cge r1, 64
-	cjz %main
+    clr r2
+    @b
+        psh r1
+        mov r4, r2
+    @c
+        mov r5, r1
+        mod r5, 2
+        mov r6, r4
+        mod r6, 2
+        mul r5, r6
+        cge r5, 1
+        cmo r5, 1
+        cjn %d
+        asr r1
+        asr r4
+        jnz r1, %c
+        jnz r4, %c
+        clr r3
+    @d
+        cge r3, 1
+        mov r3, .*
+        cmo r3, 32
+        out r3
+        pop r1
+        inc r2
+        cge r2, 64
+        cjz %b
+        out 10
+    inc r1
+    cge r1, 64
+    cjz %main
 </pre>
 
 === Project example: A JSON formatter ===
@@ -422,47 +422,47 @@ org 0
 mov r4, .0
 
 lbl 1
-	in r1
-	jz r1, 0
-	mov r2, r1
-	eq r2, .%
-	jnz r2, 2
-	; -----------
-	mov r2, r1
-	eq r2, .&
-	jnz r2, 0
-	; -----------
-	mov r2, r1
-	eq r2, .+
-	jnz r2, 7
-	out r1
-	jmp 1
+    in r1
+    jz r1, 0
+    mov r2, r1
+    eq r2, .%
+    jnz r2, 2
+    ; -----------
+    mov r2, r1
+    eq r2, .&
+    jnz r2, 0
+    ; -----------
+    mov r2, r1
+    eq r2, .+
+    jnz r2, 7
+    out r1
+    jmp 1
 lbl 2
-	in r1
-	in r2
-	mov r3, r1
-	ge r3, .A
-	jnz r3, 3
-	jmp 4
+    in r1
+    in r2
+    mov r3, r1
+    ge r3, .A
+    jnz r3, 3
+    jmp 4
 lbl 3
-	sub r1, 7
+    sub r1, 7
 lbl 4
-	sub r1, r4
-	mov r3, r2
-	ge r3, .A
-	jnz r3, 5
-	jmp 6
+    sub r1, r4
+    mov r3, r2
+    ge r3, .A
+    jnz r3, 5
+    jmp 6
 lbl 5
-	sub r2, 7
+    sub r2, 7
 lbl 6
-	sub r2, r4
-	mul r1, 16
-	add r1, r2
-	out r1
-	jmp 1
+    sub r2, r4
+    mul r1, 16
+    add r1, r2
+    out r1
+    jmp 1
 lbl 7
-	out 32
-	jmp 1
+    out 32
+    jmp 1
 </pre>
 
 <pre>
@@ -487,126 +487,126 @@ db_ 0
 mov r1, 10
 
 lbl 15
-	rcl r2, r1
-	jz r2, 16
-	out r2
-	inc r1
-	jmp 15
+    rcl r2, r1
+    jz r2, 16
+    out r2
+    inc r1
+    jmp 15
 lbl 16
-	out 10
+    out 10
 
 clr r1
 clr r2
 
 lbl 17
-	in r1
-	eq r1, .=
-	jz r1, 17
+    in r1
+    eq r1, .=
+    jz r1, 17
 
 psh 0
 lbl 1
-	in r1
-	jz r1, 0
-	mov r3, r1
-	eq r3, 13
-	jnz r3, 1
-	mov r3, r1
-	eq r3, 10
-	jnz r3, 1
-	mov r3, r1
-	eq r3, 58
-	jnz r3, 6
-	mov r3, r1
-	eq r3, 32
-	jnz r3, 4
-	mov r3, r1
-	eq r3, 34
-	jnz r3, 5
-	mov r3, r1
-	eq r3, .\
-	jnz r3, 7
-	mov r3, r1
-	eq r3, .,
-	jnz r3, 8
-	mov r3, r1
-	eq r3, .]
-	psh r4
-	mov r4, r1
-	eq r4, .}
-	or r3, r4
-	pop r4
-	jnz r3, 9
-	mov r3, r1
-	eq r3, .{
-	psh r4
-	mov r4, r1
-	eq r4, .[
-	or r3, r4
-	pop r4
-	jnz r3, 14
-	pop r3
-	jz r3, 10
-	clr r3
+    in r1
+    jz r1, 0
+    mov r3, r1
+    eq r3, 13
+    jnz r3, 1
+    mov r3, r1
+    eq r3, 10
+    jnz r3, 1
+    mov r3, r1
+    eq r3, 58
+    jnz r3, 6
+    mov r3, r1
+    eq r3, 32
+    jnz r3, 4
+    mov r3, r1
+    eq r3, 34
+    jnz r3, 5
+    mov r3, r1
+    eq r3, .\
+    jnz r3, 7
+    mov r3, r1
+    eq r3, .,
+    jnz r3, 8
+    mov r3, r1
+    eq r3, .]
+    psh r4
+    mov r4, r1
+    eq r4, .}
+    or r3, r4
+    pop r4
+    jnz r3, 9
+    mov r3, r1
+    eq r3, .{
+    psh r4
+    mov r4, r1
+    eq r4, .[
+    or r3, r4
+    pop r4
+    jnz r3, 14
+    pop r3
+    jz r3, 10
+    clr r3
 lbl 10
-	psh r3
-	out r1
-	jmp 1
+    psh r3
+    out r1
+    jmp 1
 lbl 2
-	clr r3
+    clr r3
 lbl 11
-	psh r3
-	ge r3, r2
-	jnz r3, 12
-	out 9
-	pop r3
-	inc r3
-	jmp 11
+    psh r3
+    ge r3, r2
+    jnz r3, 12
+    out 9
+    pop r3
+    inc r3
+    jmp 11
 lbl 12
-	pop r3
-	ret
+    pop r3
+    ret
 lbl 6
-	out r1
-	jnz r4, 1
-	out 32
-	jmp 1
+    out r1
+    jnz r4, 1
+    out 32
+    jmp 1
 lbl 4
-	jz r4, 1
-	jmp 3
+    jz r4, 1
+    jmp 3
 lbl 5
-	pop r3
-	psh r3
-	jnz r3, 3
-	not r4
+    pop r3
+    psh r3
+    jnz r3, 3
+    not r4
 lbl 3
-	out r1
-	jmp 1
+    out r1
+    jmp 1
 lbl 7
-	pop r3
-	not r3
-	psh r3
-	out r1
-	jmp 1
+    pop r3
+    not r3
+    psh r3
+    out r1
+    jmp 1
 lbl 8
-	out r1
-	jnz r4, 1
-	out 10
-	psh 1
-	jmp 2
+    out r1
+    jnz r4, 1
+    out 10
+    psh 1
+    jmp 2
 lbl 9
-	jnz r4, 3
-	jz r2, 13
-	dec r2
+    jnz r4, 3
+    jz r2, 13
+    dec r2
 lbl 13
-	out 10
-	psh 3
-	jmp 2
+    out 10
+    psh 3
+    jmp 2
 lbl 14
-	out r1
-	jnz r4, 1
-	inc r2
-	out 10
-	psh 1
-	jmp 2
+    out r1
+    jnz r4, 1
+    inc r2
+    out 10
+    psh 1
+    jmp 2
 </pre>
 
 Now, let's glue these together using a simple bash script:
@@ -871,7 +871,7 @@ org 0
 psh 2
 jmp %print_zero
 lbl 2
-	end
+    end
 </pre>
 
 To build the program, simply execute it and the brainfuck file will appear by. Please note the program
@@ -1022,10 +1022,10 @@ This example code will display ASCII(33) - on your system it's possibly an excla
 
 <pre>
 (
-	(outb [0])
-	(= 0 (+ 1 [0]))
-	(= 0 (* 2 [0]))
-	(= 0 (* {2 2 +} (+ 2 2)))
+    (outb [0])
+    (= 0 (+ 1 [0]))
+    (= 0 (* 2 [0]))
+    (= 0 (* {2 2 +} (+ 2 2)))
 )
 </pre>
 
@@ -1035,22 +1035,22 @@ Gisa doesn't use new features of asm2bf, so you may need to implement them using
 
 <pre>
 (
-	(exit)
-	(outb ((6) square invoke))
+    (exit)
+    (outb ((6) square invoke))
 
-	({defun square (
-		* dup
-	)} exports)
+    ({defun square (
+        * dup
+    )} exports)
 
-	((
-		@"end"
-	) exit defmacro)
-	
-	({
-		@"pop r2"
-		@"psh r2"
-		@"psh r2"
-	} dup defmacro)
+    ((
+        @"end"
+    ) exit defmacro)
+    
+    ({
+        @"pop r2"
+        @"psh r2"
+        @"psh r2"
+    } dup defmacro)
 )
 </pre>
 
@@ -1064,13 +1064,13 @@ Another example program, this one demonstrates the looping capabilities:
 /* This program, when ran, will display following text: 0123456789 */
 
 {
-	(= 0 48)
-	{loop {
-		(outb [0])
-		(= 0 (+ [0] 1))
-	} (
-		neq [0] (+ 48 10)
-	) while}
+    (= 0 48)
+    {loop {
+        (outb [0])
+        (= 0 (+ [0] 1))
+    } (
+        neq [0] (+ 48 10)
+    ) while}
 }
 </pre>
 
@@ -1517,17 +1517,17 @@ bit operations is this snippet of asm2bf code for checking the interpreter bitne
 ; label-less bitness test.
 ; r1 <= interpreter's bitness
 @bitness
-	psh r2
-	clr r1
-	mov r2, 1
-	nav r2
-	raw .[
-	inc r1
-	asl r2
-	nav r2
-	raw .]
-	pop r2
-	ret
+    psh r2
+    clr r1
+    mov r2, 1
+    nav r2
+    raw .[
+    inc r1
+    asl r2
+    nav r2
+    raw .]
+    pop r2
+    ret
 </pre>
 
 For the time being, you have to use these shims to get bitops working:
@@ -1539,91 +1539,91 @@ For the time being, you have to use these shims to get bitops working:
 ; r3 = r1 ^ r2
 ; r4, r5, r6 preserved, input trashed
 @bitxor
-	psh r4
-	psh r5
-	psh r6
-	mov r4, 1
-	clr r5
+    psh r4
+    psh r5
+    psh r6
+    mov r4, 1
+    clr r5
 @bitxor_loop
-	mov r5, r1
-	mod r5, 2
-	mov r6, r2
-	mod r6, 2
-	ne_ r5, r6
-	mul r5, r4
-	add r3, r5
-	asr r1
-	asr r2
-	asl r4
-	jnz r1, %xor_loop
-	jnz r2, %xor_loop
-	pop r6
-	pop r5
-	pop r4
-	ret
+    mov r5, r1
+    mod r5, 2
+    mov r6, r2
+    mod r6, 2
+    ne_ r5, r6
+    mul r5, r4
+    add r3, r5
+    asr r1
+    asr r2
+    asl r4
+    jnz r1, %xor_loop
+    jnz r2, %xor_loop
+    pop r6
+    pop r5
+    pop r4
+    ret
 
 ; r3 = r1 ^ r2
 ; r4, r5, r6 preserved, input trashed
 @bitand
-	psh r4
-	psh r5
-	psh r6
-	mov r4, 1
-	clr r5
+    psh r4
+    psh r5
+    psh r6
+    mov r4, 1
+    clr r5
 @bitand_loop
-	mov r5, r1
-	mod r5, 2
-	mov r6, r2
-	mod r6, 2
-	and r5, r6
-	mul r5, r4
-	add r3, r5
-	asr r1
-	asr r2
-	asl r4
-	jnz r1, %bitand_loop
-	jnz r2, %bitand_loop
-	pop r6
-	pop r5
-	pop r4
-	ret
+    mov r5, r1
+    mod r5, 2
+    mov r6, r2
+    mod r6, 2
+    and r5, r6
+    mul r5, r4
+    add r3, r5
+    asr r1
+    asr r2
+    asl r4
+    jnz r1, %bitand_loop
+    jnz r2, %bitand_loop
+    pop r6
+    pop r5
+    pop r4
+    ret
 
 ; r3 = r1 ^ r2
 ; r4, r5, r6 preserved, input trashed
 @bitor
-	psh r4
-	psh r5
-	psh r6
-	mov r4, 1
-	clr r5
+    psh r4
+    psh r5
+    psh r6
+    mov r4, 1
+    clr r5
 @bitor_loop
-	mov r5, r1
-	mod r5, 2
-	mov r6, r2
-	mod r6, 2
-	or_ r5, r6
-	mul r5, r4
-	add r3, r5
-	asr r1
-	asr r2
-	asl r4
-	jnz r1, %bitor_loop
-	jnz r2, %bitor_loop
-	pop r6
-	pop r5
-	pop r4
-	ret
+    mov r5, r1
+    mod r5, 2
+    mov r6, r2
+    mod r6, 2
+    or_ r5, r6
+    mul r5, r4
+    add r3, r5
+    asr r1
+    asr r2
+    asl r4
+    jnz r1, %bitor_loop
+    jnz r2, %bitor_loop
+    pop r6
+    pop r5
+    pop r4
+    ret
 
 ; r1 = ~r1
 ; r2 preserved
 @bitneg
-	psh r2
-	inc r1
-	clr r2
-	sub r2, r1
-	mov r1, r2
-	pop r2
-	ret
+    psh r2
+    inc r1
+    clr r2
+    sub r2, r1
+    mov r1, r2
+    pop r2
+    ret
 </pre>
 
 = Useful listings =
@@ -1645,17 +1645,17 @@ function include(path)
 
     ; This file (lib-bfm.lua) is included automatically.
 end
-	
+    
 )
 
 ; call given label (provide only the name! without a % sign)
 $(
 RET_ID = 0
 function call(x)
-	print("psh %_return_" .. RET_ID)
-	print("jmp %" .. x)
-	print("@_return_" .. RET_ID)
-	RET_ID = RET_ID + 1
+    print("psh %_return_" .. RET_ID)
+    print("jmp %" .. x)
+    print("@_return_" .. RET_ID)
+    RET_ID = RET_ID + 1
 end
 )
 
@@ -1666,32 +1666,32 @@ end
 ; This function has a side effect on register passed in clear.
 ; It's getting, simply, cleared.
 #function alloc(target_register, clear)
-#	print("psh " .. clear)
-#	print("mov " .. target_register .. ", " .. tostring(MM_BASE))
-#	print("mov " .. clear .. ", 1")
-#	print("nav " .. clear)
-#	print("raw .[")
-#	print("rcl " .. clear .. ", " .. target_register)
-#	print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
-#	print("inc " .. target_register)
-#	print("nav " .. clear)
-#	print("raw .]")
-#	print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
-#	print("dec " .. target_register)
-#	print("sto " .. target_register .. ", 1")
-#	print("inc " .. target_register)
-#	print("pop " .. clear)
+#    print("psh " .. clear)
+#    print("mov " .. target_register .. ", " .. tostring(MM_BASE))
+#    print("mov " .. clear .. ", 1")
+#    print("nav " .. clear)
+#    print("raw .[")
+#    print("rcl " .. clear .. ", " .. target_register)
+#    print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
+#    print("inc " .. target_register)
+#    print("nav " .. clear)
+#    print("raw .]")
+#    print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
+#    print("dec " .. target_register)
+#    print("sto " .. target_register .. ", 1")
+#    print("inc " .. target_register)
+#    print("pop " .. clear)
 #end
 
 ; Free the page in target_register.
 #function free(target_register)
-#	print("dec " .. target_register)
-#	print("sto " .. target_register .. ", 0")
+#    print("dec " .. target_register)
+#    print("sto " .. target_register .. ", 0")
 #end
 
 ; Repeat str n times
 #function times(str, n)
-#	for i=1,n,1 do print(str) end
+#    for i=1,n,1 do print(str) end
 #end
 </pre>
 

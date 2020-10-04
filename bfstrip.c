@@ -9,26 +9,26 @@ void process(int c, int type) {
     long i;
     long count = c - type;
 
-	while ((c = getchar()) != EOF) {
-		if(!strchr("+-<>[].,", c))
+    while ((c = getchar()) != EOF) {
+        if(!strchr("+-<>[].,", c))
             continue;
 
-		if ((c != type + 1) && (c != type - 1)) {
-			ungetc(c, stdin);
-			break;
-		}
+        if ((c != type + 1) && (c != type - 1)) {
+            ungetc(c, stdin);
+            break;
+        }
 
-		count += c - type;
-	}
+        count += c - type;
+    }
 
     if(c == EOF)
         return;
 
-	if (count < 0)
+    if (count < 0)
         for (i = -count; i; i--)
             putchar(type - 1);
     
-	if (count > 0)
+    if (count > 0)
         for (i = count; i; i--)
             putchar(type + 1);
 }
@@ -36,11 +36,11 @@ void process(int c, int type) {
 int main(void) {
     int c;
 
-	while ((c = getchar()) != EOF) {
-		switch (c) {
-			case '<': case '>': process(c, '='); break;
-			case '+': case '-': process(c, ','); break;
-			case '[': case ']': case ',': case '.': putchar(c); break;
-		}
-	}
+    while ((c = getchar()) != EOF) {
+        switch (c) {
+            case '<': case '>': process(c, '='); break;
+            case '+': case '-': process(c, ','); break;
+            case '[': case ']': case ',': case '.': putchar(c); break;
+        }
+    }
 }

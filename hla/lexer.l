@@ -76,18 +76,18 @@ deref              return KEYWORD_DEREF;
 "//".*\n           ;
 
 \"(\\.|[^\"])*\" {
-	yylval->string = strdup(yytext);
-	return STRING;
+    yylval->string = strdup(yytext);
+    return STRING;
 }
 
 [A-Za-z_][0-9A-Za-z_]* {
-	yylval->string = strdup(yytext);
-	return IDENTIFIER;
+    yylval->string = strdup(yytext);
+    return IDENTIFIER;
 }
 
 [0-9]+ {
-	yylval->string = strdup(yytext);
-	return CONSTANT;
+    yylval->string = strdup(yytext);
+    return CONSTANT;
 }
 
 \.. {
@@ -101,19 +101,19 @@ deref              return KEYWORD_DEREF;
 %%
 
 void process_file(const char * name) {
-	process_stream(fopen(name, "rb"));
+    process_stream(fopen(name, "rb"));
 }
 
 void process_stream(FILE * f) {
     yyscan_t yyscanner;
 
-	yylex_init(&yyscanner);
-	yyset_in(f, yyscanner);
-	yyparse(yyscanner);
-	yylex_destroy(yyscanner);
+    yylex_init(&yyscanner);
+    yyset_in(f, yyscanner);
+    yyparse(yyscanner);
+    yylex_destroy(yyscanner);
 }
 
 void lexer_error(char c, int line) {
-	fprintf(stderr, "[%d] Lexer error, unexpected `%c'.", line, c);
+    fprintf(stderr, "[%d] Lexer error, unexpected `%c'.", line, c);
 }
 

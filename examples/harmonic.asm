@@ -6,19 +6,19 @@ psh r1
 psh 1
 
 @loop
-	inc r1
-	psh r1
-	psh 1
-	fadd
-	freduce
-	ceq r1, 9
-	cjn %q
-	jmp %loop
+    inc r1
+    psh r1
+    psh 1
+    fadd
+    freduce
+    ceq r1, 9
+    cjn %q
+    jmp %loop
 @q
-	pop r1
-	pop r2
-	eq  r1, 7129
-	eq  r2, 2520
-	and r1, r2
-	add r1, .0
-	out r1
+    pop r1
+    pop r2
+    eq  r1, 7129
+    eq  r2, 2520
+    and r1, r2
+    add r1, .0
+    out r1

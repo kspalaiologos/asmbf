@@ -5,26 +5,26 @@
 %param { yyscan_t scanner }
 
 %code top {
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include "node.h"
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include "node.h"
 
-	#define node(a, b, c, d) new_node(a, b, c, d, yyloc.first_line, yyloc.first_column)
+    #define node(a, b, c, d) new_node(a, b, c, d, yyloc.first_line, yyloc.first_column)
 }
 
 %code requires {
-	typedef void * yyscan_t;
+    typedef void * yyscan_t;
 }
 
 %union {
-	char * string;
-	struct node * ast;
+    char * string;
+    struct node * ast;
 }
 
 %code {
-	int yylex(YYSTYPE * yylvalp, YYLTYPE * yyllocp, yyscan_t scanner);
-	void yyerror(YYLTYPE * yyllocp, yyscan_t unused, const char * msg);
-	void dispatch(struct node *);
+    int yylex(YYSTYPE * yylvalp, YYLTYPE * yyllocp, yyscan_t scanner);
+    void yyerror(YYLTYPE * yyllocp, yyscan_t unused, const char * msg);
+    void dispatch(struct node *);
 }
 
 %token END 0 "end of file"

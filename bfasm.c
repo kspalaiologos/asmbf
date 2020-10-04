@@ -60,7 +60,16 @@
 unsigned int inchar();
 void outbf();
 void outrep();
+
 static unsigned int m[10000], off, freecell, rseg;
+static char s[] =
+        #include "microcode/bfasm-instructions.c"
+        #ifdef BFVM
+            #include "microcode/emit-bfvm.c"
+        #else
+            #include "microcode/emit-bf.c"
+        #endif
+        ;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -69,7 +78,7 @@ void translate(int n, int base);
     #define RLE
 
     #ifdef RLE_POSTFIX
-        #error Can't produce postfix-compressed BFVM bytecode.
+        #error "Can't produce postfix-compressed BFVM bytecode."
     #endif
 #endif
 
@@ -79,15 +88,7 @@ int main(void) {
 int bfasm(void) {
 #endif
     unsigned int n;
-    char * s =
-        #include "microcode/bfasm-instructions.c"
-        #ifdef BFVM
-            #include "microcode/emit-bfvm.c"
-        #else
-            #include "microcode/emit-bf.c"
-        #endif
-        ;
-    for (n = 0; n < 8000; n++)  m[n + 20] = s[n];
+    for (n = 0; n < sizeof(s); n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = STACK;

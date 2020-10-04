@@ -19,9 +19,11 @@
  */
 
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "../config.h"
 
 char * chomp(char * s) {
@@ -75,15 +77,15 @@ void virtual_call(char * text) {
     exit(1);
 }
 
-int yywrap(void) { return 1; }
+%}
+
+%option nounput noinput noyywrap nodefault
+
+%%
+^[\t ]*vxcall[\t ]+.*$ { virtual_call(yytext); }
+.|\n { putchar(yytext[0]); }
+%%
 
 int main(void) {
     yylex();
 }
-
-%}
-
-%%
-^[\t ]*vxcall[\t ]+.*$ { virtual_call(yytext); }
-. { putchar(yytext[0]); }
-%%

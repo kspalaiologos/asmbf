@@ -5,6 +5,20 @@
 #include <ctype.h>
 #include "config.h"
 
+#ifndef BFSTRIP_LINE_WIDTH
+    #define wrap_putchar(x) putchar(x)
+#else
+    static unsigned int col;
+    #define wrap_putchar(x) do { \
+        if(col == BFSTRIP_LINE_WIDTH) { \
+            putchar('\n'); \
+            col = 0; \
+        } \
+        putchar(x); \
+        col++; \
+    } while(0);
+#endif
+
 void process(int c, int type) {
     long i;
     long count = c - type;
@@ -26,11 +40,11 @@ void process(int c, int type) {
 
     if (count < 0)
         for (i = -count; i; i--)
-            putchar(type - 1);
+            wrap_putchar(type - 1);
     
     if (count > 0)
         for (i = count; i; i--)
-            putchar(type + 1);
+            wrap_putchar(type + 1);
 }
 
 int main(void) {
@@ -40,7 +54,7 @@ int main(void) {
         switch (c) {
             case '<': case '>': process(c, '='); break;
             case '+': case '-': process(c, ','); break;
-            case '[': case ']': case ',': case '.': putchar(c); break;
+            case '[': case ']': case ',': case '.': wrap_putchar(c); break;
         }
     }
 }

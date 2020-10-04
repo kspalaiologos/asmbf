@@ -53,10 +53,13 @@ void getlabel(char * text) {
         return;
     }
     
-    if(main_node == NULL)
-        main_node = alloc_node();
-    
     text = strchr(text, '*') + 1;
+
+    if(main_node == NULL) {
+        fprintf(stderr, "asm2bf: label `%s` not found.", text);
+        exit(1);
+    }
+    
     head = main_node;
     while(head->next != NULL)
         if(head->name && strcmp(text, head->name) == 0) {

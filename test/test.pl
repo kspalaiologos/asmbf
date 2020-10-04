@@ -2,13 +2,20 @@
 
 use Term::ANSIColor;
 
+my $max = scalar @ARGV;
+my $current = 0;
+
 my @proc;
 
 foreach my $file(@ARGV) {
+    $current++;
+
     my $pid = fork();
     push @proc, $pid;
 
     if ($pid == 0) {
+        my $myc = $current;
+
         my $code = system("$ENV{'HOME'}/.asmbf/bfmake $file > /dev/null");
         if($file =~ /invalid/) {
             die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
@@ -27,6 +34,9 @@ foreach my $file(@ARGV) {
         $diff = `diff $file.aout $file.out`;
 
         if(length($diff) > 0) {
+            print color('bold yellow');
+            printf "[%03d/%03d]", $current, $max;
+            print color('reset');
             printf "%-40s", $file;
             print color('bold red');
             print " *** TEST FAILED!\tOutput diff:\n";
@@ -34,6 +44,9 @@ foreach my $file(@ARGV) {
             print color('reset');
             exit length($diff);
         } else {
+            print color('bold yellow');
+            printf "[%03d/%03d]", $current, $max;
+            print color('reset');
             printf "%-40s", $file;
             print color('bold green');
             print " *** TEST PASS.";

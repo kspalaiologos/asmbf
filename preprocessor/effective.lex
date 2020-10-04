@@ -41,7 +41,7 @@ char * chomp_num(char * s) {
 }
 
 void effective_addr(char * text) {
-    char * orig, * addr;
+    char * orig, * addr, * orig_addr;
     int disp, base, index, scale, prim = 0, prim2 = 0;
     
     orig = text;
@@ -73,7 +73,7 @@ void effective_addr(char * text) {
     
     text++;
     
-    addr = malloc(strlen(text) + 1);
+    orig_addr = addr = malloc(strlen(text) + 1);
     strcpy(addr, text);
     
     *text = 0;
@@ -192,6 +192,8 @@ void effective_addr(char * text) {
         
         printf("sto f2, f3\n");
     }
+
+    free(orig_addr);
 }
 
 void sp_addr(char * text) {

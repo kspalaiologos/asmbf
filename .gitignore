@@ -40,3 +40,13 @@ redpower/kernel/kernel.p
 etc/signedmath.b
 
 etc/bfasm.b
+
+preprocessor/bfdata
+
+preprocessor/bflabels
+
+preprocessor/constpp
+
+preprocessor/effective
+
+preprocessor/vxcall

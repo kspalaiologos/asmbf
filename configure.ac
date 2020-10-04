@@ -164,7 +164,7 @@ AC_ARG_ENABLE([bfvm-freestanding],
 
 AC_ARG_ENABLE([double-nocopy],
     AS_HELP_STRING([--enable-double-nocopy], [Utilizes the other set of rules in bconv.c]), [
-        AC_DEFINE([FREESTANDING], [], ["A switch for bconv."])
+        AC_DEFINE([DOUBLE_NOCOPY], [], ["A switch for bconv."])
 ])
 
 # Checks for library functions.

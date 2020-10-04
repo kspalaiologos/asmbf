@@ -4792,7 +4792,7 @@ fi
 if test "${enable_double_nocopy+set}" = set; then :
   enableval=$enable_double_nocopy;
 
-$as_echo "#define FREESTANDING /**/" >>confdefs.h
+$as_echo "#define DOUBLE_NOCOPY /**/" >>confdefs.h
 
 
 fi

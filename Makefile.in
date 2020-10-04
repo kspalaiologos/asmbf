@@ -6,11 +6,11 @@
 # Kamila Szewczyk, Jul 2019
 
 export CFLAGS=@DISTRO@
-TARGETS=bfasm bfvm bfi bconv bfstrip bfderle bflabels constpp bfdata effective vxcall
+TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
-.PHONY: all clean install test bfpp redpower uninstall distclean dist
+.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor
 
-all: $(TARGETS) bfpp etc/bfasm.b bin
+all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
 	rm -rf "${HOME}/.asmbf/"
@@ -28,8 +28,11 @@ dist: clean distclean test-clean
 	rm -rf "asm2bf-@VERSION@"
 
 distclean:
-	rm -f config.log config.status redpower/Makefile hla/Makefile etc/bfasm.b
+	rm -f config.log config.status redpower/Makefile hla/Makefile preprocessor/Makefile etc/bfasm.b
 	rm -rf autom4te.cache
+
+preprocessor:
+	make -C preprocessor
 
 redpower:
 	make -C redpower
@@ -49,9 +52,10 @@ uninstall:
 
 clean:
 	rm -rf bin/
-	rm -f preprocessor/*.c config.h asm2bf-*.tar
+	rm -f preprocessor/*.c config.h asm2bf-*.tar $(TARGETS)
 	-cd bfpp && make clean && cd ..
 	-cd redpower && make clean && cd ..
+	-cd preprocessor && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
 	./bfasm < etc/bfasm.asm | ./bfstrip > $@
@@ -67,7 +71,3 @@ bin: $(TARGETS)
 test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
-
-%: preprocessor/%.lex
-	lex -f -o $<.c $<
-	$(CC) $(CFLAGS) -o $@ $<.c

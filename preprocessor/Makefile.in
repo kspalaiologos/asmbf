@@ -1,0 +1,16 @@
+
+TARGETS=bfdata bflabels constpp effective vxcall
+
+.PHONY: bin clean
+
+bin: $(TARGETS)
+	cp $^ ../bin/asmbf/
+	rm -f $(TARGETS)
+
+clean:
+	rm -f *.c
+
+%: %.lex
+	lex -f -o $@.c $<
+	$(CC) $(CFLAGS) -o $@ $@.c
+

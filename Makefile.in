@@ -32,13 +32,13 @@ distclean:
 	rm -rf autom4te.cache
 
 preprocessor:
-	make -C preprocessor
+	make -j 4 -C preprocessor
 
 redpower:
-	make -C redpower
+	make -j 4 -C redpower
 
 bfpp:
-	make -C bfpp
+	make -j 4 -C bfpp
 
 test: test/*.asm
 	chmod a+x test/test.pl $^

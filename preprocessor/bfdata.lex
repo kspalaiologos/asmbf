@@ -115,7 +115,7 @@ void addlabel(char * text) {
 
 %%
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
-(\*([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
+(\*([A-Za-z_][A-Za-z0-9_]*))|(\"[^\"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
 ^[ \t]*db_ { origin++; printf("%s", yytext); }
 ^[ \t]*db { origin++; printf("%s", yytext); }
 ^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"') + 1) - 1; printf("%s", yytext); }

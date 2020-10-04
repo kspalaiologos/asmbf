@@ -18,6 +18,8 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 #include "config.h"
 
@@ -27,11 +29,12 @@
 int main(int argc, char * argv[]) {
     int style = STYLE_POSTFIX, c, n = 0, z;
     
-    if(argc == 2)
+    if(argc == 2) {
         if(!strcmp("postfix", argv[1]))
             style = STYLE_POSTFIX;
         else if(!strcmp("prefix", argv[1]))
             style = STYLE_PREFIX;
+    }
     
     while((c = getchar()) != EOF) {
         if(style == STYLE_PREFIX) {

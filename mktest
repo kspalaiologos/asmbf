@@ -1,0 +1,14 @@
+#!/bin/bash
+
+printf "test name: "
+read name
+
+echo "program: "
+cat > "test/$name.asm"
+
+echo "input: "
+cat > "test/$name.in"
+
+echo "output: "
+cat > "test/$name.out"
+

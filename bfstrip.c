@@ -1,11 +1,46 @@
+
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include "config.h"
 
-#define a(v,l,r,z)({s=v<0?l:r;v=abs(v);while(v--)putchar(s);v=0;z;})
-int x,y,s,r,c;int main(int n,char**p){r=n==2&&strcmp("--strip-rle",p
-+1);while(~(c=getchar()))!isspace(c)&&strchr(9*r+"0123456789?+-<>[]"
-".,",c)?c-60&~2?c-43&~2?a(y,45,43,a(x,60,62,putchar(c))):a(x,60,62,y
-+=44-c):a(y,45,43,x+=c-61):0;}
+void process(int c, int type) {
+    long i;
+    long count = c - type;
+
+	while ((c = getchar()) != EOF) {
+		if(!strchr("+-<>[].,", c))
+            continue;
+
+		if ((c != type + 1) && (c != type - 1)) {
+			ungetc(c, stdin);
+			break;
+		}
+
+		count += c - type;
+	}
+
+    if(c == EOF)
+        return;
+
+	if (count < 0)
+        for (i = -count; i; i--)
+            putchar(type - 1);
+    
+	if (count > 0)
+        for (i = count; i; i--)
+            putchar(type + 1);
+}
+
+int main(void) {
+    int c;
+
+	while ((c = getchar()) != EOF) {
+		switch (c) {
+			case '<': case '>': process(c, '='); break;
+			case '+': case '-': process(c, ','); break;
+			case '[': case ']': case ',': case '.': putchar(c); break;
+		}
+	}
+}

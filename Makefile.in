@@ -68,8 +68,6 @@ test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
 
-preprocessor/%.c: preprocessor/%.lex
-	lex -f -o $@ $<
-
-%: preprocessor/%.c
-	$(CC) $(CFLAGS) -o $@ $<
+%: preprocessor/%.lex
+	lex -f -o $<.c $<
+	$(CC) $(CFLAGS) -o $@ $<.c

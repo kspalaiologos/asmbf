@@ -2,7 +2,7 @@
 $(
     function signed(x)
         if x <= 0 then
-            return -x * 2 + 1
+            return (-x) * 2 + 1
         else
             return x * 2
         end

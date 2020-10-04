@@ -67,6 +67,10 @@ void translate(int n, int base);
 
 #ifdef BFVM
     #define RLE
+
+    #ifdef RLE_POSTFIX
+        #error Can't produce postfix-compressed BFVM bytecode.
+    #endif
 #endif
 
 #ifndef BFASM_NO_EXPORT_MAIN

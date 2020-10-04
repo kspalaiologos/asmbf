@@ -16,8 +16,8 @@ for your use. Precise floating point library is on the board, memory allocation 
 inlining. Last changes include stack-based offsets, virtual instructions and effective adresses. Why not
 check it out?
 
-http://kspalaiologos.now.im/doc/asmbf9.pdf - WIP, UP TO DATE ASM2BF MANUAL AND DOCUMENTATION.
-https://discord.gg/m4Wcenn                 - THE DISCORD SERVER FOR ASM2BF.
+etc/manual.pdf                   - WIP, UP TO DATE ASM2BF MANUAL AND DOCUMENTATION.
+https://discord.gg/m4Wcenn       - THE DISCORD SERVER FOR ASM2BF.
 
 https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings and programming techniques.
                                    serves as a documentation aswell. article.txt contains a mirror of this article.

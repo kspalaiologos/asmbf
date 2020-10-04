@@ -19,6 +19,7 @@
  */
 
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,18 +81,18 @@ void push_def(char * text) {
     ctx_ptr = ctx_ptr->next;
 }
 
-int yywrap(void) { return 1; }
+%}
+
+%option nounput noinput noyywrap nodefault
+
+%%
+^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_]*) { push_def(yytext); }
+(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
+.|\n { putchar(yytext[0]); }
+%%
 
 int main(void) {
     ctx = ctx_ptr = new_def();
     
     yylex();
 }
-
-%}
-
-%%
-^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_]*) { push_def(yytext); }
-(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
-. { putchar(yytext[0]); }
-%%

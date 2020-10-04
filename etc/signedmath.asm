@@ -30,12 +30,14 @@ out r1
 ; 3) signum on x > 0
 mov r1, $(signed(5))
 #call("signum")
+eq r1, 0
 add r1, .0
 out r1
 
 ; 4) signum on x < 0
 mov r1, $(signed(-5))
 #call("signum")
+eq r1, 1
 add r1, .0
 out r1
 
@@ -57,10 +59,74 @@ out r1
 
 ; Note: -0 == +0 only after normalization.
 
+; 7) 5 - 3
 mov r1, $(signed(5))
 mov r2, $(signed(3))
 #call("sign_sub")
 mov r2, $(signed(2))
+eq r1, r2
+add r1, .0
+out r1
+
+; 8) 3 - 5
+mov r1, $(signed(3))
+mov r2, $(signed(5))
+#call("sign_sub")
+mov r2, $(signed(-2))
+eq r1, r2
+add r1, .0
+out r1
+
+; 9) -5 - 3
+mov r1, $(signed(-5))
+mov r2, $(signed(3))
+#call("sign_sub")
+mov r2, $(signed(-8))
+eq r1, r2
+add r1, .0
+out r1
+
+; 10) -3 - 5
+mov r1, $(signed(-3))
+mov r2, $(signed(5))
+#call("sign_sub")
+mov r2, $(signed(-8))
+eq r1, r2
+add r1, .0
+out r1
+
+; 11) 10 - -3
+mov r1, $(signed(10))
+mov r2, $(signed(-3))
+#call("sign_sub")
+mov r2, $(signed(13))
+eq r1, r2
+add r1, .0
+out r1
+
+; 12) 3 - -10
+mov r1, $(signed(3))
+mov r2, $(signed(-10))
+#call("sign_sub")
+mov r2, $(signed(13))
+eq r1, r2
+add r1, .0
+out r1
+
+; 13) -1 - -5
+mov r1, $(signed(-1))
+mov r2, $(signed(-5))
+#call("sign_sub")
+mov r2, $(signed(4))
+eq r1, r2
+add r1, .0
+out r1
+
+; 13) -5 - -1
+mov r1, $(signed(-5))
+mov r2, $(signed(-1))
+#call("sign_sub")
+mov r2, $(signed(-4))
 eq r1, r2
 add r1, .0
 out r1
@@ -151,8 +217,8 @@ end
     asr r2
 
     ; x>0 ^ y>0
-    ceq r3, 1
-    candeq r4, 1
+    ceq r3, 0
+    candeq r4, 0
     fps
     candgt r1, r2
     csub r1, r2
@@ -165,28 +231,31 @@ end
     cadd r1, 1
 
     ; x>0 ^ y<0
-    ceq r3, 1
-    candeq r4, 0
-    cadd r1, r2
-
-    ; x<0 ^ y>0
     ceq r3, 0
     candeq r4, 1
+    cadd r1, r2
+    casl r1
+
+    ; x<0 ^ y>0
+    ceq r3, 1
+    candeq r4, 0
     cadd r1, r2
     casl r1
     cadd r1, 1
 
     ; x<0 ^ y<0
-    ceq r3, 0
-    candeq r4, 0
+    ceq r3, 1
+    candeq r4, 1
     fps
     candge r1, r2
     csub r1, r2
+    casl r1
     cadd r1, 1
     fpo
     candlt r1, r2
     cxchg r1, r2
     csub r1, r2
+    casl r1
 
     pop r4
     pop r3

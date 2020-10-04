@@ -1,33 +1,36 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* "A switch for bfdata." */
+/* Makes bfdata respect cross-segment references while defining labels. */
 #undef ACCOUNT_SEGMENTS
 
-/* "A switch for bfasm." */
+/* Shut up all the error and warning messages from bfasm. */
 #undef BFASM_NO_ERROR_CODES
 
-/* "A switch for bfasm." */
+/* Export bfasm instead of main from bfasm.c */
 #undef BFASM_NO_EXPORT_MAIN
 
-/* "A switch for bfasm." */
+/* Skip all checks in bfi (making it a tiny bit faster). */
 #undef BFI_NOCHECKS
 
-/* "A switch for bfasm." */
+/* Sets the wrapping point for bfstrip. */
+#undef BFSTRIP_LINE_WIDTH
+
+/* Makes bfasm emit bfvm code. */
 #undef BFVM
 
-/* "A switch for bfvm." */
+/* Makes the bfvm output code 32-bit. */
 #undef BFVM_32
 
-/* "A switch for bfvm." */
+/* Sets the bfvm heap size. */
 #undef BFVM_HEAP
 
-/* "A coverage test will be performed on this build." */
-#undef COVERAGE
-
-/* "A switch for bfasm." */
+/* Disable size optimizations in bfasm. */
 #undef DISABLE_OPT
 
-/* "A switch for bconv." */
+/* Utilizes the other set of rules in bconv.c */
+#undef DOUBLE_NOCOPY
+
+/* Builds bfvm in freestanding mode (tape located at 0x7000). */
 #undef FREESTANDING
 
 /* Define to 1 if you have the `alarm' function. */
@@ -144,13 +147,16 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* "A switch for bfdata." */
+/* Makes bfdata respect cross-segment references towards nonzero segments.
+   Note: This will recalculate segments. bfdata will fail if the segment
+   becomes negative, or overflow if the effective adress overflows the memory
+   storage data type. */
 #undef RELATIVE_SEGMENTATION
 
-/* "A switch for bfasm." */
+/* Enable postfix RLE for bfasm. */
 #undef RLE
 
-/* "A switch for bfasm." */
+/* Enable postfix RLE for bfasm. */
 #undef RLE_POSTFIX
 
 /* Define to 1 if you have the ANSI C header files. */

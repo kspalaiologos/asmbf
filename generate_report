@@ -1,9 +1,9 @@
 #!/bin/bash
 
 function quit {
-	rm -f core-diff.patch test-files.tar.gz operation.log
-	make test-clean
-	exit 0
+    rm -f core-diff.patch test-files.tar.gz operation.log
+    make test-clean
+    exit 0
 }
 
 make all setup test 2>&1 | tee operation.log

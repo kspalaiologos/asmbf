@@ -5,22 +5,22 @@
 #include "node.h"
 
 struct node *new_node(
-	unsigned int type,
-	struct node *child, struct node *brother,
-	char *value,
-	unsigned int line, unsigned int col)
+    unsigned int type,
+    struct node *child, struct node *brother,
+    char *value,
+    unsigned int line, unsigned int col)
 {
-	struct node *instance = malloc(sizeof(struct node));
-	assert(instance);
+    struct node *instance = malloc(sizeof(struct node));
+    assert(instance);
 
-	instance->child = child;
-	instance->value = value;
-	instance->type = type;
-	instance->brother = brother;
-	instance->line = line;
-	instance->col = col;
+    instance->child = child;
+    instance->value = value;
+    instance->type = type;
+    instance->brother = brother;
+    instance->line = line;
+    instance->col = col;
 
-	return instance;
+    return instance;
 }
 
 struct node * append_brother(struct node * parent, struct node * brother) {

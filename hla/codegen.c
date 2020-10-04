@@ -408,7 +408,7 @@ static void dispatch_module(struct node * n) {
 }
 
 void dispatch(struct node * n) {
-	switch(n->type) {
+    switch(n->type) {
         case ProgramDeclaration: {
             struct node * tmp = n->child;
 

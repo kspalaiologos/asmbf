@@ -6,46 +6,46 @@ use Getopt::Std;
 %options = ();
 
 sub help {
-	print "bfmake - asm2bf automated build utility.\n";
-	print "copyright (C) by K. Palaiologos Szewczyk, 2020\n";
-	print "\n";
-	print "usage: bfmake [-h/-s/-l/-c/-o file] file.asm\n";
-	print "\n";
-	print "available flags:\n";
-	print " -h: display this help page.\n";
-	print " -s: disable stripping of the brainfuck binary.\n";
-	print " -p: disable bfasm step.\n";
-	print " -l: disable standard library.\n";
+    print "bfmake - asm2bf automated build utility.\n";
+    print "copyright (C) by K. Palaiologos Szewczyk, 2020\n";
+    print "\n";
+    print "usage: bfmake [-h/-s/-l/-c/-o file] file.asm\n";
+    print "\n";
+    print "available flags:\n";
+    print " -h: display this help page.\n";
+    print " -s: disable stripping of the brainfuck binary.\n";
+    print " -p: disable bfasm step.\n";
+    print " -l: disable standard library.\n";
     print " -b: build asm2bf bytecode. Restriction from below applies.\n";
-	print " -c: build C code. Only use if you have built a BFVM\n";
+    print " -c: build C code. Only use if you have built a BFVM\n";
     print "     version of asm2bf, e.g: `setenv OPTIONS \"-DBFVM\"'\n";
-	print "\n";
-	print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
-	exit
+    print "\n";
+    print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
+    exit
 }
 
 sub switch_ext {
-	my $path = shift @_;
+    my $path = shift @_;
     my $text = shift @_;
-	my ($name,$dir,$ext) = fileparse($path,'\..*');
-	return $dir . $name . $text;
+    my ($name,$dir,$ext) = fileparse($path,'\..*');
+    return $dir . $name . $text;
 }
 
 sub build {
-	my $name = shift @_;
-	my $home = $ENV{"HOME"};
-	
-	die "No such file: $name" if (! -e $name);
-	
+    my $name = shift @_;
+    my $home = $ENV{"HOME"};
+    
+    die "No such file: $name" if (! -e $name);
+    
     my $target_ext = '.b';
     $target_ext = '.c' if defined $options{c};
     
-	my $lib = "cat \"$home/.asmbf/lib/lib-bfm-stub.lua\"";
-	my $stripper = "\"$home/.asmbf/bfstrip\"";
-	my $compiler = "\"$home/.asmbf/bfasm\"";
-	my $output = switch_ext($name, $target_ext);
+    my $lib = "cat \"$home/.asmbf/lib/lib-bfm-stub.lua\"";
+    my $stripper = "\"$home/.asmbf/bfstrip\"";
+    my $compiler = "\"$home/.asmbf/bfasm\"";
+    my $output = switch_ext($name, $target_ext);
     my $bfvm = 'cat';
-	
+    
     my $single_test = `echo "" | $home/.asmbf/bfasm`;
 
     if(defined $options{c} or $options{b}) {
@@ -58,14 +58,14 @@ sub build {
         }
     }
 
-	$output = $options{o} if defined $options{o};
-	$lib = 'echo ""' if defined $options{l};
-	$stripper = 'cat' if defined $options{s} or $options{c} or $options{b};
-	$compiler = 'cat' if defined $options{p};
+    $output = $options{o} if defined $options{o};
+    $lib = 'echo ""' if defined $options{l};
+    $stripper = 'cat' if defined $options{s} or $options{c} or $options{b};
+    $compiler = 'cat' if defined $options{p};
     $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
-	
-	`bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error.log | "$home/.asmbf/bflabels" 2>> error.log | "$home/.asmbf/bfdata" 2>> error.log | "$home/.asmbf/effective" 2>> error.log | "$home/.asmbf/vxcall" 2>> error.log | "$home/.asmbf/constpp" 2>> error.log } | $compiler | $stripper | $bfvm > $output\"`;
-	
+    
+    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error.log | "$home/.asmbf/bflabels" 2>> error.log | "$home/.asmbf/bfdata" 2>> error.log | "$home/.asmbf/effective" 2>> error.log | "$home/.asmbf/vxcall" 2>> error.log | "$home/.asmbf/constpp" 2>> error.log } | $compiler | $stripper | $bfvm > $output\"`;
+    
     if(-s "error.log" != 0) {
         open (FILE, '<', "error.log") or die "Could not open the log file.\n";
         print <FILE>;
@@ -77,7 +77,7 @@ sub build {
     }
     
     `rm -f error.log`;
-	exit 0;
+    exit 0;
 }
 
 getopts("hspcblo:", \%options);
@@ -85,5 +85,5 @@ getopts("hspcblo:", \%options);
 help() if defined $options{h};
 
 foreach (@ARGV) {
-	build($_);
+    build($_);
 }

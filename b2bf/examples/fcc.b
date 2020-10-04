@@ -13,5 +13,5 @@ putchar(c) {
 }
 
 main(void) {
-	putchar(getnumb());
+    putchar(getnumb());
 }

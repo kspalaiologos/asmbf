@@ -628,6 +628,8 @@ ac_header_list=
 ac_func_list=
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+DISTRO
+VERSION
 EGREP
 GREP
 CPP
@@ -686,6 +688,8 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+enable_version
+with_target
 enable_account_segments
 enable_relative_segmentation
 enable_silient_errors
@@ -1331,6 +1335,7 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-version        Sets the dist version for asm2bf
   --enable-account-segments
                           Makes bfdata respect cross-segment references while
                           defining labels.
@@ -1356,6 +1361,12 @@ Optional Features:
                           Builds bfvm in freestanding mode (tape located at
                           0x7000).
   --enable-double-nocopy  Utilizes the other set of rules in bconv.c
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-target=[auto/release/debug/coverage]
+                          Build target (default: auto)
 
 Some influential environment variables:
   YACC        The `Yet Another Compiler Compiler' implementation to use.
@@ -4214,6 +4225,48 @@ $as_echo "$as_me: not updating unwritable cache $cache_file" >&6;}
   fi
 fi
 rm -f confcache
+
+# Check whether --enable-version was given.
+if test "${enable_version+set}" = set; then :
+  enableval=$enable_version;
+    VERSION=$enableval
+
+
+else
+
+    VERSION=trunk
+
+
+fi
+
+
+
+# Check whether --with-target was given.
+if test "${with_target+set}" = set; then :
+  withval=$with_target; asmbf_distro_target=$withval
+else
+  asmbf_distro_target=auto
+fi
+
+
+case "$asmbf_distro_target" in
+    "release")
+        DISTRO="-Ofast -march=native -funroll-loops -fomit-frame-pointer"
+
+        ;;
+    "debug")
+        DISTRO=" -Wall -Wextra -g3 -O2 -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=leak -fsanitize=undefined -fcf-protection=full -fstack-protector-strong -fstack-check "
+
+        ;;
+    "coverage")
+        DISTRO="-g3 -O0 -coverage"
+
+        ;;
+    *)
+        DISTRO="-O2"
+
+        ;;
+esac
 
 # Check whether --enable-account-segments was given.
 if test "${enable_account_segments+set}" = set; then :

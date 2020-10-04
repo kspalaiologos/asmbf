@@ -42,13 +42,13 @@ https://github.com/kspalaiologos/SqEMU/blob/master/dev-sqemu.s
 ; r1 <= interpreter's bitness
 ; r2 <= trashed
 @bitness
-	clr r1
-	mov r2, 1
+    clr r1
+    mov r2, 1
 $(bf_while("r2"))
-	inc r1
-	asl r2
+    inc r1
+    asl r2
 $(bf_wend("r2"))
-	ret
+    ret
 
 ; Note: We say branchless, because there are no explicit jumps.
 ;       There is a branch (a brainfuck loop), but it's not in a

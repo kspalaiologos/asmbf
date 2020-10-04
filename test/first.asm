@@ -2,8 +2,8 @@
 jmp %a
 
 @a
-	out .1
-	end
+    out .1
+    end
 
 @b
-	out .0
+    out .0

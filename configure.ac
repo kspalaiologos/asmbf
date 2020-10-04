@@ -27,6 +27,42 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 AC_CACHE_SAVE
 
+AC_ARG_ENABLE([version], AS_HELP_STRING([--enable-version], [Sets the dist version for asm2bf]), [
+    AC_SUBST([VERSION], [$enableval])
+], [
+    AC_SUBST([VERSION], [trunk])
+])
+
+AC_ARG_WITH([target],
+            AS_HELP_STRING([--with-target=@<:@auto/release/debug/coverage@:>@],
+                           [Build target (default: auto)]),
+            [asmbf_distro_target=$withval],
+            [asmbf_distro_target=auto])
+
+case "$asmbf_distro_target" in
+    "release")
+        AC_SUBST([DISTRO], ["-Ofast -march=native -funroll-loops -fomit-frame-pointer"])
+        ;;
+    "debug")
+        AC_SUBST([DISTRO], m4_normalize(["
+            -Wall -Wextra
+            -g3 -O2
+            -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract
+            -fsanitize=leak
+            -fsanitize=undefined
+            -fcf-protection=full
+            -fstack-protector-strong
+            -fstack-check
+        "]))
+        ;;
+    "coverage")
+        AC_SUBST([DISTRO], ["-g3 -O0 -coverage"])
+        ;;
+    *)
+        AC_SUBST([DISTRO], ["-O2"])
+        ;;
+esac
+
 AC_ARG_ENABLE([account-segments],
     AS_HELP_STRING([--enable-account-segments], [Makes bfdata respect cross-segment references while defining labels.]), [
         AC_DEFINE([ACCOUNT_SEGMENTS], [], ["A switch for bfdata."])

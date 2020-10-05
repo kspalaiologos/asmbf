@@ -198,7 +198,7 @@ int main(int argc, char * argv[]) {
                         return EXIT_FAILURE;
                     }
                     #endif
-                    for (n = 1; n <= 1024; n++)
+                    for (n = 1; n < 1024; n++)
                         mem[maxmp + n] = 0;
                     maxmp += 1024;
                 }

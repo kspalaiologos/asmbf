@@ -1,63 +1,6 @@
 
-$(
-    function signed(x)
-        if x <= 0 then
-            return (-x) * 2 + 1
-        else
-            return x * 2
-        end
-    end
-)
-
-; 1) abs on x >= 0.
-mov r1, $(signed(5))
-mov r2, r1
-
-#call("abs")
-eq r1, r2
-add r1, .0
-out r1
-
-; 2) abs on x < 0
-mov r1, $(signed(-5))
-mov r2, $(signed(5))
-
-#call("abs")
-eq r1, r2
-add r1, .0
-out r1
-
-; 3) signum on x > 0
-mov r1, $(signed(5))
-#call("signum")
-eq r1, 0
-add r1, .0
-out r1
-
-; 4) signum on x < 0
-mov r1, $(signed(-5))
-#call("signum")
-eq r1, 1
-add r1, .0
-out r1
-
-; 5) negate on x < 0
-mov r1, $(signed(-5))
-mov r2, $(signed(5))
-#call("negate")
-eq r1, r2
-add r1, .0
-out r1
-
-; 6) negate on x > 0
-mov r1, $(signed(5))
-mov r2, $(signed(-5))
-#call("negate")
-eq r1, r2
-add r1, .0
-out r1
-
-; Note: -0 == +0 only after normalization.
+; Note: This file is some sort of a scratchpad for me.
+; The contents will change.
 
 ; 7) 5 - 3
 mov r1, $(signed(5))
@@ -144,51 +87,6 @@ out r1
 end
 
 ; -----------------------------------------------------
-; signum: Return +0 for -0, and n for any other number.
-; r1 = 1 => r1 was negative
-; r1 = 0 => r1 was positive
-; Modified: r1
-@normalize
-    ceq r1, 1
-    csub r1, 1
-    ret
-
-; -----------------------------------------------------
-; signum: Return the sign of a number in r1.
-; r1 = 1 => r1 was negative
-; r1 = 0 => r1 was positive
-; Modified: r1
-@signum
-    mod r1, 2
-    ret
-
-
-; -----------------------------------------------------
-; abs: Return the absolute value of a number in r1.
-; r1 >= 0: no change
-; r1 < 0: r1 = -r1
-; Modified: r1
-@abs
-    asr r1
-    asl r1
-    ret
-
-; -----------------------------------------------------
-; negate: Negate the number in r1.
-; r1 = -r1
-; Modified: r1
-@negate
-    push r1
-    mod r1, 2
-    ceq r1, 1
-    pop r1
-    inc r1
-    csub r1, 2
-    ceq r1, 1
-    csub r1, 1
-    ret
-
-; -----------------------------------------------------
 ; sign_add: Add r2 to r1.
 ; r1 += r2
 ; Modified: r1
@@ -207,11 +105,35 @@ end
     jmp %sign_sub
 
 ; -----------------------------------------------------
+; sign_div: Divide r2 with & to r1.
+; r1 /= r2
+; Modified: r1
+; Trashed: r2
+@sign_div
+    mov f3, 1
+    jmp %sign_opstub
+
+; -----------------------------------------------------
 ; sign_mul: Multiply r2 with & to r1.
 ; r1 *= r2
 ; Modified: r1
 ; Trashed: r2
 @sign_mul
+    mov f3, 0
+    jmp %sign_opstub
+
+; -----------------------------------------------------
+; sign_mod: Calculate r1 % r2, put the result in r1
+; r1 %= r2
+; Modified: r1
+; Trashed: r2
+@sign_mod
+    mov f3, 2
+    jmp %sign_opstub
+
+; -----------------------------------------------------
+; sign_opstub: internal use only.
+@sign_opstub
     push r3
     push r4
     
@@ -224,7 +146,13 @@ end
     asr r1
     asr r2
 
-    mul r1, r2
+    ceq f3, 0
+    cmul r1, r2
+    ceq f3, 1
+    cdiv r1, r2
+    ceq f3, 2
+    cmod r1, r2
+
     asl r1
 
     neq r3, r4
@@ -291,5 +219,8 @@ end
     cxchg r1, r2
     csub r1, r2
     casl r1
+
+    ceq r1, 1
+    cmov r1, 0
 
     ret

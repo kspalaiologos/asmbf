@@ -41,11 +41,11 @@ bfpp:
 	make -j 4 -C bfpp
 
 test: test/*.asm
-	chmod a+x test/test.pl $^
+	@chmod a+x test/test.pl $^
 	-bfi --help 2> /dev/null
 	-bfi --version 2> /dev/null
 	-bfi --blah 2> /dev/null
-	test/test.pl $^
+	@test/test.pl $^
 
 uninstall:
 	rm -rf "${HOME}/.asmbf/"

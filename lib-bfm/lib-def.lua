@@ -58,3 +58,6 @@
 ?fcpush=fps
 ?fcpsh=fps
 ?fcpop=fpo
+?sgn=s00
+?abs=s01
+?sneg=s02

@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include "config.h"
 
-#define IC 120
+#define IC 123
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)

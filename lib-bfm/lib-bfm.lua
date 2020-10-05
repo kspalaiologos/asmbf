@@ -283,4 +283,12 @@ function times(str, n)
     for i=1,n,1 do print(str) end
 end
 
+function signed(x)
+    if x <= 0 then
+        return (-x) * 2 + 1
+    else
+        return x * 2
+    end
+end
+
 include(os.getenv("HOME") .. '/.asmbf/lib/lib-def.lua')

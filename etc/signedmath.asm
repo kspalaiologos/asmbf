@@ -2,16 +2,6 @@
 ; Note: This file is some sort of a scratchpad for me.
 ; The contents will change.
 
-$(
-    function signed(x)
-        if x <= 0 then
-            return (-x) * 2 + 1
-        else
-            return x * 2
-        end
-    end
-)
-
 ; 7) 5 - 3
 mov r1, $(signed(5))
 mov r2, $(signed(3))

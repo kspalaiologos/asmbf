@@ -67,3 +67,8 @@ Feel free to join the discord server for asm2bf, where you can discuss the proje
 learning asm2bf: https://discord.gg/m4Wcenn.
 
 You can also check out the manual.pdf file; although up to date, it's not complete.
+
+---------------------------------------------- Dependencies ---------------------------------------------
+
+Term::ReadKey, File::Basename, Term::ANSIColor                        @ cpan
+gcc, bison, flex                                                      @ literally anywhwere

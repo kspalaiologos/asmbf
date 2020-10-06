@@ -2,6 +2,22 @@
 ; Note: This file is some sort of a scratchpad for me.
 ; The contents will change.
 
+$(
+    function regs()
+        print("out r1")
+        print("out r2")
+        print("out r3")
+        print("out r4")
+    end
+)
+
+mov r1, $(signed(5))
+mov r2, $(signed(-5))
+s03 r1, r2
+out r1
+
+end
+
 ; 7) 5 - 3
 mov r1, $(signed(5))
 mov r2, $(signed(3))
@@ -155,7 +171,7 @@ end
 
     asl r1
 
-    neq r3, r4
+    ne r3, r4
     add r1, r3
 
     pop r4

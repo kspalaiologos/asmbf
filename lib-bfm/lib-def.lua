@@ -61,3 +61,8 @@
 ?sgn=s00
 ?abs=s01
 ?sneg=s02
+?neq=ne
+?sgmul=s03
+?sgdiv=s04
+?sgmod=s05
+#-- Note: This file HAS to contain a trailing newline.

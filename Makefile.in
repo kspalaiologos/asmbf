@@ -3,19 +3,14 @@
 # elegant manner, but I'm fine with it's current
 # state.
 
-# Kamila Szewczyk, Jul 2019
+# Kamila Szewczyk, Jul 2019 - Oct 2020
 
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
-.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor perldeps
+.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor
 
-all: $(TARGETS) bfpp perldeps etc/bfasm.b bin preprocessor
-
-perldeps:
-	cpan install Term::ReadKey
-	cpan install File::Basename
-	cpan install Term::ANSIColor
+all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
 	rm -rf "${HOME}/.asmbf/"

@@ -21,6 +21,19 @@ my $password = ReadLine 0;
 chomp $password;
 ReadMode 'normal';
 
+print "\nRetype: ";
+ReadMode 'noecho';
+my $password2 = ReadLine 0;
+chomp $password2;
+ReadMode 'normal';
+
+print "\n";
+
+if($password ne $password2) {
+    print "Passwords don't match.\n";
+    exit 1;
+}
+
 foreach my $file(@ARGV) {
     if($schema =~ /d/) {
         my $out = switch_ext($file, '.txt');

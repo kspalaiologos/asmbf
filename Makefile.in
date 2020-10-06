@@ -8,9 +8,14 @@
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
-.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor
+.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor perldeps
 
-all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
+all: $(TARGETS) bfpp perldeps etc/bfasm.b bin preprocessor
+
+perldeps:
+	cpan install Term::ReadKey
+	cpan install File::Basename
+	cpan install Term::ANSIColor
 
 install:
 	rm -rf "${HOME}/.asmbf/"
@@ -71,3 +76,9 @@ bin: $(TARGETS)
 test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
+
+encrypt-notebooks: attic/%.txt
+	attic/encrypt.pl e $^
+
+decrypt-notebooks: attic/%.aes
+	attic/encrypt.pl d $^

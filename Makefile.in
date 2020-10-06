@@ -77,8 +77,8 @@ test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
 
-encrypt-notebooks: attic/%.txt
+encrypt-notebooks: attic/*.txt
 	attic/encrypt.pl e $^
 
-decrypt-notebooks: attic/%.aes
+decrypt-notebooks: attic/*.aes
 	attic/encrypt.pl d $^

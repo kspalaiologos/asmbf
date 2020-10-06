@@ -1,4 +1,3 @@
-* text eol=lf
 *.h linguist-language=C
 *.pdf binary
 *.bin binary

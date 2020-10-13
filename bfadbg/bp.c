@@ -13,9 +13,12 @@ static struct breakpoint * breakpoints;
 struct breakpoint * cbp_nth(unsigned int n) {
     struct breakpoint * l = breakpoints;
     
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i <= n; i++) {
         if(l && IS_CONDITIONAL(l))
-            l = l->next;
+            if(i != n)
+                l = l->next;
+            else
+                return l;
         else if(l)
             l = l->next, n++;
         else

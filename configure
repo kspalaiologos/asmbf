@@ -5440,7 +5440,7 @@ $as_echo "$as_me: not updating unwritable cache $cache_file" >&6;}
 fi
 rm -f confcache
 
-ac_config_files="$ac_config_files Makefile bfpp/Makefile hla/Makefile redpower/Makefile preprocessor/Makefile"
+ac_config_files="$ac_config_files Makefile bfpp/Makefile hla/Makefile redpower/Makefile bfadbg/Makefile preprocessor/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -6136,6 +6136,7 @@ do
     "bfpp/Makefile") CONFIG_FILES="$CONFIG_FILES bfpp/Makefile" ;;
     "hla/Makefile") CONFIG_FILES="$CONFIG_FILES hla/Makefile" ;;
     "redpower/Makefile") CONFIG_FILES="$CONFIG_FILES redpower/Makefile" ;;
+    "bfadbg/Makefile") CONFIG_FILES="$CONFIG_FILES bfadbg/Makefile" ;;
     "preprocessor/Makefile") CONFIG_FILES="$CONFIG_FILES preprocessor/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;

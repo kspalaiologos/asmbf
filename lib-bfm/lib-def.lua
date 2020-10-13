@@ -68,4 +68,5 @@
 ?sgsub=s06
 ?cbegin=cbs
 ?cend=cbe
+?sgadd=s07
 #-- Note: This file HAS to contain a trailing newline.

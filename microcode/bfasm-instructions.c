@@ -120,6 +120,7 @@
 "cbs"
 "cbe"
 "s06"
+"s07"
 "rse"
 "stk"
 "org"

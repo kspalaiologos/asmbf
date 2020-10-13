@@ -30,3 +30,5 @@ preprocessor/constpp
 preprocessor/effective
 preprocessor/vxcall
 attic/*.txt
+bfadbg/bfadbg
+bfadbg/*.o

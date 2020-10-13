@@ -185,5 +185,6 @@ AC_CONFIG_FILES([Makefile
                  bfpp/Makefile
                  hla/Makefile
                  redpower/Makefile
+                 bfadbg/Makefile
                  preprocessor/Makefile])
 AC_OUTPUT

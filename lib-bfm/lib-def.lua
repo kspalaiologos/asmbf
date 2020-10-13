@@ -65,4 +65,7 @@
 ?sgmul=s03
 ?sgdiv=s04
 ?sgmod=s05
+?sgsub=s06
+?cbegin=cbs
+?cend=cbe
 #-- Note: This file HAS to contain a trailing newline.

@@ -32,13 +32,13 @@ distclean:
 	rm -rf autom4te.cache
 
 preprocessor:
-	make -j 4 -C preprocessor
+	make -C preprocessor
 
 redpower:
-	make -j 4 -C redpower
+	make -C redpower
 
 bfpp:
-	make -j 4 -C bfpp
+	make -C bfpp
 
 test: test/*.asm
 	@chmod a+x test/test.pl $^
@@ -67,7 +67,7 @@ bin: $(TARGETS)
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
 	cp lib-bfm/*.lua bin/asmbf/lib/
 	rm -rf $(TARGETS)
-	
+
 test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b

@@ -628,6 +628,7 @@ ac_header_list=
 ac_func_list=
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+MSFLAGS
 LOC_F
 DISTRO
 VERSION
@@ -699,6 +700,7 @@ enable_library
 enable_nocheck_bfi
 enable_bfvm
 enable_o0
+with_jobs
 enable_rle_prefix
 enable_rle_postfix
 enable_bfvm32
@@ -1370,6 +1372,8 @@ Optional Packages:
   --with-line-width=size  Sets the wrapping point for bfstrip.
   --with-target=[auto/release/debug/coverage]
                           Build target (default: auto)
+  --with-jobs=N           Set the amount of make jobs. Must be greater than
+                          zero and lesser or equal to 8.
 
 Some influential environment variables:
   YACC        The `Yet Another Compiler Compiler' implementation to use.
@@ -4765,6 +4769,32 @@ $as_echo "#define DISABLE_OPT /**/" >>confdefs.h
 fi
 
 
+
+
+# Check whether --with-jobs was given.
+if test "${with_jobs+set}" = set; then :
+  withval=$with_jobs; asmbf_jobs=$withval
+else
+  asmbf_jobs=1
+fi
+
+
+case "$asmbf_jobs" in
+    1)
+        MSFLAGS=""
+
+        ;;
+    2|3|4|5|6|7|8)
+        MSFLAGS="-j $asmbf_jobs "
+
+        ;;
+    *)
+        { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "Pass a number in range 1-8 to --with-jobs.
+See \`config.log' for more details" "$LINENO" 5; }
+        ;;
+esac
 
 # Check whether --enable-rle-prefix was given.
 if test "${enable_rle_prefix+set}" = set; then :

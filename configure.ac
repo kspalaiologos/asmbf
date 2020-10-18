@@ -144,6 +144,24 @@ PROG_SWITCH([o0], [
     Disable size optimizations in bfasm.
 ], [DISABLE_OPT])
 
+AC_ARG_WITH([jobs],
+            AS_HELP_STRING([--with-jobs=N],
+                           [Set the amount of make jobs. Must be greater than zero and lesser or equal to 8.]),
+            [asmbf_jobs=$withval],
+            [asmbf_jobs=1])
+
+case "$asmbf_jobs" in
+    1)
+        AC_SUBST([MSFLAGS], [""])
+        ;;
+    2|3|4|5|6|7|8)
+        AC_SUBST([MSFLAGS], ["-j $asmbf_jobs "])
+        ;;
+    *)
+        AC_MSG_FAILURE([Pass a number in range 1-8 to --with-jobs.])
+        ;;
+esac
+
 AC_ARG_ENABLE([rle-prefix],
     AS_HELP_STRING([--enable-rle-prefix], [Enable prefixed RLE for bfasm.]), [
         AC_DEFINE([RLE], [], [Enable prefixed RLE for bfasm.])

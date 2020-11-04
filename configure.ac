@@ -1,6 +1,6 @@
 
 AC_PREREQ([2.69])
-AC_INIT([asm2bf], [v1.4.2], [kspalaiologos@gmail.com])
+AC_INIT([asm2bf], [v1.5.1], [kspalaiologos@gmail.com])
 AC_CONFIG_SRCDIR([bfasm.c])
 AC_CONFIG_HEADERS([config.h])
 AC_COPYRIGHT([Copyright (C) Kamila Szewczyk, 2020. Licensed under the terms of MIT license.])

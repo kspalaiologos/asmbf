@@ -26,21 +26,30 @@
 #include <ctype.h>
 #include "../config.h"
 
-char * chomp(char * s) {
+#if __STDC_VERSION__ >= 201112L
+    #include <stdnoreturn.h>
+    #define NORETURN noreturn
+#else
+    #define NORETURN
+#endif
+
+static int lineno = 0;
+
+static char * chomp(char * s) {
     while(isspace(*s))
         s++;
     
     return s;
 }
 
-char * chomp_num(char * s) {
+static char * chomp_num(char * s) {
     while(isdigit(*s))
         s++;
     
     return s;
 }
 
-void effective_addr(char * text) {
+static void effective_addr(char * text) {
     char * orig, * addr, * orig_addr;
     int disp, base, index, scale, prim = 0, prim2 = 0;
     
@@ -196,7 +205,7 @@ void effective_addr(char * text) {
     free(orig_addr);
 }
 
-void sp_addr(char * text) {
+static void sp_addr(char * text) {
     int no_prim = text[strlen(text) - 1] != '\'';
     char * bracket = strchr(text, '[');
     *bracket++ = 0;
@@ -230,6 +239,11 @@ void sp_addr(char * text) {
     }
 }
 
+NORETURN static void syntax_error(char * str) {
+    fprintf(stderr, "[effective/asm2bf] line %d: Syntax error: `%s'\n", lineno + 1, str);
+    exit(1);
+}
+
 %}
 
 %option nounput noinput noyywrap nodefault
@@ -239,7 +253,13 @@ void sp_addr(char * text) {
 ^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\([ \t]*R[0-9]+[ \t]*,[ \t]*R[0-9]+[ \t]*,[ \t]*[0-9]+[ \t]*\)\'?\'?) { effective_addr(yytext); }
 ^[A-Za-z0-9 \t\,]+\[sp[ \t]?\-[ \t]?(r[0-9]+|[0-9]+|\..)\]\'? { sp_addr(yytext); }
 ^[A-Za-z0-9 \t\,]+\[sp[ \t]?\-[ \t]?(R[0-9]+|[0-9]+|\..)\]\'? { sp_addr(yytext); }
-.|\n { putchar(yytext[0]); }
+^[A-Za-z0-9 \t\,]+([0-9]+[ \t]*\().* { syntax_error(yytext); }
+^[A-Za-z0-9 \t\,]+\[.* { syntax_error(yytext); }
+^\(.* { syntax_error(yytext); }
+^[0-9]+[ \t]*\(.* { syntax_error(yytext); }
+^\[.* { syntax_error(yytext); }
+\n { lineno++; putchar('\n'); }
+. { putchar(yytext[0]); }
 %%
 
 int main(void) {

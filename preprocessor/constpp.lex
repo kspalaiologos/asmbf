@@ -27,20 +27,29 @@
 #include <ctype.h>
 #include "../config.h"
 
+#if __STDC_VERSION__ >= 201112L
+    #include <stdnoreturn.h>
+    #define NORETURN noreturn
+#else
+    #define NORETURN
+#endif
+
 struct def_t {
     char * find, * replace;
     struct def_t * next;
 };
 
-struct def_t * ctx, * ctx_ptr;
+static int lineno = 0;
 
-struct def_t * new_def(void) {
+static struct def_t * ctx, * ctx_ptr;
+
+static struct def_t * new_def(void) {
     struct def_t * ret = malloc(sizeof(struct def_t));
     assert(ret);
     return ret;
 }
 
-void pop_def(char * text) {
+static void pop_def(char * text) {
     struct def_t * p = ctx;
     
     if(*text == '"') {
@@ -60,7 +69,7 @@ void pop_def(char * text) {
     printf("%s", text);
 }
 
-void push_def(char * text) {
+static void push_def(char * text) {
     /* Skip the whitespace. */
     while(isspace((unsigned char)*text))
         text++;
@@ -84,6 +93,11 @@ void push_def(char * text) {
     ctx_ptr = ctx_ptr->next;
 }
 
+NORETURN static void syntax_error(char * str) {
+    fprintf(stderr, "[constpp/asm2bf] line %d: Syntax error: `%s'\n", lineno + 1, str);
+    exit(1);
+}
+
 %}
 
 %option nounput noinput noyywrap nodefault
@@ -91,7 +105,9 @@ void push_def(char * text) {
 %%
 ^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_]*) { push_def(yytext); }
 (([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
-.|\n { putchar(yytext[0]); }
+^[ \t]*\?.* { syntax_error(yytext); }
+\n { lineno++; putchar('\n'); }
+. { putchar(yytext[0]); }
 %%
 
 int main(void) {

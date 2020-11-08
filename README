@@ -70,8 +70,8 @@ You can also check out the manual.pdf file; although up to date, it's not comple
 
 ---------------------------------------------- Dependencies ---------------------------------------------
 
-Term::ReadKey, File::Basename, Term::ANSIColor                        @ cpan
-gcc, bison, flex, make   optionally: autotools                        @ literally anywhwere
+Term::ReadKey, File::Basename, Term::ANSIColor                          @ cpan
+gcc, bison, flex, make   optionally: autotools, curses (for bfadabg)    @ literally anywhwere
 
 --------------------------------------------- Windows Build ---------------------------------------------
 

@@ -72,3 +72,10 @@ You can also check out the manual.pdf file; although up to date, it's not comple
 
 Term::ReadKey, File::Basename, Term::ANSIColor                        @ cpan
 gcc, bison, flex, make   optionally: autotools                        @ literally anywhwere
+
+--------------------------------------------- Windows Build ---------------------------------------------
+
+To _configure_ this project on Windows, you need either Cygwin or MinGW (msys). The build should look
+exactly the same like the Linux one.
+
+Note that building the project on Windows and targets other than `release' and `auto' is unsupported.

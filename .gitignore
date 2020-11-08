@@ -1,12 +1,12 @@
 bin
-effective.c
-bfdata.c
-bflabels.c
-constpp.c
+preprocessor/effective.c
+preprocessor/bfdata.c
+preprocessor/bflabels.c
+preprocessor/constpp.c
 *.o
 bfpp/bfpp
 *.pyc
-vxcall.c
+preprocessor/vxcall.c
 os
 hla/hla
 hla/lex.yy.c

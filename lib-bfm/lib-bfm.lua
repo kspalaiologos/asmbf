@@ -274,6 +274,12 @@ function alloc(target_register, clear)
     print("pop " .. clear)
 end
 
+function emit(code)
+    code:gsub(".", function(c)
+        print("raw ." .. c)
+    end)
+end
+
 function free(target_register)
     print("dec " .. target_register)
     print("sto " .. target_register .. ", 0")

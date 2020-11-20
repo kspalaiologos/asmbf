@@ -201,6 +201,12 @@ void flush_decls(void) {
             fwrite(it->data, 1, vector_size(it->data), stdout);
         } else {
             struct label_t * l = find_label(it->data);
+
+            if(it->type == DECL_AT && l->refs == 1) {
+                // ignore this label.
+                continue;
+            }
+
             printf((it->type == DECL_AT ? "lbl %d\n" : "%d"), (l - vector_begin(labels)) + 1);
             
             if(it->type == DECL_REF && !l->declared) {

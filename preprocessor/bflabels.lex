@@ -103,6 +103,6 @@ void addlabel(char * text) {
 .|\n { putchar(yytext[0]); }
 %%
 
-int main(void) {
+int main(int argc, char * argv[]) {
     yylex();
 }

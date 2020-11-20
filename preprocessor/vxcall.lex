@@ -74,7 +74,7 @@ void virtual_call(char * text) {
         }
     }
     
-    fprintf(stderr, "Error: this vxcall is not supported: `%s'\n", text);
+    fprintf(stderr, "Error: vxcall is not supported: `%s'\n", text);
     exit(1);
 }
 

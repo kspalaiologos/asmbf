@@ -19,6 +19,7 @@ sub help {
     print " -b: build asm2bf bytecode. Restriction from below applies.\n";
     print " -c: build C code. Only use if you have built a BFVM\n";
     print "     version of asm2bf, e.g: `setenv OPTIONS \"-DBFVM\"'\n";
+    print " -m: print mappings\n";
     print "\n";
     print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
     exit
@@ -45,6 +46,7 @@ sub build {
     my $compiler = "\"$home/.asmbf/bfasm\"";
     my $output = switch_ext($name, $target_ext);
     my $bfvm = 'cat';
+    my $mflag = '';
     
     my $single_test = `echo "" | $home/.asmbf/bfasm`;
 
@@ -63,8 +65,9 @@ sub build {
     $stripper = 'cat' if defined $options{s} or $options{c} or $options{b};
     $compiler = 'cat' if defined $options{p};
     $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
+    $mflag = ' -m ' if defined $options{m};
     
-    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" 2>> error$$.log | "$home/.asmbf/bfdata" 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler 2>> error$$.log | $stripper | $bfvm > $output\"`;
+    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler 2>> error$$.log | $stripper | $bfvm > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";
@@ -80,7 +83,7 @@ sub build {
     exit 0;
 }
 
-getopts("hspcblo:", \%options);
+getopts("hspcbmlo:", \%options);
 
 help() if defined $options{h};
 

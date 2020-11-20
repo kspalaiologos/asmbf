@@ -23,90 +23,129 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
 #include "../config.h"
+#include "vector.h"
 
 struct label_t {
-    struct label_t * next;
     char * name;
-    int id;
+    unsigned int seg, off;
 };
 
-static int segment, origin;
+struct decl_t {
+    unsigned char type;
+    unsigned int seg, far;
+    vector(char) data;
+};
 
-struct label_t * main_node;
+enum { DECL_REF, DECL_MISC };
 
-struct label_t * alloc_node(void) {
-    struct label_t * x = malloc(sizeof(struct label_t));
-    x->next = NULL;
-    x->name = NULL;
-    x->id = 0;
-    return x;
+static unsigned int seg, off;
+
+vector(struct label_t) labels;
+vector(struct decl_t) declarations;
+
+void append_code(char c) {
+    if(declarations && (vector_end(declarations) - 1)->type == DECL_MISC) {
+        struct decl_t * d = vector_end(declarations) - 1;
+        
+        vector_push_back(d->data, c);
+    } else {
+        struct decl_t decl = {
+            .type = DECL_MISC,
+            .data = NULL
+        };
+        
+        vector_push_back(decl.data, c);
+        vector_push_back(declarations, decl);
+    }
 }
 
-void addlabel(char * text);
+void append_str(char * s) {
+    while(*s)
+        append_code(*(s++));
+}
 
-void getlabel(char * text) {
-    struct label_t * head;
-    
-    if(*text == '"') {
-        printf("%s", text);
-        return;
-    }
-    
-    text = strchr(text, '*') + 1;
 
-    if(main_node == NULL) {
-        fprintf(stderr, "asm2bf: label `%s` not found.", text);
-        exit(1);
-    }
+struct label_t * find_label(char * name) {
+    if(labels == NULL)
+        return NULL;
+        
+    for(struct label_t * it = vector_begin(labels); it != vector_end(labels); ++it)
+        if(!strcmp(name, it->name))
+            return it;
     
-    head = main_node;
-    while(head->next != NULL)
-        if(head->name && strcmp(text, head->name) == 0) {
-            #ifndef RELATIVE_SEGMENTATION
-                printf("%d", head->id);
-            #else
-                if(head->id - segment < 0) {
-                    fprintf(stderr, "asm2bf: error: relative segment is negative.");
-                    exit(1);
-                }
-                
-                printf("%d", head->id - segment);
-            #endif
-            
-            return;
-        } else
-            head = head->next;
-    
-    fprintf(stderr, "asm2bf: label `%s` not found.", text);
-    exit(1);
+    return NULL;
+}
+
+static char * chomp(char * s) {
+    while(isspace(*(s++)));
+    return --s;
 }
 
 void addlabel(char * text) {
-    struct label_t * head;
-    
+    // find the label name.
     text = strchr(text, '&') + 1;
+    struct label_t * l = find_label(text);
     
-    if(main_node == NULL)
-        main_node = alloc_node();
-    
-    head = main_node;
-    while(head->next != NULL) {
-        if(head->name && strcmp(text, head->name) == 0) {
-            fprintf(stderr, "asm2bf: label `%s` already exists.\n", head->name);
-            exit(1);
-        } else head = head->next;
+    if(l != NULL) {
+        fprintf(stderr, "asm2bf: label redefined: `&%s'\n", text);
+        exit(1);
     }
     
-    head->next = alloc_node();
-    head->name = malloc(strlen(text) + 1);
-    strcpy(head->name, text);
+    struct label_t q = {
+        .name = strdup(text),
+        .seg = seg, .off = off
+    };
     
-    #ifdef ACCOUNT_SEGMENTS
-        head->id = segment + origin;
-    #else
-        head->id = origin;
-    #endif
+    vector_push_back(labels, q);
+}
+
+void getlabel(unsigned int far, char * name) {
+    if(*name == '"') {
+        append_str(name);
+        return;
+    }
+    
+    //Extract the label name.
+    name = far ? chomp(name + 4) : name + 1;
+    
+    struct decl_t ref = {
+        .type = DECL_REF,
+        .data = strdup(name),
+        .seg = seg, .far = far  // away in a galaxy long long ago
+    };
+    
+    vector_push_back(declarations, ref);
+};
+
+// TODO: Bitwidth bound checking.
+void flush_code(void) {
+    for(struct decl_t * it = vector_begin(declarations); it != vector_end(declarations); ++it) {
+        if(it->type == DECL_MISC) {
+            fwrite(it->data, 1, vector_size(it->data), stdout);
+        } else {
+            struct label_t * l = find_label(it->data);
+            
+            
+            if(!l) {
+                fprintf(stderr, "asm2bf: unresolved `*%s'\n", it->data);
+                exit(1);
+            }
+            
+            int change = l->seg + l->off;
+            
+            if(!it->far) {
+                if(change < it->seg) {
+                    // TODO: Automatic relocations
+                    
+                    fprintf(stderr, "asm2bf: can't reference `&%s' from %Xh - negative pointer value.\n", it->data, it->seg);
+                    exit(1);
+                } else printf("%d", change - it->seg);
+            } else printf("%d", change);
+        }
+    }
 }
 
 %}
@@ -115,15 +154,23 @@ void addlabel(char * text) {
 
 %%
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
-(\*([A-Za-z_][A-Za-z0-9_]*))|(\"[^\"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
-^[ \t]*db_ { origin++; printf("%s", yytext); }
-^[ \t]*db { origin++; printf("%s", yytext); }
-^[ \t]*txt[ \t]*\".*\" { origin += strlen(strchr(yytext, '"') + 1) - 1; printf("%s", yytext); }
-^[ \t]*seg[ \t]*([0-9]+) { segment = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
-^[ \t]*org[ \t]*([0-9]+) { origin = atoi(strpbrk(yytext, "0123456789")); printf("%s", yytext); }
-.|\n { putchar(yytext[0]); }
+(\*far[ \t]+([A-Za-z_][A-Za-z0-9_]*))|(\"[^\"\n]*\*far[ \t]+([A-Za-z_][A-Za-z0-9_]*)) { getlabel(1, yytext); }
+(\*([A-Za-z_][A-Za-z0-9_]*))|(\"[^\"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(0, yytext); }
+^[ \t]*db_ { off++; append_str(yytext); }
+^[ \t]*db { off++; append_str(yytext); }
+^[ \t]*txt[ \t]*\".*\" { off += strlen(strchr(yytext, '"') + 1) - 1; append_str(yytext); }
+^[ \t]*seg[ \t]*([0-9]+) { seg = atoi(strpbrk(yytext, "0123456789")); append_str(yytext); }
+^[ \t]*org[ \t]*([0-9]+) { off = atoi(strpbrk(yytext, "0123456789")); append_str(yytext); }
+.|\n { append_code(yytext[0]); }
 %%
 
 int main(int argc, char * argv[]) {
     yylex();
+    flush_code();
+    
+    if(argc == 2 && !strcmp(argv[1], "-m") && labels != NULL) {
+        fprintf(stderr, "Data mappings:\n");
+        for(struct label_t * it = vector_begin(labels); it != vector_end(labels); ++it)
+            fprintf(stderr, "`%s': 0%Xh:0%Xh (far: 0%Xh)\n", it->name, it->seg, it->off, it->seg + it->off);
+    }
 }

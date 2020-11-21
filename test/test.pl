@@ -2,6 +2,13 @@
 
 use Term::ANSIColor;
 
+my $blocking = 0;
+
+if($ARGV[0] eq '--blocking') {
+    $blocking = 1;
+    shift @ARGV;
+}
+
 my $max = scalar @ARGV;
 my $current = 0;
 
@@ -10,8 +17,14 @@ my @proc;
 foreach my $file(@ARGV) {
     $current++;
 
-    my $pid = fork();
-    push @proc, $pid;
+    my $pid;
+
+    if(!$blocking) {
+        $pid = fork();
+        push @proc, $pid;
+    } else {
+        $pid = 0;
+    }
 
     if ($pid == 0) {
         my $myc = $current;
@@ -54,14 +67,18 @@ foreach my $file(@ARGV) {
             print "\n";
         }
         
-        exit 0;
+        if(!$blocking) {
+            exit 0;
+        }
     }
 }
 
-while(($pid = wait()) > 0){
-    if($? > 0) {
-        kill 'TERM', @proc;
-        exit 1;
+if(!$blocking) {
+    while(($pid = wait()) > 0){
+        if($? > 0) {
+            kill 'TERM', @proc;
+            exit 1;
+        }
     }
 }
 

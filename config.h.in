@@ -1,8 +1,5 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Makes bfdata respect cross-segment references while defining labels. */
-#undef ACCOUNT_SEGMENTS
-
 /* Shut up all the error and warning messages from bfasm. */
 #undef BFASM_NO_ERROR_CODES
 

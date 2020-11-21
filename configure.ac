@@ -113,10 +113,6 @@ case "$asmbf_distro_target" in
         ;;
 esac
 
-PROG_SWITCH([account-segments], m4_normalize([
-    Makes bfdata respect cross-segment references while defining labels.
-]), [ACCOUNT_SEGMENTS])
-
 PROG_SWITCH([relative-segmentation], m4_normalize([
     Makes bfdata respect cross-segment references towards nonzero segments.
     Note: This will recalculate segments.

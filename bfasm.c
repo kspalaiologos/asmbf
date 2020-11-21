@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include "config.h"
 
-#define IC 130
+#define IC 131
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -45,6 +45,7 @@
 #define C3 (IC-3)
 
 /* location of various instructions */
+#define BTS (IC-8)
 #define RSE (IC-7)
 #define STK (IC-6)
 #define ORG (IC-5)
@@ -61,6 +62,7 @@ unsigned int inchar();
 void outbf();
 void outrep();
 
+static unsigned int bits = 16;
 static unsigned int m[10000], off, freecell, rseg;
 static char s[] =
         #include "microcode/bfasm-instructions.c"
@@ -356,6 +358,9 @@ Lai:;
             off=m[3];
             m[10]=m[9] + 2;
             goto Lap;
+        case BTS:
+            bits=m[3];
+            goto Lap;
         case RSE:
             #ifdef BFVM
                 rseg = !rseg;
@@ -409,9 +414,13 @@ Lab:;
 }
 
 void outrep() {
+    if(m[3] > (2 << (bits - 1))) {
+        fprintf(stderr, "*** WARNING: Exceeding bitwidth: %u can't be stored.\n", m[3]);
+    }
+    
     #ifndef RLE
         #ifndef DISABLE_OPT
-            if(m[3] < 15 || !freecell) {
+            if(m[3] < 15 || !freecell || m[6] != '+') {
         #endif
                 while (m[3]) {
                     putchar(m[6]);

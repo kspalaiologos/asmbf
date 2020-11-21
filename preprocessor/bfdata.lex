@@ -160,6 +160,8 @@ void bits(char * text) {
 
     // atoi skips the `]' automagically.
     bitwidth = atoi(text);
+
+    printf("bts %u\n", bitwidth);
 }
 
 %}

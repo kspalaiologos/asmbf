@@ -704,7 +704,6 @@ enable_rle_postfix
 enable_bfvm32
 enable_bfvm_heap
 enable_bfvm_freestanding
-enable_double_nocopy
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1352,7 +1351,6 @@ Optional Features:
   --enable-bfvm-freestanding
                           Builds bfvm in freestanding mode (tape located at
                           0x7000).
-  --enable-double-nocopy  Utilizes the other set of rules in bconv.c
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -4811,18 +4809,6 @@ if test "${enable_bfvm_freestanding+set}" = set; then :
   enableval=$enable_bfvm_freestanding;
 
 $as_echo "#define FREESTANDING /**/" >>confdefs.h
-
-
-fi
-
-
-
-
-    # Check whether --enable-double-nocopy was given.
-if test "${enable_double_nocopy+set}" = set; then :
-  enableval=$enable_double_nocopy;
-
-$as_echo "#define DOUBLE_NOCOPY /**/" >>confdefs.h
 
 
 fi

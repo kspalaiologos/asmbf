@@ -29,15 +29,24 @@
 #include "config.h"
 #include "microcode/bconv.c"
 
-int main(void) {
-    int c;
+int main(int argc, char * argv[]) {
+    int c, rules = 0;
     
+    if(argc == 2) {
+        if(!strcmp(argv[1], "-a"))
+            rules = 1;
+        else if(!strcmp(argv[1], "-s"))
+            rules = 0;
+        else
+            fprintf(stderr, "bconv: nrecognized flag: `%s'.\nexpected `-a' (alternative) or `-s' (standard)\n", argv[1]);
+    }
+
     while((c = getchar()) != EOF) {
         char * x = strchr(bconv_commands, c);
         
         if(x == NULL)
             putchar(c);
         else
-            printf("%s", bconv_snippets[x - bconv_commands]);
+            printf("%s", bconv_snippets[rules][x - bconv_commands]);
     }
 }

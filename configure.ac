@@ -175,10 +175,6 @@ PROG_SWITCH([bfvm-freestanding], [
     Builds bfvm in freestanding mode (tape located at 0x7000).
 ], [FREESTANDING])
 
-PROG_SWITCH([double-nocopy], [
-    Utilizes the other set of rules in bconv.c
-], [DOUBLE_NOCOPY])
-
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC

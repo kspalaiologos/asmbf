@@ -693,8 +693,6 @@ enable_option_checking
 with_line_width
 enable_version
 with_target
-enable_account_segments
-enable_relative_segmentation
 enable_silient_errors
 enable_library
 enable_nocheck_bfi
@@ -1340,16 +1338,6 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-version        Sets the dist version for asm2bf
-  --enable-account-segments
-                          Makes bfdata respect cross-segment references while
-                          defining labels.
-  --enable-relative-segmentation
-                          Makes bfdata respect cross-segment references
-                          towards nonzero segments. Note: This will
-                          recalculate segments. bfdata will fail if the
-                          segment becomes negative, or overflow if the
-                          effective adress overflows the memory storage data
-                          type.
   --enable-silient-errors Shut up all the error and warning messages from
                           bfasm.
   --enable-library        Export bfasm instead of main from bfasm.c
@@ -4685,30 +4673,6 @@ fi
 
         ;;
 esac
-
-
-    # Check whether --enable-account-segments was given.
-if test "${enable_account_segments+set}" = set; then :
-  enableval=$enable_account_segments;
-
-$as_echo "#define ACCOUNT_SEGMENTS /**/" >>confdefs.h
-
-
-fi
-
-
-
-
-    # Check whether --enable-relative-segmentation was given.
-if test "${enable_relative_segmentation+set}" = set; then :
-  enableval=$enable_relative_segmentation;
-
-$as_echo "#define RELATIVE_SEGMENTATION /**/" >>confdefs.h
-
-
-fi
-
-
 
 
     # Check whether --enable-silient-errors was given.

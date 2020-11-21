@@ -62,11 +62,6 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 AC_CACHE_SAVE
 
-AC_ARG_WITH([line-width],
-    AS_HELP_STRING([--with-line-width=size], [Sets the wrapping point for bfstrip.]), [
-        AC_DEFINE_UNQUOTED([BFSTRIP_LINE_WIDTH], [$withval], [Sets the wrapping point for bfstrip.])
-])
-
 AC_ARG_ENABLE([version], AS_HELP_STRING([--enable-version], [Sets the dist version for asm2bf]), [
     AC_SUBST([VERSION], [$enableval])
 ], [

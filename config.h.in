@@ -9,9 +9,6 @@
 /* Skip all checks in bfi (making it a tiny bit faster). */
 #undef BFI_NOCHECKS
 
-/* Sets the wrapping point for bfstrip. */
-#undef BFSTRIP_LINE_WIDTH
-
 /* Makes bfasm emit bfvm code. */
 #undef BFVM
 

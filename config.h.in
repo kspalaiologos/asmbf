@@ -144,12 +144,6 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Makes bfdata respect cross-segment references towards nonzero segments.
-   Note: This will recalculate segments. bfdata will fail if the segment
-   becomes negative, or overflow if the effective adress overflows the memory
-   storage data type. */
-#undef RELATIVE_SEGMENTATION
-
 /* Enable postfix RLE for bfasm. */
 #undef RLE
 

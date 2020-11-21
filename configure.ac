@@ -113,13 +113,6 @@ case "$asmbf_distro_target" in
         ;;
 esac
 
-PROG_SWITCH([relative-segmentation], m4_normalize([
-    Makes bfdata respect cross-segment references towards nonzero segments.
-    Note: This will recalculate segments.
-    bfdata will fail if the segment becomes negative,
-    or overflow if the effective adress overflows the memory storage data type.
-]), [RELATIVE_SEGMENTATION])
-
 PROG_SWITCH([silient-errors], [
     Shut up all the error and warning messages from bfasm.
 ], [BFASM_NO_ERROR_CODES])

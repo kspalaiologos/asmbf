@@ -108,10 +108,6 @@ case "$asmbf_distro_target" in
         ;;
 esac
 
-PROG_SWITCH([silient-errors], [
-    Shut up all the error and warning messages from bfasm.
-], [BFASM_NO_ERROR_CODES])
-
 PROG_SWITCH([nocheck-bfi], [
     Skip all checks in bfi (making it a tiny bit faster).
 ], [BFI_NOCHECKS])

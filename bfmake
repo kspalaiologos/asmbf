@@ -25,6 +25,8 @@ sub help {
     print "     Incompatible with -p.\n";
     print " -e: compress code; prefix style. Incompatible with -p.\n";
     print " -f: compress code; postfix style. Incompatible with -p.\n";
+    print " -t: output tiny code for programs not utilizing the label system.\n";
+    print "     excellent if you aim at small and fast snippets. Exclusive with -p.\n";
     print "bfvm flags (no effect if bfvm isn't enabled):\n";
     print " -x: force 32-bit bfvm output.\n";
     print " -f: build freestanding bfvm code.\n";
@@ -65,6 +67,7 @@ sub build {
     my $prefrle = '';
     my $postfrle = '';
     my $vm = '';
+    my $tiny = '';
 
     $output = $options{o} if defined $options{o};
     $wf = $options{w} if defined $options{w};
@@ -80,8 +83,9 @@ sub build {
     $prefrle = ' -zb ' if defined $options{e};
     $postfrle = ' -ze ' if defined $options{f};
     $vm = ' -vm ' if defined $options{b};
+    $tiny = ' -t ' if defined $options{t};
     
-    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz > $output\"`;
+    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";

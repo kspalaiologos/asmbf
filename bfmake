@@ -27,13 +27,16 @@ sub help {
     print " -f: compress code; postfix style. Incompatible with -p.\n";
     print " -t: output tiny code for programs not utilizing the label system.\n";
     print "     excellent if you aim at small and fast snippets. Exclusive with -p.\n";
+    print " -x: use the bitwidth doubler (bconv) with default snippets.\n";
+    print " -v: use the bitwidth doubler (bconv) with alternative snippets.\n";
     print "bfvm flags (no effect if bfvm isn't enabled):\n";
     print " -x: force 32-bit bfvm output.\n";
     print " -f: build freestanding bfvm code.\n";
     print " -a: set bfvm heap size in cells.\n";
     print "\n";
     print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
-    print "-e and -f are mutually exclusive.";
+    print "-e and -f are mutually exclusive.\n";
+    print "-x and -v are mutually exclusive.\n";
     exit
 }
 
@@ -56,6 +59,7 @@ sub build {
     my $lib = "cat \"$home/.asmbf/lib/lib-bfm-stub.lua\"";
     my $stripper = "\"$home/.asmbf/bfstrip\"";
     my $compiler = "\"$home/.asmbf/bfasm\"";
+    my $bconv = "cat";
     my $output = switch_ext($name, $target_ext);
     my $bfvm = 'cat';
     my $mflag = '';
@@ -68,6 +72,9 @@ sub build {
     my $postfrle = '';
     my $vm = '';
     my $tiny = '';
+
+    my $xf = '';
+    my $vf = '';
 
     $output = $options{o} if defined $options{o};
     $wf = $options{w} if defined $options{w};
@@ -84,8 +91,13 @@ sub build {
     $postfrle = ' -ze ' if defined $options{f};
     $vm = ' -vm ' if defined $options{b};
     $tiny = ' -t ' if defined $options{t};
+
+    $xf = '-s' if defined $options{x};
+    $vf = '-a' if defined $options{y};
+
+    $bconv = "\"$home/.asmbf/bconv\"" if defined $options{x} or defined $options{y};
     
-    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz > $output\"`;
+    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf $vf > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";
@@ -101,7 +113,7 @@ sub build {
     exit 0;
 }
 
-getopts("hsxefpczbmlo:w:a:", \%options);
+getopts("hsxefpcxvzbmlo:w:a:", \%options);
 
 help() if defined $options{h};
 

@@ -3,9 +3,6 @@
 /* Skip all checks in bfi (making it a tiny bit faster). */
 #undef BFI_NOCHECKS
 
-/* Makes bfasm emit bfvm code. */
-#undef BFVM
-
 /* Define to 1 if you have the `alarm' function. */
 #undef HAVE_ALARM
 

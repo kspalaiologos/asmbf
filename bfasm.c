@@ -64,16 +64,19 @@ void outbf();
 void outrep();
 
 static unsigned int bits = 16;
-static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0;
+static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0;
 static unsigned int m[10000], off, freecell, rseg;
 static char s[] =
-        #include "microcode/bfasm-instructions.c"
-        #ifdef BFVM
-            #include "microcode/emit-bfvm.c"
-        #else
-            #include "microcode/emit-bf.c"
-        #endif
-        ;
+    #include "microcode/bfasm-instructions.c"
+    ;
+
+static char ubf[] = 
+    #include "microcode/emit-bf.c"
+    ;
+
+static char uvm[] =
+    #include "microcode/emit-bfvm.c"
+    ;
 
 int best_base(int n);
 void translate(int n, int base);
@@ -90,6 +93,9 @@ int main(int argc, char * argv[]) {
             rle_prefix = 1;
         } else if(!strcmp("-ze", argv[arg])) {
             rle_postfix = 1;
+        } else if(!strcmp("-vm", argv[arg])) {
+            rle_prefix = 1;
+            vm = 1;
         }
     }
 
@@ -98,16 +104,14 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
 
-    #ifdef BFVM
-        rle_prefix = 1;
-
-        if(rle_postfix) {
-            fprintf(stderr, " *** ERROR: Can't produce postfix-compressed BFVM bytecode.");
-            exit(1);
-        }
-    #endif
+    if(vm && rle_postfix) {
+        fprintf(stderr, " *** ERROR: Can't produce postfix-compressed BFVM bytecode.");
+        exit(1);
+    }
 
     for (n = 0; n < sizeof(s); n++)  m[n + 20] = s[n];
+    if(vm) for (n = 0; n < sizeof(uvm); n++) m[n + 20 + sizeof(s)] = uvm[n];
+    else   for (n = 0; n < sizeof(ubf); n++) m[n + 20 + sizeof(s)] = ubf[n];
     m[6] = 0;
     m[8] = 0;
     m[9] = STACK;
@@ -264,27 +268,29 @@ Lai:;
                 if(!shutup)
                     fprintf(stderr, "\n** WARNING: 0 isn't a valid label identifier.\n");
             }
-#ifndef BFVM
-            m[11] = 1;
-            m[6] = 4;
-            m[4] = 'e';
-            outbf();
-            m[6] = '+';
-            outrep(); // note: potential optimalization, << & < free
-            m[6] = 18; // ???
-            outbf();
-#else
-            putchar('A');
-            putchar('R');
-            m[11] = 1;
-            m[6] = 4;
-            m[4] = 'e';
-            outbf();
-            m[6] = '+';
-            outrep(); // note: potential optimalization, << & < free
-            m[6] = 18; // ???
-            outbf();
-#endif
+
+            if(vm) {
+                putchar('A');
+                putchar('R');
+                m[11] = 1;
+                m[6] = 4;
+                m[4] = 'e';
+                outbf();
+                m[6] = '+';
+                outrep(); // note: potential optimalization, << & < free
+                m[6] = 18; // ???
+                outbf();
+            } else {
+                m[11] = 1;
+                m[6] = 4;
+                m[4] = 'e';
+                outbf();
+                m[6] = '+';
+                outrep(); // note: potential optimalization, << & < free
+                m[6] = 18; // ???
+                outbf();
+            }
+
             goto Lap;
         case 16: /* mov */
             if (m[4] == 0) {
@@ -359,12 +365,12 @@ Lai:;
             bits=m[3];
             goto Lap;
         case RSE:
-            #ifdef BFVM
+            if(vm) {
                 rseg = !rseg;
-            #else
-                if(!shutup)
-                    fprintf(stderr, " *** WARNING: Brainfuck target; `rse' ignored.\n");
-            #endif
+            } else if(!shutup) {
+                fprintf(stderr, " *** WARNING: Brainfuck target; `rse' ignored.\n");
+            }
+
             goto Lap;
     }
 Lao:;
@@ -391,11 +397,7 @@ Lap:;
     }
     goto Laj;
 Laz:;
-#ifdef BFVM
-    putchar('?');
-#else
-    putchar('#');
-#endif
+    putchar(vm ? '?' : '#');
     return 0;
 Lab:;
     if (m[11] == 0 || m[12] == 1) {

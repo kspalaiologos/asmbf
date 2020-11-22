@@ -693,7 +693,6 @@ enable_option_checking
 enable_version
 with_target
 enable_nocheck_bfi
-enable_bfvm
 with_jobs
 '
       ac_precious_vars='build_alias
@@ -1330,7 +1329,6 @@ Optional Features:
   --enable-version        Sets the dist version for asm2bf
   --enable-nocheck-bfi    Skip all checks in bfi (making it a tiny bit
                           faster).
-  --enable-bfvm           Makes bfasm emit bfvm code.
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -4644,18 +4642,6 @@ if test "${enable_nocheck_bfi+set}" = set; then :
   enableval=$enable_nocheck_bfi;
 
 $as_echo "#define BFI_NOCHECKS /**/" >>confdefs.h
-
-
-fi
-
-
-
-
-    # Check whether --enable-bfvm was given.
-if test "${enable_bfvm+set}" = set; then :
-  enableval=$enable_bfvm;
-
-$as_echo "#define BFVM /**/" >>confdefs.h
 
 
 fi

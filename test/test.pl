@@ -29,7 +29,17 @@ foreach my $file(@ARGV) {
     if ($pid == 0) {
         my $myc = $current;
 
-        my $code = system("$ENV{'HOME'}/.asmbf/bfmake $file > /dev/null");
+        open my $fh, '<', "$file"; 
+        my $firstLine = <$fh>; 
+        close $fh;
+
+        my $makeflags = '';
+
+        if($firstLine =~ m/;flags=(.*)$/) {
+            $makeflags = $1;
+        }
+
+        my $code = system("$ENV{'HOME'}/.asmbf/bfmake $makeflags $file > /dev/null");
 
         if($file =~ /invalid/) {
             die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);

@@ -692,7 +692,6 @@ ac_user_opts='
 enable_option_checking
 enable_version
 with_target
-enable_silient_errors
 enable_nocheck_bfi
 enable_bfvm
 with_jobs
@@ -1331,8 +1330,6 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-version        Sets the dist version for asm2bf
-  --enable-silient-errors Shut up all the error and warning messages from
-                          bfasm.
   --enable-nocheck-bfi    Skip all checks in bfi (making it a tiny bit
                           faster).
   --enable-bfvm           Makes bfasm emit bfvm code.
@@ -4644,18 +4641,6 @@ fi
 
         ;;
 esac
-
-
-    # Check whether --enable-silient-errors was given.
-if test "${enable_silient_errors+set}" = set; then :
-  enableval=$enable_silient_errors;
-
-$as_echo "#define BFASM_NO_ERROR_CODES /**/" >>confdefs.h
-
-
-fi
-
-
 
 
     # Check whether --enable-nocheck-bfi was given.

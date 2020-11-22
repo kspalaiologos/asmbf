@@ -64,7 +64,8 @@ void outbf();
 void outrep();
 
 static unsigned int bits = 16;
-static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0;
+static unsigned int skipped_inits = 0;
+static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0;
 static unsigned int m[10000], off, freecell, rseg;
 static char s[] =
     #include "microcode/bfasm-instructions.c"
@@ -96,6 +97,8 @@ int main(int argc, char * argv[]) {
         } else if(!strcmp("-vm", argv[arg])) {
             rle_prefix = 1;
             vm = 1;
+        } else if(!strcmp("-t", argv[arg])) {
+            tiny = 1;
         }
     }
 
@@ -410,6 +413,12 @@ Lab:;
     outbf(); /* post */
     m[6] = 1;
     outbf(); /* last */
+    
+    if(skipped_inits != 6 && tiny) {
+        fprintf(stderr, "*** ERROR: Skipped %d prologues; expected 4. Can't build tiny code.\n", skipped_inits);
+        return 1;
+    }
+
     return 0;
 }
 
@@ -444,7 +453,15 @@ void outrep() {
 }
 
 void outbf() {
-    unsigned int r1, r4;
+    unsigned int r1, r4, skip_this = 0;
+
+    if(m[6] >= 0 && m[6] <= 3 && tiny) {
+        // first, last, pre, post
+        skipped_inits++;
+        skip_this = 1;
+        return;
+    }
+
     m[7] = C4;
     r4 = 0;
 o1:;

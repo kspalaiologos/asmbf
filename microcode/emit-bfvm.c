@@ -1,4 +1,4 @@
-"AAAb\0" /* 0 first */
+"AAb\0" /* 0 first */
 "ABb\0" /* 1 last (end, post, last) */
 "ACa\0" /* 2 pre */
 "ADc\0" /* 3 post */

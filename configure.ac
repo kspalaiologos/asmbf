@@ -112,10 +112,6 @@ PROG_SWITCH([nocheck-bfi], [
     Skip all checks in bfi (making it a tiny bit faster).
 ], [BFI_NOCHECKS])
 
-PROG_SWITCH([bfvm], [
-    Makes bfasm emit bfvm code.
-], [BFVM])
-
 AC_ARG_WITH([jobs],
             AS_HELP_STRING([--with-jobs=N],
                            [Set the amount of make jobs. Must be greater than zero and lesser or equal to 8.]),

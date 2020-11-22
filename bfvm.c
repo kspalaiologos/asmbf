@@ -149,45 +149,51 @@ int try_match(char buf[]) {
 
 int main(int argc, char * argv[]) {
     char match[32] = {0};
-    int c, mp = 0, b32 = 0;
+    int c, mp = 0, b32 = 0, freestanding = 0, heap = 65536;
 
     for(int arg = 1; arg < argc; arg++) {
         char * s = argv[arg];
 
         if(!strcmp("-32", s)) {
             b32 = 1;
+        } else if(!strcmp("-freestanding", s)) {
+            freestanding = 1;
+        } else if(!strcmp("-heap", s)) {
+            if(arg + 1 < argc) {
+                heap = atoi(argv[++arg]);
+            } else {
+                fprintf(stderr, "bfvm: -heap expects an argument.\n");
+                exit(1);
+            }
         }
     }
     
+    if(!freestanding) {
+        printf(
+            "#include <stdio.h>\n"
+            "#include <stdlib.h>\n"
+            "#include <stdint.h>\n"
+            "uint8_t inchar(void) {\n"
+                "uint8_t v = getchar();\n"
+                "return v < 0 ? 0 : v;\n"
+            "}\n"
+            "type*tape=calloc(sizeof(type),%d),mp,t0,t1,t2,t3,sp;\n"
+        , heap);
+    } else {
+        printf(
+            "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
+        );
+    }
+
     printf(
-        #ifndef FREESTANDING
-        "#include <stdio.h>\n"
-        "#include <stdlib.h>\n"
-        "#include <stdint.h>\n"
-        #endif
         "#define OFF(x) ((x) - 'a')\n"
         "#define G (tape[0])\n"
         "#define IP (tape[1])\n"
         "#define type %s\n"
-        #ifndef FREESTANDING
-        "uint8_t inchar(void) {\n"
-            "uint8_t v = getchar();\n"
-            "return v < 0 ? 0 : v;\n"
-        "}\n"
-        #endif
         "type bfpow(type x, type y) {\n"
             "type i = 1, s = x; for(; i < y; y++) s *= x; return s;\n"
         "}\n"
         "int main(void) {\n"
-        #ifndef FREESTANDING
-            #ifdef BFVM_HEAP
-                "type*tape=calloc(sizeof(type)," BFVM_HEAP "),mp,t0,t1,t2,t3,sp;\n"
-            #else
-                "type*tape=calloc(sizeof(type),65536),mp,t0,t1,t2,t3,sp;\n"
-            #endif
-        #else
-            "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
-        #endif
     , b32 ? "uint32_t" : "uint16_t");
     
     while((c = getchar()) != EOF) {

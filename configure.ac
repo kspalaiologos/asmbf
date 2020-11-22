@@ -157,15 +157,6 @@ AC_ARG_ENABLE([rle-postfix],
         AC_DEFINE([RLE_POSTFIX], [], [Enable postfix RLE for bfasm.])
 ])
 
-AC_ARG_ENABLE([bfvm-heap],
-    AS_HELP_STRING([--enable-bfvm-heap=size], [Sets the bfvm heap size.]), [
-        AC_DEFINE([BFVM_HEAP], [$enableval], [Sets the bfvm heap size.])
-])
-
-PROG_SWITCH([bfvm-freestanding], [
-    Builds bfvm in freestanding mode (tape located at 0x7000).
-], [FREESTANDING])
-
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC

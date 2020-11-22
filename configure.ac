@@ -134,17 +134,6 @@ case "$asmbf_jobs" in
         ;;
 esac
 
-AC_ARG_ENABLE([rle-prefix],
-    AS_HELP_STRING([--enable-rle-prefix], [Enable prefixed RLE for bfasm.]), [
-        AC_DEFINE([RLE], [], [Enable prefixed RLE for bfasm.])
-])
-
-AC_ARG_ENABLE([rle-postfix],
-    AS_HELP_STRING([--enable-rle-postfix], [Enable postfix RLE for bfasm.]), [
-        AC_DEFINE([RLE], [], [Enable postfix RLE for bfasm.])
-        AC_DEFINE([RLE_POSTFIX], [], [Enable postfix RLE for bfasm.])
-])
-
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MALLOC

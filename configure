@@ -693,10 +693,8 @@ enable_option_checking
 enable_version
 with_target
 enable_silient_errors
-enable_library
 enable_nocheck_bfi
 enable_bfvm
-enable_o0
 with_jobs
 enable_rle_prefix
 enable_rle_postfix
@@ -1335,11 +1333,9 @@ Optional Features:
   --enable-version        Sets the dist version for asm2bf
   --enable-silient-errors Shut up all the error and warning messages from
                           bfasm.
-  --enable-library        Export bfasm instead of main from bfasm.c
   --enable-nocheck-bfi    Skip all checks in bfi (making it a tiny bit
                           faster).
   --enable-bfvm           Makes bfasm emit bfvm code.
-  --enable-o0             Disable size optimizations in bfasm.
   --enable-rle-prefix     Enable prefixed RLE for bfasm.
   --enable-rle-postfix    Enable postfix RLE for bfasm.
 
@@ -4662,18 +4658,6 @@ fi
 
 
 
-    # Check whether --enable-library was given.
-if test "${enable_library+set}" = set; then :
-  enableval=$enable_library;
-
-$as_echo "#define BFASM_NO_EXPORT_MAIN /**/" >>confdefs.h
-
-
-fi
-
-
-
-
     # Check whether --enable-nocheck-bfi was given.
 if test "${enable_nocheck_bfi+set}" = set; then :
   enableval=$enable_nocheck_bfi;
@@ -4691,18 +4675,6 @@ if test "${enable_bfvm+set}" = set; then :
   enableval=$enable_bfvm;
 
 $as_echo "#define BFVM /**/" >>confdefs.h
-
-
-fi
-
-
-
-
-    # Check whether --enable-o0 was given.
-if test "${enable_o0+set}" = set; then :
-  enableval=$enable_o0;
-
-$as_echo "#define DISABLE_OPT /**/" >>confdefs.h
 
 
 fi

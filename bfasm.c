@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "config.h"
 
 #define IC 131
@@ -63,6 +64,7 @@ void outbf();
 void outrep();
 
 static unsigned int bits = 16;
+static unsigned char disable_opt = 0;
 static unsigned int m[10000], off, freecell, rseg;
 static char s[] =
         #include "microcode/bfasm-instructions.c"
@@ -84,12 +86,15 @@ void translate(int n, int base);
     #endif
 #endif
 
-#ifndef BFASM_NO_EXPORT_MAIN
-int main(void) {
-#else
-int bfasm(void) {
-#endif
+int main(int argc, char * argv[]) {
     unsigned int n;
+    
+    for(int arg = 1; arg < argc; arg++) {
+        if(!strcmp("-O0", argv[arg])) {
+            disable_opt = 1;
+        }
+    }
+
     for (n = 0; n < sizeof(s); n++)  m[n + 20] = s[n];
     m[6] = 0;
     m[8] = 0;
@@ -421,19 +426,15 @@ void outrep() {
     }
     
     #ifndef RLE
-        #ifndef DISABLE_OPT
-            if(m[3] < 15 || !freecell || m[6] != '+') {
-        #endif
-                while (m[3]) {
-                    putchar(m[6]);
-                    m[3]--;
-                }
-        #ifndef DISABLE_OPT
-            } else {
-                translate(m[3], best_base(m[3]));
-                m[3] = 0;
+        if(m[3] < 15 || !freecell || m[6] != '+' || disable_opt) {
+            while (m[3]) {
+                putchar(m[6]);
+                m[3]--;
             }
-        #endif
+        } else {
+            translate(m[3], best_base(m[3]));
+            m[3] = 0;
+        }
     #else
         if(m[3] > 1) {
             #ifndef RLE_POSTFIX

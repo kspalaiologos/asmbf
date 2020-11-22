@@ -165,6 +165,9 @@ int main(int argc, char * argv[]) {
                 fprintf(stderr, "bfvm: -heap expects an argument.\n");
                 exit(1);
             }
+        } else {
+            fprintf(stderr, "bfvm: unrecognized switch: `%s'\n", s);
+            exit(1);
         }
     }
     

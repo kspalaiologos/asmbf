@@ -3,17 +3,11 @@
 /* Shut up all the error and warning messages from bfasm. */
 #undef BFASM_NO_ERROR_CODES
 
-/* Export bfasm instead of main from bfasm.c */
-#undef BFASM_NO_EXPORT_MAIN
-
 /* Skip all checks in bfi (making it a tiny bit faster). */
 #undef BFI_NOCHECKS
 
 /* Makes bfasm emit bfvm code. */
 #undef BFVM
-
-/* Disable size optimizations in bfasm. */
-#undef DISABLE_OPT
 
 /* Define to 1 if you have the `alarm' function. */
 #undef HAVE_ALARM

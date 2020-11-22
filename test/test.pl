@@ -30,6 +30,7 @@ foreach my $file(@ARGV) {
         my $myc = $current;
 
         my $code = system("$ENV{'HOME'}/.asmbf/bfmake $file > /dev/null");
+
         if($file =~ /invalid/) {
             die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
         } else {

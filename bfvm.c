@@ -147,9 +147,17 @@ int try_match(char buf[]) {
     return 0;
 }
 
-int main(void) {
+int main(int argc, char * argv[]) {
     char match[32] = {0};
-    int c, mp = 0;
+    int c, mp = 0, b32 = 0;
+
+    for(int arg = 1; arg < argc; arg++) {
+        char * s = argv[arg];
+
+        if(!strcmp("-32", s)) {
+            b32 = 1;
+        }
+    }
     
     printf(
         #ifndef FREESTANDING
@@ -160,11 +168,7 @@ int main(void) {
         "#define OFF(x) ((x) - 'a')\n"
         "#define G (tape[0])\n"
         "#define IP (tape[1])\n"
-        #ifdef BFVM_32
-        "#define type uint32_t\n"
-        #else
-        "#define type uint16_t\n"
-        #endif
+        "#define type %s\n"
         #ifndef FREESTANDING
         "uint8_t inchar(void) {\n"
             "uint8_t v = getchar();\n"
@@ -184,7 +188,7 @@ int main(void) {
         #else
             "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
         #endif
-    );
+    , b32 ? "uint32_t" : "uint16_t");
     
     while((c = getchar()) != EOF) {
         pos++;

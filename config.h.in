@@ -120,12 +120,6 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Enable postfix RLE for bfasm. */
-#undef RLE
-
-/* Enable postfix RLE for bfasm. */
-#undef RLE_POSTFIX
-
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 

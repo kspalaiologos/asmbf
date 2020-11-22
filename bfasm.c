@@ -64,7 +64,7 @@ void outbf();
 void outrep();
 
 static unsigned int bits = 16;
-static unsigned char disable_opt = 0, shutup = 0;
+static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0;
 static unsigned int m[10000], off, freecell, rseg;
 static char s[] =
         #include "microcode/bfasm-instructions.c"
@@ -78,14 +78,6 @@ static char s[] =
 int best_base(int n);
 void translate(int n, int base);
 
-#ifdef BFVM
-    #define RLE
-
-    #ifdef RLE_POSTFIX
-        #error "Can't produce postfix-compressed BFVM bytecode."
-    #endif
-#endif
-
 int main(int argc, char * argv[]) {
     unsigned int n;
     
@@ -94,8 +86,26 @@ int main(int argc, char * argv[]) {
             disable_opt = 1;
         } else if(!strcmp("-w", argv[arg])) {
             shutup = 1;
+        } else if(!strcmp("-zb", argv[arg])) {
+            rle_prefix = 1;
+        } else if(!strcmp("-ze", argv[arg])) {
+            rle_postfix = 1;
         }
     }
+
+    if(rle_postfix && rle_prefix) {
+        fprintf(stderr, " *** ERROR: Settle on your RLE style!\n");
+        exit(1);
+    }
+
+    #ifdef BFVM
+        rle_prefix = 1;
+
+        if(rle_postfix) {
+            fprintf(stderr, " *** ERROR: Can't produce postfix-compressed BFVM bytecode.");
+            exit(1);
+        }
+    #endif
 
     for (n = 0; n < sizeof(s); n++)  m[n + 20] = s[n];
     m[6] = 0;
@@ -407,7 +417,16 @@ void outrep() {
             fprintf(stderr, "*** WARNING: Exceeding bitwidth: %u can't be stored.\n", m[3]);
     }
     
-    #ifndef RLE
+    if(rle_prefix || rle_postfix) {
+        if(m[3] > 1) {
+            if(rle_prefix) printf("%d%c", m[3], m[6]);
+            else printf("%c%d", m[6], m[3]);
+            m[3] = 0;
+        } else if(m[3]) {
+            putchar(m[6]);
+            m[3] = 0;
+        }
+    } else {
         if(m[3] < 15 || !freecell || m[6] != '+' || disable_opt) {
             while (m[3]) {
                 putchar(m[6]);
@@ -417,19 +436,7 @@ void outrep() {
             translate(m[3], best_base(m[3]));
             m[3] = 0;
         }
-    #else
-        if(m[3] > 1) {
-            #ifndef RLE_POSTFIX
-                printf("%d%c", m[3], m[6]);
-            #else
-                printf("%c%d", m[6], m[3]);
-            #endif
-            m[3] = 0;
-        } else if(m[3]) {
-            putchar(m[6]);
-            m[3] = 0;
-        }
-    #endif
+    }
     
     freecell = 0;
 }
@@ -473,55 +480,52 @@ o11:;
     if (r1 < m[8]) goto o12;
     r4 = 0;
     m[15] = r1 - m[8];
-#ifdef RLE
 o14:;
-    if (m[15] <= r4) goto o13;
-    if (m[15] > 1) {
-        #ifndef RLE_POSTFIX
-            printf("%d>", m[15]);
-        #else
-            printf(">%d", m[15]);
-        #endif
-        r4 = m[15];
-    } else if(m[15]) {
+    if(rle_prefix || rle_postfix) {
+        if (m[15] <= r4) goto o13;
+        if (m[15] > 1) {
+            if(rle_prefix)
+                printf("%d>", m[15]);
+            else
+                printf(">%d", m[15]);
+            r4 = m[15];
+        } else if(m[15]) {
+            putchar('>');
+            
+            r4 = m[15];
+        }
+        goto o14;
+    } else {
+        if (m[15] <= r4)
+            goto o13;
         putchar('>');
-        
-        r4 = m[15];
+        r4++;
+        goto o14;
     }
-    goto o14;
-#else
-o14:;
-    if (m[15] <= r4) goto o13;
-    putchar('>');
-    r4++;
-    goto o14;
-#endif
 o12:;
     r4 = 0;
     m[15] = m[8] - r1;
-#ifdef RLE
 o16:;
-    if (m[15] <= r4) goto o13;
-    if (m[15] > 1) {
-        #ifndef RLE_POSTFIX
-            printf("%d<", m[15]);
-        #else
-            printf("<%d", m[15]);
-        #endif
-        r4 = m[15];
-    } else if(m[15]) {
+    if(rle_prefix || rle_postfix) {
+        if (m[15] <= r4) goto o13;
+        if (m[15] > 1) {
+            if(rle_prefix)
+                printf("%d<", m[15]);
+            else
+                printf("<%d", m[15]);
+            r4 = m[15];
+        } else if(m[15]) {
+            putchar('<');
+            
+            r4 = m[15];
+        }
+        goto o16;
+    } else {
+        if (m[15] <= r4) goto o13;
         putchar('<');
-        
-        r4 = m[15];
+        r4++;
+        goto o16;
     }
-    goto o16;
-#else
-o16:;
-    if (m[15] <= r4) goto o13;
-    putchar('<');
-    r4++;
-    goto o16;
-#endif
 o13:;
     m[8] = r1;
     goto o10;

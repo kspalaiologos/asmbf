@@ -695,8 +695,6 @@ with_target
 enable_nocheck_bfi
 enable_bfvm
 with_jobs
-enable_rle_prefix
-enable_rle_postfix
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1333,8 +1331,6 @@ Optional Features:
   --enable-nocheck-bfi    Skip all checks in bfi (making it a tiny bit
                           faster).
   --enable-bfvm           Makes bfasm emit bfvm code.
-  --enable-rle-prefix     Enable prefixed RLE for bfasm.
-  --enable-rle-postfix    Enable postfix RLE for bfasm.
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -4691,29 +4687,6 @@ as_fn_error $? "Pass a number in range 1-8 to --with-jobs.
 See \`config.log' for more details" "$LINENO" 5; }
         ;;
 esac
-
-# Check whether --enable-rle-prefix was given.
-if test "${enable_rle_prefix+set}" = set; then :
-  enableval=$enable_rle_prefix;
-
-$as_echo "#define RLE /**/" >>confdefs.h
-
-
-fi
-
-
-# Check whether --enable-rle-postfix was given.
-if test "${enable_rle_postfix+set}" = set; then :
-  enableval=$enable_rle_postfix;
-
-$as_echo "#define RLE /**/" >>confdefs.h
-
-
-$as_echo "#define RLE_POSTFIX /**/" >>confdefs.h
-
-
-fi
-
 
 # Checks for library functions.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for error_at_line" >&5

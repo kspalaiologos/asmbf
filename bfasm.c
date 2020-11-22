@@ -319,10 +319,12 @@ Lai:;
             m[12] = 1;
             goto Lao;
         case STK: /* stk */
-            m[9] = m[3] * 2 + STACK; // ???
+            if(!rseg) m[9] = m[3] * 2 + STACK; // ???
+            else m[9] = m[3] + STACK;
             goto Lap;
         case ORG: /* org */
-            m[10] = m[3] * 2 + m[9] + 2;
+            if(!rseg) m[10] = m[3] * 2 + m[9] + 2;
+            else m[10] = m[3] + m[9] + 2;
             goto Lap;
         case DB: /* db_ */
             if(m[3] == '\\' && m[1] == 4) {

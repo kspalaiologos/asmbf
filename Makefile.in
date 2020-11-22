@@ -8,7 +8,7 @@
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
-.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor
+.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor bfadbg
 
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
@@ -66,6 +66,7 @@ clean:
 	-cd bfpp && make clean && cd ..
 	-cd redpower && make clean && cd ..
 	-cd preprocessor && make clean && cd ..
+	-cd bfadbg && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
 	./bfasm < etc/bfasm.asm | ./bfstrip > $@
@@ -77,7 +78,11 @@ bin: $(TARGETS)
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
 	cp lib-bfm/*.lua bin/asmbf/lib/
 	rm -rf $(TARGETS)
-	
+
+bfadbg:
+	make @MSFLAGS@-C bfadbg
+	cp bfadbg/bfadbg bin/bfadbg
+
 test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b

@@ -1,10 +1,11 @@
 
-CFLAGS=-Ofast -s
+CFLAGS=@DISTRO@
 
 .PHONY: clean
+
+bfadbg: bfadbg.o help.o tui.o status.o bp.c int.o buffer.o
+	$(CC) -o $@ $^ -lncurses
 
 clean:
 	rm -f bfadbg *.o
 
-bfadbg: bfadbg.o help.o tui.o status.o bp.c int.o buffer.o
-	$(CC) -o $@ $^ -lncurses

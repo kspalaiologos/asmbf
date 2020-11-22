@@ -157,10 +157,6 @@ AC_ARG_ENABLE([rle-postfix],
         AC_DEFINE([RLE_POSTFIX], [], [Enable postfix RLE for bfasm.])
 ])
 
-PROG_SWITCH([bfvm32], [
-    Makes the bfvm output code 32-bit.
-], [BFVM_32])
-
 AC_ARG_ENABLE([bfvm-heap],
     AS_HELP_STRING([--enable-bfvm-heap=size], [Sets the bfvm heap size.]), [
         AC_DEFINE([BFVM_HEAP], [$enableval], [Sets the bfvm heap size.])

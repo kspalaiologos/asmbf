@@ -690,7 +690,6 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
-with_line_width
 enable_version
 with_target
 enable_silient_errors
@@ -701,7 +700,6 @@ enable_o0
 with_jobs
 enable_rle_prefix
 enable_rle_postfix
-enable_bfvm32
 enable_bfvm_heap
 enable_bfvm_freestanding
 '
@@ -1346,7 +1344,6 @@ Optional Features:
   --enable-o0             Disable size optimizations in bfasm.
   --enable-rle-prefix     Enable prefixed RLE for bfasm.
   --enable-rle-postfix    Enable postfix RLE for bfasm.
-  --enable-bfvm32         Makes the bfvm output code 32-bit.
   --enable-bfvm-heap=size Sets the bfvm heap size.
   --enable-bfvm-freestanding
                           Builds bfvm in freestanding mode (tape located at
@@ -1355,7 +1352,6 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-line-width=size  Sets the wrapping point for bfstrip.
   --with-target=[auto/release/debug/coverage]
                           Build target (default: auto)
   --with-jobs=N           Set the amount of make jobs. Must be greater than
@@ -4232,19 +4228,6 @@ $as_echo "$as_me: not updating unwritable cache $cache_file" >&6;}
 fi
 rm -f confcache
 
-
-# Check whether --with-line-width was given.
-if test "${with_line_width+set}" = set; then :
-  withval=$with_line_width;
-
-cat >>confdefs.h <<_ACEOF
-#define BFSTRIP_LINE_WIDTH $withval
-_ACEOF
-
-
-fi
-
-
 # Check whether --enable-version was given.
 if test "${enable_version+set}" = set; then :
   enableval=$enable_version;
@@ -4779,18 +4762,6 @@ $as_echo "#define RLE_POSTFIX /**/" >>confdefs.h
 
 
 fi
-
-
-
-    # Check whether --enable-bfvm32 was given.
-if test "${enable_bfvm32+set}" = set; then :
-  enableval=$enable_bfvm32;
-
-$as_echo "#define BFVM_32 /**/" >>confdefs.h
-
-
-fi
-
 
 
 # Check whether --enable-bfvm-heap was given.

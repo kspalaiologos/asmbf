@@ -12,9 +12,6 @@
 /* Makes bfasm emit bfvm code. */
 #undef BFVM
 
-/* Makes the bfvm output code 32-bit. */
-#undef BFVM_32
-
 /* Sets the bfvm heap size. */
 #undef BFVM_HEAP
 

@@ -64,7 +64,7 @@ void outbf();
 void outrep();
 
 static unsigned int bits = 16;
-static unsigned char disable_opt = 0;
+static unsigned char disable_opt = 0, shutup = 0;
 static unsigned int m[10000], off, freecell, rseg;
 static char s[] =
         #include "microcode/bfasm-instructions.c"
@@ -92,6 +92,8 @@ int main(int argc, char * argv[]) {
     for(int arg = 1; arg < argc; arg++) {
         if(!strcmp("-O0", argv[arg])) {
             disable_opt = 1;
+        } else if(!strcmp("-w", argv[arg])) {
+            shutup = 1;
         }
     }
 
@@ -130,9 +132,7 @@ Lad:;
     if (m[1] != 3) goto Lay;
     
     if (m[0] != '\"') {
-#ifndef BFASM_NO_ERROR_CODES
-        fprintf(stderr, "\n** ERROR: Closing quote expected.\n");
-#endif
+        if(!shutup) fprintf(stderr, "\n** ERROR: Closing quote expected.\n");
         goto Laz;
     }
     
@@ -165,11 +165,7 @@ Lag:;
     m[4]++;
     m[4]++;
     m[4]++;
-#ifndef BFASM_NO_ERROR_CODES
-    if (m[4] == C2) { fprintf(stderr, "\n** ERROR: No such instruction: %c%c%c\n", m[0], m[2], m[3]); goto Laz; } /* not found, quit */
-#else
-    if (m[4] == C2) goto Laz; /* not found, quit */
-#endif
+    if (m[4] == C2) { if(!shutup) fprintf(stderr, "\n** ERROR: No such instruction: %c%c%c\n", m[0], m[2], m[3]); goto Laz; } /* not found, quit */
     goto Laf;
 Lah:;
     m[1] = 2;
@@ -186,11 +182,7 @@ Lax:;
     if(m[0] == 'f' || m[0] == 'F') {
         m[0] = inchar();
         m[0] = m[0] - '1';
-#ifndef BFASM_NO_ERROR_CODES
-        if (m[0] > 2) { fprintf(stderr, "\n** ERROR: Register unavailable: f%d\n", m[0] + 1); goto Laz; }
-#else
-        if (m[0] > 2) goto Laz;
-#endif
+        if (m[0] > 2) { if(!shutup) fprintf(stderr, "\n** ERROR: Register unavailable: f%d\n", m[0] + 1); goto Laz; }
         m[4] = m[0] == 0 ? 'q' : (m[0] == 1 ? 'v' : 't');
         goto Laa;
     }
@@ -198,11 +190,7 @@ Lax:;
     if (m[0] != 'r' && m[0] != 'R') goto Lak; /* r_ operand */
     m[0] = inchar();
     m[0] = m[0] - '1';
-#ifndef BFASM_NO_ERROR_CODES
-    if (m[0] > 5) { fprintf(stderr, "\n** ERROR: Register unavailable: r%d\n", m[0] + 1); goto Laz; }
-#else
-    if (m[0] > 5) goto Laz;
-#endif
+    if (m[0] > 5) { if(!shutup) fprintf(stderr, "\n** ERROR: Register unavailable: r%d\n", m[0] + 1); goto Laz; }
     m[4] = m[0] >= 4 ? (m[0] - 4 + 'r') : (m[0] + 'f');
     goto Laa;
 Lak:;
@@ -216,11 +204,7 @@ Lan:;
     goto Laa;
 Lal:; /* number */
     m[0] = m[0] - '0';
-#ifndef BFASM_NO_ERROR_CODES
-    if (m[0] > 9) { fprintf(stderr, "\n** ERROR: Expected digit, got `%c'\n", m[0] + '0'); goto Laz; }
-#else
-    if (m[0] > 9) goto Laz;
-#endif
+    if (m[0] > 9) { if(!shutup) fprintf(stderr, "\n** ERROR: Expected digit, got `%c'\n", m[0] + '0'); goto Laz; }
     m[3] = m[3] * 10;
     m[3] = m[3] + m[0];
     goto Laa;
@@ -267,11 +251,8 @@ Lai:;
             }
             
             if(m[3] == 0) {
-#ifndef BFASM_NO_ERROR_CODES
-                fprintf(stderr, "\n** WARNING: Everytime you use `lbl 0', a neko girl dies. "
-                                "You shouldn't be using `lbl' anyway, asm2bf is bundled with "
-                                "a label preprocessor for a reason\n");
-#endif
+                if(!shutup)
+                    fprintf(stderr, "\n** WARNING: 0 isn't a valid label identifier.\n");
             }
 #ifndef BFVM
             m[11] = 1;
@@ -342,9 +323,8 @@ Lai:;
                     case '0': m[3] = '\0'; break;
                     case '\\': m[3] = '\\'; break;
                     default:
-#ifndef BFASM_NO_ERROR_CODES
-                        fprintf(stderr, "\n** ERROR: No such escape sequence: \\%c\n", m[3]);
-#endif
+                        if(!shutup)
+                            fprintf(stderr, "\n** ERROR: No such escape sequence: \\%c\n", m[3]);
                         goto Laz;
                 }
             }
@@ -372,7 +352,8 @@ Lai:;
             #ifdef BFVM
                 rseg = !rseg;
             #else
-                fprintf(stderr, " *** WARNING: Brainfuck target; `rse' ignored.\n");
+                if(!shutup)
+                    fprintf(stderr, " *** WARNING: Brainfuck target; `rse' ignored.\n");
             #endif
             goto Lap;
     }
@@ -422,7 +403,8 @@ Lab:;
 
 void outrep() {
     if(m[3] > (2 << (bits - 1))) {
-        fprintf(stderr, "*** WARNING: Exceeding bitwidth: %u can't be stored.\n", m[3]);
+        if(!shutup)
+            fprintf(stderr, "*** WARNING: Exceeding bitwidth: %u can't be stored.\n", m[3]);
     }
     
     #ifndef RLE

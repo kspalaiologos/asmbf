@@ -112,10 +112,6 @@ PROG_SWITCH([silient-errors], [
     Shut up all the error and warning messages from bfasm.
 ], [BFASM_NO_ERROR_CODES])
 
-PROG_SWITCH([library], [
-    Export bfasm instead of main from bfasm.c
-], [BFASM_NO_EXPORT_MAIN])
-
 PROG_SWITCH([nocheck-bfi], [
     Skip all checks in bfi (making it a tiny bit faster).
 ], [BFI_NOCHECKS])
@@ -123,10 +119,6 @@ PROG_SWITCH([nocheck-bfi], [
 PROG_SWITCH([bfvm], [
     Makes bfasm emit bfvm code.
 ], [BFVM])
-
-PROG_SWITCH([o0], [
-    Disable size optimizations in bfasm.
-], [DISABLE_OPT])
 
 AC_ARG_WITH([jobs],
             AS_HELP_STRING([--with-jobs=N],

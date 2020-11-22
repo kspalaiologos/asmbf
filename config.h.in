@@ -12,14 +12,8 @@
 /* Makes bfasm emit bfvm code. */
 #undef BFVM
 
-/* Sets the bfvm heap size. */
-#undef BFVM_HEAP
-
 /* Disable size optimizations in bfasm. */
 #undef DISABLE_OPT
-
-/* Builds bfvm in freestanding mode (tape located at 0x7000). */
-#undef FREESTANDING
 
 /* Define to 1 if you have the `alarm' function. */
 #undef HAVE_ALARM

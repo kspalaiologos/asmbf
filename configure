@@ -700,8 +700,6 @@ enable_o0
 with_jobs
 enable_rle_prefix
 enable_rle_postfix
-enable_bfvm_heap
-enable_bfvm_freestanding
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1344,10 +1342,6 @@ Optional Features:
   --enable-o0             Disable size optimizations in bfasm.
   --enable-rle-prefix     Enable prefixed RLE for bfasm.
   --enable-rle-postfix    Enable postfix RLE for bfasm.
-  --enable-bfvm-heap=size Sets the bfvm heap size.
-  --enable-bfvm-freestanding
-                          Builds bfvm in freestanding mode (tape located at
-                          0x7000).
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -4762,28 +4756,6 @@ $as_echo "#define RLE_POSTFIX /**/" >>confdefs.h
 
 
 fi
-
-
-# Check whether --enable-bfvm-heap was given.
-if test "${enable_bfvm_heap+set}" = set; then :
-  enableval=$enable_bfvm_heap;
-
-$as_echo "#define BFVM_HEAP \$enableval" >>confdefs.h
-
-
-fi
-
-
-
-    # Check whether --enable-bfvm-freestanding was given.
-if test "${enable_bfvm_freestanding+set}" = set; then :
-  enableval=$enable_bfvm_freestanding;
-
-$as_echo "#define FREESTANDING /**/" >>confdefs.h
-
-
-fi
-
 
 
 # Checks for library functions.

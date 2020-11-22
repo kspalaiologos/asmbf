@@ -21,7 +21,10 @@ sub help {
     print "     version of asm2bf, e.g: `setenv OPTIONS \"-DBFVM\"'\n";
     print " -m: print mappings\n";
     print " -w: set line width; for example `-w 80'.\n";
-    print " -x: force 32-bit bfvm output."
+    print "bfvm flags (no effect if bfvm isn't enabled):\n";
+    print " -x: force 32-bit bfvm output.\n";
+    print " -f: build freestanding bfvm code.\n";
+    print " -a: set bfvm heap size in cells.\n";
     print "\n";
     print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
     exit
@@ -51,6 +54,8 @@ sub build {
     my $mflag = '';
     my $wf = '';
     my $b32 = '';
+    my $freestanding = '';
+    my $heapsiz = '';
     
     my $single_test = `echo "" | $home/.asmbf/bfasm`;
 
@@ -71,9 +76,11 @@ sub build {
     $compiler = 'cat' if defined $options{p};
     $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
     $mflag = ' -m ' if defined $options{m};
-    $b32 = ' -32 ' if defined $options{x};
+    $b32 = ' -32 ' if defined $options{x} and defined $options{c};
+    $freestanding = ' -freestanding ' if defined $options{f} and defined $options{c};
+    $heapsiz = (' -heap ' . $options{a} . ' ') if defined $options{a} and defined $options{c};
     
-    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler 2>> error$$.log | $stripper $wf | $bfvm > $output\"`;
+    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";
@@ -89,7 +96,7 @@ sub build {
     exit 0;
 }
 
-getopts("hsxpcbmlo:w:", \%options);
+getopts("hsxpcbmlo:w:a:", \%options);
 
 help() if defined $options{h};
 

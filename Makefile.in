@@ -43,9 +43,10 @@ bfpp:
 test: test/*.asm
 	@chmod a+x test/test.pl $^
 	~/.asmbf/bfmake test/hello_fancy.asm
-	~/.asmbf/bfi -d test/hello_fancy.b
-	~/.asmbf/bfi -x test/hello_fancy.b
-	~/.asmbf/bfi -c test/hello_fancy.b
+	~/.asmbf/bfi -d test/hello_fancy.b > /dev/null
+	~/.asmbf/bfi -x test/hello_fancy.b > /dev/null
+	~/.asmbf/bfi -c test/hello_fancy.b > /dev/null
+	echo ""
 	@test/test.pl $^
 
 sync-test: test/*.asm

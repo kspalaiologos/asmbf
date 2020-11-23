@@ -93,9 +93,9 @@ sub build {
     $tiny = ' -t ' if defined $options{t};
 
     $xf = '-s' if defined $options{x};
-    $vf = '-a' if defined $options{y};
+    $vf = '-a' if defined $options{v};
 
-    $bconv = "\"$home/.asmbf/bconv\"" if defined $options{x} or defined $options{y};
+    $bconv = "\"$home/.asmbf/bconv\"" if defined $options{x} or defined $options{v};
     
     `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf $vf > $output\"`;
     

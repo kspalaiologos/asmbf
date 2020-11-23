@@ -30,9 +30,9 @@ int main(int argc, char * argv[]) {
     int style = STYLE_POSTFIX, c, n = 0, z;
     
     if(argc == 2) {
-        if(!strcmp("postfix", argv[1]))
+        if(!strcmp("-postfix", argv[1]))
             style = STYLE_POSTFIX;
-        else if(!strcmp("prefix", argv[1]))
+        else if(!strcmp("-prefix", argv[1]))
             style = STYLE_PREFIX;
     }
     

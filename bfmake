@@ -109,7 +109,7 @@ sub build {
     exit 0;
 }
 
-getopts("hsxefpcxvzbmlo:w:a:", \%options);
+getopts("hsxeftpcxvzbmlo:w:a:", \%options);
 
 help() if defined $options{h};
 

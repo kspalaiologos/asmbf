@@ -27,8 +27,7 @@ sub help {
     print " -f: compress code; postfix style. Incompatible with -p.\n";
     print " -t: output tiny code for programs not utilizing the label system.\n";
     print "     excellent if you aim at small and fast snippets. Exclusive with -p.\n";
-    print " -x: use the bitwidth doubler (bconv) with default snippets.\n";
-    print " -v: use the bitwidth doubler (bconv) with alternative snippets.\n";
+    print " -x: use the bitwidth extender (bconv).\n";
     print "bfvm flags (no effect if bfvm isn't enabled):\n";
     print " -x: force 32-bit bfvm output.\n";
     print " -f: build freestanding bfvm code.\n";
@@ -36,7 +35,6 @@ sub help {
     print "\n";
     print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
     print "-e and -f are mutually exclusive.\n";
-    print "-x and -v are mutually exclusive.\n";
     exit
 }
 
@@ -74,7 +72,6 @@ sub build {
     my $tiny = '';
 
     my $xf = '';
-    my $vf = '';
 
     $output = $options{o} if defined $options{o};
     $wf = $options{w} if defined $options{w};
@@ -93,11 +90,10 @@ sub build {
     $tiny = ' -t ' if defined $options{t};
 
     $xf = '-s' if defined $options{x};
-    $vf = '-a' if defined $options{v};
 
     $bconv = "\"$home/.asmbf/bconv\"" if defined $options{x} or defined $options{v};
     
-    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf $vf > $output\"`;
+    `bash -c \"{ $lib ; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";

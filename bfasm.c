@@ -250,18 +250,42 @@ Lai:;
             }
             goto Lao;
         case 9: /* jmp */
+            if(tiny) {
+                if(!shutup)
+                    fprintf(stderr, "\n** ERROR: jmp not allowed in tiny mode.\n");
+                exit(1);
+            }
+
             m[11] = 1;
             m[12] = 1;
             goto Lao;
         case 10: case 46: /* jnz */
+            if(tiny) {
+                if(!shutup)
+                    fprintf(stderr, "\n** ERROR: jnz not allowed in tiny mode.\n");
+                exit(1);
+            }
+
             m[11] = 1;
             m[12] = 1;
             goto Lao;
         case 11: case 47: /* jz_ */
+            if(tiny) {
+                if(!shutup)
+                    fprintf(stderr, "\n** ERROR: jz not allowed in tiny mode.\n");
+                exit(1);
+            }
+
             m[11] = 1;
             m[12] = 1;
             goto Lao;
         case 12: /* lbl */
+            if(tiny) {
+                if(!shutup)
+                    fprintf(stderr, "\n** ERROR: lbl not allowed in tiny mode.\n");
+                exit(1);
+            }
+
             if (m[11] == 0) {
                 m[6] = 3;
                 outbf(); /* post */
@@ -316,10 +340,22 @@ Lai:;
             }
             goto Lao;
         case 30: /* ret */
+            if(tiny) {
+                if(!shutup)
+                    fprintf(stderr, "\n** ERROR: ret not allowed in tiny mode.\n");
+                exit(1);
+            }
+
             m[11] = 1;
             m[12] = 1;
             goto Lao;
         case 31: /* end */
+            if(tiny) {
+                if(!shutup)
+                    fprintf(stderr, "\n** ERROR: end not allowed in tiny mode.\n");
+                exit(1);
+            }
+
             m[11] = 1;
             m[12] = 1;
             goto Lao;
@@ -414,7 +450,7 @@ Lab:;
     m[6] = 1;
     outbf(); /* last */
     
-    if(skipped_inits != 6 && tiny) {
+    if(skipped_inits != 4 && tiny) {
         fprintf(stderr, "*** ERROR: Skipped %d prologues; expected 4. Can't build tiny code.\n", skipped_inits);
         return 1;
     }

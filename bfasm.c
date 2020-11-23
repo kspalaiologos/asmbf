@@ -63,10 +63,10 @@ unsigned int inchar();
 void outbf();
 void outrep();
 
-static unsigned int bits = 16;
+static unsigned long bits = 16;
 static unsigned int skipped_inits = 0;
 static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0;
-static unsigned int m[10000], off, freecell, rseg;
+static unsigned long m[10000], off, freecell, rseg;
 static char s[] =
     #include "microcode/bfasm-instructions.c"
     ;
@@ -423,9 +423,9 @@ Lab:;
 }
 
 void outrep() {
-    if(m[3] > (2 << (bits - 1))) {
+    if(m[3] > (2 << (bits - 1)) - 1) {
         if(!shutup)
-            fprintf(stderr, "*** WARNING: Exceeding bitwidth: %u can't be stored.\n", m[3]);
+            fprintf(stderr, "*** WARNING: Exceeding bitwidth: %lu can't be stored with %lu bits, max is %lu.\n", m[3], bits, (2 << (bits - 1)) - 1);
     }
     
     if(rle_prefix || rle_postfix) {

@@ -42,10 +42,10 @@ bfpp:
 
 test: test/*.asm
 	@chmod a+x test/test.pl $^
-    ~/.asmbf/bfmake test/hello_fancy.asm
-    ~/.asmbf/bfi -d test/hello_fancy.b
-    ~/.asmbf/bfi -x test/hello_fancy.b
-    ~/.asmbf/bfi -c test/hello_fancy.b
+	~/.asmbf/bfmake test/hello_fancy.asm
+	~/.asmbf/bfi -d test/hello_fancy.b
+	~/.asmbf/bfi -x test/hello_fancy.b
+	~/.asmbf/bfi -c test/hello_fancy.b
 	@test/test.pl $^
 
 sync-test: test/*.asm
@@ -87,3 +87,4 @@ bfadbg:
 test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
+	rm -f test/*.bin

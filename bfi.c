@@ -46,30 +46,6 @@ void match(int dir) {
     } while (level > 0);
 }
 
-static int usage() {
-    fputs("Usage: bfi [OPTIONS] FILE", stderr);
-    return EXIT_FAILURE;
-}
-
-static int help() {
-    usage();
-    fputs("Brainfuck interpreter.\n"
-         "\nOPTIONS:\n"
-         "  -v, --version       Display interpreter version.\n"
-         "  -h, --help          Display this information.\n"
-         "  -x                  Enable dumping memory with '*'.\n"
-         "\nBugs should be reported here:"
-         "\nhttps://github.com/kspalaiologos/asmbf/issues", stderr);
-    return EXIT_SUCCESS;
-}
-
-static int version() {
-    fputs("bfi 1.0.0\n"
-         "Copyright (C) Palaiologos & maviek, 2019.\n"
-         "https://github.com/kspalaiologos/asmbf", stderr);
-    return EXIT_SUCCESS;
-}
-
 int main(int argc, char * argv[]) {
     FILE * infile = NULL;
     long mp = 0, maxmp = 1023;
@@ -78,45 +54,28 @@ int main(int argc, char * argv[]) {
     unsigned short int * mem;
 
     if (argc < 2) {
-        return usage();
+        fprintf(stderr, "Error: no input.\n");
+        return EXIT_FAILURE;
     }
 
     for (n = 1; n < argc; n++) {
         if (argv[n][0] == '-') {
-            if (argv[n][1] == '-') {
-                char *arg = argv[n] + 2;
-                if (strcmp(arg, "version") == 0) {
-                    return version();
-                } else if (strcmp(arg, "help") == 0) {
-                    return help();
-                } else {
-                    fprintf(stderr, "Error: unrecognized command line option '--%s'\n", arg);
+            switch (argv[n][1]) {
+                case 'x':
+                    xflag = true;
+                    break;
+                
+                case 'd':
+                    dflag = true;
+                    break;
+
+                case 'c':
+                    cycles = true;
+                    break;
+                
+                default:
+                    fprintf(stderr, "Error: unrecognized command line option '-%c'\n", argv[n][1]);
                     return EXIT_FAILURE;
-                }
-            } else {
-                switch (argv[n][1]) {
-                    case 'h':
-                        return help();
-
-                    case 'v':
-                        return version();
-
-                    case 'x':
-                        xflag = true;
-                        break;
-                    
-                    case 'd':
-                        dflag = true;
-                        break;
-
-                    case 'c':
-                        cycles = true;
-                        break;
-                    
-                    default:
-                        fprintf(stderr, "Error: unrecognized command line option '-%c'\n", argv[n][1]);
-                        return EXIT_FAILURE;
-                }
             }
         } else {
             if (infile == NULL) {
@@ -127,8 +86,8 @@ int main(int argc, char * argv[]) {
                     return EXIT_FAILURE;
                 }
             } else {
-                fclose(infile);
-                return usage();
+                fprintf(stderr, "Error: multiple input files.\n");
+                return EXIT_FAILURE;
             }
         }
     }

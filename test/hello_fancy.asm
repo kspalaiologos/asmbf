@@ -12,6 +12,8 @@ db 0
 mov r1, *string
 #call("puts")
 
+raw .*
+
 end
 
 @puts

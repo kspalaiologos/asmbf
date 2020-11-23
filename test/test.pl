@@ -49,10 +49,18 @@ foreach my $file(@ARGV) {
 
         $file  =~ s{\.[^.]+$}{};
 
-        my $code = system("timeout 20s $ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout");
+        if($file =~ /bfvm/) {
+            my $code = system("cc -O2 $file.c -o $file.bin && timeout 20s ./$file.bin < $file.in > $file.aout");
 
-        if($code != 0) {
-            die " *** TEST FAILED: $file.asm, interpreter crashed.";
+            if($code != 0) {
+                die " *** TEST FAILED: $file.asm, interpreter crashed.";
+            }
+        } else {
+            my $code = system("timeout 20s $ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout");
+
+            if($code != 0) {
+                die " *** TEST FAILED: $file.asm, interpreter crashed.";
+            }
         }
 
         $diff = `diff $file.aout $file.out`;

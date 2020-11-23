@@ -116,7 +116,7 @@ int main(int argc, char * argv[]) {
     if(vm) for (n = 0; n < sizeof(uvm); n++) m[n + 20 + sizeof(s)] = uvm[n];
     else   for (n = 0; n < sizeof(ubf); n++) m[n + 20 + sizeof(s)] = ubf[n];
     m[6] = 0;
-    m[8] = 0;
+    m[8] = tiny * 2;
     m[9] = STACK;
     m[10] = m[9] + 2;
     outbf();
@@ -450,8 +450,8 @@ Lab:;
     m[6] = 1;
     outbf(); /* last */
     
-    if(skipped_inits != 4 && tiny) {
-        fprintf(stderr, "*** ERROR: Skipped %d prologues; expected 4. Can't build tiny code.\n", skipped_inits);
+    if(skipped_inits > 6 && tiny) {
+        fprintf(stderr, "*** ERROR: Skipped %d prologues; more than 6. Can't build tiny code.\n", skipped_inits);
         return 1;
     }
 

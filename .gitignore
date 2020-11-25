@@ -8,11 +8,11 @@ bfpp/bfpp
 *.pyc
 preprocessor/vxcall.c
 os
-hla/hla
-hla/lex.yy.c
-hla/parser.tab.c
-hla/parser.tab.h
-hla/parser.output
+rcc/rcc
+rcc/lex.yy.c
+rcc/parser.tab.c
+rcc/parser.tab.h
+rcc/parser.output
 autom4te.cache/
 Makefile
 config.status

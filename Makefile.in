@@ -21,14 +21,14 @@ install:
 
 dist: clean distclean test-clean
 	mkdir "asm2bf-@VERSION@"
-	cp -rf b2bf bfpp etc examples bfadbg hla hacking lib-bfm microcode preprocessor redpower test "asm2bf-@VERSION@/"
+	cp -rf b2bf bfpp etc examples bfadbg rcc hacking lib-bfm microcode preprocessor redpower test "asm2bf-@VERSION@/"
 	-cp -f * "asm2bf-@VERSION@/"
 	cd "asm2bf-@VERSION@" && rm -f Makefile .travis.yml .editorconfig .gitattributes && cd ..
 	tar -cf "asm2bf-@VERSION@.tar" "asm2bf-@VERSION@/"
 	rm -rf "asm2bf-@VERSION@"
 
 distclean:
-	rm -f config.log config.status redpower/Makefile hla/Makefile preprocessor/Makefile etc/bfasm.b
+	rm -f config.log config.status redpower/Makefile rcc/Makefile preprocessor/Makefile etc/bfasm.b
 	rm -rf autom4te.cache
 
 preprocessor:

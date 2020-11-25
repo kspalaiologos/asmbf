@@ -141,7 +141,7 @@ AC_CACHE_SAVE
 
 AC_CONFIG_FILES([Makefile
                  bfpp/Makefile
-                 hla/Makefile
+                 rcc/Makefile
                  redpower/Makefile
                  bfadbg/Makefile
                  preprocessor/Makefile])

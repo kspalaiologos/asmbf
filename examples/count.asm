@@ -1,4 +1,9 @@
-; Build me by executing!
+
+; A hexadecimal counter, written in pure bfasm.
+; You can build it without preprocessing.
+
+; Note: That's not a perfect example of how asm2bf looks nowadays.
+; If you want to help making it better, please send a pull request.
 
 org 0
 stk 0

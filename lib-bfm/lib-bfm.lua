@@ -300,44 +300,137 @@ function signed(x)
 end
 
 function gen_text(str)
-    -- move to r4
-    print("nav r4")
-    -- move to r1, the compiler still thinks we are in r4
-    emit("<<<")
+    local function grade(n, base)
+        local sp = 0
+        local norm = 0
+      
+        while n > 0 do
+            sp = sp + 1
+            norm = norm + n % base
+            n = math.floor(n / base)
+        end
+      
+        return norm + (6 + base) * sp + (((sp % 2 == 1) and 4) or 0)
+    end
+      
+    local function best_base(n)
+        local v = 0
+        local b = 0
+      
+        for i = 2, 60, 1 do
+            local cv = grade(n, i)
+    
+            if v == 0 or v > cv then
+                v = cv
+                b = i
+            end
+        end
+      
+        return b
+    end
+    
+    local function translate(n)
+        local stack = {}
+        local sp = 0
+        local flip = 1
+        local out = '>'
+    
+        if n < 12 then
+            out = ''
+            
+            for i = 1, n, 1 do
+                out = out .. '+'
+            end
+    
+            return out
+        end
+
+        local base = best_base(n)
+    
+        while n > 0 do
+            stack[sp] = n % base
+            sp = sp + 1
+            n = math.floor(n / base)
+        end
+    
+        while sp > 0 do
+            sp = sp - 1
+            local bc = base
+            
+            while stack[sp] > 0 do
+                out = out .. '+'
+                stack[sp] = stack[sp] - 1
+            end
+    
+            if sp > 0 then
+                if not flip then
+                    out = out .. '[>'
+                    while bc > 0 do
+                        out = out .. '+'
+                        bc = bc -1
+                    end
+                    out = out .. '<-]>'
+                else
+                    out = out .. '[<'
+                    while bc > 0 do
+                        out = out .. '+'
+                        bc = bc -1
+                    end
+                    out = out .. '>-]<'
+                end
+            end
+    
+            flip = not flip
+        end
+    
+        if not flip then
+            out = out .. "[-<+>]<"
+        end
+    
+        return out
+    end
+
+    -- move to r1
+    print("nav r1")
     -- move to `c'
     emit("<<<")
     
-    -- The compiler now thinks we're in r4, so if we
-    -- mov something to r4, it ends up in `c'.
+    -- The compiler now thinks we're in r1, so if we
+    -- mov something to r1, it ends up in `c'.
 
-    local last = 0;
+    local last = 0
 
     str:gsub(".", function(c)
         local h = string.byte(c)
 
         if h == last then
-            print("out r4")
+            emit(".")
         else
             if h > last and h - last < 10 then
-                print("add r4, " .. h - last)
-                print("out r4")
-                last = h
+                for i = 1, h - last, 1 do
+                    emit('+')
+                end
             elseif last > h and last - h < 10 then
-                print("sub r4, " .. last - h)
-                print("out r4")
-                last = h
+                for i = 1, last - h, 1 do
+                    emit('-')
+                end
             else
-                print("mov r4, " .. h)
-                print("out r4")
-                last = h
+                if last ~= 0 then
+                    emit("[-]")
+                end
+
+                emit(translate(h))
             end
+
+            emit(".")
+            last = h
         end
     end)
 
-    print("clr r4")
+    emit("[-]")
 
-    -- move back to r4.
-    emit(">>>>>>")
+    -- move back to r1.
+    emit(">>>")
 end
 
 include(os.getenv("HOME") .. '/.asmbf/lib/lib-def.lua')

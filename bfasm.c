@@ -324,6 +324,9 @@ Lai:;
                 m[6] = 5;
                 m[4] = m[5];
                 outbf();
+                // if moving to r4...
+                if(m[5] == 'i')
+                    freecell = 1;
                 m[6] = '+';
                 outrep();
                 goto Lap;

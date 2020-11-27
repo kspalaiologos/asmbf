@@ -1,4 +1,3 @@
-#!/bin/asmbf/bfmake
 
 ; An interpreter bitness check.
 
@@ -6,16 +5,14 @@ stk 3
 org 0
 seg 0
 
-psh %return
-jmp %bitness
-@return
+#call("bitness")
     out r1
     end
 
 ; label-less bitness test.
 ; r1 <= interpreter's bitness
 @bitness
-    psh r2
+    push r2
     clr r1
     mov r2, 1
     nav r2

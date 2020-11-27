@@ -35,34 +35,8 @@ void lexer_error(char c, int lineno);
 
 %%
 
-program            return KEYWORD_PROGRAM;
-module             return KEYWORD_MODULE;
-data               return KEYWORD_DATA;
-_                  return KEYWORD_DISCARD;
-fn                 return KEYWORD_FN;
-pub                return KEYWORD_PUBLIC;
-preserve           return KEYWORD_PRESERVE;
-end                return KEYWORD_END;
-ret                return KEYWORD_RET;
-fuse               return KEYWORD_FUSE;
-while              return KEYWORD_WHILE;
-do                 return KEYWORD_DO;
-with               return KEYWORD_WITH;
-out                return KEYWORD_OUT;
-in                 return KEYWORD_IN;
-for                return KEYWORD_FOR;
-stack              return KEYWORD_STACK;
-address            return KEYWORD_ADDRESS;
-ref                return KEYWORD_REF;
-deref              return KEYWORD_DEREF;
+void               return KEY_VOID;
 
-":"                return COLON;
-"/"                return SLASH;
-"$"                return DOLLAR;
-"@"                return AT;
-"#"                return HASH;
-"[["               return ATTRIBUTE_OPEN;
-"]]"               return ATTRIBUTE_CLOSE;
 "{"                return BLOCK_OPEN;
 "}"                return BLOCK_CLOSE;
 "("                return PAREN_OPEN;
@@ -90,8 +64,8 @@ deref              return KEYWORD_DEREF;
     return CONSTANT;
 }
 
-\.. {
-    asprintf(&(yylval->string), "%d", yytext[1]);
+\'.\' {
+    asprintf(&(yylval->string), "%d", yytext[2]);
     return CONSTANT;
 }
 

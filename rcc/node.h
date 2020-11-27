@@ -3,15 +3,7 @@
 #define NODE_H
 
 enum {
-    ProgramDeclaration, StackSize, ProgramOrigin, Address,
-    Segment, Offset, ModuleDeclaration, DataDeclaration, DataName,
-    ExternalDataDeclaration,
-
-    InternalFunctionDeclaration, FunctionArityNode, ImperativeReturn,
-    ImperativeAssign, RegisterReference, ConstantWrapper, ImperativeAssignAdd,
-    MinusExpression, PlusExpression, RegisterList, Preserve, ImperativeExit,
-    ExternalFunctionDeclaration, Call, Function, ImperativeOut, ImperativeIn,
-    RefNode, ImperativeDeref, While
+    DecorBitwidth
 };
 
 struct node {

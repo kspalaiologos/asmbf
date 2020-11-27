@@ -71,7 +71,7 @@ clean:
 	-cd bfadbg && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
-	./bfasm < etc/bfasm.asm | ./bfstrip > $@
+	./bfasm < etc/bfasm.asm | ./bfstrip 79 > $@
 
 bin: $(TARGETS)
 	mkdir -p bin

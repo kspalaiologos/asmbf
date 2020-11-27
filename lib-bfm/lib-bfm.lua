@@ -284,7 +284,7 @@ function free(target_register)
     print("dec " .. target_register)
     print("sto " .. target_register .. ", 0")
 end
-    
+
 function times(str, n)
     for i=1,n,1 do print(str) end
 end
@@ -297,6 +297,47 @@ function signed(x)
     else
         return x * 2
     end
+end
+
+function gen_text(str)
+    -- move to r4
+    print("nav r4")
+    -- move to r1, the compiler still thinks we are in r4
+    emit("<<<")
+    -- move to `c'
+    emit("<<<")
+    
+    -- The compiler now thinks we're in r4, so if we
+    -- mov something to r4, it ends up in `c'.
+
+    local last = 0;
+
+    str:gsub(".", function(c)
+        local h = string.byte(c)
+
+        if h == last then
+            print("out r4")
+        else
+            if h > last and h - last < 10 then
+                print("add r4, " .. h - last)
+                print("out r4")
+                last = h
+            elseif last > h and last - h < 10 then
+                print("sub r4, " .. last - h)
+                print("out r4")
+                last = h
+            else
+                print("mov r4, " .. h)
+                print("out r4")
+                last = h
+            end
+        end
+    end)
+
+    print("clr r4")
+
+    -- move back to r4.
+    emit(">>>>>>")
 end
 
 include(os.getenv("HOME") .. '/.asmbf/lib/lib-def.lua')

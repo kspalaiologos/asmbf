@@ -32,3 +32,9 @@ preprocessor/vxcall
 attic/*.txt
 bfadbg/bfadbg
 bfadbg/*.o
+
+bfmake
+
+lib-bfm/lib-bfm.lua
+
+lib-bfm/lib-bfm-stub.lua

@@ -17,8 +17,8 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
-	install -C -D -v -m a+x bin/asmbf/* $(DESTDIR)@PREFIX@bin
-	install -C -D -v -m a+x bin/lib/* $(DESTDIR)@PREFIX@share/asm2bf
+	install -C -v -m a+x -D bin/asmbf/* -t $(DESTDIR)@PREFIX@bin
+	install -C -v -m a+x -D bin/lib/* -t $(DESTDIR)@PREFIX@share/asm2bf
 	echo "asm2bf has been installed to $(DESTDIR)@PREFIX@."
 
 dist: clean distclean test-clean

@@ -5,6 +5,10 @@
 
 # Kamila Szewczyk, Jul 2019 - Oct 2020
 
+ifdef DESTDIR
+DESTDIR+=/
+endif
+
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
@@ -13,9 +17,9 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
-	install -C -v -m a+x bin/asmbf/* @PREFIX@bin
-	install -C -v -m a+x bin/lib/* @PREFIX@share/asm2bf
-	echo "asm2bf has been installed to @PREFIX@."
+	install -C -v -m a+x bin/asmbf/* $(DESTDIR)@PREFIX@bin
+	install -C -v -m a+x bin/lib/* $(DESTDIR)@PREFIX@share/asm2bf
+	echo "asm2bf has been installed to $(DESTDIR)@PREFIX@."
 
 dist: clean distclean test-clean
 	mkdir "asm2bf-@VERSION@"
@@ -55,8 +59,8 @@ sync-test: test/*.asm
 	@test/test.pl --blocking $^
 
 uninstall:
-	cd "@PREFIXbin" && rm bconv bfasm bfdata bfderle bfi bfi-rle bflabels bfmake bfpp bfstrip bfvm constpp effective vxcall
-	cd "@PREFIXshare/asm2bf" && rm *.lua
+	cd "$(DESTDIR)@PREFIXbin" && rm bconv bfasm bfdata bfderle bfi bfi-rle bflabels bfmake bfpp bfstrip bfvm constpp effective vxcall
+	cd "$(DESTDIR)@PREFIXshare/asm2bf" && rm *.lua
 
 hacking: preprocessor
 	cp preprocessor/*.c hacking/

@@ -59,8 +59,8 @@ sync-test: test/*.asm
 	@test/test.pl --blocking $^
 
 uninstall:
-	cd "$(DESTDIR)@PREFIXbin" && rm bconv bfasm bfdata bfderle bfi bfi-rle bflabels bfmake bfpp bfstrip bfvm constpp effective vxcall
-	cd "$(DESTDIR)@PREFIXshare/asm2bf" && rm *.lua
+	cd "$(DESTDIR)@PREFIX@bin" && rm bconv bfasm bfdata bfderle bfi bfi-rle bflabels bfmake bfpp bfstrip bfvm constpp effective vxcall
+	cd "$(DESTDIR)@PREFIX@share/asm2bf" && rm *.lua
 
 hacking: preprocessor
 	cp preprocessor/*.c hacking/

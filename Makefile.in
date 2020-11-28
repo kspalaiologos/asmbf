@@ -13,10 +13,8 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
-	mkdir -p "@PREFIX@share/asm2bf"
-	chmod -R a+x bin/asmbf/*
-	-cp -f bin/asmbf/* "@PREFIX@bin"
-	-cp -f bin/asmbf/lib/* "@PREFIX@share/asm2bf"
+	install -C -v -m a+x bin/asmbf/* @PREFIX@bin
+	install -C -v -m a+x bin/lib/* @PREFIX@share/asm2bf
 	echo "asm2bf has been installed to @PREFIX@."
 
 dist: clean distclean test-clean
@@ -77,9 +75,9 @@ etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
 bin: $(TARGETS)
 	mkdir -p bin
 	mkdir -p bin/asmbf
-	mkdir -p bin/asmbf/lib
+	mkdir -p bin/lib
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
-	cp lib-bfm/*.lua bin/asmbf/lib/
+	cp lib-bfm/*.lua bin/lib/
 	rm -rf $(TARGETS)
 
 bfadbg:

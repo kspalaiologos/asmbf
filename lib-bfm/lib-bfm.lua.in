@@ -433,4 +433,4 @@ function gen_text(str)
     emit(">>>")
 end
 
-include(os.getenv("HOME") .. '/.asmbf/lib/lib-def.lua')
+include('@PREFIX@share/asm2bf/lib-def.lua')

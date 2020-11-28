@@ -39,7 +39,7 @@ foreach my $file(@ARGV) {
             $makeflags = $1;
         }
 
-        my $code = system("$ENV{'HOME'}/.asmbf/bfmake $makeflags $file > /dev/null");
+        my $code = system("bfmake $makeflags $file > /dev/null");
 
         if($file =~ /invalid/) {
             die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
@@ -56,7 +56,7 @@ foreach my $file(@ARGV) {
                 die " *** TEST FAILED: $file.asm, interpreter crashed.";
             }
         } else {
-            my $code = system("timeout 20s $ENV{'HOME'}/.asmbf/bfi $file.b < $file.in > $file.aout");
+            my $code = system("timeout 20s bfi $file.b < $file.in > $file.aout");
 
             if($code != 0) {
                 die " *** TEST FAILED: $file.asm, interpreter crashed.";

@@ -13,11 +13,11 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
-	rm -rf "${HOME}/.asmbf/"
-	mkdir -p "${HOME}/.asmbf/"
-	cp -rf bin/asmbf/* "${HOME}/.asmbf/"
-	chmod -R a+x "${HOME}/.asmbf/"
-	echo "asm2bf has been installed to ${HOME}/.asmbf/."
+	mkdir -p "@PREFIX@share/asm2bf"
+	chmod -R a+x bin/asmbf/*
+	-cp -f bin/asmbf/* "@PREFIX@bin"
+	-cp -f bin/asmbf/lib/* "@PREFIX@share/asm2bf"
+	echo "asm2bf has been installed to @PREFIX@."
 
 dist: clean distclean test-clean
 	mkdir "asm2bf-@VERSION@"
@@ -42,10 +42,10 @@ bfpp:
 
 test: test/*.asm
 	@chmod a+x test/test.pl $^
-	~/.asmbf/bfmake test/hello_fancy.asm
-	~/.asmbf/bfi -d test/hello_fancy.b > /dev/null
-	~/.asmbf/bfi -x test/hello_fancy.b > /dev/null
-	~/.asmbf/bfi -c test/hello_fancy.b > /dev/null
+	bfmake test/hello_fancy.asm
+	bfi -d test/hello_fancy.b > /dev/null
+	bfi -x test/hello_fancy.b > /dev/null
+	bfi -c test/hello_fancy.b > /dev/null
 	echo ""
 	@test/test.pl $^
 
@@ -57,7 +57,8 @@ sync-test: test/*.asm
 	@test/test.pl --blocking $^
 
 uninstall:
-	rm -rf "${HOME}/.asmbf/"
+	cd "@PREFIXbin" && rm bconv bfasm bfdata bfderle bfi bfi-rle bflabels bfmake bfpp bfstrip bfvm constpp effective vxcall
+	cd "@PREFIXshare/asm2bf" && rm *.lua
 
 hacking: preprocessor
 	cp preprocessor/*.c hacking/

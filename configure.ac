@@ -45,11 +45,9 @@ AC_PROG_YACC
 AC_PROG_CC
 AC_PROG_LEX
 AC_PROG_MAKE_SET
-AC_CACHE_SAVE
 
 # Checks for header files.
 AC_CHECK_HEADERS([inttypes.h limits.h stddef.h stdint.h stdlib.h string.h])
-AC_CACHE_SAVE
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -60,7 +58,6 @@ AC_TYPE_SIZE_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
-AC_CACHE_SAVE
 
 AC_ARG_ENABLE([version], AS_HELP_STRING([--enable-version], [Sets the dist version for asm2bf]), [
     AC_SUBST([VERSION], [$enableval])
@@ -137,12 +134,19 @@ AC_FUNC_MKTIME
 AC_FUNC_REALLOC
 AC_FUNC_STRCOLL
 AC_CHECK_FUNCS([asprintf floor memchr memset pow sqrt strchr strcspn strdup strerror strpbrk strrchr strstr strtoul])
-AC_CACHE_SAVE
+
+dnl Autoconf should have put it before, no clue how to force it to do so.
+
+test "x$prefix" = xNONE && prefix=$ac_default_prefix
+AC_SUBST([PREFIX], ["$prefix/"])
 
 AC_CONFIG_FILES([Makefile
                  bfpp/Makefile
                  hla/Makefile
                  redpower/Makefile
                  bfadbg/Makefile
-                 preprocessor/Makefile])
+                 preprocessor/Makefile
+                 bfmake
+                 lib-bfm/lib-bfm-stub.lua
+                 lib-bfm/lib-bfm.lua])
 AC_OUTPUT

@@ -121,6 +121,7 @@
 "cbe"
 "s06"
 "s07"
+"dp2"
 "bts"
 "rse"
 "stk"

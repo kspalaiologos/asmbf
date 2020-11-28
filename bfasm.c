@@ -34,7 +34,7 @@
 #include <string.h>
 #include "config.h"
 
-#define IC 131
+#define IC 132
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)

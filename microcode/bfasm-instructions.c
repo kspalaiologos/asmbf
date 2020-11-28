@@ -122,6 +122,7 @@
 "s06"
 "s07"
 "dp2"
+"axl"
 "bts"
 "rse"
 "stk"

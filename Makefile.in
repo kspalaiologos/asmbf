@@ -5,6 +5,10 @@
 
 # Kamila Szewczyk, Jul 2019 - Oct 2020
 
+ifdef DESTDIR
+DESTDIR+=/
+endif
+
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
@@ -13,11 +17,9 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 
 install:
-	rm -rf "${HOME}/.asmbf/"
-	mkdir -p "${HOME}/.asmbf/"
-	cp -rf bin/asmbf/* "${HOME}/.asmbf/"
-	chmod -R a+x "${HOME}/.asmbf/"
-	echo "asm2bf has been installed to ${HOME}/.asmbf/."
+	install -C -v -m a+x -D bin/asmbf/* -t $(DESTDIR)@PREFIX@bin
+	install -C -v -m a+x -D bin/lib/* -t $(DESTDIR)@PREFIX@share/asm2bf
+	echo "asm2bf has been installed to $(DESTDIR)@PREFIX@."
 
 dist: clean distclean test-clean
 	mkdir "asm2bf-@VERSION@"
@@ -42,10 +44,10 @@ bfpp:
 
 test: test/*.asm
 	@chmod a+x test/test.pl $^
-	~/.asmbf/bfmake test/hello_fancy.asm
-	~/.asmbf/bfi -d test/hello_fancy.b > /dev/null
-	~/.asmbf/bfi -x test/hello_fancy.b > /dev/null
-	~/.asmbf/bfi -c test/hello_fancy.b > /dev/null
+	bfmake test/hello_fancy.asm
+	bfi -d test/hello_fancy.b > /dev/null
+	bfi -x test/hello_fancy.b > /dev/null
+	bfi -c test/hello_fancy.b > /dev/null
 	echo ""
 	@test/test.pl $^
 
@@ -57,7 +59,8 @@ sync-test: test/*.asm
 	@test/test.pl --blocking $^
 
 uninstall:
-	rm -rf "${HOME}/.asmbf/"
+	cd "$(DESTDIR)@PREFIXbin" && rm bconv bfasm bfdata bfderle bfi bfi-rle bflabels bfmake bfpp bfstrip bfvm constpp effective vxcall
+	cd "$(DESTDIR)@PREFIXshare/asm2bf" && rm *.lua
 
 hacking: preprocessor
 	cp preprocessor/*.c hacking/
@@ -76,9 +79,9 @@ etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
 bin: $(TARGETS)
 	mkdir -p bin
 	mkdir -p bin/asmbf
-	mkdir -p bin/asmbf/lib
+	mkdir -p bin/lib
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
-	cp lib-bfm/*.lua bin/asmbf/lib/
+	cp lib-bfm/*.lua bin/lib/
 	rm -rf $(TARGETS)
 
 bfadbg:

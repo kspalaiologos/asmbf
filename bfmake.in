@@ -47,16 +47,15 @@ sub switch_ext {
 
 sub build {
     my $name = shift @_;
-    my $home = $ENV{"HOME"};
     
     die "No such file: $name" if (! -e $name);
     
     my $target_ext = '.b';
     $target_ext = '.c' if defined $options{c};
     
-    my $lib = "cat \"$home/.asmbf/lib/lib-bfm-stub.lua\"";
-    my $stripper = "\"$home/.asmbf/bfstrip\"";
-    my $compiler = "\"$home/.asmbf/bfasm\"";
+    my $lib = "cat \"@PREFIX@share/asm2bf/lib-bfm-stub.lua\"";
+    my $stripper = "bfstrip";
+    my $compiler = "bfasm";
     my $bconv = "cat";
     my $output = switch_ext($name, $target_ext);
     my $bfvm = 'cat';
@@ -78,7 +77,7 @@ sub build {
     $lib = 'echo ""' if defined $options{l};
     $stripper = 'cat' if defined $options{s} or $options{c} or $options{b};
     $compiler = 'cat' if defined $options{p};
-    $bfvm = "\"$home/.asmbf/bfvm\"" if defined $options{c};
+    $bfvm = "bfvm" if defined $options{c};
     $mflag = ' -m ' if defined $options{m};
     $b32 = ' -32 ' if defined $options{x} and defined $options{c};
     $freestanding = ' -freestanding ' if defined $options{f} and defined $options{c};
@@ -91,9 +90,9 @@ sub build {
 
     $xf = '-s' if defined $options{x};
 
-    $bconv = "\"$home/.asmbf/bconv\"" if defined $options{x} or defined $options{v};
+    $bconv = "bconv" if defined $options{x} or defined $options{v};
     
-    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | "$home/.asmbf/bfpp" 2>> error$$.log | "$home/.asmbf/bflabels" $mflag 2>> error$$.log | "$home/.asmbf/bfdata" $mflag 2>> error$$.log | "$home/.asmbf/effective" 2>> error$$.log | "$home/.asmbf/vxcall" 2>> error$$.log | "$home/.asmbf/constpp" 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf > $output\"`;
+    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | bfdata $mflag 2>> error$$.log | effective 2>> error$$.log | vxcall 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";

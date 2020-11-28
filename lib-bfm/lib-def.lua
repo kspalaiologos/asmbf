@@ -69,4 +69,6 @@
 ?cbegin=cbs
 ?cend=cbe
 ?sgadd=s07
+?fdup=dp2
+?dup2=dp2
 #-- Note: This file HAS to contain a trailing newline.

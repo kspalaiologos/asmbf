@@ -34,7 +34,7 @@
 #include <string.h>
 #include "config.h"
 
-#define IC 134
+#define IC 135
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -66,7 +66,7 @@ void outrep();
 static unsigned long bits = 16;
 static unsigned int skipped_inits = 0;
 static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0;
-static unsigned long m[10000], off, freecell, rseg;
+static unsigned long m[12000], off, freecell, rseg;
 static char s[] =
     #include "microcode/bfasm-instructions.c"
     ;

@@ -48,14 +48,16 @@ test: test/*.asm
 	bfi -d test/hello_fancy.b > /dev/null
 	bfi -x test/hello_fancy.b > /dev/null
 	bfi -c test/hello_fancy.b > /dev/null
-	echo ""
+	@echo ""
 	@test/test.pl $^
 
 sync-test: test/*.asm
 	@chmod a+x test/test.pl $^
-	-bfi --help 2> /dev/null
-	-bfi --version 2> /dev/null
-	-bfi --blah 2> /dev/null
+	bfmake test/hello_fancy.asm
+	bfi -d test/hello_fancy.b > /dev/null
+	bfi -x test/hello_fancy.b > /dev/null
+	bfi -c test/hello_fancy.b > /dev/null
+	@echo ""
 	@test/test.pl --blocking $^
 
 uninstall:

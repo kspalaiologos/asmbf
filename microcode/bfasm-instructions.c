@@ -124,6 +124,7 @@
 "dp2"
 "axl"
 "xgt"
+"xle"
 "bts"
 "rse"
 "stk"

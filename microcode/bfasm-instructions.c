@@ -123,6 +123,7 @@
 "s07"
 "dp2"
 "axl"
+"xgt"
 "bts"
 "rse"
 "stk"

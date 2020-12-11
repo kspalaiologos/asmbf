@@ -9,6 +9,7 @@ ifdef DESTDIR
 DESTDIR+=/
 endif
 
+export CC=@CC@
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 

@@ -126,6 +126,7 @@
 "xgt"
 "xle"
 "xlt"
+"xge"
 "bts"
 "rse"
 "stk"

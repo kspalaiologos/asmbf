@@ -87,6 +87,13 @@ static void push_def(char * text) {
     
     ctx_ptr->replace = malloc(replace_len + 1);
     memcpy(ctx_ptr->replace, replace, replace_len + 1);
+
+    char * ptr = ctx_ptr->replace;
+    while(*ptr) {
+        if(*ptr == '/')
+            *ptr = '\n';
+        ptr++;
+    }
     
     ctx_ptr->next = new_def();
     ctx_ptr->next->find = ctx_ptr->next->replace = NULL;
@@ -103,8 +110,8 @@ NORETURN static void syntax_error(char * str) {
 %option nounput noinput noyywrap nodefault
 
 %%
-^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_]*) { push_def(yytext); }
-(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
+^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_/]*) { push_def(yytext); }
+(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_/]*)) { pop_def(yytext); }
 ^[ \t]*\?.* { syntax_error(yytext); }
 \n { lineno++; putchar('\n'); }
 . { putchar(yytext[0]); }

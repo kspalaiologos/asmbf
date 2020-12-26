@@ -73,4 +73,6 @@
 {"CW", "$Mt0=$T;$S$M$T|=t0;$S"},
 {"CX", "$Mt0=$T;$S$M$T^=t0;$S"},
 {"CY", "$M$T=~$T;$S"},
-{"DA", "tape[OFF('q')]=!tape[OFF('q')];"}
+{"DA", "tape[OFF('q')]=!tape[OFF('q')];"},
+{"DB", "$Mt0=$T;$M$T>>=t0;"},
+{"DC", "$Mt0=$T;$M$T<<=t0;"}

@@ -910,7 +910,7 @@ int main(void) {
         } else if(c == 'b') {
             int loc = buffer_calc();
 
-            if(loc > status.code_len || strchr("+-<>[].,", status.code[loc]) == NULL)
+            if(loc > status.code_len || !status.code || strchr("+-<>[].,", status.code[loc]) == NULL)
                 beep();
             else
                 bp_toggle(loc);

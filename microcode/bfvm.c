@@ -60,4 +60,10 @@
 {"CI", "$Mif(tape[OFF('q')])$T<<=1;$S"},
 {"CJ", "$Mif(tape[OFF('q')])$T>>=1;$S"},
 {"CK", "$Mt0=$T;$S$Mif(tape[OFF('q')]){$T=bfpow($T,t0);}$S"},
-{"CL", "$Mt0=$T;$S$M$Sif(tape[OFF('q')]){tape[mp+2*t0]=t0;sp++;}"}
+{"CL", "$Mt0=$T;$S$M$Sif(tape[OFF('q')]){tape[mp+2*t0]=t0;sp++;}"},
+{"CM", "$Mt1=mp;$S$M$Sif(tape[OFF('q')]){t2=mp;t0=tape[mp+2*sp];sp--;tape[mp=t1]=t0;mp=t2;}"},
+{"CN", "$Mt2=mp;$S$M$Sif(tape[OFF('q')]){t3=mp;mp=t2;t0=$T;mp=t3;t1=$t;mp=t2;$T=t0;mp=t3;$T=t1;}"},
+{"CO", "$M$Sif(tape[OFF('q')]){t0=tape[mp+2*sp];tape[mp+2*sp]=tape[mp+2*(sp-1)];tape[mp+2*(sp-1)]=t0;}"},
+{"CP", "$Mt0=$T;$S$M$Sif(tape[OFF('q')]){$T=t0;}"},
+{"CR", "$Mt2=mp;$S$M$St0=$T;$Mif(tape[OFF('q')]){t1=tape[mp+2+2*t0];tape[t2]=t1;}"},
+{"CS", "$Mt0=$T;$S$M$St1=$T;$Mif(tape[OFF('q')]){tape[mp+2+2*t0]=t1;}"}

@@ -66,4 +66,11 @@
 {"CO", "$M$Sif(tape[OFF('q')]){t0=tape[mp+2*sp];tape[mp+2*sp]=tape[mp+2*(sp-1)];tape[mp+2*(sp-1)]=t0;}"},
 {"CP", "$Mt0=$T;$S$M$Sif(tape[OFF('q')]){$T=t0;}"},
 {"CR", "$Mt2=mp;$S$M$St0=$T;$Mif(tape[OFF('q')]){t1=tape[mp+2+2*t0];tape[t2]=t1;}"},
-{"CS", "$Mt0=$T;$S$M$St1=$T;$Mif(tape[OFF('q')]){tape[mp+2+2*t0]=t1;}"}
+{"CS", "$Mt0=$T;$S$M$St1=$T;$Mif(tape[OFF('q')]){tape[mp+2+2*t0]=t1;}"},
+{"CT", "$Mt2=$T;$S$M$St1=mp;$M$Sif(tape[OFF('q')]){tape[mp+2+2*t1]+=t2;}"},
+{"CU", "$Mt2=$T;$S$M$St1=mp;$M$Sif(tape[OFF('q')]){tape[mp+2+2*t1]-=t2;}"},
+{"CV", "$Mt0=$T;$S$M$T&=t0;$S"},
+{"CW", "$Mt0=$T;$S$M$T|=t0;$S"},
+{"CX", "$Mt0=$T;$S$M$T^=t0;$S"},
+{"CY", "$M$T=~$T;$S"},
+{"DA", "tape[OFF('q')]=!tape[OFF('q')];"}

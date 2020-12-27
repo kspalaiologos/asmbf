@@ -74,9 +74,11 @@
 {"CX", "$Mt0=$T;$S$M$T^=t0;$S"},
 {"CY", "$M$T=~$T;$S"},
 {"DA", "tape[OFF('q')]=!tape[OFF('q')];"},
-{"DB", "$Mt0=$T;$M$T>>=t0;"},
-{"DC", "$Mt0=$T;$M$T<<=t0;"},
+{"DB", "$Mt0=$T;$S$M$T>>=t0;"},
+{"DC", "$Mt0=$T;$S$M$T<<=t0;"},
 {"DD", "$Mif(tape[OFF('q')]){putchar($T);}$S"},
 {"DE", "$Mif(tape[OFF('q')]){$T=inchar();}$S"},
 {"DF", "$Mtape[OFF('q')]=par($T);$S"},
-{"DG", "$Mt1=par($T);$S$M$T=t1;$S"}
+{"DG", "$Mt1=par($T);$S$M$T=t1;$S"},
+{"DH", "$Mt1=$T;$S$M$T=gcd($T,t1);$S"},
+{"DI", "$Mt1=$T;$S$Mif(tape[OFF('q')]){$T=gcd($T,t1);$S}"}

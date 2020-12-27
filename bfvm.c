@@ -204,6 +204,15 @@ int main(int argc, char * argv[]) {
             "}\n"
             "return parity & 1;\n"
         "}\n"
+        "type gcd(type a, type b) {\n"
+            "type temp;\n"
+            "while(b) {\n"
+                "temp = a %% b;\n"
+                "a = b;\n"
+                "b = temp;\n"
+            "}\n"
+            "return a;\n"
+        "}\n"
         "int main(void) {\n"
     , b32 ? "uint32_t" : "uint16_t");
     

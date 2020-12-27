@@ -80,3 +80,5 @@
 "DE2Z\0" /* cin */
 "DF2Z\0" /* cpa */
 "CG2Z1Z\0" /* par */
+"CH2Z1Z\0" /* gcd */
+"CI2Z1Z\0" /* cgc */

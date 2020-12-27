@@ -81,4 +81,5 @@
 {"DF", "$Mtape[OFF('q')]=par($T);$S"},
 {"DG", "$Mt1=par($T);$S$M$T=t1;$S"},
 {"DH", "$Mt1=$T;$S$M$T=gcd($T,t1);$S"},
-{"DI", "$Mt1=$T;$S$Mif(tape[OFF('q')]){$T=gcd($T,t1);$S}"}
+{"DI", "$Mt1=$T;$S$Mif(tape[OFF('q')]){$T=gcd($T,t1);$S}"},
+{"DJ", "$Mif(tape[OFF('q')]){$SIP=tape[mp+2*sp];sp--;G=0;}"}

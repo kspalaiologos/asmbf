@@ -172,8 +172,11 @@ void bits(char * text) {
 
 ^[\ \t]*\[[bB][iI][tT][sS]\ [0-9]+\]   { bits(yytext); }
 ^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
-(\*[Ff][Aa][Rr][ \t]+([A-Za-z_][A-Za-z0-9_]*))|(\"[^\"\n]*\*[Ff][Aa][Rr][ \t]+([A-Za-z_][A-Za-z0-9_]*)) { getlabel(1, yytext); }
-(\*([A-Za-z_][A-Za-z0-9_]*))|(\"[^\"\n]*\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(0, yytext); }
+\"[^\"\n]*\" { append_str(yytext); }
+\.. { append_str(yytext); }
+;.*\n { append_str(yytext); }
+(\*[Ff][Aa][Rr][ \t]+([A-Za-z_][A-Za-z0-9_]*)) { getlabel(1, yytext); }
+(\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(0, yytext); }
 ^[ \t]*[Dd][Bb]_ { off++; append_str(yytext); }
 ^[ \t]*[Dd][Bb] { off++; append_str(yytext); }
 ^[ \t]*[Tt][Xx][Tt][ \t]*\".*\" { off += strlen(strchr(yytext, '"') + 1) - 1; append_str(yytext); }

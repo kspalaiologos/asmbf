@@ -134,15 +134,6 @@ struct decl_t * prec_label(void) {
 }
 
 void getlabel(char * text) {
-    if(*text == '"') {
-        while(*text) {
-            append_code(*text);
-            text++;
-        }
-        
-        return;
-    }
-    
     // Extract the label name by skipping the leading `%'.
     text++;
     
@@ -216,14 +207,24 @@ void flush_decls(void) {
         }
     }
 }
-    
+
+void append_code_s(char * s) {
+    while(*s) {
+        append_code(*s);
+        s++;
+    }
+}
+
 %}
 
 %option nounput noinput noyywrap nodefault
 
 %%
 ^[ \t]*\@([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
-(%([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*%([A-Za-z_][A-Za-z0-9_]*)) { getlabel(yytext); }
+\"[^\"\n]*\" { append_code_s(yytext); }
+\.. { append_code_s(yytext); }
+;.*\n { append_code_s(yytext); }
+%([A-Za-z_][A-Za-z0-9_]*) { getlabel(yytext); }
 .|\n { append_code(yytext[0]); }
 %%
 

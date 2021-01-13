@@ -11,6 +11,6 @@ clean:
 	rm -f *.c
 
 %: %.lex
-	lex -f -o $@.c $<
+	flex -f -o $@.c $<
 	$(CC) $(CFLAGS) -o $@ $@.c
 

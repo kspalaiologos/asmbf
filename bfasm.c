@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * Copyright (C) K. Palaiologos Szewczyk, 2017-2020.
+ * Copyright (C) Kamila Szewczyk, 2017-2021.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -301,18 +301,20 @@ Lai:;
                 putchar('R');
                 m[11] = 1;
                 m[6] = 4;
-                m[4] = 'e';
+                m[4] = 'd';
                 outbf();
                 m[6] = '+';
+                freecell = 1;
                 outrep(); // note: potential optimalization, << & < free
                 m[6] = 18; // ???
                 outbf();
             } else {
                 m[11] = 1;
                 m[6] = 4;
-                m[4] = 'e';
+                m[4] = 'd';
                 outbf();
                 m[6] = '+';
+                freecell = 1;
                 outrep(); // note: potential optimalization, << & < free
                 m[6] = 18; // ???
                 outbf();

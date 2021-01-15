@@ -1,0 +1,28 @@
+
+==[ Legal clarifications (since 15.01.2020)
+
+ * asm2bf is licensed under the MIT license
+ * contributed code's copyright is transferred to the project's owner
+ * I didn't relinquish my rights to the source code of the snippets.
+   This means, i hold a partial copyright on programs produced in asm2bf.
+   According to the MIT license, so the only thing I want in return is credit.
+   "the program was made using asm2bf (link)" is enough.
+
+==[ Rationale
+
+ 1. asm2bf is undisputably licensed under the terms of the MIT license,
+    which text is included in the repository root. I wanted to relicense it under
+    GPLv3, and then relinquish my rights to the snippet code, but in the end I decided
+    that relicensing is pointless at this point.
+ 2. this statements helps to keep the project cohesive and not a god damned mess.
+    i'm not going to handle contributor wars of pulling code in and out of the repository.
+    the only contributors that so far keep their intellectual property are Daniel Cristofani
+    and aku. All future contributions from other contributors are transferred to me.
+    obviously, this doesn't mean i'm robbing you from your code. you'll be recognized as a
+    contributor to the project, and you can feel free to add yourself to the contributors
+    list.
+    actually owning the intellectual property makes decisions regarding the project much
+    less complex and involved.
+ 3. i'll treat this restriction very leniently. i put some work in making asm2bf, and
+    i don't want to think it was a mistake. i wrote multiple snippets, daniel cristofani
+    optimized many of them, and it'd be unfair towards us two to take it away.

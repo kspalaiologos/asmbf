@@ -83,7 +83,7 @@ void virtual_call(char * text) {
 %option nounput noinput noyywrap nodefault
 
 %%
-^[\t ]*vxcall[\t ]+.*$ { virtual_call(yytext); }
+^[\t ]*vxcall[\t ]+.* { virtual_call(yytext); }
 .|\n { putchar(yytext[0]); }
 %%
 

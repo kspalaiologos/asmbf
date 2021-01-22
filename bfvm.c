@@ -149,7 +149,8 @@ int try_match(char buf[]) {
 
 int main(int argc, char * argv[]) {
     char match[32] = {0};
-    int c, mp = 0, b32 = 0, freestanding = 0, heap = 65536;
+    int c;
+    unsigned long mp = 0, b32 = 0, freestanding = 0, heap = 65536;
 
     for(int arg = 1; arg < argc; arg++) {
         char * s = argv[arg];

@@ -64,7 +64,7 @@ void outbf();
 void outrep();
 
 static unsigned long bits = 16;
-static unsigned int skipped_inits = 0;
+static unsigned long skipped_inits = 0;
 static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0;
 static unsigned long m[12000], off, freecell, rseg;
 static char s[] =
@@ -79,8 +79,8 @@ static char uvm[] =
     #include "microcode/emit-bfvm.c"
     ;
 
-int best_base(int n);
-void translate(int n, int base);
+unsigned long best_base(unsigned long n);
+void translate(unsigned long n, unsigned long base);
 
 int main(int argc, char * argv[]) {
     unsigned int n;
@@ -494,7 +494,7 @@ void outrep() {
 }
 
 void outbf() {
-    unsigned int r1, r4, skip_this = 0;
+    unsigned long r1, r4, skip_this = 0;
 
     if(m[6] >= 0 && m[6] <= 3 && tiny) {
         // first, last, pre, post
@@ -604,8 +604,8 @@ unsigned int inchar() {
     return c;
 }
 
-int stack_usage(int n, int base) {
-    int sp = 0;
+unsigned long stack_usage(unsigned long n, unsigned long base) {
+    unsigned long sp = 0;
     
     while(n != 0) {
         sp++;
@@ -615,8 +615,8 @@ int stack_usage(int n, int base) {
     return sp;
 }
 
-int grade(int n, int base) {
-    int sp = 0, norm = 0;
+unsigned long grade(unsigned long n, unsigned long base) {
+    unsigned long sp = 0, norm = 0;
     
     while(n != 0) {
         sp++;
@@ -627,11 +627,11 @@ int grade(int n, int base) {
     return norm + (6 + base) * sp + (sp % 2 == 1 ? 4 : 0);
 }
 
-int best_base(int n) {
-    int v = 0, b = 0, i = 2;
+unsigned long best_base(unsigned long n) {
+    unsigned long v = 0, b = 0, i = 2;
     
     for(; i < 60; i++) {
-        int cv = grade(n, i);
+        unsigned long cv = grade(n, i);
         
         if(v == 0 || v > cv) {
             v = cv;
@@ -642,8 +642,8 @@ int best_base(int n) {
     return b;
 }
 
-void translate(int n, int base) {
-    int stack[stack_usage(n, base) + 1], sp = 0, flip = 1;
+void translate(unsigned long n, unsigned long base) {
+    unsigned long stack[stack_usage(n, base) + 1], sp = 0, flip = 1;
     
     while(n != 0) {
         stack[sp++] = n % base;
@@ -655,7 +655,7 @@ void translate(int n, int base) {
     while(sp != 0) {
         sp--;
         
-        int bc = base;
+        unsigned long bc = base;
         
         while(stack[sp]--)
             putchar('+');

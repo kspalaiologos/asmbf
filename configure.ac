@@ -59,6 +59,8 @@ AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 
+AC_CHECK_SIZEOF([size_t])
+
 AC_ARG_ENABLE([version], AS_HELP_STRING([--enable-version], [Sets the dist version for asm2bf]), [
     AC_SUBST([VERSION], [$enableval])
 ], [

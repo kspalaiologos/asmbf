@@ -27,7 +27,8 @@
 #define STYLE_PREFIX 0
 
 int main(int argc, char * argv[]) {
-    int style = STYLE_POSTFIX, c, n = 0, z;
+    int style = STYLE_POSTFIX, c, z;
+    unsigned long n = 0;
     
     if(argc == 2) {
         if(!strcmp("-postfix", argv[1]))

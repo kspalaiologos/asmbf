@@ -30,18 +30,18 @@
 
 struct label_t {
     char * name;
-    unsigned int seg, off;
+    unsigned long seg, off;
 };
 
 struct decl_t {
     unsigned char type;
-    unsigned int seg, far;
+    unsigned long seg, far;
     vector(char) data;
 };
 
 enum { DECL_REF, DECL_MISC };
 
-static unsigned int seg, off, bitwidth = 16;
+static unsigned long seg, off, bitwidth = 16;
 
 vector(struct label_t) labels;
 vector(struct decl_t) declarations;
@@ -102,7 +102,7 @@ void addlabel(char * text) {
     vector_push_back(labels, q);
 }
 
-void getlabel(unsigned int far, char * name) {
+void getlabel(unsigned long far, char * name) {
     if(*name == '"') {
         append_str(name);
         return;
@@ -120,7 +120,7 @@ void getlabel(unsigned int far, char * name) {
     vector_push_back(declarations, ref);
 };
 
-void emit_addr(char * labname, unsigned int address) {
+void emit_addr(char * labname, unsigned long address) {
     if(address > (2 << (bitwidth - 1))) {
         fprintf(stderr, "asm2bf: reference to &%s (%X) overflows the current bitwidth.", labname, address);
         exit(1);
@@ -142,7 +142,7 @@ void flush_code(void) {
                 exit(1);
             }
             
-            unsigned int change = l->seg + l->off;
+            unsigned long change = l->seg + l->off;
             
             if(!it->far) {
                 if(change < it->seg) {

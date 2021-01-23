@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use Term::ANSIColor;
+use Time::HiRes qw(usleep);
 
 my $blocking = 0;
 
@@ -20,6 +21,7 @@ foreach my $file(@ARGV) {
     my $pid;
 
     if(!$blocking) {
+        usleep(1000);
         $pid = fork();
         push @proc, $pid;
     } else {

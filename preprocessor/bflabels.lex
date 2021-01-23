@@ -118,14 +118,15 @@ struct decl_t * prec_label(void) {
         else if(top->type == DECL_MISC) {
             char * s = top->data;
             int c = 0;
-            
-            while(s[c] != ';' && c != vector_size(top->data) - 1)
-                if(!isspace(s[c]))
-                    return NULL;
-                else
+
+            while(s[c] == ';')
+                while(s[c] != '\n' && c != vector_size(top->data))
                     c++;
             
-            if(top == vector_begin(declarations))
+            while(isspace(s[c]) && c != vector_size(top->data))
+                c++;
+            
+            if(c != vector_size(top->data) || top == vector_begin(declarations))
                 return NULL;
             
             --top;

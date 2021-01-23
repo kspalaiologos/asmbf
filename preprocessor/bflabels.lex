@@ -202,7 +202,7 @@ struct label_t {
     unsigned long seg, off;
 };
 
-static unsigned long seg, off, bitwidth = 16;
+static unsigned long long seg, off, bitwidth = 16;
 
 vector(struct label_t) labels;
 
@@ -259,8 +259,8 @@ void getlabel(unsigned long far, char * name) {
 };
 
 void emit_addr(char * labname, unsigned long address) {
-    if(address > (2 << (bitwidth - 1))) {
-        fprintf(stderr, "asm2bf: reference to &%s (%X) overflows the current bitwidth.", labname, address);
+    if(address >> 1 > (2 << (bitwidth - 2))) {
+        fprintf(stderr, "asm2bf: reference to &%s (%lX) overflows the current bitwidth, can address %lX maximum.", labname, address, (2 << (bitwidth - 1)));
         exit(1);
     }
 

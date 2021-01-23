@@ -1,5 +1,5 @@
 
-TARGETS=bflabels constpp effective vxcall
+TARGETS=bflabels constpp effective
 
 .PHONY: bin clean
 

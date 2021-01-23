@@ -105,6 +105,58 @@ NORETURN static void syntax_error(char * str) {
     exit(1);
 }
 
+char * chomp(char * s) {
+    while(isspace(*s))
+        s++;
+    
+    return s;
+}
+
+char * allowed_instructions[] = {
+    "sto", "amp", "smp", "cst", "cam",
+    "csm", "cot", "ots", "spt", NULL
+};
+
+void virtual_call(char * text) {
+    text = chomp(chomp(text)+6);
+    
+    /* text now contains the entire linetext. */
+    /* now, parse the instruction. */
+    
+    for(int i = 0; allowed_instructions[i]; i++) {
+        if(!strncmp(text, allowed_instructions[i], strlen(allowed_instructions[i]))) {
+            text += strlen(allowed_instructions[i]);
+            text = chomp(text);
+            
+            if(!isdigit(*text) && *text != '.') {
+                fprintf(stderr, "Error: vxcall not required for `%s'.", text);
+                exit(1);
+            }
+            
+            printf("\nmov f3, ");
+            
+            if(*text == '.') {
+                text++;
+                printf("%d", *text);
+                text++;
+            } else {
+                while(isdigit(*text)) {
+                    putchar(*text);
+                    text++;
+                }
+            }
+            
+            /* we are at the comma now. */
+            
+            printf("\n%s f3%s\n", allowed_instructions[i], text);
+            return;
+        }
+    }
+    
+    fprintf(stderr, "Error: vxcall is not supported: `%s'\n", text);
+    exit(1);
+}
+
 %}
 
 %option nounput noinput noyywrap nodefault
@@ -113,6 +165,7 @@ NORETURN static void syntax_error(char * str) {
 ^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_/]*) { push_def(yytext); }
 (([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_/]*)) { pop_def(yytext); }
 ^[ \t]*\?.* { syntax_error(yytext); }
+^[\t ]*vxcall[\t ]+.* { virtual_call(yytext); }
 \n { lineno++; putchar('\n'); }
 . { putchar(yytext[0]); }
 %%

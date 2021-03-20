@@ -85,7 +85,7 @@ sub build {
     $o0 = ' -O0 ' if defined $options{z};
     $prefrle = ' -zb ' if defined $options{e};
     $postfrle = ' -ze ' if defined $options{f};
-    $vm = ' -vm ' if defined $options{b};
+    $vm = ' -vm ' if defined $options{b} or defined $options{c};
     $tiny = ' -t ' if defined $options{t};
 
     $xf = '-s' if defined $options{x};

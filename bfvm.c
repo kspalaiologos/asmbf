@@ -219,7 +219,7 @@ int main(int argc, char * argv[]) {
     );
 
     if(!freestanding) {
-        printf("tape=calloc(sizeof(type),%d);\n");
+        printf("tape=calloc(sizeof(type),%d);\n", heap);
     }
     
     #define STRAY_BF fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos);

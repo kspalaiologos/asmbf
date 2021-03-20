@@ -235,7 +235,7 @@ int main(int argc, char * argv[]) {
             case '+': STRAY_BF printf("tape[mp]++;"); break;
             case '>': STRAY_BF printf("mp++;"); break;
             case '-': STRAY_BF printf("tape[mp]--;"); break;
-            case '<': STRAY_BF printf("mp++;"); break;
+            case '<': STRAY_BF printf("mp--;"); break;
             case '[': STRAY_BF printf("while(tape[mp]) {"); bbal++; break;
             case ']': STRAY_BF printf("}"); bbal--; break;
             case '.': STRAY_BF printf("putchar(tape[mp]);"); break;

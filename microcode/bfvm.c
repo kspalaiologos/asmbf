@@ -43,7 +43,7 @@
 {"BR", "$M$St0=tape[mp+2*sp];tape[mp+2*sp]=tape[mp+2*(sp-1)];tape[mp+2*(sp-1)]=t0;"},
 {"BS", "$Mt2=$T;$S$M$St1=mp;$M$Stape[mp+2+2*t1]+=t2;"},
 {"BT", "$Mt2=$T;$S$M$St1=mp;$M$Stape[mp+2+2*t1]-=t2;"},
-{"BU", "$M$Z"},
+{"BU", "$M$S"},
 {"BV", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0==t1;$S$M$S"},
 {"BW", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0!=t1;$S$M$S"},
 {"BX", "$Mt0=$T;i$S$Mt1=$T;mp=OFF('q');$T=t0<=t1;$S$M$S"},

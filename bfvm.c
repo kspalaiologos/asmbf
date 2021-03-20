@@ -149,7 +149,7 @@ int try_match(char buf[]) {
 
 int main(int argc, char * argv[]) {
     char match[32] = {0};
-    int c;
+    int c, bbal = 0;
     unsigned long mp = 0, b32 = 0, freestanding = 0, heap = 65536;
 
     for(int arg = 1; arg < argc; arg++) {
@@ -172,6 +172,8 @@ int main(int argc, char * argv[]) {
         }
     }
     
+    printf("#define type %s\n", b32 ? "uint32_t" : "uint16_t");
+
     if(!freestanding) {
         printf(
             "#include <stdio.h>\n"
@@ -181,11 +183,11 @@ int main(int argc, char * argv[]) {
                 "uint8_t v = getchar();\n"
                 "return v < 0 ? 0 : v;\n"
             "}\n"
-            "type*tape=calloc(sizeof(type),%d),mp,t0,t1,t2,t3,sp;\n"
+            "type*tape,mp,t0,t1,t2,t3,sp;\n"
         , heap);
     } else {
         printf(
-            "type*tape=0x7000,mp,t0,t1,t2,t3,sp;\n"
+            "type*tape=(type*)0x7000,mp,t0,t1,t2,t3,sp;\n"
         );
     }
 
@@ -193,7 +195,6 @@ int main(int argc, char * argv[]) {
         "#define OFF(x) ((x) - 'a')\n"
         "#define G (tape[0])\n"
         "#define IP (tape[1])\n"
-        "#define type %s\n"
         "type bfpow(type x, type y) {\n"
             "type i = 1, s = x; for(; i < y; i++) s *= x; return s;\n"
         "}\n"
@@ -215,8 +216,14 @@ int main(int argc, char * argv[]) {
             "return a;\n"
         "}\n"
         "int main(void) {\n"
-    , b32 ? "uint32_t" : "uint16_t");
+    );
+
+    if(!freestanding) {
+        printf("tape=calloc(sizeof(type),%d);\n");
+    }
     
+    #define STRAY_BF fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos);
+
     while((c = getchar()) != EOF) {
         pos++;
         switch(c) {
@@ -225,10 +232,14 @@ int main(int argc, char * argv[]) {
                 ungetc(c, stdin);
                 match_flexy();
                 break;
-            case '+': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("tape[mp]++;"); break;
-            case '>': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("mp++;"); break;
-            case '-': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("tape[mp]--;"); break;
-            case '<': fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos); printf("mp++;"); break;
+            case '+': STRAY_BF printf("tape[mp]++;"); break;
+            case '>': STRAY_BF printf("mp++;"); break;
+            case '-': STRAY_BF printf("tape[mp]--;"); break;
+            case '<': STRAY_BF printf("mp++;"); break;
+            case '[': STRAY_BF printf("while(tape[mp]) {"); bbal++; break;
+            case ']': STRAY_BF printf("}"); bbal--; break;
+            case '.': STRAY_BF printf("putchar(tape[mp]);"); break;
+            case ',': STRAY_BF printf("tape[mp]=inchar();"); break;
             case 'Z': fprintf(stderr, "\033[31mDebug: !! Z not matched @%d\033[37m\n", pos); case '\n': case '\r': case ' ': break;
             default:
                 match[mp++] = c;
@@ -246,6 +257,11 @@ int main(int argc, char * argv[]) {
                     mp = 0;
                 }
         }
+    }
+
+    if(bbal != 0) {
+        fprintf(stderr, "\033[31m*** Severe: Unbalanced stray BF loops.\033[37m\n");
+        exit(1);
     }
     
     puts("}");

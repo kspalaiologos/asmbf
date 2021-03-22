@@ -215,6 +215,7 @@ int main(int argc, char * argv[]) {
                 break;
         }
     }
+    free(mem);
     if(cycles) fprintf(stderr, "Done, %d cycles.", nc);
     return EXIT_SUCCESS;
 }

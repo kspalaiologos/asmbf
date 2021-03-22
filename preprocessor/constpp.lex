@@ -46,6 +46,7 @@ static struct def_t * ctx, * ctx_ptr;
 static struct def_t * new_def(void) {
     struct def_t * ret = malloc(sizeof(struct def_t));
     assert(ret);
+    ret->find = ret->replace = ret->next = NULL;
     return ret;
 }
 

@@ -695,7 +695,7 @@ static void repaint_side(void) {
     PRINT_ROW( 4, "R2 ", "  ",  6, -1, pR2, pG)
     PRINT_ROW( 5, "R3 ", "K ",  7, 10, pR3, pK)
     PRINT_ROW( 6, "R4 ", "L ",  8, 11, pR4, pL)
-    PRINT_ROW( 7, "R4 ", "M ", 17, 12, pR5, pM)
+    PRINT_ROW( 7, "R5 ", "M ", 17, 12, pR5, pM)
     PRINT_ROW( 8, "R6 ", "N ", 18, 13, pR6, pN)
     PRINT_ROW( 9, " F ", "O ", 16, 14,  pF, pO)
     PRINT_ROW(10, "IM ", "P ",  9, 15, pIM, pP)

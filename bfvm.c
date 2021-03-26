@@ -181,7 +181,7 @@ int main(int argc, char * argv[]) {
             "#include <stdint.h>\n"
             "uint8_t inchar(void) {\n"
                 "uint8_t v = getchar();\n"
-                "return v < 0 ? 0 : v;\n"
+                "return v == EOF ? 0 : v;\n"
             "}\n"
             "type*tape,mp,t0,t1,t2,t3,sp;\n"
         , heap);

@@ -115,7 +115,8 @@ char * chomp(char * s) {
 
 char * allowed_instructions[] = {
     "sto", "amp", "smp", "cst", "cam",
-    "csm", "cot", "ots", "spt", NULL
+    "csm", "cot", "ots", "spt", "tps",
+    NULL
 };
 
 void virtual_call(char * text) {

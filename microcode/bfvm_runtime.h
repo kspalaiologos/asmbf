@@ -115,4 +115,10 @@ static void asmbf_div(int from1, int from2) {
     *cell /= tape[mp += from2];
 }
 
+static void asmbf_eq(int from1, int from2) {
+    mp += from1;
+    _BFVM_TYPE * cell = tape + mp;
+    *cell = *cell == tape[mp += from2];
+}
+
 #endif

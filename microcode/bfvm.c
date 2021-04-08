@@ -8,3 +8,4 @@
 {"AH", "asmbf_and($C, $C);"},
 {"AI", "asmbf_inc($C);"},
 {"AJ", "asmbf_div($C, $C);"},
+{"AK", "asmbf_eq($C, $C);"}

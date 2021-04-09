@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-_BFVM_TYPE t0, t1, t2, t3, F0, F1, F2, F3, mp, sp;
+_BFVM_TYPE mp, sp;
 
 #ifndef _BFVM_FREESTANDING
     static int8_t inchar(void) {
@@ -93,32 +93,99 @@ static _BFVM_TYPE gcd(_BFVM_TYPE a, _BFVM_TYPE b) {
 static void asmbf_immed(int offset) { mp += offset; }
 static void asmbf_clear(int offset) { mp += offset; tape[mp] = 0; }
 
-static void asmbf_add(int from1, int from2) {
-    mp += from1;
-    _BFVM_TYPE * cell = tape + mp;
-    *cell += tape[mp += from2];
+#define _BFVM_DYAD(name, oper) \
+    static void asmbf_ ## name(int from1, int from2) {\
+        mp += from1; \
+        _BFVM_TYPE * cell = tape + mp; \
+        *cell = (*cell) oper (tape[mp += from2]); \
+    }
+
+_BFVM_DYAD(add, +)
+_BFVM_DYAD(and, &&)
+_BFVM_DYAD(div, /)
+_BFVM_DYAD(eq, ==)
+_BFVM_DYAD(ge, >=)
+_BFVM_DYAD(gt, >)
+_BFVM_DYAD(le, <=)
+_BFVM_DYAD(lt, <)
+_BFVM_DYAD(mod, %)
+_BFVM_DYAD(mul, *)
+_BFVM_DYAD(ne, !=)
+_BFVM_DYAD(or, ||)
+_BFVM_DYAD(sub, -)
+
+static void asmbf_dec(int offset) { mp += offset; tape[mp]--; }
+static void asmbf_inc(int offset) { mp += offset; tape[mp]--; }
+static void asmbf_jmp(int loc) { tape[0] = 0; tape[1] = loc; }
+static void asmbf_neg(int offset) { mp += offset; tape[mp] = 0 - tape[mp]; }
+static void asmbf_not(int offset) { mp += offset; tape[mp] = 1 - tape[mp]; }
+
+static void asmbf_in(int offset) {
+    mp += offset;
+
+    #ifndef _FREESTANDING
+        tape[mp] = inchar();
+    #else
+        tape[mp] = 0;
+    #endif
 }
 
-static void asmbf_and(int from1, int from2) {
-    mp += from1;
-    _BFVM_TYPE * cell = tape + mp;
-    *cell = *cell && tape[mp += from2];
+static void asmbf_in(int offset) {
+    mp += offset;
+
+    #ifndef _FREESTANDING
+        putchar(tape[mp]);
+    #endif
 }
 
-static void asmbf_dec(int offset) {
-    mp += offset; tape[mp]--;
+static void asmbf_jnz(int offset, int loc) {
+    mp += offset; if(tape[mp] == 0) return;
+    tape[0] = 0; tape[1] = loc;
 }
 
-static void asmbf_div(int from1, int from2) {
-    mp += from1;
-    _BFVM_TYPE * cell = tape + mp;
-    *cell /= tape[mp += from2];
+static void asmbf_jz(int offset, int loc) {
+    mp += offset; if(tape[mp] != 0) return;
+    tape[0] = 0; tape[1] = loc;
 }
 
-static void asmbf_eq(int from1, int from2) {
+static void asmbf_mov(int from1, int from2) {
     mp += from1;
     _BFVM_TYPE * cell = tape + mp;
-    *cell = *cell == tape[mp += from2];
+    *cell = tape[mp += from2];
+}
+
+static void asmbf_pop(int dest, int stack_off) {
+    mp += dest;
+    _BFVM_TYPE * cell = tape + mp;
+    mp += stack_off;
+    *cell = tape[mp + 2 * --sp];
+}
+
+static void asmbf_rcl(int dest, int addr, int ram_off) {
+    mp += dest;
+    _BFVM_TYPE * data = tape + mp;
+    mp += addr;
+    _BFVM_TYPE addr = tape[mp];
+    mp += ram_off;
+    *data = tape[mp + 2 + 2 * addr];
+}
+
+static void asmbf_sto(int addr, int src, int ram_off) {
+    mp += addr;
+    _BFVM_TYPE addr = tape[mp];
+    mp += src;
+    _BFVM_TYPE src = tape[mp];
+    mp += ram_off;
+    tape[mp + 2 + 2 * addr] = src;
+}
+
+static void asmbf_swp(int opr1, int opr2) {
+    mp += opr1; _BFVM_TYPE * addr1 = tape + mp;
+    mp += opr2; _BFVM_TYPE * addr2 = tape + mp;
+
+    _BFVM_TYPE tmp = *addr1;
+    *addr1 = *addr2;
+    *addr2 = tmp;
 }
 
 #endif

@@ -260,6 +260,7 @@ static void asmbf_cjz(int target) { mp += target; if(tape[Q] != 0) return; tape[
 #define _BFVM_CV2(orig) static void asmbf_c ## orig (int opr1, int opr2) { if(tape[Q]) asmbf_ ## orig(opr1, opr2); }
 
 _BFVM_CV2(add); _BFVM_CV2(sub); _BFVM_CV2(mul); _BFVM_CV2(div); _BFVM_CV2(mod);
-_BFVM_CV1(asl); _BFVM_CV1(asr);
+_BFVM_CV1(asl); _BFVM_CV1(asr); _BFVM_CV2(pow); _BFVM_CV2(push); _BFVM_CV2(pop);
+_BFVM_CV2(swp); _BFVM_CV1(srv);
 
 #endif

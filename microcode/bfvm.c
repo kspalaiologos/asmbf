@@ -58,4 +58,9 @@
 {"CG", "asmbf_cdiv($C, $S$C);$S"},
 {"CH", "asmbf_cmod($C, $S$C);$S"},
 {"CI", "asmbf_casl($C);$S"},
-{"CJ", "asmbf_casr($C);$S"}
+{"CJ", "asmbf_casr($C);$S"},
+{"CK", "asmbf_cpow($C, $S$C);$S"},
+{"CL", "asmbf_cpush($C, $S$C);$S"},
+{"CM", "asmbf_cpop($C, $S$C);$S"},
+{"CN", "asmbf_cswp($C, $S$C);$S"},
+{"CO", "asmbf_csrv($C);$S"}

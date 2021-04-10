@@ -51,4 +51,11 @@
 {"FO", "asmbf_cge($C, $S$C, $S$C);$S"},
 {"CA", "asmbf_cgt($C, $S$C, $S$C);$S"},
 {"CB", "asmbf_cjn($C);$S"},
-{"CC", "asmbf_cjz($C);$S"}
+{"CC", "asmbf_cjz($C);$S"},
+{"CD", "asmbf_cadd($C, $S$C);$S"},
+{"CE", "asmbf_csub($C, $S$C);$S"},
+{"CF", "asmbf_cmul($C, $S$C);$S"},
+{"CG", "asmbf_cdiv($C, $S$C);$S"},
+{"CH", "asmbf_cmod($C, $S$C);$S"},
+{"CI", "asmbf_casl($C);$S"},
+{"CJ", "asmbf_casr($C);$S"}

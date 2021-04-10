@@ -111,3 +111,7 @@
 {"EM", "asmbf_ots($C, $S$C);$S"},
 {"EN", "asmbf_cots($C, $S$C);$S"},
 {"EO", "asmbf_dsc($C);$S"},
+{"EP", "asmbf_sgt($C, $S$C, $S$C);$S"},
+{"ER", "asmbf_spt($C, $S$C, $S$C);$S"},
+{"ES", "asmbf_sle($C, $S$C);$S"},
+{"ET", "asmbf_tps($C, $S$C, $S$C);$S"}

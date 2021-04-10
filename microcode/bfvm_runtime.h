@@ -265,7 +265,7 @@ SIV asmbf_cjz(int target) { mp += target; if(tape[Q] != 0) return; tape[0] = 0; 
 _BFVM_CV2(add); _BFVM_CV2(sub); _BFVM_CV2(mul); _BFVM_CV2(div); _BFVM_CV2(mod);
 _BFVM_CV1(asl); _BFVM_CV1(asr); _BFVM_CV2(pow); _BFVM_CV2(push); _BFVM_CV2(pop);
 _BFVM_CV2(swp); _BFVM_CV1(srv); _BFVM_CV2(mov); _BFVM_CV3(rcl); _BFVM_CV3(sto);
-_BFVM_CV3(amp); _BFVM_CV3(smp);
+_BFVM_CV3(amp); _BFVM_CV3(smp); _BFVM_CV1(in); _BFVM_CV1(out);
 
 SIV asmbf_cflip() { tape[Q] = !tape[Q]; }
 
@@ -377,5 +377,21 @@ SIV asmbf_ots(int addr, int src, int ram_off) { asmbf_sto(src, addr, ram_off); }
 _BFVM_CV3(ots);
 
 SIV asmbf_dsc(int stack_off) { --sp; }
+
+SIV asmbf_sgt(int dest, int srcidx, int stk_off) {
+    mp += dest; _BFVM_TYPE * cell = tape + mp;
+    mp += srcidx; _BFVM_TYPE idx = tape[mp];
+    mp += stk_off; *cell = tape[mp + scale_factor * (sp - idx)];
+}
+
+SIV asmbf_spt(int dest, int srcidx, int stk_off) {
+    mp += dest; _BFVM_TYPE idx = tape[mp];
+    mp += srcidx; _BFVM_TYPE val = tape[mp];
+    mp += stk_off; tape[mp + scale_factor * (sp - idx)] = val;
+}
+
+SIV asmbf_tps(int dest, int srcidx, int stk_off) {
+    asmbf_spt(srcidx, dest, stk_off);
+}
 
 #endif

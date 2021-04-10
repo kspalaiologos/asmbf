@@ -42,4 +42,5 @@
 {"BR", "asmbf_srv($C);$S"},
 {"BS", "asmbf_amp($C, $S$C, $S$C);$S"},
 {"BT", "asmbf_smp($C, $S$C, $S$C);$S"},
-{"BU", "asmbf_immed($C);$S"}
+{"BU", "asmbf_immed($C);$S"},
+{"FM", "asmbf_rse_toggle();$S"}

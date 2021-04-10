@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-_BFVM_TYPE mp, sp;
+_BFVM_TYPE mp, sp, scale_factor = 2;
 
 #ifndef _BFVM_FREESTANDING
     _BFVM_TYPE * tape;
@@ -112,6 +112,10 @@ _BFVM_DYAD(ne, !=)
 _BFVM_DYAD(or, ||)
 _BFVM_DYAD(sub, -)
 
+static void asmbf_rse_toggle(void) {
+    scale_factor = 1 + !(scale_factor - 1);
+}
+
 static void asmbf_pow(int from1, int from2) {
     mp += from1;
     _BFVM_TYPE * cell = tape + mp;
@@ -166,22 +170,22 @@ static void asmbf_push(int from, int stack_off) {
     mp += from;
     _BFVM_TYPE to_push = tape[mp];
     mp += stack_off;
-    tape[mp + 2 * sp++] = to_push;
+    tape[mp + scale_factor * sp++] = to_push;
 }
 
 static void asmbf_srv(int stack_off) {
     mp += stack_off;
-    _BFVM_TYPE val1 = tape[mp + 2 * --sp];
-    _BFVM_TYPE val2 = tape[mp + 2 * --sp];
-    tape[mp + 2 * sp++] = val1;
-    tape[mp + 2 * sp++] = val2;
+    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
+    tape[mp + scale_factor * sp++] = val1;
+    tape[mp + scale_factor * sp++] = val2;
 }
 
 static void asmbf_pop(int dest, int stack_off) {
     mp += dest;
     _BFVM_TYPE * cell = tape + mp;
     mp += stack_off;
-    *cell = tape[mp + 2 * --sp];
+    *cell = tape[mp + scale_factor * --sp];
 }
 
 static void asmbf_rcl(int dest, int addr, int ram_off) {
@@ -190,7 +194,7 @@ static void asmbf_rcl(int dest, int addr, int ram_off) {
     mp += addr;
     _BFVM_TYPE xaddr = tape[mp];
     mp += ram_off;
-    *data = tape[mp + 2 + 2 * xaddr];
+    *data = tape[mp + 2 + scale_factor * xaddr];
 }
 
 static void asmbf_sto(int addr, int src, int ram_off) {
@@ -199,7 +203,7 @@ static void asmbf_sto(int addr, int src, int ram_off) {
     mp += src;
     _BFVM_TYPE xsrc = tape[mp];
     mp += ram_off;
-    tape[mp + 2 + 2 * xaddr] = xsrc;
+    tape[mp + 2 + scale_factor * xaddr] = xsrc;
 }
 
 static void asmbf_amp(int addr, int src, int ram_off) {
@@ -208,7 +212,7 @@ static void asmbf_amp(int addr, int src, int ram_off) {
     mp += src;
     _BFVM_TYPE xsrc = tape[mp];
     mp += ram_off;
-    tape[mp + 2 + 2 * xaddr] += xsrc;
+    tape[mp + 2 + scale_factor * xaddr] += xsrc;
 }
 
 static void asmbf_smp(int addr, int src, int ram_off) {
@@ -217,7 +221,7 @@ static void asmbf_smp(int addr, int src, int ram_off) {
     mp += src;
     _BFVM_TYPE xsrc = tape[mp];
     mp += ram_off;
-    tape[mp + 2 + 2 * xaddr] -= xsrc;
+    tape[mp + 2 + scale_factor * xaddr] -= xsrc;
 }
 
 static void asmbf_swp(int opr1, int opr2) {
@@ -232,7 +236,7 @@ static void asmbf_swp(int opr1, int opr2) {
 static void asmbf_ret(int stack_off) {
     mp += stack_off;
     tape[0] = 0;
-    tape[1] = tape[mp + 2 * --sp];
+    tape[1] = tape[mp + scale_factor * --sp];
 }
 
 #endif

@@ -39,6 +39,39 @@ https://github.com/kspalaiologos/SqEMU/blob/master/dev-sqemu.s
 an optimized 8ball:
 https://github.com/kspalaiologos/asmbf/blob/master/examples/8ball.asm
 
+----------------------------------------- What can asm2bf do? ------------------------------------------
+
+First and foremost, asm2bf is a language which is very portable. It can compile to special asm2bf
+bytecode (which can be retargetted to virtually any platform in a few hours). It also outputs _pure_
+brainfuck, which is executable by any brainfuck interpreter, which means, that asm2bf is able to benefit
+from countless brainfuck-to-any compilers.
+
+Secondly, asm2bf is a both a fairly low level language and a high level language. It abstracts the
+concepts of effective adresses, powerful preprocessors, advanced control flow, floating point numbers,
+signed arithmetic, etc..., into a robust toolkit for developing brainfuck, and, subsequently, any language
+which can be a target of compilation from brainfuck or asm2bf bytecode.
+
+Third, asm2bf in itself can be made to produce really small programs (check 8ball.asm in examples),
+but it can also be used to create very complicated programs (check sk.asm). Because it provides an acceptable
+level of abstraction to the programmer, it's feasible to write your proofs of concepts in asm2bf and
+later optimize them to be as fast as possible using existing resources and community-created guides,
+or by reading the code and experimenting yourself.
+
+asm2bf is still, after multiple years, work in progress. It gains new features rather often. So far,
+asm2bf has around 160 instructions that you can use in your programs and around 300 lines of Lua
+code providing essential batteries for metaprogramming in asm2bf. It's a hobby project of mine, to which
+a few people decided to contribute, but I'll try to maintain it for as long as possible.
+
+asm2bf is capable of being the foundation of any more or less complex program. It has been used to create
+an operating system (which boots and operates mainly thanks to pure brainfuck! This is possible because the
+brainfuck code can directly access the memory and set up a custom interrupt handler, which executes
+provided assembled machine code when the timer intterupt fires, which later modifies the interpreter
+to add special instructions to it). asm2bf has also been used to create a small (~150 line) functional
+programming language interpreter, which compiles to only around 20 kilobytes of brainfuck.
+
+Finally, I, the author, am working on an exhaustive manual on _all_ of asm2bf, for which the progress
+you can see in etc/manual.pdf
+
 ------------------------------------------ Get a taste of it! ------------------------------------------
 
 #function bf_while(reg) print("nav " .. reg); print("raw .["); end

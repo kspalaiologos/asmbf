@@ -41,4 +41,5 @@
 {"BP", "asmbf_pow($C, $S$C);$S"},
 {"BR", "asmbf_srv($C);$S"},
 {"BS", "asmbf_amp($C, $S$C, $S$C);$S"},
-{"BT", "asmbf_smp($C, $S$C, $S$C);$S"}
+{"BT", "asmbf_smp($C, $S$C, $S$C);$S"},
+{"BU", "asmbf_immed($C);$S"}

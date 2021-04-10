@@ -287,6 +287,72 @@ SIV asmbf_gcd(int to, int from) {
     *cell = gcd(*cell, tape[mp += from]);
 }
 
-_BFVM_CV2(gcd); _BFVM_CV1(ret); 
+_BFVM_CV2(gcd); _BFVM_CV1(ret);
+
+SIV asmbf_fmul(int stkof) {
+    mp += stkof;
+    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val3 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val4 = tape[mp + scale_factor * --sp];
+    val1 *= val3;
+    val2 *= val4;
+    tape[mp + scale_factor * sp++] = val2;
+    tape[mp + scale_factor * sp++] = val1;
+}
+
+SIV asmbf_fdiv(int stkof) {
+    mp += stkof;
+    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val3 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val4 = tape[mp + scale_factor * --sp];
+    val1 *= val4;
+    val2 *= val3;
+    tape[mp + scale_factor * sp++] = val2;
+    tape[mp + scale_factor * sp++] = val1;
+}
+
+SIV asmbf_fadd(int stkof) {
+    mp += stkof;
+    _BFVM_TYPE n1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE d1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE n2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE d2 = tape[mp + scale_factor * --sp];
+    fprintf(stderr, "%d/%d + %d/%d\n", n1, d1, n2, d2);
+    if(d1 == d2) {
+        tape[mp + scale_factor * sp++] = d1;
+        tape[mp + scale_factor * sp++] = n1 + n2;
+    } else {
+        tape[mp + scale_factor * sp++] = d1 * d2;
+        tape[mp + scale_factor * sp++] = n1 * d2 + n2 * d1;
+    }
+}
+
+SIV asmbf_fsub(int stkof) {
+    mp += stkof;
+    _BFVM_TYPE n1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE d1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE n2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE d2 = tape[mp + scale_factor * --sp];
+    fprintf(stderr, "%d/%d + %d/%d\n", n1, d1, n2, d2);
+    if(d1 == d2) {
+        tape[mp + scale_factor * sp++] = d1;
+        tape[mp + scale_factor * sp++] = n1 - n2;
+    } else {
+        tape[mp + scale_factor * sp++] = d1 * d2;
+        tape[mp + scale_factor * sp++] = n1 * d2 - n2 * d1;
+    }
+}
+
+SIV asmbf_freduce(int stkof) {
+    mp += stkof;
+    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE nval1 = val1 / gcd(val1, val2);
+    _BFVM_TYPE nval2 = val2 / gcd(val1, val2);
+    tape[mp + scale_factor * sp++] = nval2;
+    tape[mp + scale_factor * sp++] = nval1;
+}
 
 #endif

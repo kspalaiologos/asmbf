@@ -82,4 +82,9 @@
 {"DG", "asmbf_par($C, $S$C);$S"},
 {"DH", "asmbf_gcd($C, $S$C);$S"},
 {"DI", "asmbf_cgcd($C, $S$C);$S"},
-{"DJ", "asmbf_cret($C);$S"}
+{"DJ", "asmbf_cret($C);$S"},
+{"DK", "asmbf_fmul($C);$S"},
+{"DL", "asmbf_fdiv($C);$S"},
+{"DM", "asmbf_freduce($C);$S"},
+{"DN", "asmbf_fadd($C);$S"},
+{"DO", "asmbf_fsub($C);$S"}

@@ -27,11 +27,17 @@ https://esolangs.org/wiki/Asm2bf - in-depth explanation of asm2bf inner workings
 examples/                        - who doesn't love learning by examples?
 test/                            - unit tests for the entire toolchain.
 
+a functional programming language interpreter in 150 lines of asm2bf:
+https://github.com/kspalaiologos/asmbf/blob/master/examples/sk.asm
+
 asm2bf was used to create a JSON formatter webservice:
 https://github.com/kspalaiologos/JSONFormatter/blob/master/jsonformatter.asm
 
 also, a subleq interpreter approach has been taken:
 https://github.com/kspalaiologos/SqEMU/blob/master/dev-sqemu.s
+
+an optimized 8ball:
+https://github.com/kspalaiologos/asmbf/blob/master/examples/8ball.asm
 
 ------------------------------------------ Get a taste of it! ------------------------------------------
 

@@ -116,4 +116,12 @@
 {"ES", "asmbf_sle($C, $S$C);$S"},
 {"ET", "asmbf_tps($C, $S$C, $S$C);$S"},
 {"EU", "asmbf_fps($C);$S"},
-{"EW", "asmbf_fpo($C);$S"}
+{"EW", "asmbf_fpo($C);$S"},
+{"EX", "asmbf_sgn($C);$S"},
+{"EY", "asmbf_abs($C);$S"},
+{"FB", "asmbf_sneg($C);$S"},
+{"FA", "asmbf_smul($C, $S$C);$S"},
+{"FC", "asmbf_sdiv($C, $S$C);$S"},
+{"FD", "asmbf_smod($C, $S$C);$S"}
+{"FE", "if(tape[Q]){$S"},
+{"FF", "}$S"},

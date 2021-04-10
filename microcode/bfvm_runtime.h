@@ -395,4 +395,18 @@ SIV asmbf_sle(int dest, int stk_off) { mp += dest; tape[mp] = sp; mp += stk_off;
 SIV asmbf_fps(int stk_off) { mp += stk_off; tape[mp + scale_factor * sp++] = tape[Q]; }
 SIV asmbf_fpo(int stk_off) { mp += stk_off; tape[Q] = tape[mp + scale_factor * --sp]; }
 
+SIV asmbf_sgn(int val) { mp += val; tape[mp] &= 1; }
+SIV asmbf_abs(int val) { mp += val; tape[mp] >>= 1; tape[mp] <<= 1; }
+SIV asmbf_sneg(int val) { mp += val; tape[mp] ^= 1; }
+
+#define _BFVM_SK1(n, kind) \
+    SIV asmbf_s ## n(int opr1, int opr2) { \
+        _BFVM_TYPE * x = tape + (mp += opr1); \
+        _BFVM_TYPE y = tape[mp += opr2]; \
+        _BFVM_TYPE sgn = *x & 1 ^ y & 1; \
+        *x = ((*x >> 1) kind (y >> 1)) << 1 | sgn; \
+    }
+
+_BFVM_SK1(mul, *) _BFVM_SK1(div, /) _BFVM_SK1(mod, %)
+
 #endif

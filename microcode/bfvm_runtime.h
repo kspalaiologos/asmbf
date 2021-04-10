@@ -2,6 +2,8 @@
 #ifndef _BFVM_RUNTIME
 #define _BFVM_RUNTIME
 
+#define SIV static inline void
+
 /* Expects: _BFVM_TYPE - either uint32_t or uint16_t (default).
             _BFVM_FREESTANDING - if building in freestanding mode. */
 
@@ -16,7 +18,7 @@ _BFVM_TYPE mp, sp, scale_factor = 2;
 #ifndef _BFVM_FREESTANDING
     _BFVM_TYPE * tape;
 
-    static void debug(void) {
+    SIV debug(void) {
         fprintf(stderr, "\n~ BFVM Breakpoint ~\n");
         
         for(int i = 0; i < 10; i++) {
@@ -42,7 +44,7 @@ _BFVM_TYPE mp, sp, scale_factor = 2;
 #define _BFVM_OFF(x) ((x) - 'a')
 
 /* unsigned pow */
-static _BFVM_TYPE bfvm_pow(_BFVM_TYPE x, _BFVM_TYPE y) {
+static inline _BFVM_TYPE bfvm_pow(_BFVM_TYPE x, _BFVM_TYPE y) {
     _BFVM_TYPE i = 1, s = x;
 
     for(; i < y; i++)
@@ -51,7 +53,7 @@ static _BFVM_TYPE bfvm_pow(_BFVM_TYPE x, _BFVM_TYPE y) {
     return s;
 }
 
-static _BFVM_TYPE bfvm_par(_BFVM_TYPE x) {
+static inline _BFVM_TYPE bfvm_par(_BFVM_TYPE x) {
     _BFVM_TYPE parity = 0;
     
     while(x) {
@@ -62,7 +64,7 @@ static _BFVM_TYPE bfvm_par(_BFVM_TYPE x) {
     return parity & 1;
 }
 
-static _BFVM_TYPE gcd(_BFVM_TYPE a, _BFVM_TYPE b) {
+static inline _BFVM_TYPE gcd(_BFVM_TYPE a, _BFVM_TYPE b) {
     _BFVM_TYPE temp;
 
     while(b) {
@@ -90,11 +92,11 @@ static _BFVM_TYPE gcd(_BFVM_TYPE a, _BFVM_TYPE b) {
 #define asmbf_end \
     return 0;
 
-static void asmbf_immed(int offset) { mp += offset; }
-static void asmbf_clear(int offset) { mp += offset; tape[mp] = 0; }
+SIV asmbf_immed(int offset) { mp += offset; }
+SIV asmbf_clear(int offset) { mp += offset; tape[mp] = 0; }
 
 #define _BFVM_DYAD(name, oper) \
-    static void asmbf_ ## name(int from1, int from2) {\
+    SIV asmbf_ ## name(int from1, int from2) {\
         mp += from1; \
         _BFVM_TYPE * cell = tape + mp; \
         *cell = (*cell) oper (tape[mp += from2]); \
@@ -114,26 +116,26 @@ _BFVM_DYAD(ne, !=)
 _BFVM_DYAD(or, ||)
 _BFVM_DYAD(sub, -)
 
-static void asmbf_rse_toggle(void) {
+SIV asmbf_rse_toggle(void) {
     scale_factor = 1 + !(scale_factor - 1);
 }
 
-static void asmbf_pow(int from1, int from2) {
+SIV asmbf_pow(int from1, int from2) {
     mp += from1;
     _BFVM_TYPE * cell = tape + mp;
     *cell = bfvm_pow(*cell, tape[mp += from2]);
 }
 
-static void asmbf_dec(int offset) { mp += offset; tape[mp]--; }
-static void asmbf_inc(int offset) { mp += offset; tape[mp]++; }
-static void asmbf_asr(int offset) { mp += offset; tape[mp] >>= 1; }
-static void asmbf_asl(int offset) { mp += offset; tape[mp] <<= 1; }
-static void asmbf_jmp(int loc) { mp += loc; tape[0] = 0; tape[1] = tape[mp]; }
-static void asmbf_neg(int offset) { mp += offset; tape[mp] = 0 - tape[mp]; }
-static void asmbf_not(int offset) { mp += offset; tape[mp] = 1 - tape[mp]; }
-static void asmbf_log(int offset) { mp += offset; tape[mp] = tape[mp] > 0; }
+SIV asmbf_dec(int offset) { mp += offset; tape[mp]--; }
+SIV asmbf_inc(int offset) { mp += offset; tape[mp]++; }
+SIV asmbf_asr(int offset) { mp += offset; tape[mp] >>= 1; }
+SIV asmbf_asl(int offset) { mp += offset; tape[mp] <<= 1; }
+SIV asmbf_jmp(int loc) { mp += loc; tape[0] = 0; tape[1] = tape[mp]; }
+SIV asmbf_neg(int offset) { mp += offset; tape[mp] = 0 - tape[mp]; }
+SIV asmbf_not(int offset) { mp += offset; tape[mp] = 1 - tape[mp]; }
+SIV asmbf_log(int offset) { mp += offset; tape[mp] = tape[mp] > 0; }
 
-static void asmbf_in(int offset) {
+SIV asmbf_in(int offset) {
     mp += offset;
 
     #ifndef _FREESTANDING
@@ -144,7 +146,7 @@ static void asmbf_in(int offset) {
     #endif
 }
 
-static void asmbf_out(int offset) {
+SIV asmbf_out(int offset) {
     mp += offset;
 
     #ifndef _FREESTANDING
@@ -152,30 +154,30 @@ static void asmbf_out(int offset) {
     #endif
 }
 
-static void asmbf_jnz(int offset, int loc) {
+SIV asmbf_jnz(int offset, int loc) {
     mp += offset; _BFVM_TYPE val = tape[mp]; mp += loc;
     if(val == 0) return; tape[0] = 0; tape[1] = tape[mp];
 }
 
-static void asmbf_jz(int offset, int loc) {
+SIV asmbf_jz(int offset, int loc) {
     mp += offset; _BFVM_TYPE val = tape[mp]; mp += loc;
     if(val != 0) return; tape[0] = 0; tape[1] = tape[mp];
 }
 
-static void asmbf_mov(int from1, int from2) {
+SIV asmbf_mov(int from1, int from2) {
     mp += from1;
     _BFVM_TYPE * cell = tape + mp;
     *cell = tape[mp += from2];
 }
 
-static void asmbf_push(int from, int stack_off) {
+SIV asmbf_push(int from, int stack_off) {
     mp += from;
     _BFVM_TYPE to_push = tape[mp];
     mp += stack_off;
     tape[mp + scale_factor * sp++] = to_push;
 }
 
-static void asmbf_srv(int stack_off) {
+SIV asmbf_srv(int stack_off) {
     mp += stack_off;
     _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
     _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
@@ -183,14 +185,14 @@ static void asmbf_srv(int stack_off) {
     tape[mp + scale_factor * sp++] = val2;
 }
 
-static void asmbf_pop(int dest, int stack_off) {
+SIV asmbf_pop(int dest, int stack_off) {
     mp += dest;
     _BFVM_TYPE * cell = tape + mp;
     mp += stack_off;
     *cell = tape[mp + scale_factor * --sp];
 }
 
-static void asmbf_rcl(int dest, int addr, int ram_off) {
+SIV asmbf_rcl(int dest, int addr, int ram_off) {
     mp += dest;
     _BFVM_TYPE * data = tape + mp;
     mp += addr;
@@ -199,7 +201,7 @@ static void asmbf_rcl(int dest, int addr, int ram_off) {
     *data = tape[mp + 2 + scale_factor * xaddr];
 }
 
-static void asmbf_sto(int addr, int src, int ram_off) {
+SIV asmbf_sto(int addr, int src, int ram_off) {
     mp += addr;
     _BFVM_TYPE xaddr = tape[mp];
     mp += src;
@@ -208,7 +210,7 @@ static void asmbf_sto(int addr, int src, int ram_off) {
     tape[mp + 2 + scale_factor * xaddr] = xsrc;
 }
 
-static void asmbf_amp(int addr, int src, int ram_off) {
+SIV asmbf_amp(int addr, int src, int ram_off) {
     mp += addr;
     _BFVM_TYPE xaddr = tape[mp];
     mp += src;
@@ -217,7 +219,7 @@ static void asmbf_amp(int addr, int src, int ram_off) {
     tape[mp + 2 + scale_factor * xaddr] += xsrc;
 }
 
-static void asmbf_smp(int addr, int src, int ram_off) {
+SIV asmbf_smp(int addr, int src, int ram_off) {
     mp += addr;
     _BFVM_TYPE xaddr = tape[mp];
     mp += src;
@@ -226,7 +228,7 @@ static void asmbf_smp(int addr, int src, int ram_off) {
     tape[mp + 2 + scale_factor * xaddr] -= xsrc;
 }
 
-static void asmbf_swp(int opr1, int opr2) {
+SIV asmbf_swp(int opr1, int opr2) {
     mp += opr1; _BFVM_TYPE * addr1 = tape + mp;
     mp += opr2; _BFVM_TYPE * addr2 = tape + mp;
 
@@ -235,14 +237,14 @@ static void asmbf_swp(int opr1, int opr2) {
     *addr2 = tmp;
 }
 
-static void asmbf_ret(int stack_off) {
+SIV asmbf_ret(int stack_off) {
     mp += stack_off;
     tape[0] = 0;
     tape[1] = tape[mp + scale_factor * --sp];
 }
 
 #define _BFVM_CC(name, kind) \
-    static void asmbf_c ## name(int opr1, int opr2, int qflag) { \
+    SIV asmbf_c ## name(int opr1, int opr2, int qflag) { \
         _BFVM_TYPE v1, v2; mp += opr1; v1 = tape[mp]; mp += opr2; v2 = tape[mp]; \
         mp += qflag; tape[mp] = v1 kind v2; }
 
@@ -253,27 +255,38 @@ _BFVM_CC(lt, <)
 _BFVM_CC(ge, >=)
 _BFVM_CC(gt, >)
 
-static void asmbf_cjn(int target) { mp += target; if(tape[Q] == 0) return; tape[0] = 0; tape[1] = tape[mp]; }
-static void asmbf_cjz(int target) { mp += target; if(tape[Q] != 0) return; tape[0] = 0; tape[1] = tape[mp]; }
+SIV asmbf_cjn(int target) { mp += target; if(tape[Q] == 0) return; tape[0] = 0; tape[1] = tape[mp]; }
+SIV asmbf_cjz(int target) { mp += target; if(tape[Q] != 0) return; tape[0] = 0; tape[1] = tape[mp]; }
 
-#define _BFVM_CV1(orig) static void asmbf_c ## orig (int opr) { if(tape[Q]) asmbf_ ## orig(opr); }
-#define _BFVM_CV2(orig) static void asmbf_c ## orig (int opr1, int opr2) { if(tape[Q]) asmbf_ ## orig(opr1, opr2); }
-#define _BFVM_CV3(orig) static void asmbf_c ## orig (int opr1, int opr2, int opr3) { if(tape[Q]) asmbf_ ## orig(opr1, opr2, opr3); }
+#define _BFVM_CV1(orig) SIV asmbf_c ## orig (int opr) { if(tape[Q]) asmbf_ ## orig(opr); }
+#define _BFVM_CV2(orig) SIV asmbf_c ## orig (int opr1, int opr2) { if(tape[Q]) asmbf_ ## orig(opr1, opr2); }
+#define _BFVM_CV3(orig) SIV asmbf_c ## orig (int opr1, int opr2, int opr3) { if(tape[Q]) asmbf_ ## orig(opr1, opr2, opr3); }
 
 _BFVM_CV2(add); _BFVM_CV2(sub); _BFVM_CV2(mul); _BFVM_CV2(div); _BFVM_CV2(mod);
 _BFVM_CV1(asl); _BFVM_CV1(asr); _BFVM_CV2(pow); _BFVM_CV2(push); _BFVM_CV2(pop);
 _BFVM_CV2(swp); _BFVM_CV1(srv); _BFVM_CV2(mov); _BFVM_CV3(rcl); _BFVM_CV3(sto);
 _BFVM_CV3(amp); _BFVM_CV3(smp);
 
-static void asmbf_cflip() { tape[Q] = !tape[Q]; }
+SIV asmbf_cflip() { tape[Q] = !tape[Q]; }
 
 _BFVM_DYAD(band, &)
 _BFVM_DYAD(bor, |)
 _BFVM_DYAD(bxor, ^)
 
-static void asmbf_bneg(int off) { mp += off; tape[mp] = ~tape[mp]; }
+SIV asmbf_bneg(int off) { mp += off; tape[mp] = ~tape[mp]; }
 
 _BFVM_DYAD(shl, <<)
 _BFVM_DYAD(shr, >>)
+
+SIV asmbf_par(int dest, int src) { mp += dest; _BFVM_TYPE * cell = tape + mp; mp += src; *cell = bfvm_par(tape[mp]); }
+SIV asmbf_cpar(int src) { mp += src; tape[Q] = bfvm_par(tape[mp]); }
+
+SIV asmbf_gcd(int to, int from) {
+    mp += to;
+    _BFVM_TYPE * cell = tape + mp;
+    *cell = gcd(*cell, tape[mp += from]);
+}
+
+_BFVM_CV2(gcd); _BFVM_CV1(ret); 
 
 #endif

@@ -75,4 +75,11 @@
 {"CY", "asmbf_bneg($C, $S$C);$S"},
 {"DA", "asmbf_cflip();$S"},
 {"DB", "asmbf_shr($C, $S$C);$S"},
-{"DC", "asmbf_shl($C, $S$C);$S"}
+{"DC", "asmbf_shl($C, $S$C);$S"},
+{"DD", "asmbf_cout($C);$S"},
+{"DE", "asmbf_cin($C);$S"},
+{"DF", "asmbf_cpar($C);$S"},
+{"DG", "asmbf_par($C, $S$C);$S"},
+{"DH", "asmbf_gcd($C, $S$C);$S"},
+{"DI", "asmbf_cgcd($C, $S$C);$S"},
+{"DJ", "asmbf_cret($C);$S"}

@@ -174,13 +174,13 @@ int main(int argc, char * argv[]) {
     
     printf("#define _BFVM_TYPE %s\n", b32 ? "uint32_t" : "uint16_t");
 
-    if(!freestanding)
-        printf("#define _BFVM_FREESTANDING");
+    if(freestanding)
+        printf("#define _BFVM_FREESTANDING\n");
 
     printf("#include <bfvm_runtime.h>\nint main(void) {\n");
 
     if(!freestanding) {
-        printf("tape = calloc(sizeof(type), %d);\n", heap);
+        printf("tape = calloc(sizeof(_BFVM_TYPE), %d);\n", heap);
     }
     
     #define STRAY_BF fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos);
@@ -201,6 +201,7 @@ int main(int argc, char * argv[]) {
             case ']': STRAY_BF printf("}"); bbal--; break;
             case '.': STRAY_BF printf("putchar(tape[mp]);"); break;
             case ',': STRAY_BF printf("tape[mp] = inchar();"); break;
+            case '#': STRAY_BF printf("debug();"); break;
             case 'Z': fprintf(stderr, "\033[31mDebug: !! Z not matched @%d\033[37m\n", pos); case '\n': case '\r': case ' ': break;
             default:
                 match[mp++] = c;

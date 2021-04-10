@@ -4,34 +4,34 @@
 "ADc\0" /* 3 post */
 "AE2Z\0" /* 4 immed */
 "AF2Z\0" /* 5 immed clear */
-"AG2Z1Z\0" /* 6 add */
-"AH2Z1Z\0" /* and */
+"AG1Z2Z\0" /* 6 add */
+"AH1Z2Z\0" /* and */
 "AI2Z\0" /* dec */
-"AJ2Z1Z\0" /* div */
-"AK2Z1Z\0" /* eq_ */
-"AL2Z1Z\0" /* ge_ */
-"AM2Z1Z\0" /* gt_ */
+"AJ1Z2Z\0" /* div */
+"AK1Z2Z\0" /* eq_ */
+"AL1Z2Z\0" /* ge_ */
+"AM1Z2Z\0" /* gt_ */
 "AN2Z\0" /* in_ */
 "BL2Z\0" /* inc */
 "AO2Z\0" /* jmp addr */
 "AP1Z2Z\0" /* jnz val, addr */
 "AQ1Z2Z\0" /* jz_ val, addr */
 "AR\0" /* lbl */
-"AS2Z1Z\0" /* le_ */
-"AT2Z1Z\0" /* lt_ */
-"AU2Z1Z\0" /* mod */
-"AV2Z1Z\0" /* 22 mov */
-"AW2Z1Z\0" /* mul */
-"AX2Z1Z\0" /* ne_ */
+"AS1Z2Z\0" /* le_ */
+"AT1Z2Z\0" /* lt_ */
+"AU1Z2Z\0" /* mod */
+"AV1Z2Z\0" /* 22 mov */
+"AW1Z2Z\0" /* mul */
+"AX1Z2Z\0" /* ne_ */
 "AY2Z\0" /* neg */
 "FM2Z\0" /* not */
-"BA2Z1Z\0" /* or_ */
+"BA1Z2Z\0" /* or_ */
 "BB2Z\0" /* out */
 "BC2Z#Z\0" /* pop */
 "BD2Z#Z\0" /* psh */
 "BE1Z2Z*Z\0" /* rcl */
 "BF1Z2Z*Z\0" /* sto */
-"BG2Z1Z\0" /* sub */
+"BG1Z2Z\0" /* sub */
 "BH1Z2Z\0" /* swp */
 "BI2Z\0" /* clr */
 "BJ#Z\0" /* ret */
@@ -39,7 +39,7 @@
 "BM2Z\0" /* log */
 "BN2Z\0" /* asl */
 "BO2Z\0" /* asr */
-"BP2Z1Z\0" /* pow */
+"BP1Z2Z\0" /* pow */
 "BR#Z\0" /* srv */
 "BS1Z2Z*Z\0" /* amp */
 "BT1Z2Z*Z\0" /* smp */
@@ -64,24 +64,24 @@
 "CM2Z#Z\0" /* cpo */
 "CN1Z2Z\0" /* csw */
 "CO#Z\0" /* crv */
-"CP2Z1Z\0" /* cmo */
+"CP1Z2Z\0" /* cmo */
 "CR1Z2Z*Z\0" /* crc */
 "CS1Z2Z*Z\0" /* cst */
 "CT1Z2Z*Z\0" /* cam */
 "CU1Z2Z*Z\0" /* csm */
-"CV2Z1Z\0" /* x00 */
-"CW2Z1Z\0" /* x01 */
-"CX2Z1Z\0" /* x02 */
-"CY2Z1Z\0" /* x03 */
+"CV1Z2Z\0" /* x00 */
+"CW1Z2Z\0" /* x01 */
+"CX1Z2Z\0" /* x02 */
+"CY1Z2Z\0" /* x03 */
 "DAZ\0" /* x04 */
 "DB1Z1Z\0" /* shr */
 "DC1Z2Z\0" /* shl */
 "DD2Z\0" /* cou */
 "DE2Z\0" /* cin */
 "DF2Z\0" /* cpa */
-"DG2Z1Z\0" /* par */
-"DH2Z1Z\0" /* gcd */
-"DI2Z1Z\0" /* cgc */
+"DG1Z2Z\0" /* par */
+"DH1Z2Z\0" /* gcd */
+"DI1Z2Z\0" /* cgc */
 "DJ#Z\0" /* cre */
 "DK#Z\0" /* fmul */
 "DL#Z\0" /* fdiv */

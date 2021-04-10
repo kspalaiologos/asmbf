@@ -92,6 +92,12 @@ static inline _BFVM_TYPE gcd(_BFVM_TYPE a, _BFVM_TYPE b) {
 #define asmbf_end \
     return 0;
 
+#define bfvm_pop \
+    tape[mp + scale_factor * --sp]
+
+#define bfvm_push \
+    tape[mp + scale_factor * sp++]
+
 SIV asmbf_immed(int offset) { mp += offset; }
 SIV asmbf_clear(int offset) { mp += offset; tape[mp] = 0; }
 
@@ -174,22 +180,22 @@ SIV asmbf_push(int from, int stack_off) {
     mp += from;
     _BFVM_TYPE to_push = tape[mp];
     mp += stack_off;
-    tape[mp + scale_factor * sp++] = to_push;
+    bfvm_push = to_push;
 }
 
 SIV asmbf_srv(int stack_off) {
     mp += stack_off;
-    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
-    tape[mp + scale_factor * sp++] = val1;
-    tape[mp + scale_factor * sp++] = val2;
+    _BFVM_TYPE val1 = bfvm_pop;
+    _BFVM_TYPE val2 = bfvm_pop;
+    bfvm_push = val1;
+    bfvm_push = val2;
 }
 
 SIV asmbf_pop(int dest, int stack_off) {
     mp += dest;
     _BFVM_TYPE * cell = tape + mp;
     mp += stack_off;
-    *cell = tape[mp + scale_factor * --sp];
+    *cell = bfvm_pop;
 }
 
 SIV asmbf_rcl(int dest, int addr, int ram_off) {
@@ -240,7 +246,7 @@ SIV asmbf_swp(int opr1, int opr2) {
 SIV asmbf_ret(int stack_off) {
     mp += stack_off;
     tape[0] = 0;
-    tape[1] = tape[mp + scale_factor * --sp];
+    tape[1] = bfvm_pop;
 }
 
 #define _BFVM_CC(name, kind) \
@@ -291,68 +297,68 @@ _BFVM_CV2(gcd); _BFVM_CV1(ret);
 
 SIV asmbf_fmul(int stkof) {
     mp += stkof;
-    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val3 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val4 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val1 = bfvm_pop;
+    _BFVM_TYPE val2 = bfvm_pop;
+    _BFVM_TYPE val3 = bfvm_pop;
+    _BFVM_TYPE val4 = bfvm_pop;
     val1 *= val3;
     val2 *= val4;
-    tape[mp + scale_factor * sp++] = val2;
-    tape[mp + scale_factor * sp++] = val1;
+    bfvm_push = val2;
+    bfvm_push = val1;
 }
 
 SIV asmbf_fdiv(int stkof) {
     mp += stkof;
-    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val3 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val4 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val1 = bfvm_pop;
+    _BFVM_TYPE val2 = bfvm_pop;
+    _BFVM_TYPE val3 = bfvm_pop;
+    _BFVM_TYPE val4 = bfvm_pop;
     val1 *= val4;
     val2 *= val3;
-    tape[mp + scale_factor * sp++] = val2;
-    tape[mp + scale_factor * sp++] = val1;
+    bfvm_push = val2;
+    bfvm_push = val1;
 }
 
 SIV asmbf_fadd(int stkof) {
     mp += stkof;
-    _BFVM_TYPE n1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE d1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE n2 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE d2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE n1 = bfvm_pop;
+    _BFVM_TYPE d1 = bfvm_pop;
+    _BFVM_TYPE n2 = bfvm_pop;
+    _BFVM_TYPE d2 = bfvm_pop;
     fprintf(stderr, "%d/%d + %d/%d\n", n1, d1, n2, d2);
     if(d1 == d2) {
-        tape[mp + scale_factor * sp++] = d1;
-        tape[mp + scale_factor * sp++] = n1 + n2;
+        bfvm_push = d1;
+        bfvm_push = n1 + n2;
     } else {
-        tape[mp + scale_factor * sp++] = d1 * d2;
-        tape[mp + scale_factor * sp++] = n1 * d2 + n2 * d1;
+        bfvm_push = d1 * d2;
+        bfvm_push = n1 * d2 + n2 * d1;
     }
 }
 
 SIV asmbf_fsub(int stkof) {
     mp += stkof;
-    _BFVM_TYPE n1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE d1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE n2 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE d2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE n1 = bfvm_pop;
+    _BFVM_TYPE d1 = bfvm_pop;
+    _BFVM_TYPE n2 = bfvm_pop;
+    _BFVM_TYPE d2 = bfvm_pop;
     fprintf(stderr, "%d/%d + %d/%d\n", n1, d1, n2, d2);
     if(d1 == d2) {
-        tape[mp + scale_factor * sp++] = d1;
-        tape[mp + scale_factor * sp++] = n1 - n2;
+        bfvm_push = d1;
+        bfvm_push = n1 - n2;
     } else {
-        tape[mp + scale_factor * sp++] = d1 * d2;
-        tape[mp + scale_factor * sp++] = n1 * d2 - n2 * d1;
+        bfvm_push = d1 * d2;
+        bfvm_push = n1 * d2 - n2 * d1;
     }
 }
 
 SIV asmbf_freduce(int stkof) {
     mp += stkof;
-    _BFVM_TYPE val1 = tape[mp + scale_factor * --sp];
-    _BFVM_TYPE val2 = tape[mp + scale_factor * --sp];
+    _BFVM_TYPE val1 = bfvm_pop;
+    _BFVM_TYPE val2 = bfvm_pop;
     _BFVM_TYPE nval1 = val1 / gcd(val1, val2);
     _BFVM_TYPE nval2 = val2 / gcd(val1, val2);
-    tape[mp + scale_factor * sp++] = nval2;
-    tape[mp + scale_factor * sp++] = nval1;
+    bfvm_push = nval2;
+    bfvm_push = nval1;
 }
 
 #define _BFVM_SPR(name, op1, op2) \
@@ -392,8 +398,8 @@ SIV asmbf_spt(int dest, int srcidx, int stk_off) {
 
 SIV asmbf_tps(int dest, int srcidx, int stk_off) { asmbf_spt(srcidx, dest, stk_off); }
 SIV asmbf_sle(int dest, int stk_off) { mp += dest; tape[mp] = sp; mp += stk_off; }
-SIV asmbf_fps(int stk_off) { mp += stk_off; tape[mp + scale_factor * sp++] = tape[Q]; }
-SIV asmbf_fpo(int stk_off) { mp += stk_off; tape[Q] = tape[mp + scale_factor * --sp]; }
+SIV asmbf_fps(int stk_off) { mp += stk_off; bfvm_push = tape[Q]; }
+SIV asmbf_fpo(int stk_off) { mp += stk_off; tape[Q] = bfvm_pop; }
 
 SIV asmbf_sgn(int val) { mp += val; tape[mp] &= 1; }
 SIV asmbf_abs(int val) { mp += val; tape[mp] >>= 1; tape[mp] <<= 1; }

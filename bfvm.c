@@ -172,54 +172,15 @@ int main(int argc, char * argv[]) {
         }
     }
     
-    printf("#define type %s\n", b32 ? "uint32_t" : "uint16_t");
+    printf("#define _BFVM_TYPE %s\n", b32 ? "uint32_t" : "uint16_t");
+
+    if(freestanding)
+        printf("#define _BFVM_FREESTANDING\n");
+
+    printf("#include <bfvm_runtime.h>\nint main(void) {\n");
 
     if(!freestanding) {
-        printf(
-            "#include <stdio.h>\n"
-            "#include <stdlib.h>\n"
-            "#include <stdint.h>\n"
-            "uint8_t inchar(void) {\n"
-                "uint8_t v = getchar();\n"
-                "return v == EOF ? 0 : v;\n"
-            "}\n"
-            "type*tape,mp,t0,t1,t2,t3,sp;\n"
-        , heap);
-    } else {
-        printf(
-            "type*tape=(type*)0x7000,mp,t0,t1,t2,t3,sp;\n"
-        );
-    }
-
-    printf(
-        "#define OFF(x) ((x) - 'a')\n"
-        "#define G (tape[0])\n"
-        "#define IP (tape[1])\n"
-        "type bfpow(type x, type y) {\n"
-            "type i = 1, s = x; for(; i < y; i++) s *= x; return s;\n"
-        "}\n"
-        "type par(type x) {\n"
-            "type parity = 0;\n"
-            "while(x) {\n"
-                "parity ^= x;\n"
-                "x >>= 1;\n"
-            "}\n"
-            "return parity & 1;\n"
-        "}\n"
-        "type gcd(type a, type b) {\n"
-            "type temp;\n"
-            "while(b) {\n"
-                "temp = a %% b;\n"
-                "a = b;\n"
-                "b = temp;\n"
-            "}\n"
-            "return a;\n"
-        "}\n"
-        "int main(void) {\n"
-    );
-
-    if(!freestanding) {
-        printf("tape=calloc(sizeof(type),%d);\n", heap);
+        printf("tape = calloc(sizeof(_BFVM_TYPE), %d);\n", heap);
     }
     
     #define STRAY_BF fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos);
@@ -239,7 +200,8 @@ int main(int argc, char * argv[]) {
             case '[': STRAY_BF printf("while(tape[mp]) {"); bbal++; break;
             case ']': STRAY_BF printf("}"); bbal--; break;
             case '.': STRAY_BF printf("putchar(tape[mp]);"); break;
-            case ',': STRAY_BF printf("tape[mp]=inchar();"); break;
+            case ',': STRAY_BF printf("tape[mp] = inchar();"); break;
+            case '#': STRAY_BF printf("debug();"); break;
             case 'Z': fprintf(stderr, "\033[31mDebug: !! Z not matched @%d\033[37m\n", pos); case '\n': case '\r': case ' ': break;
             default:
                 match[mp++] = c;
@@ -263,6 +225,6 @@ int main(int argc, char * argv[]) {
         fprintf(stderr, "\033[31m*** Severe: Unbalanced stray BF loops.\033[37m\n");
         exit(1);
     }
-    
+
     puts("}");
 }

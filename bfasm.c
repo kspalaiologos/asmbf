@@ -411,6 +411,7 @@ Lai:;
         case RSE:
             if(vm) {
                 rseg = !rseg;
+                printf("FMZ");
             } else if(!shutup) {
                 fprintf(stderr, " *** WARNING: Brainfuck target; `rse' ignored.\n");
             }

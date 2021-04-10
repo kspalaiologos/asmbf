@@ -119,7 +119,6 @@
 "EW#Z\0" /* fpo */
 "EX2Z\0" /* sgn */
 "EY2Z\0" /* abs */
-"FA2Z\0" /* abs */
 "FB2Z\0" /* sneg */
 "FB1Z2Z\0" /* sgmul */
 "FC1Z2Z\0" /* sgdiv */

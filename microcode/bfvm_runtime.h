@@ -355,4 +355,27 @@ SIV asmbf_freduce(int stkof) {
     tape[mp + scale_factor * sp++] = nval1;
 }
 
+#define _BFVM_SPR(name, op1, op2) \
+    SIV asmbf_c ## name (int opr1, int opr2) { \
+        _BFVM_TYPE o1, o2; mp += opr1; o1 = tape[mp]; mp += opr2; o2 = tape[mp]; \
+        _BFVM_TYPE val = o1 op1 o2; tape[Q] = tape[Q] op2 val; \
+    }
+
+#define _BFVM_SPRALL(p, k) \
+    _BFVM_SPR(p ## eq, ==, k) \
+    _BFVM_SPR(p ## ne, !=, k) \
+    _BFVM_SPR(p ## le, <=, k) \
+    _BFVM_SPR(p ## lt, <, k) \
+    _BFVM_SPR(p ## gt, >, k) \
+    _BFVM_SPR(p ## ge, >=, k)
+
+_BFVM_SPRALL(and, &&)
+_BFVM_SPRALL(or, ||)
+_BFVM_SPRALL(xor, !=)
+
+SIV asmbf_ots(int addr, int src, int ram_off) { asmbf_sto(src, addr, ram_off); }
+_BFVM_CV3(ots);
+
+SIV asmbf_dsc(int stack_off) { --sp; }
+
 #endif

@@ -265,4 +265,15 @@ _BFVM_CV1(asl); _BFVM_CV1(asr); _BFVM_CV2(pow); _BFVM_CV2(push); _BFVM_CV2(pop);
 _BFVM_CV2(swp); _BFVM_CV1(srv); _BFVM_CV2(mov); _BFVM_CV3(rcl); _BFVM_CV3(sto);
 _BFVM_CV3(amp); _BFVM_CV3(smp);
 
+static void asmbf_cflip() { tape[Q] = !tape[Q]; }
+
+_BFVM_DYAD(band, &)
+_BFVM_DYAD(bor, |)
+_BFVM_DYAD(bxor, ^)
+
+static void asmbf_bneg(int off) { mp += off; tape[mp] = ~tape[mp]; }
+
+_BFVM_DYAD(shl, <<)
+_BFVM_DYAD(shr, >>)
+
 #endif

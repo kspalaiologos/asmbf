@@ -69,3 +69,10 @@
 {"CS", "asmbf_csto($C, $S$C);$S"},
 {"CT", "asmbf_camp($C, $S$C);$S"},
 {"CU", "asmbf_csmp($C, $S$C);$S"},
+{"CV", "asmbf_band($C, $S$C);$S"},
+{"CW", "asmbf_bor($C, $S$C);$S"},
+{"CX", "asmbf_bxor($C, $S$C);$S"},
+{"CY", "asmbf_bneg($C, $S$C);$S"},
+{"DA", "asmbf_cflip();$S"},
+{"DB", "asmbf_shr($C, $S$C);$S"},
+{"DC", "asmbf_shl($C, $S$C);$S"}

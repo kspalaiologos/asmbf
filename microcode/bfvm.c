@@ -63,4 +63,9 @@
 {"CL", "asmbf_cpush($C, $S$C);$S"},
 {"CM", "asmbf_cpop($C, $S$C);$S"},
 {"CN", "asmbf_cswp($C, $S$C);$S"},
-{"CO", "asmbf_csrv($C);$S"}
+{"CO", "asmbf_csrv($C);$S"},
+{"CP", "asmbf_cmov($C, $S$C);$S"},
+{"CR", "asmbf_crcl($C, $S$C);$S"},
+{"CS", "asmbf_csto($C, $S$C);$S"},
+{"CT", "asmbf_camp($C, $S$C);$S"},
+{"CU", "asmbf_csmp($C, $S$C);$S"},

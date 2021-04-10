@@ -114,4 +114,6 @@
 {"EP", "asmbf_sgt($C, $S$C, $S$C);$S"},
 {"ER", "asmbf_spt($C, $S$C, $S$C);$S"},
 {"ES", "asmbf_sle($C, $S$C);$S"},
-{"ET", "asmbf_tps($C, $S$C, $S$C);$S"}
+{"ET", "asmbf_tps($C, $S$C, $S$C);$S"},
+{"EU", "asmbf_fps($C);$S"},
+{"EW", "asmbf_fpo($C);$S"}

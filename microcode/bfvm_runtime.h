@@ -390,12 +390,9 @@ SIV asmbf_spt(int dest, int srcidx, int stk_off) {
     mp += stk_off; tape[mp + scale_factor * (sp - idx)] = val;
 }
 
-SIV asmbf_tps(int dest, int srcidx, int stk_off) {
-    asmbf_spt(srcidx, dest, stk_off);
-}
-
-SIV asmbf_sle(int dest, int stk_off) {
-    mp += dest; tape[mp] = sp; mp += stk_off;
-}
+SIV asmbf_tps(int dest, int srcidx, int stk_off) { asmbf_spt(srcidx, dest, stk_off); }
+SIV asmbf_sle(int dest, int stk_off) { mp += dest; tape[mp] = sp; mp += stk_off; }
+SIV asmbf_fps(int stk_off) { mp += stk_off; tape[mp + scale_factor * sp++] = tape[Q]; }
+SIV asmbf_fpo(int stk_off) { mp += stk_off; tape[Q] = tape[mp + scale_factor * --sp]; }
 
 #endif

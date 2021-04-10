@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#define Q 16
+
 _BFVM_TYPE mp, sp, scale_factor = 2;
 
 #ifndef _BFVM_FREESTANDING
@@ -238,5 +240,20 @@ static void asmbf_ret(int stack_off) {
     tape[0] = 0;
     tape[1] = tape[mp + scale_factor * --sp];
 }
+
+#define _BFVM_CC(name, kind) \
+    static void asmbf_c ## name(int opr1, int opr2, int qflag) { \
+        _BFVM_TYPE v1, v2; mp += opr1; v1 = tape[mp]; mp += opr2; v2 = tape[mp]; \
+        mp += qflag; tape[mp] = v1 kind v2; }
+
+_BFVM_CC(eq, ==)
+_BFVM_CC(ne, !=)
+_BFVM_CC(le, <=)
+_BFVM_CC(lt, <)
+_BFVM_CC(ge, >=)
+_BFVM_CC(gt, >)
+
+static void asmbf_cjn(int target) { mp += target; if(tape[Q] == 0) return; tape[0] = 0; tape[1] = tape[mp]; }
+static void asmbf_cjz(int target) { mp += target; if(tape[Q] != 0) return; tape[0] = 0; tape[1] = tape[mp]; }
 
 #endif

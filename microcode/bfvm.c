@@ -43,4 +43,11 @@
 {"BS", "asmbf_amp($C, $S$C, $S$C);$S"},
 {"BT", "asmbf_smp($C, $S$C, $S$C);$S"},
 {"BU", "asmbf_immed($C);$S"},
-{"FM", "asmbf_rse_toggle();$S"}
+{"FM", "asmbf_rse_toggle();$S"},
+{"BV", "asmbf_ceq($C, $S$C, $S$C);$S"},
+{"BW", "asmbf_cne($C, $S$C, $S$C);$S"},
+{"BX", "asmbf_cle($C, $S$C, $S$C);$S"},
+{"BY", "asmbf_clt($C, $S$C, $S$C);$S"},
+{"FO", "asmbf_cge($C, $S$C, $S$C);$S"},
+{"CA", "asmbf_cgt($C, $S$C, $S$C);$S"},
+

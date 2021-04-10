@@ -204,6 +204,11 @@ int main(int argc, char * argv[]) {
             case '#': STRAY_BF printf("debug();"); break;
             case 'Z': fprintf(stderr, "\033[31mDebug: !! Z not matched @%d\033[37m\n", pos); case '\n': case '\r': case ' ': break;
             default:
+                if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) {
+                    fprintf(stderr, "\033[31mDebug: !! ign: %c\n", c);
+                    break;
+                }
+
                 match[mp++] = c;
 
                 if(mp > 32) {

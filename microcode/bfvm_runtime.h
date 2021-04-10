@@ -332,7 +332,6 @@ SIV asmbf_fadd(int stkof) {
     _BFVM_TYPE d1 = bfvm_pop;
     _BFVM_TYPE n2 = bfvm_pop;
     _BFVM_TYPE d2 = bfvm_pop;
-    fprintf(stderr, "%d/%d + %d/%d\n", n1, d1, n2, d2);
     if(d1 == d2) {
         bfvm_push = d1;
         bfvm_push = n1 + n2;
@@ -348,7 +347,6 @@ SIV asmbf_fsub(int stkof) {
     _BFVM_TYPE d1 = bfvm_pop;
     _BFVM_TYPE n2 = bfvm_pop;
     _BFVM_TYPE d2 = bfvm_pop;
-    fprintf(stderr, "%d/%d + %d/%d\n", n1, d1, n2, d2);
     if(d1 == d2) {
         bfvm_push = d1;
         bfvm_push = n1 - n2;

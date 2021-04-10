@@ -29,7 +29,7 @@ preprocessor/bflabels
 preprocessor/constpp
 preprocessor/effective
 preprocessor/vxcall
-attic/*.txt
+attic/*
 bfadbg/bfadbg
 bfadbg/*.o
 

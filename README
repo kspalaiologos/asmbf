@@ -67,7 +67,8 @@ an operating system (which boots and operates mainly thanks to pure brainfuck! T
 brainfuck code can directly access the memory and set up a custom interrupt handler, which executes
 provided assembled machine code when the timer intterupt fires, which later modifies the interpreter
 to add special instructions to it). asm2bf has also been used to create a small (~150 line) functional
-programming language interpreter, which compiles to only around 20 kilobytes of brainfuck.
+programming language interpreter, which compiles to only around 20 kilobytes of brainfuck. It was also
+used to create tiny brainfuck programs, as well as proofs of concepts for web development in brainfuck.
 
 Finally, I, the author, am working on an exhaustive manual on _all_ of asm2bf, for which the progress
 you can see in etc/manual.pdf

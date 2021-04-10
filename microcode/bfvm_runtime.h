@@ -191,6 +191,13 @@ SIV asmbf_srv(int stack_off) {
     bfvm_push = val2;
 }
 
+SIV asmbf_dup(int stack_off) {
+    mp += stack_off;
+    _BFVM_TYPE val1 = bfvm_pop;
+    bfvm_push = val1;
+    bfvm_push = val1;
+}
+
 SIV asmbf_pop(int dest, int stack_off) {
     mp += dest;
     _BFVM_TYPE * cell = tape + mp;
@@ -271,7 +278,7 @@ SIV asmbf_cjz(int target) { mp += target; if(tape[Q] != 0) return; tape[0] = 0; 
 _BFVM_CV2(add); _BFVM_CV2(sub); _BFVM_CV2(mul); _BFVM_CV2(div); _BFVM_CV2(mod);
 _BFVM_CV1(asl); _BFVM_CV1(asr); _BFVM_CV2(pow); _BFVM_CV2(push); _BFVM_CV2(pop);
 _BFVM_CV2(swp); _BFVM_CV1(srv); _BFVM_CV2(mov); _BFVM_CV3(rcl); _BFVM_CV3(sto);
-_BFVM_CV3(amp); _BFVM_CV3(smp); _BFVM_CV1(in); _BFVM_CV1(out);
+_BFVM_CV3(amp); _BFVM_CV3(smp); _BFVM_CV1(in); _BFVM_CV1(out); _BFVM_CV1(dup);
 
 SIV asmbf_cflip() { tape[Q] = !tape[Q]; }
 
@@ -414,5 +421,43 @@ SIV asmbf_sneg(int val) { mp += val; tape[mp] ^= 1; }
     }
 
 _BFVM_SK1(mul, *) _BFVM_SK1(div, /) _BFVM_SK1(mod, %)
+
+#define _BFVM_SK2 \
+    _BFVM_TYPE * x = tape + (mp += opr1); \
+    _BFVM_TYPE y = tape[mp += opr2]; \
+    _BFVM_TYPE sgx = *x & 1, sgy = y & 1; \
+    _BFVM_TYPE rx = *x >> 1, ry = y >> 1; \
+
+SIV asmbf_sadd(int opr1, int opr2) {
+    _BFVM_SK2
+    if(sgx != sgy) {
+        _BFVM_TYPE n0 = sgx ? rx : ry, n1 = sgx ? ry : rx;
+        *x = (n0 < n1) ? ((n1 - n0) << 1) : ((n0 - n1) << 1 | 1);
+    } else *x = (rx + ry) << 1 | sgx;
+}
+
+SIV asmbf_ssub(int opr1, int opr2) {
+    _BFVM_SK2
+    if(sgx != sgy) {
+        _BFVM_TYPE n0 = sgx ? rx : ry, n1 = sgx ? ry : rx;
+        *x = (n0 < n1) ? ((n1 - n0) << 1) : ((n0 - n1) << 1 | 1);
+    } else *x = (rx + ry) << 1 | sgx;
+}
+
+SIV asmbf_dup2(int stk_off) { asmbf_dup(stk_off); asmbf_dup(0); }
+
+SIV asmbf_axl(int stk_off) {
+    mp += stk_off;
+    _BFVM_TYPE n = bfvm_pop;
+    _BFVM_TYPE d = bfvm_pop;
+    n = (n * 100) / d;
+    bfvm_push = n / 100;
+    bfvm_push = n % 100;
+}
+
+SIV asmbf_xgt(int opr1, int opr2) { _BFVM_SK2 *x = sgx != sgy ? sgy == 1 : (sgy == 1 ? rx < ry : rx > ry); }
+SIV asmbf_xge(int opr1, int opr2) { _BFVM_SK2 if(*x == y) *x = 1; else *x = sgx != sgy ? sgy == 1 : (sgy == 1 ? rx < ry : rx > ry); }
+SIV asmbf_xlt(int opr1, int opr2) { _BFVM_SK2 *x = sgx != sgy ? sgy == 0 : (sgy == 0 ? rx < ry : rx > ry); }
+SIV asmbf_xle(int opr1, int opr2) { _BFVM_SK2 if(*x == y) *x = 1; else *x = sgx != sgy ? sgy == 0 : (sgy == 0 ? rx < ry : rx > ry); }
 
 #endif

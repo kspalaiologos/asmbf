@@ -122,6 +122,14 @@
 {"FB", "asmbf_sneg($C);$S"},
 {"FA", "asmbf_smul($C, $S$C);$S"},
 {"FC", "asmbf_sdiv($C, $S$C);$S"},
-{"FD", "asmbf_smod($C, $S$C);$S"}
+{"FD", "asmbf_smod($C, $S$C);$S"},
 {"FE", "if(tape[Q]){$S"},
 {"FF", "}$S"},
+{"FG", "asmbf_ssub($C, $S$C);$S"},
+{"FH", "asmbf_sadd($C, $S$C);$S"},
+{"FI", "asmbf_dup2($C);$S"},
+{"FJ", "asmbf_axl($C);$S"},
+{"FK", "asmbf_xgt($C, $S$C);$S"},
+{"FL", "asmbf_xle($C, $S$C);$S"},
+{"FM", "asmbf_xlt($C, $S$C);$S"},
+{"FN", "asmbf_xge($C, $S$C);$S"}

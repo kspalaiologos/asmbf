@@ -50,4 +50,5 @@
 {"BY", "asmbf_clt($C, $S$C, $S$C);$S"},
 {"FO", "asmbf_cge($C, $S$C, $S$C);$S"},
 {"CA", "asmbf_cgt($C, $S$C, $S$C);$S"},
-
+{"CB", "asmbf_cjn($C);$S"},
+{"CC", "asmbf_cjz($C);$S"}

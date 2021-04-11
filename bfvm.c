@@ -104,7 +104,7 @@ void emit(const char * template) {
                 case 'M': match_mp(); break;
                 case 'C': match_const(); break;
                 case 'I': match_ignore(); break;
-                case 'S': pos++; break;
+                case 'S': pos++; getchar(); break;
                 default: putchar('$'); putchar(*template);
             }
             

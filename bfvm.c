@@ -79,7 +79,6 @@ struct delta_match suck_delta(void) {
 
 void match_ignore(void) { suck_delta(); }
 void match_const(void) { printf("%d", suck_delta().coefficient); }
-void match_value(void) { int32_t x = suck_delta().coefficient; if(x) printf("tape[mp] += %d;\n", x); }
 void match_mp(void) { int32_t x = suck_delta().coefficient; if(x) printf("mp += %d;\n", x); }
 void match_flexy(void) {
     struct delta_match m = suck_delta();
@@ -102,12 +101,10 @@ void emit(const char * template) {
             match_swap = 0;
             
             switch(*template) {
-                case 'V': match_value(); break;
                 case 'M': match_mp(); break;
                 case 'C': match_const(); break;
                 case 'I': match_ignore(); break;
-                case 'T': printf("tape[mp]"); break;
-                case 'S': pos++; fprintf(stderr, "Debug: skip %c\n", getchar()); break;
+                case 'S': pos++; break;
                 default: putchar('$'); putchar(*template);
             }
             

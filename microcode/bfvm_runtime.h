@@ -87,7 +87,7 @@ static inline _BFVM_TYPE gcd(_BFVM_TYPE a, _BFVM_TYPE b) {
     mp = 0; if(tape[mp]) {
 
 #define asmbf_post \
-    }
+    mp = 2; }
 
 #define asmbf_end \
     return 0;
@@ -386,11 +386,11 @@ _BFVM_SPRALL(xor, !=)
 
 SIV asmbf_ots(int addr, int src, int ram_off) {
     mp += addr;
-    _BFVM_TYPE xsrc = tape[mp];
-    mp += src;
     _BFVM_TYPE xaddr = tape[mp];
+    mp += src;
+    _BFVM_TYPE xsrc = tape[mp];
     mp += ram_off;
-    tape[mp + 2 + scale_factor * xaddr] = xsrc;
+    tape[mp + 2 + scale_factor * xsrc] = xaddr;
 }
 _BFVM_CV3(ots);
 

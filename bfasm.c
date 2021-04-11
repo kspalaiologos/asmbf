@@ -344,7 +344,7 @@ Lai:;
                 goto Lap;
             }
             goto Lao;
-        case 30: /* ret */
+        case 30: case 78: /* ret */
             if(tiny) {
                 if(!shutup)
                     fprintf(stderr, "\n** ERROR: ret not allowed in tiny mode.\n");

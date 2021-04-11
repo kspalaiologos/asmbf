@@ -13,10 +13,10 @@
 
 #define Q 16
 
-_BFVM_TYPE mp, sp, scale_factor = 2;
+static _BFVM_TYPE mp, sp, scale_factor = 2;
 
 #ifndef _BFVM_FREESTANDING
-    _BFVM_TYPE * tape;
+    static _BFVM_TYPE * tape;
 
     SIV debug(void) {
         fprintf(stderr, "\n~ BFVM Breakpoint ~\n");
@@ -38,7 +38,7 @@ _BFVM_TYPE mp, sp, scale_factor = 2;
         fprintf(stderr, "R6: %04X sp: %04X\n\n", tape[18], sp);
     }
 #else
-    _BFVM_TYPE * tape = (_BFVM_TYPE *) 0x7000;
+    static _BFVM_TYPE * tape = (_BFVM_TYPE *) 0x7000;
 #endif
 
 #define _BFVM_OFF(x) ((x) - 'a')

@@ -65,7 +65,7 @@ void outrep();
 
 static unsigned long bits = 16;
 static unsigned long skipped_inits = 0;
-static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0;
+static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0, move = 0;
 static unsigned long m[12000], off, freecell, rseg;
 static char s[] =
     #include "microcode/bfasm-instructions.c"
@@ -156,6 +156,10 @@ Lad:;
     m[1] = 4;
     goto Laa;
 Lay:;
+    if (m[0] == '@') { if(vm) {
+        if(!shutup) fprintf(stderr, "\n** ERROR: Can't use move semantics in a non-brainfuck target.\n");
+        goto Laz;
+    } else m[0] = inchar(), move = 1; }
     if (m[0] != ';') goto Lac; /* comment */
     if (m[1] == 2) goto Lai;
     m[1] = 0;
@@ -435,6 +439,7 @@ Lao:;
     outbf();
 Lap:;
     m[1] = 1;
+    move = 0;
     if (m[12] == 1) {
         m[6] = 3;
         outbf(); /* post */
@@ -517,6 +522,10 @@ o3:;
 o2:;
     r1 = m[m[7]];
     if (r1 == '\0') goto o4;
+    if (r1 == '$') {
+        if(move) m[7]++;
+        r1 = m[m[7]]; m[7]++;
+    }
     if (r1 != '1') goto o5;
     r1 = m[5];
 o5:;

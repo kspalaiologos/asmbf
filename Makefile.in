@@ -45,6 +45,7 @@ bfpp:
 
 test: test/*.asm
 	@chmod a+x test/test.pl $^
+	@make test-clean
 	bfmake test/hello_fancy.asm
 	bfi -d test/hello_fancy.b > /dev/null
 	bfi -x test/hello_fancy.b > /dev/null
@@ -54,6 +55,7 @@ test: test/*.asm
 
 sync-test: test/*.asm
 	@chmod a+x test/test.pl $^
+	@make test-clean
 	bfmake test/hello_fancy.asm
 	bfi -d test/hello_fancy.b > /dev/null
 	bfi -x test/hello_fancy.b > /dev/null
@@ -95,3 +97,4 @@ test-clean:
 	rm -f test/*.aout
 	rm -f test/*.b
 	rm -f test/*.bin
+	rm -f test/*.c

@@ -107,7 +107,7 @@ void emit(const char * template) {
                 case 'C': match_const(); break;
                 case 'I': match_ignore(); break;
                 case 'T': printf("tape[mp]"); break;
-                case 'S': pos++; getchar(); break;
+                case 'S': pos++; fprintf(stderr, "Debug: skip %c\n", getchar()); break;
                 default: putchar('$'); putchar(*template);
             }
             

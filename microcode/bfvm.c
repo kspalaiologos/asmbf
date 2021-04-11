@@ -131,5 +131,5 @@
 {"FJ", "asmbf_axl($C);$S"},
 {"FK", "asmbf_xgt($C, $S$C);$S"},
 {"FL", "asmbf_xle($C, $S$C);$S"},
-{"FM", "asmbf_xlt($C, $S$C);$S"},
+{"FP", "asmbf_xlt($C, $S$C);$S"},
 {"FN", "asmbf_xge($C, $S$C);$S"}

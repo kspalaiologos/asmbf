@@ -79,7 +79,7 @@ sub build {
     $compiler = 'cat' if defined $options{p};
     $bfvm = "bfvm" if defined $options{c};
     $mflag = ' -m ' if defined $options{m};
-    $b32 = ' -32 ' if defined $options{x} and defined $options{c};
+    $b32 = ' -32 ' if defined $options{x} and (defined $options{c} or defined $options{b});
     $freestanding = ' -freestanding ' if defined $options{f} and defined $options{c};
     $heapsiz = (' -heap ' . $options{a} . ' ') if defined $options{a} and defined $options{c};
     $o0 = ' -O0 ' if defined $options{z};
@@ -90,7 +90,7 @@ sub build {
 
     $xf = '-s' if defined $options{x};
 
-    $bconv = "bconv" if defined $options{x} or defined $options{v};
+    $bconv = "bconv" if (defined $options{x} or defined $options{v}) and not (defined $options{b} or defined $options{c});
     
     `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf > $output\"`;
     

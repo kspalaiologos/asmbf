@@ -10,7 +10,7 @@
 ?movf=rcl
 ?lea=mov
 ?cgcd=cgc
-?cret=crc
+?cret=cre
 ?finv=srv
 ?fmul=fmu
 ?fdiv=fdi

@@ -49,43 +49,51 @@ foreach my $file(@ARGV) {
             die " *** TEST FAILED: $file should build." if($code != 0);
         }
 
-        $file  =~ s{\.[^.]+$}{};
+        $code = system("bfmake -c $makeflags $file > /dev/null 2> /dev/null");
 
-        if($file =~ /bfvm/) {
-            my $code = system("cc -O2 $file.c -o $file.bin && timeout 20s ./$file.bin < $file.in > $file.aout");
-
-            if($code != 0) {
-                die " *** TEST FAILED: $file.asm, interpreter crashed.";
-            }
+        if($file =~ /invalid/) {
+            die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
         } else {
-            my $code = system("timeout 20s bfi $file.b < $file.in > $file.aout");
-
-            if($code != 0) {
-                die " *** TEST FAILED: $file.asm, interpreter crashed.";
-            }
+            die " *** TEST FAILED: $file should build." if($code != 0);
         }
 
-        $diff = `diff $file.aout $file.out`;
+        if(not $file =~ /invalid/) {
+            $file  =~ s{\.[^.]+$}{};
 
-        if(length($diff) > 0) {
-            print color('bold yellow');
-            printf "[%03d/%03d] ", $current, $max;
-            print color('reset');
-            printf "%-30s", $file;
-            print color('bold red');
-            print " *** TEST FAILED!\tOutput diff:\n";
-            print $diff;
-            print color('reset');
-            exit length($diff);
-        } else {
-            print color('bold yellow');
-            printf "[%03d/%03d] ", $current, $max;
-            print color('reset');
-            printf "%-30s", $file;
-            print color('bold green');
-            print " *** TEST PASS.";
-            print color('reset');
-            print "\n";
+            $code = system("timeout 20s bfi $file.b < $file.in > $file.aout");
+
+            if($code != 0) {
+                die " *** TEST FAILED: $file.asm, interpreter crashed.";
+            }
+
+            $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout");
+
+            if($code != 0) {
+                die " *** TEST FAILED: $file.asm, the program crashed.";
+            }
+
+            $diff = `diff $file.aout $file.out`;
+
+            if(length($diff) > 0) {
+                print color('bold yellow');
+                printf "[%03d/%03d] ", $current, $max;
+                print color('reset');
+                printf "%-30s", $file;
+                print color('bold red');
+                print " *** TEST FAILED!\tOutput diff:\n";
+                print $diff;
+                print color('reset');
+                exit length($diff);
+            } else {
+                print color('bold yellow');
+                printf "[%03d/%03d] ", $current, $max;
+                print color('reset');
+                printf "%-30s", $file;
+                print color('bold green');
+                print " *** TEST PASS.";
+                print color('reset');
+                print "\n";
+            }
         }
         
         if(!$blocking) {

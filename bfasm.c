@@ -156,7 +156,7 @@ Lad:;
     m[1] = 4;
     goto Laa;
 Lay:;
-    if (m[0] == '@') { if(vm) {
+    if (m[0] == '^') { if(vm) {
         if(!shutup) fprintf(stderr, "\n** ERROR: Can't use move semantics in a non-brainfuck target.\n");
         goto Laz;
     } else m[0] = inchar(), move = 1; }

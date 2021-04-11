@@ -49,12 +49,14 @@ foreach my $file(@ARGV) {
             die " *** TEST FAILED: $file should build." if($code != 0);
         }
 
-        $code = system("bfmake -c $makeflags $file > /dev/null 2> /dev/null");
+        if(not $file =~ /novm/) {
+            $code = system("bfmake -c $makeflags $file > /dev/null 2> /dev/null");
 
-        if($file =~ /invalid/) {
-            die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
-        } else {
-            die " *** TEST FAILED: $file should build." if($code != 0);
+            if($file =~ /invalid/) {
+                die " *** TEST FAILED: $file shouldn't build. Code: $code" if($code == 0);
+            } else {
+                die " *** TEST FAILED: $file should build." if($code != 0);
+            }
         }
 
         if(not $file =~ /invalid/) {
@@ -66,13 +68,15 @@ foreach my $file(@ARGV) {
                 die " *** TEST FAILED: $file.asm, interpreter crashed.";
             }
 
-            $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout");
+            if(not $file =~ /novm/) {
+                $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout");
 
-            if($code != 0) {
-                die " *** TEST FAILED: $file.asm, the program crashed.";
+                if($code != 0) {
+                    die " *** TEST FAILED: $file.asm, the program crashed.";
+                }
+
+                $diff = `diff $file.aout $file.out`;
             }
-
-            $diff = `diff $file.aout $file.out`;
 
             if(length($diff) > 0) {
                 print color('bold yellow');

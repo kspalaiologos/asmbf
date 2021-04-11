@@ -32,6 +32,7 @@ sub help {
     print " -x: force 32-bit bfvm output.\n";
     print " -f: build freestanding bfvm code.\n";
     print " -a: set bfvm heap size in cells.\n";
+    print " -v: don't surpress bfvm output.\n";
     print "\n";
     print "IMPORTANT: FLAGS GO BEFORE INPUT FILE.\n";
     print "-e and -f are mutually exclusive.\n";
@@ -69,7 +70,7 @@ sub build {
     my $postfrle = '';
     my $vm = '';
     my $tiny = '';
-
+    my $bfvmredir = '2> /dev/null';
     my $xf = '';
 
     $output = $options{o} if defined $options{o};
@@ -87,12 +88,13 @@ sub build {
     $postfrle = ' -ze ' if defined $options{f};
     $vm = ' -vm ' if defined $options{b} or defined $options{c};
     $tiny = ' -t ' if defined $options{t};
+    $bfvmredir = '' if defined $options{v};
 
     $xf = '-s' if defined $options{x};
 
     $bconv = "bconv" if (defined $options{x} or defined $options{v}) and not (defined $options{b} or defined $options{c});
     
-    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz | $bconv $xf > $output\"`;
+    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $wf | $bfvm $b32 $freestanding $heapsiz $bfvmredir | $bconv $xf > $output\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";

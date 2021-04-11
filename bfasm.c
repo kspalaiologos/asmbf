@@ -524,7 +524,7 @@ o2:;
     if (r1 == '\0') goto o4;
     if (r1 == '$') {
         if(move) m[7]++;
-        r1 = m[m[7]]; m[7]++;
+        goto o10;
     }
     if (r1 != '1') goto o5;
     r1 = m[5];

@@ -164,8 +164,8 @@ void virtual_call(char * text) {
 %option nounput noinput noyywrap nodefault
 
 %%
-^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_/]*) { push_def(yytext); }
-(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_/]*)) { pop_def(yytext); }
+^[ \t]*\?([A-Za-z_][A-Za-z0-9_]*)\=([A-Za-z_][A-Za-z0-9_/\^]*) { push_def(yytext); }
+(([A-Za-z_][A-Za-z0-9_]*)|\"[^\"\n]*([A-Za-z_][A-Za-z0-9_]*)) { pop_def(yytext); }
 ^[ \t]*\?.* { syntax_error(yytext); }
 ^[\t ]*vxcall[\t ]+.* { virtual_call(yytext); }
 \n { lineno++; putchar('\n'); }

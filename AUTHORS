@@ -1,6 +1,6 @@
 
 Kamila Szewczyk (https://github.com/kspalaiologos) - main work; everything not included below.
 Daniel Cristofani (http://brainfuck.org/) - bitop microcode; general microcode optimizations.
-Maciej "maviek" Stanka (https://github.com/maviek) - bfi improvements, b2bf.
+aku (https://github.com/akucchi) - b2bf; initial testing.
 
-Last updated: 22.11.2020
+Last update: 12.04.2021

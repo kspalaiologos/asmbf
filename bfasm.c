@@ -34,7 +34,7 @@
 #include <string.h>
 #include "config.h"
 
-#define IC 137
+#define IC 139
 
 /* db command location: instruction count - 4 */
 #define C1 (IC-4)
@@ -46,6 +46,8 @@
 #define C3 (IC-3)
 
 /* location of various instructions */
+#define MVS (IC-10)
+#define MVE (IC-9)
 #define BTS (IC-8)
 #define RSE (IC-7)
 #define STK (IC-6)
@@ -65,7 +67,7 @@ void outrep();
 
 static unsigned long bits = 16;
 static unsigned long skipped_inits = 0;
-static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0, move = 0;
+static unsigned char disable_opt = 0, shutup = 0, rle_prefix = 0, rle_postfix = 0, vm = 0, tiny = 0, move = 0, perma_move = 0;
 static unsigned long m[12000], off, freecell, rseg;
 static char s[] =
     #include "microcode/bfasm-instructions.c"
@@ -412,6 +414,20 @@ Lai:;
         case BTS:
             bits=m[3];
             goto Lap;
+        case MVS:
+            if(vm) {
+                if(!shutup) fprintf(stderr, "\n** ERROR: Can't use move semantics in a non-brainfuck target.\n");
+                goto Laz;
+            }
+            perma_move = 1;
+            goto Lap;
+        case MVE:
+            if(vm) {
+                if(!shutup) fprintf(stderr, "\n** ERROR: Can't use move semantics in a non-brainfuck target.\n");
+                goto Laz;
+            }
+            perma_move = 0;
+            goto Lap;
         case RSE:
             if(vm) {
                 rseg = !rseg;
@@ -523,7 +539,7 @@ o2:;
     r1 = m[m[7]];
     if (r1 == '\0') goto o4;
     if (r1 == '$') {
-        if(move) m[7]++;
+        if(move || perma_move) m[7]++;
         goto o10;
     }
     if (r1 != '1') goto o5;

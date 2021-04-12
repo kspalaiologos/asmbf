@@ -75,4 +75,6 @@
 ?dup2=dp2
 ?u2s=asl
 ?s2u=asr
+?mbegin=mvs
+?mend=mve
 #-- Note: This file HAS to contain a trailing newline.

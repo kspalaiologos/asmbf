@@ -97,7 +97,7 @@ sub build {
 
     $bconv = "bconv" if (defined $options{x} or defined $options{v}) and not (defined $options{b} or defined $options{c});
     
-    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $bfstrip_noign $wf | $bfvm $b32 $freestanding $heapsiz $bfvmredir | $bconv $xf > $output\"`;
+    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $bfstrip_noign $wf | $bfvm $b32 $freestanding $heapsiz $bfvmredir | $bconv $xf > $output.tmp\"`;
     
     if(-s "error$$.log" != 0) {
         open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";
@@ -105,11 +105,15 @@ sub build {
         print "\n";
         close (FILE);
         
-        `rm -f error$$.log`;
+        unlink "error$$.log";
+        unlink "$output.tmp";
         exit 1;
     }
     
-    `rm -f error$$.log`;
+    unlink $output;
+    rename($output.".tmp", $output);
+    
+    unlink "error$$.log";
     exit 0;
 }
 

@@ -69,7 +69,7 @@ foreach my $file(@ARGV) {
             }
 
             if(not $file =~ /novm/) {
-                $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout");
+                $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout 2> /dev/null");
 
                 if($code != 0) {
                     die " *** TEST FAILED: $file.asm, the program crashed.";

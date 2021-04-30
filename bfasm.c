@@ -340,6 +340,23 @@ Lai:;
                 goto Lap;
             }
             goto Lao;
+        case 17: /* mul */
+            if(m[4] == 0 && !vm && !disable_opt) {
+                #define AT(x) m[6]=4;m[4]=x;outbf();
+                char p = m[5] > 'j' ? 'n' : 'j';
+                AT(m[5]);
+                putchar('[');
+                AT(p);
+                m[6] = '+';
+                outrep();
+                AT(m[5]);
+                putchar('-');
+                putchar(']');
+                AT(p);
+                putchar('['); AT(m[5]); putchar('+'); AT(p); putchar('-'); putchar(']');
+                goto Lap;
+            }
+            goto Lao;
         case 27: /* sub */
             if (m[4] == 0) {
                 m[6] = 4;

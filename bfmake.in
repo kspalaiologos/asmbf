@@ -100,9 +100,7 @@ sub build {
     `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $bfstrip_noign $wf | $bfvm $b32 $freestanding $heapsiz $bfvmredir | $bconv $xf > $output.tmp\"`;
     
     if(-s "error$$.log" != 0) {
-        open (FILE, '<', "error$$.log") or die "Could not open the log file.\n";
-        print do { local $/; <$FILE> } . "\n";
-        close (FILE);
+        print `cat error$$.log`;
         
         unlink "error$$.log";
         unlink "$output.tmp";

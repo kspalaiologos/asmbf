@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# subst.pl: convert to/from trivial brainfuck subsitutions.
+# golfed purely for fun.
+
 use Generator::Object;
 
 @i = split //, "><+-.,[]";

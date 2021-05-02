@@ -68,6 +68,8 @@ foreach my $file(@ARGV) {
                 die " *** TEST FAILED: $file.asm, interpreter crashed.";
             }
 
+            $diff2 = `diff $file.aout $file.out`;
+
             if(not $file =~ /novm/) {
                 $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout 2> /dev/null");
 
@@ -84,8 +86,18 @@ foreach my $file(@ARGV) {
                 print color('reset');
                 printf "%-30s", $file;
                 print color('bold red');
-                print " *** TEST FAILED!\tOutput diff:\n";
+                print " *** TEST FAILED (VM)!\tOutput diff:\n";
                 print $diff;
+                print color('reset');
+                exit length($diff);
+            } elsif(length($diff2) > 0) {
+                print color('bold yellow');
+                printf "[%03d/%03d] ", $current, $max;
+                print color('reset');
+                printf "%-30s", $file;
+                print color('bold red');
+                print " *** TEST FAILED (BF)!\tOutput diff:\n";
+                print $diff2;
                 print color('reset');
                 exit length($diff);
             } else {

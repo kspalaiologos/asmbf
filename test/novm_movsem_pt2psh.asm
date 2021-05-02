@@ -42,7 +42,7 @@ out r1
 
 ^psh r1
 ^psh 2
-^psh r3
+^psh r2
 
 pop r4
 add r4, .0

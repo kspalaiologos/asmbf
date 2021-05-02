@@ -134,3 +134,4 @@
 "FP1Z2Z\0" /* xlt */
 "FN1Z2Z\0" /* xge */
 "FR1Z2Z*Z\0" /* lods */
+"FS1Z2Z*Z\0" /* stos */

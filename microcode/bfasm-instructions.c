@@ -128,6 +128,7 @@
 "xlt"
 "xge"
 "ss0"
+"ss1"
 "mvs"
 "mve"
 "bts"

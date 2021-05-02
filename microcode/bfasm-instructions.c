@@ -127,6 +127,7 @@
 "xle"
 "xlt"
 "xge"
+"ss0"
 "mvs"
 "mve"
 "bts"

@@ -3,8 +3,6 @@
 # subst.pl: convert to/from trivial brainfuck subsitutions.
 # golfed purely for fun.
 
-use Generator::Object;
-
 @i = split //, "><+-.,[]";
 
 # Note: Most of these substitutions have been taken from the esolang wiki. I didn't create any of these.

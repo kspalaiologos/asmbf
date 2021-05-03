@@ -1,4 +1,6 @@
 
+_=print
+
 function include(path)
     local M = {}
 
@@ -247,9 +249,9 @@ end
 
 RET_ID = 0
 function call(x)
-    print("psh %_return_" .. RET_ID)
-    print("jmp %" .. x)
-    print("@_return_" .. RET_ID)
+    _("psh %_return_" .. RET_ID)
+    _("jmp %" .. x)
+    _("@_return_" .. RET_ID)
     RET_ID = RET_ID + 1
 end
 
@@ -257,36 +259,36 @@ MM_BASE = 0
 PAGE_SIZE = 16
 
 function alloc(target_register, clear)
-    print("psh " .. clear)
-    print("mov " .. target_register .. ", " .. tostring(MM_BASE))
-    print("mov " .. clear .. ", 1")
-    print("nav " .. clear)
-    print("raw .[")
-    print("rcl " .. clear .. ", " .. target_register)
-    print("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
-    print("inc " .. target_register)
-    print("nav " .. clear)
-    print("raw .]")
-    print("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
-    print("dec " .. target_register)
-    print("sto " .. target_register .. ", 1")
-    print("inc " .. target_register)
-    print("pop " .. clear)
+    _("psh " .. clear)
+    _("mov " .. target_register .. ", " .. tostring(MM_BASE))
+    _("mov " .. clear .. ", 1")
+    _("nav " .. clear)
+    _("raw .[")
+    _("rcl " .. clear .. ", " .. target_register)
+    _("add " .. target_register .. ", " .. tostring(PAGE_SIZE))
+    _("inc " .. target_register)
+    _("nav " .. clear)
+    _("raw .]")
+    _("sub " .. target_register .. ", " .. tostring(PAGE_SIZE))
+    _("dec " .. target_register)
+    _("sto " .. target_register .. ", 1")
+    _("inc " .. target_register)
+    _("pop " .. clear)
 end
 
 function emit(code)
     code:gsub(".", function(c)
-        print("raw ." .. c)
+        _("raw ." .. c)
     end)
 end
 
 function free(target_register)
-    print("dec " .. target_register)
-    print("sto " .. target_register .. ", 0")
+    _("dec " .. target_register)
+    _("sto " .. target_register .. ", 0")
 end
 
 function times(str, n)
-    for i=1,n,1 do print(str) end
+    for i=1,n,1 do _(str) end
 end
 
 function signed(x)
@@ -391,7 +393,7 @@ function gen_text(str)
     end
 
     -- move to r1
-    print("nav r1")
+    _("nav r1")
     -- move to `c'
     emit("<<<")
     

@@ -77,4 +77,6 @@
 ?s2u=asr
 ?mbegin=mvs
 ?mend=mve
+?lods=ss0
+?stos=ss1
 #-- Note: This file HAS to contain a trailing newline.

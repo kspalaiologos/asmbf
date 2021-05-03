@@ -481,4 +481,24 @@ SIV asmbf_xge(int opr1, int opr2) { _BFVM_SK2 if(*x == y) *x = 1; else *x = sgx 
 SIV asmbf_xlt(int opr1, int opr2) { _BFVM_SK2 *x = sgx != sgy ? sgy == 0 : (sgy == 0 ? rx < ry : rx > ry); }
 SIV asmbf_xle(int opr1, int opr2) { _BFVM_SK2 if(*x == y) *x = 1; else *x = sgx != sgy ? sgy == 0 : (sgy == 0 ? rx < ry : rx > ry); }
 
+SIV asmbf_lods(int dest, int addr, int ram_off) {
+    mp += dest;
+    _BFVM_TYPE * data = tape + mp;
+    mp += addr;
+    _BFVM_TYPE xaddr = tape[mp];
+    tape[mp]++;
+    mp += ram_off;
+    *data = tape[mp + 2 + scale_factor * xaddr];
+}
+
+SIV asmbf_stos(int addr, int src, int ram_off) {
+    mp += addr;
+    _BFVM_TYPE xaddr = tape[mp];
+    tape[mp]++;
+    mp += src;
+    _BFVM_TYPE xsrc = tape[mp];
+    mp += ram_off;
+    tape[mp + 2 + scale_factor * xaddr] = xsrc;
+}
+
 #endif

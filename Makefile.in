@@ -13,7 +13,9 @@ export CC=@CC@
 export CFLAGS=@DISTRO@
 TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
-.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor bfadbg
+.PHONY: all clean install test bfpp redpower uninstall distclean dist preprocessor bfadbg full
+
+full: all install test
 
 all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
 

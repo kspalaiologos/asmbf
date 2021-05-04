@@ -3,7 +3,7 @@
 # elegant manner, but I'm fine with it's current
 # state.
 
-# Kamila Szewczyk, Jul 2019 - Oct 2020
+# Kamila Szewczyk, Jul 2019 - May 2021
 
 ifdef DESTDIR
 DESTDIR+=/

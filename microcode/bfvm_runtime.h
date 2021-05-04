@@ -501,4 +501,14 @@ SIV asmbf_stos(int addr, int src, int ram_off) {
     tape[mp + 2 + scale_factor * xaddr] = xsrc;
 }
 
+SIV asmbf_scas(int addr, int cmpv, int ram_off) {
+    mp += addr;
+    _BFVM_TYPE xaddr = tape[mp];
+    tape[mp]++;
+    mp += cmpv;
+    _BFVM_TYPE cmpval = tape[mp];
+    mp += ram_off;
+    tape[Q] = tape[mp + 2 + scale_factor * xaddr] == cmpval;
+}
+
 #endif

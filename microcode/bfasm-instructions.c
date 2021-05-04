@@ -129,6 +129,7 @@
 "xge"
 "ss0"
 "ss1"
+"ss2"
 "mvs"
 "mve"
 "bts"

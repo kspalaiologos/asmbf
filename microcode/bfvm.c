@@ -134,4 +134,5 @@
 {"FP", "asmbf_xlt($C, $S$C);$S"},
 {"FN", "asmbf_xge($C, $S$C);$S"},
 {"FR", "asmbf_lods($C, $S$C, $S$C);$S"},
-{"FS", "asmbf_stos($C, $S$C, $S$C);$S"}
+{"FS", "asmbf_stos($C, $S$C, $S$C);$S"},
+{"FT", "asmbf_scas($C, $S$C, $S$C);$S"}

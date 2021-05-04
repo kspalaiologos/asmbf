@@ -79,4 +79,5 @@
 ?mend=mve
 ?lods=ss0
 ?stos=ss1
+?scas=ss2
 #-- Note: This file HAS to contain a trailing newline.

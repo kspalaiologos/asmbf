@@ -17,7 +17,7 @@ TARGETS=bfasm bfvm bfi bconv bfstrip bfderle
 
 full: all install test
 
-all: $(TARGETS) bfpp etc/bfasm.b bin preprocessor
+all: $(TARGETS) bfpp bin preprocessor
 
 install:
 	install -v -m 755 bin/asmbf/* $(DESTDIR)@PREFIX@bin

@@ -174,7 +174,9 @@ int main(int argc, char * argv[]) {
     if(freestanding)
         printf("#define _BFVM_FREESTANDING\n");
 
-    printf("#include <bfvm_runtime.h>\nint main(void) {\n");
+    printf("%s\nint main(void) {\n",
+        #include "microcode/bfvm-prelude.h"
+    );
 
     if(!freestanding) {
         printf("tape = calloc(sizeof(_BFVM_TYPE), %d);\n", heap);

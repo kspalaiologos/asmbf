@@ -77,8 +77,6 @@ clean:
 	rm -rf bin/
 	rm -f preprocessor/*.c config.h asm2bf-*.tar $(TARGETS)
 	-cd bfpp && make clean && cd ..
-	-cd redpower && make clean && cd ..
-	-cd preprocessor && make clean && cd ..
 	-cd bfadbg && make clean && cd ..
 
 etc/bfasm.b: bfasm bfstrip etc/bfasm.asm
@@ -89,7 +87,7 @@ bin: $(TARGETS)
 	mkdir -p bin/asmbf
 	mkdir -p bin/lib
 	cp $(TARGETS) bfpp/bfpp bfmake bfi-rle bin/asmbf/
-	cp lib-bfm/*.lua bin/lib/
+	cp lib-bfm/*.lua lib-bfm/*.h bin/lib/
 	rm -rf $(TARGETS)
 
 bfadbg:

@@ -71,7 +71,7 @@ foreach my $file(@ARGV) {
             $diff2 = `diff $file.aout $file.out`;
 
             if(not $file =~ /novm/) {
-                $code = system("cc -O2 $file.c -o $file.bin -Imicrocode && timeout 20s ./$file.bin < $file.in > $file.aout 2> /dev/null");
+                $code = system("cc -O2 $file.c -o $file.bin && timeout 20s ./$file.bin < $file.in > $file.aout 2> /dev/null");
 
                 if($code != 0) {
                     die " *** TEST FAILED: $file.asm, the program crashed.";

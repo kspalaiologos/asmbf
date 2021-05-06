@@ -1,0 +1,2 @@
+
+"#include \"@PREFIX@share/asm2bf/bfvm_runtime.h\""

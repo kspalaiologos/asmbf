@@ -38,3 +38,5 @@ test/*.aout
 test/*.c
 test/*.bin
 test/*.b
+
+microcode/bfvm-prelude.h

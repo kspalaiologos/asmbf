@@ -150,5 +150,6 @@ AC_CONFIG_FILES([Makefile
                  preprocessor/Makefile
                  bfmake
                  lib-bfm/lib-bfm-stub.lua
-                 lib-bfm/lib-bfm.lua])
+                 lib-bfm/lib-bfm.lua
+                 microcode/bfvm-prelude.h])
 AC_OUTPUT

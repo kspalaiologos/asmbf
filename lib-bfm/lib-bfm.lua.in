@@ -1,5 +1,6 @@
 
 _=print
+BFVM=0
 
 function include(path)
     local M = {}

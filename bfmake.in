@@ -74,6 +74,7 @@ sub build {
     my $bfvmredir = '2> /dev/null';
     my $xf = '';
     my $bfstrip_noign = '';
+    my $bfvmflag = '';
 
     $output = $options{o} if defined $options{o};
     $wf = $options{w} if defined $options{w};
@@ -92,12 +93,13 @@ sub build {
     $tiny = ' -t ' if defined $options{t};
     $bfvmredir = '' if defined $options{v};
     $bfstrip_noign = '--no-ignore ' if defined $options{q};
+    $bfvmflag = '#BFVM=1' if defined $options{c} or $options{b};
 
     $xf = '-s' if defined $options{x};
 
     $bconv = "bconv" if (defined $options{x} or defined $options{v}) and not (defined $options{b} or defined $options{c});
     
-    `bash -c \"{ $lib ; echo ""; cat "$name" ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $bfstrip_noign $wf | $bfvm $b32 $freestanding $heapsiz $bfvmredir | $bconv $xf > $output.tmp\"`;
+    `bash -c \"{ $lib ; echo ''; echo '$bfvmflag'; cat '$name' ; } | bfpp 2>> error$$.log | bflabels $mflag 2>> error$$.log | effective 2>> error$$.log | constpp 2>> error$$.log } | $compiler $tiny $prefrle $postfrle $o0 $vm 2>> error$$.log | $stripper $bfstrip_noign $wf | $bfvm $b32 $freestanding $heapsiz $bfvmredir | $bconv $xf > $output.tmp\"`;
     
     if(-s "error$$.log" != 0) {
         print `cat error$$.log`;

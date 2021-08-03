@@ -87,7 +87,7 @@
 		if (cv_cap <= vector_size(vec)) {               \
 			vector_grow((vec), cv_cap + 16);            \
 		}                                               \
-		vec[vector_size(vec)] = (value);                \
+		(vec)[vector_size(vec)] = (value);              \
 		_internal_vecsiz((vec), vector_size(vec) + 1);  \
 	} while (0)
 

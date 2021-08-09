@@ -109,7 +109,7 @@ You can also check out the manual (etc/asmbf.pdf); although up to date, it's not
 ---------------------------------------------- Dependencies ---------------------------------------------
 
 Term::ReadKey, File::Basename, Term::ANSIColor                          @ cpan
-gcc, bison, flex, make   optionally: autotools, curses (for bfadabg)    @ literally anywhwere
+gcc, bison, flex, make   optionally: autotools, curses (for bfadabg)    @ literally anywhere
 
 --------------------------------------------- Windows Build ---------------------------------------------
 

@@ -264,9 +264,7 @@ void emit_addr(char * labname, unsigned long address) {
         exit(1);
     }
 
-    char buf[32];
-    sprintf(buf, "%u", address);
-    yy_scan_string(buf);
+    printf("%u", address);
 }
 
 // TODO: Bitwidth bound checking.
@@ -276,7 +274,7 @@ void flush_code(void) {
     for(struct decl_t * it = vector_begin(declarations); it != vector_end(declarations); ++it) {
         if(!it->is_code) {
             if(it->type == DECL_MISC) {
-                yy_scan_bytes(buf, vector_size(it->data));
+                fwrite(it->data, 1, vector_size(it->data), stdout);
             } else {
                 struct label_t * l = find_data_label(it->data);
                 

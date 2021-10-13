@@ -326,29 +326,30 @@ void bits(char * text) {
 %}
 
 %option nounput noinput noyywrap nodefault
+%option prefix="bflyy"
 
 %%
-^[ \t]*\@([A-Za-z_][A-Za-z0-9_]*) { addlabel_c(yytext); }
-\"[^\"\n]*\" { append_code_s(yytext); }
-\.. { append_code_s(yytext); }
-;.*\n { append_code_s(yytext); }
-%([A-Za-z_][A-Za-z0-9_]*) { getlabel_c(yytext); }
+^[ \t]*\@([A-Za-z_][A-Za-z0-9_]*) { addlabel_c(bflyytext); }
+\"[^\"\n]*\" { append_code_s(bflyytext); }
+\.. { append_code_s(bflyytext); }
+;.*\n { append_code_s(bflyytext); }
+%([A-Za-z_][A-Za-z0-9_]*) { getlabel_c(bflyytext); }
 
-^[\ \t]*\[[bB][iI][tT][sS]\ [0-9]+\]   { bits(yytext); }
-^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(yytext); }
-(\*[Ff][Aa][Rr][ \t]+([A-Za-z_][A-Za-z0-9_]*)) { getlabel(1, yytext); }
-(\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(0, yytext); }
-^[ \t]*[Dd][Bb]_ { off++; append_code_s(yytext); }
-^[ \t]*[Dd][Bb] { off++; append_code_s(yytext); }
-^[ \t]*[Tt][Xx][Tt][ \t]*\".*\" { off += strlen(strchr(yytext, '"') + 1) - 1; append_code_s(yytext); }
-^[ \t]*[Ss][Ee][Gg][ \t]*([0-9]+) { seg = atoi(strpbrk(yytext, "0123456789")); append_code_s(yytext); }
-^[ \t]*[Oo][Rr][Gg][ \t]*([0-9]+) { off = atoi(strpbrk(yytext, "0123456789")); append_code_s(yytext); }
+^[\ \t]*\[[bB][iI][tT][sS]\ [0-9]+\]   { bits(bflyytext); }
+^[ \t]*\&([A-Za-z_][A-Za-z0-9_]*) { addlabel(bflyytext); }
+(\*[Ff][Aa][Rr][ \t]+([A-Za-z_][A-Za-z0-9_]*)) { getlabel(1, bflyytext); }
+(\*([A-Za-z_][A-Za-z0-9_]*)) { getlabel(0, bflyytext); }
+^[ \t]*[Dd][Bb]_ { off++; append_code_s(bflyytext); }
+^[ \t]*[Dd][Bb] { off++; append_code_s(bflyytext); }
+^[ \t]*[Tt][Xx][Tt][ \t]*\".*\" { off += strlen(strchr(bflyytext, '"') + 1) - 1; append_code_s(bflyytext); }
+^[ \t]*[Ss][Ee][Gg][ \t]*([0-9]+) { seg = atoi(strpbrk(bflyytext, "0123456789")); append_code_s(bflyytext); }
+^[ \t]*[Oo][Rr][Gg][ \t]*([0-9]+) { off = atoi(strpbrk(bflyytext, "0123456789")); append_code_s(bflyytext); }
 
-.|\n { append_code(yytext[0]); }
+.|\n { append_code(bflyytext[0]); }
 %%
 
 int main(int argc, char * argv[]) {
-    yylex();
+    bflyylex();
     flush_code();
 
     if(argc == 2 && !strcmp(argv[1], "-m") && code_labels) {

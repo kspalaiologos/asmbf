@@ -1,7 +1,7 @@
 
 /* asm2bf
  *
- * Copyright (C) K. Palaiologos Szewczyk, 2017-2020.
+ * Copyright (C) Kamila Szewczyk, 2017-2020.
  * License: MIT
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -147,7 +147,7 @@ int try_match(char buf[]) {
 int main(int argc, char * argv[]) {
     char match[32] = {0};
     int c, bbal = 0;
-    unsigned long mp = 0, b32 = 0, freestanding = 0, heap = 65536;
+    unsigned long mp = 0, b32 = 0, freestanding = 0, heap = 65536, sf = 0;
 
     for(int arg = 1; arg < argc; arg++) {
         char * s = argv[arg];
@@ -163,6 +163,8 @@ int main(int argc, char * argv[]) {
                 fprintf(stderr, "bfvm: -heap expects an argument.\n");
                 exit(1);
             }
+        } else if(!strcmp("-stack", s)) {
+            sf = 1;
         } else {
             fprintf(stderr, "bfvm: unrecognized switch: `%s'\n", s);
             exit(1);
@@ -179,7 +181,10 @@ int main(int argc, char * argv[]) {
     );
 
     if(!freestanding) {
-        printf("tape = calloc(sizeof(_BFVM_TYPE), %d);\n", heap);
+        if(!sf)
+            printf("tape = calloc(sizeof(_BFVM_TYPE), %d);\n", heap);
+        else
+            printf("_BFVM_TYPE _t[%d] = { 0 }; tape = _t;\n", heap);
     }
     
     #define STRAY_BF fprintf(stderr, "\033[31mDebug: Stray BF @%d\033[37m\n", pos);

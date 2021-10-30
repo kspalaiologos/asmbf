@@ -302,97 +302,97 @@ function signed(x)
     end
 end
 
+function gen_constant(n)
+  local function grade(n, base)
+    local sp = 0
+    local norm = 0
+  
+    while n > 0 do
+        sp = sp + 1
+        norm = norm + n % base
+        n = math.floor(n / base)
+    end
+  
+    return norm + (6 + base) * sp + (((sp % 2 == 1) and 4) or 0)
+  end
+  
+  local function best_base(n)
+    local v = 0
+    local b = 0
+  
+    for i = 2, 60, 1 do
+        local cv = grade(n, i)
+  
+        if v == 0 or v > cv then
+            v = cv
+            b = i
+        end
+    end
+  
+    return b
+  end
+
+  local stack = {}
+  local sp = 0
+  local flip = 1
+  local out = '>'
+
+  if n < 12 then
+      out = ''
+      
+      for i = 1, n, 1 do
+          out = out .. '+'
+      end
+
+      return out
+  end
+
+  local base = best_base(n)
+
+  while n > 0 do
+      stack[sp] = n % base
+      sp = sp + 1
+      n = math.floor(n / base)
+  end
+
+  while sp > 0 do
+      sp = sp - 1
+      local bc = base
+      
+      while stack[sp] > 0 do
+          out = out .. '+'
+          stack[sp] = stack[sp] - 1
+      end
+
+      if sp > 0 then
+          if not flip then
+              out = out .. '[>'
+              while bc > 0 do
+                  out = out .. '+'
+                  bc = bc -1
+              end
+              out = out .. '<-]>'
+          else
+              out = out .. '[<'
+              while bc > 0 do
+                  out = out .. '+'
+                  bc = bc -1
+              end
+              out = out .. '>-]<'
+          end
+      end
+
+      flip = not flip
+  end
+
+  if not flip then
+      out = out .. "[-<+>]<"
+  end
+
+  return out
+end
+
 function gen_text(str)
-    local function grade(n, base)
-        local sp = 0
-        local norm = 0
-      
-        while n > 0 do
-            sp = sp + 1
-            norm = norm + n % base
-            n = math.floor(n / base)
-        end
-      
-        return norm + (6 + base) * sp + (((sp % 2 == 1) and 4) or 0)
-    end
-      
-    local function best_base(n)
-        local v = 0
-        local b = 0
-      
-        for i = 2, 60, 1 do
-            local cv = grade(n, i)
-    
-            if v == 0 or v > cv then
-                v = cv
-                b = i
-            end
-        end
-      
-        return b
-    end
-    
-    local function translate(n)
-        local stack = {}
-        local sp = 0
-        local flip = 1
-        local out = '>'
-    
-        if n < 12 then
-            out = ''
-            
-            for i = 1, n, 1 do
-                out = out .. '+'
-            end
-    
-            return out
-        end
-
-        local base = best_base(n)
-    
-        while n > 0 do
-            stack[sp] = n % base
-            sp = sp + 1
-            n = math.floor(n / base)
-        end
-    
-        while sp > 0 do
-            sp = sp - 1
-            local bc = base
-            
-            while stack[sp] > 0 do
-                out = out .. '+'
-                stack[sp] = stack[sp] - 1
-            end
-    
-            if sp > 0 then
-                if not flip then
-                    out = out .. '[>'
-                    while bc > 0 do
-                        out = out .. '+'
-                        bc = bc -1
-                    end
-                    out = out .. '<-]>'
-                else
-                    out = out .. '[<'
-                    while bc > 0 do
-                        out = out .. '+'
-                        bc = bc -1
-                    end
-                    out = out .. '>-]<'
-                end
-            end
-    
-            flip = not flip
-        end
-    
-        if not flip then
-            out = out .. "[-<+>]<"
-        end
-    
-        return out
-    end
-
     -- move to r1
     _("nav r1")
     -- move to `c'
@@ -422,7 +422,7 @@ function gen_text(str)
                     emit("[-]")
                 end
 
-                emit(translate(h))
+                emit(gen_constant(h))
             end
 
             emit(".")

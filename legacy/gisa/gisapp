@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+
+# Gisa "preprocessor", currently written in Perl.
+# Currently supports just inclusion.
+
+# This program is herebly placed in Public Domain.
+
+# Modify, sell, use to conquer the planet, or even steal it.
+# I don't care, I'll love you no matter what you will do with this.
+
+use File::Basename;
+
+sub preprocess {
+	my ($file, $line, $l) = ($_[0], 0, undef);
+	while (<$file>) {
+		$line++;	
+		s/^\s+//g;
+		
+		$l = $_;
+		next unless $l;
+		
+		my($instruction, undef, $param) = /^#([a-zA-Z]+)( (.*))?$/;
+		
+		$_ = $instruction;
+		s/ +//g;
+		
+		/^include$/ and do {
+			my ($path, $local_path, $include_path, $m);
+			$_ = $param;
+			
+			$m = /\"(.*)\"$/gm; $local_path = $1 if $m;
+			$m = /\<(.*)\>$/gm; $include_path = $1 if $m;
+			
+			$path = $local_path if $local_path;
+			$path = (dirname(__FILE__) . "/include/" . $include_path) if $include_path;
+			
+			die "[$file:$line] Invalid #include directive syntax." unless $path;
+			
+			open(OUT, $path) || die "[$file:$line] Couldn't open $path.";
+			print while(<OUT>);
+			close(OUT);
+			
+			next;
+		};
+		
+		print $l;
+	}
+}
+
+&preprocess(STDIN);

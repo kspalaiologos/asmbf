@@ -1,0 +1,9 @@
+
+/* This program will display ASCII(33) - probably exclamation mark */
+
+(
+	(outb [0])
+	(= 0 (+ 1 [0]))
+	(= 0 (* 2 [0]))
+	(= 0 (* {2 2 +} (+ 2 2)))
+)

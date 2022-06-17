@@ -1,0 +1,12 @@
+
+/* This program, when ran, will display following text: 0123456789 */
+
+{
+	(= 0 48)
+	{loop {
+		(outb [0])
+		(= 0 (+ [0] 1))
+	} (
+		neq [0] (+ 48 10)
+	) while}
+}

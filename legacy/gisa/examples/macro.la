@@ -1,0 +1,17 @@
+
+/* Macro and inline assembly demonstration.
+   Should print ASCII(64) (8^2) */
+
+{
+	({
+	    @"pop r5"
+		@"psh r5"
+		@"psh r5"
+	} dup defmacro)
+	
+	((
+		* dup
+	) square defmacro)
+	
+	(outb (square 2))
+}

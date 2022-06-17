@@ -1,0 +1,19 @@
+
+(
+	(exit)
+	(outb ((6) square invoke))
+
+	({defun square (
+		* dup
+	)} exports)
+
+	((
+		@"end"
+	) exit defmacro)
+	
+	({
+		@"pop r2"
+		@"psh r2"
+		@"psh r2"
+	} dup defmacro)
+)

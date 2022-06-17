@@ -3,10 +3,7 @@
 # Gisa "preprocessor", currently written in Perl.
 # Currently supports just inclusion.
 
-# This program is herebly placed in Public Domain.
-
-# Modify, sell, use to conquer the planet, or even steal it.
-# I don't care, I'll love you no matter what you will do with this.
+# This program is hereby placed in Public Domain.
 
 use File::Basename;
 

@@ -96,7 +96,7 @@ you can see in etc/asmbf.pdf
 
 1. Pull the repository from github: `git clone https://github.com/kspalaiologos/asmbf'
 2. Run the configure script and build asm2bf:
-    `./configure --with-target=release && sudo make all install`
+    `./configure --with-target=release && make all && sudo make install`
 
 -------------------------------------- State-of-art Documentation --------------------------------------
 
@@ -107,8 +107,8 @@ You can also check out the manual (etc/asmbf.pdf); although up to date, it's not
 
 ---------------------------------------------- Dependencies ---------------------------------------------
 
-Term::ReadKey, File::Basename, Term::ANSIColor                          @ cpan
-gcc, bison, flex, make   optionally: autotools, curses (for bfadabg)    @ literally anywhere
+Term::ReadKey, File::Basename, Term::ANSIColor               @ cpan
+gcc, bison, flex, make, autotools, ncurses
 
 --------------------------------------------- Windows Build ---------------------------------------------
 
